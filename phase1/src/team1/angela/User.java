@@ -2,35 +2,36 @@ package team1.angela;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class User {
     /**
      * The users of the system
      */
     // === Instance Variables ===
-    private String username;
+    private String userName;
     private String password;
     private String userEmail;
     private boolean loggedIn;
     public List<Event> userEvents;
-    private enum userType {
+    public enum UserType {
         R, A, T
     }
+    private UserType userType;
     // === Representation Invariants ===
     // username.length() > 0
     // password.length() > 0
     // === Methods ===
-    public User(String username, String password, String userEmail, userType type) {
-        this.username = username;
+    public User(String userName, String password, String userEmail, UserType type) {
+        this.userType = type;
+        this.userName = userName;
         this.password = password;
         this.userEmail = userEmail;
         userEvents = new ArrayList<>();
         loggedIn = false;
     }
     // === Getters ===
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
     public String getPassword() {
         return password;
@@ -48,15 +49,15 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "username='" + userName + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 ", userEvents=" + userEvents +
                 '}';
     }
 
     // === Setters ===
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
     public void setPassword(String password) {
         this.password = password;

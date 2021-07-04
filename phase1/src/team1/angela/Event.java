@@ -2,18 +2,20 @@ package team1.angela;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 public class Event {
     /**
      * Events
      */
     // === Class Variables ===
-    private static int numEvents;
+//    private static int numEvents;
     // === Instance Variables ===
-    private int eventID;
+    // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
+    private String eventId;
     private boolean published;
-    private Date createDate;
-    private Date editDate;
+    private Date createdTime;
+    private Date editTime;
     private String eventOwner;
 
     // From Template
@@ -28,7 +30,7 @@ public class Event {
     // Not sure yet
     // === Methods ===
     public Event(Template template, String eventOwner){
-
+        eventId = UUID.randomUUID().toString();
     }
 
     // Getters
