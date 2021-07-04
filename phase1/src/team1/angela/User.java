@@ -18,7 +18,8 @@ public class User {
         R, A, T
     }
     // === Representation Invariants ===
-    // Not sure yet
+    // username.length() > 0
+    // password.length() > 0
     // === Methods ===
     public User(String username, String password, String userEmail, userType type) {
         this.username = username;
@@ -43,8 +44,17 @@ public class User {
     public List<Event> getUserEvents() {
         return userEvents;
     }
-    // === Setters ===
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userEvents=" + userEvents +
+                '}';
+    }
+
+    // === Setters ===
     public void setUsername(String username) {
         this.username = username;
     }
