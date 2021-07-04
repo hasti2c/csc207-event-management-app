@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Template {
-
+    /**
+     * Templates
+     */
     // === Instance Variables ===
     private List<FieldSpecs> fieldDescriptions;
-//    // A map where the key is the field name and the value is the data type of the field.
-//    Map<String, String> fieldDescription;
-    // The type of template eg concert, fundraiser, garage sale... this will also act as the file name
+    // The type of template eg concert, fundraiser, garage sale... this will also act as the file name. Template name
+    // must be unique... we might need to fix this later this might cause issues
     private String templateName;
-//    // stores the path to the file
-//    private String templateFileName;
     // stores the version number, each time the template is edited the version number increases by one. This way we can
     // store and access previous versions if necessary but only the version number will change. It's a string so that
     // it's easier to concatenate with the file name

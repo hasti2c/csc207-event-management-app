@@ -17,8 +17,8 @@ public class EventManager {
     }
 
     // === Creation and Deletion ===
-    public Event createEvent(Template template){
-        return new Event(new Template(), "Placeholder"); // Placeholder
+    public Event createEvent(String templateName){
+        return new Event(new Template(templateName), "Placeholder"); // Placeholder
     }
 
     public boolean deleteEvent(){
@@ -35,6 +35,7 @@ public class EventManager {
     public boolean setEventDetails(Event event){
         return true; // Placeholder
     }
+
 
     public Event getEvent(int eventID){
         return new Event(new Template(), "Placeholder"); // Placeholder

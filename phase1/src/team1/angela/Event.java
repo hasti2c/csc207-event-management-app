@@ -17,9 +17,9 @@ public class Event {
     private Date createdTime;
     private Date editTime;
     private String eventOwner;
-    // A copy of the map from Template class but the value is the class itself instead of a String
-    // This is so in the eventDetails map we can have Object as the type for the value and then we can match it back
-    // to this map so we actually know what type it is.
+    // This saves the fieldName and dataType from the FieldSpecs class into a map so that we can keep a reference of it
+    // for the event, in case the template gets changed. Also we can match the data type to the Object in the
+    // eventDetails map so things don't break.
     private Map<String, Class<?>> templateFieldSpec = new HashMap<>();
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
