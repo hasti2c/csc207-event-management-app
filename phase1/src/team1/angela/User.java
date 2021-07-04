@@ -8,7 +8,7 @@ public class User {
      * The users of the system
      */
     // === Instance Variables ===
-    private String userName;
+    private String username;
     private String password;
     private String userEmail;
     private boolean loggedIn;
@@ -21,17 +21,17 @@ public class User {
     // username.length() > 0
     // password.length() > 0
     // === Methods ===
-    public User(String userName, String password, String userEmail, UserType type) {
+    public User(String username, String password, String userEmail, UserType type) {
         this.userType = type;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.userEmail = userEmail;
         userEvents = new ArrayList<>();
         loggedIn = false;
     }
     // === Getters ===
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
     public String getPassword() {
         return password;
@@ -49,15 +49,15 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + userName + '\'' +
+                "username='" + username + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 ", userEvents=" + userEvents +
                 '}';
     }
 
     // === Setters ===
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
     public void setPassword(String password) {
         this.password = password;
