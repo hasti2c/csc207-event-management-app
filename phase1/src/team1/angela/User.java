@@ -12,7 +12,11 @@ public class User {
     private String password;
     private String userEmail;
     private boolean loggedIn;
-    public List<Event> userEvents;
+    // Events the user has created. I'm pretty sure it's fine to be private
+    private List<Event> userEvents;
+    // List of events that the user will attend. The event can be their own or another user's and must be published.
+    private List<Event> attendEvents;
+    // needs to be public so that it can be used in the constructor and the UserManager class can access it.
     public enum UserType {
         R, A, T
     }
