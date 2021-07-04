@@ -1,5 +1,6 @@
 package team1.angela;
 
+import java.io.File;
 import java.util.List;
 
 public class TemplateManager {
@@ -18,4 +19,15 @@ public class TemplateManager {
         // returns true if name is updated successfully
         return true;
     }
+//    public Template generateTemplateFromFile(String templateFileName) {
+//        File file = new File(templateFileName);
+//        if(file.exists()){
+//            return new Template(templateFileName);
+//        }
+//        return null;
+//    }
+//    public Template createNewTemplate(String templateFileName) {
+//        Template obj = new Template(templateFileName);
+//        return obj;
+//    }
 }

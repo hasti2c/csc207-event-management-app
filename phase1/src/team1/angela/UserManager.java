@@ -11,7 +11,6 @@ public class UserManager {
     public static List<User> userList = new ArrayList<>();
     // === Instance Variables ===
     // === Methods ===
-    // Need to finalize details about what to include for user creation before finishing this
     public UserManager() {
 
     }
@@ -51,7 +50,7 @@ public class UserManager {
     public boolean deleteEvent(User user, Event event){
         return true;
     }
-    public boolean addEvent(User user, Event event){
+    public boolean createEvent(User user, Event event){
         return true;
     }
     // Display list of events
