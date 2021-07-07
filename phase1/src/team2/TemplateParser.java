@@ -1,6 +1,6 @@
 package team2;
 
-import team1.angela.Template;
+import team1.Template;
 
 public class TemplateParser {
     private String path;

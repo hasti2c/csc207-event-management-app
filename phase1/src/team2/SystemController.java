@@ -1,8 +1,8 @@
 package team2;
 
-import team1.angela.EventManager;
-import team1.angela.TemplateManager;
-import team1.angela.UserManager;
+import team1.EventManager;
+import team1.TemplateManager;
+import team1.UserManager;
 
 public class SystemController {
     private UserManager userManager;
