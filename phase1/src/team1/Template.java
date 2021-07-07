@@ -18,8 +18,8 @@ public class Template {
 
     // === Methods ===
     public Template(String templateName) {
+        // Template files don't have a version number to start with
         this.templateName = templateName;
-        this.fileVersionNumber = "1";
     }
 
     // Getters

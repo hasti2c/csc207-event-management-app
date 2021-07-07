@@ -17,16 +17,16 @@ public class EventManager {
     }
 
     // === Creation and Deletion ===
-    public Event createEvent(String templateName){
+    public Event createEvent(String templateName, String username){
         return new Event(new Template(templateName), "Placeholder"); // Placeholder
     }
 
-    public boolean deleteEvent(){
+    public boolean deleteEvent(String eventId){
         return true; // Placeholder
     }
 
     // === Getters and Setters ===
-    public Map<String, String> getEventDetails(Event event){
+    public Map<String, Object> getEventDetails(String eventId){
         return new HashMap<>(); // Placeholder
     }
 
@@ -36,7 +36,7 @@ public class EventManager {
 
     // Editing Event variables will be done through this setter as all info is
     // kept in the eventDetails map of the Event object
-    public boolean setEventDetails(Event event){
+    public boolean setEventDetails(String eventId){
         return true; // Placeholder
     }
 
