@@ -30,6 +30,10 @@ public class EventManager {
         return new HashMap<>(); // Placeholder
     }
 
+    public static int getNumEvents() {
+        return eventList.size();
+    }
+
     // Editing Event variables will be done through this setter as all info is
     // kept in the eventDetails map of the Event object
     public boolean setEventDetails(Event event){
