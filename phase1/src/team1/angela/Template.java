@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-public class Template {
+public class Template {  //are we allowed to have multiple genres as templates like bbq, concerts? yes
     /**
      * Templates
      */
