@@ -1,9 +1,6 @@
 package team1;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Event {
     /**
@@ -20,12 +17,12 @@ public class Event {
     // This saves the fieldName and dataType from the FieldSpecs class into a map so that we can keep a reference of it
     // for the event, in case the template gets changed. Also we can match the data type to the Object in the
     // eventDetails map so things don't break.
-    private Map<String, Class<?>> templateFieldSpec = new HashMap<>();
+    private Map<String, Class<?>> templateFieldSpec;
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-    // equal -1 if no max is specified
-    private int maxAttendees;
+//    // equal -1 if no max is specified (Don't need this, will be in eventDetails map)
+//    private int maxAttendees;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
@@ -35,20 +32,33 @@ public class Event {
     // Not sure yet
     // === Methods ===
     public Event(Template template, String eventOwner){
-
         eventId = UUID.randomUUID().toString();
-        this.templateFieldSpec.put("field1", String.class);
+        // need user to explicitly change to published
+        published = false;
+        createdTime = Calendar.getInstance().getTime();
+        editTime = createdTime;
+        this.eventOwner = eventOwner;
+        this.eventType = template.getTemplateName();
+        this.templateFieldSpec = populateFieldSpecMap(template);
+    }
+
+    private Map<String, Class<?>> populateFieldSpecMap(Template template){
+        // TODO make method to loop through template list and put it in the map.
+    }
+
+    private Map<String, Object> addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec){
+        // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
     }
 
     // Getters
-    public int getEventID() {
-        return eventID;
+    public String getEventID() {
+        return eventId;
     }
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedTime() {
+        return createdTime;
     }
-    public Date getEditDate() {
-        return editDate;
+    public Date getEditTime() {
+        return editTime;
     }
     public boolean isPublished() {
         return published;
@@ -56,12 +66,10 @@ public class Event {
     public String getEventOwner() {
         return eventOwner;
     }
-    public Map<String, String> getEventDetails() {
+    public Map<String, Object> getEventDetails() {
         return eventDetails;
     }
-    public static int getNumEvents() {
-        return numEvents;
-    }
+
     // Setters
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
