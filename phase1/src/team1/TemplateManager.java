@@ -1,4 +1,4 @@
-package team1.angela;
+package team1;
 
 import java.io.File;
 import java.util.List;

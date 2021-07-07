@@ -1,4 +1,4 @@
-package team1.angela;
+package team1;
 
 import java.util.ArrayList;
 import java.util.HashMap;

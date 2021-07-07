@@ -1,4 +1,4 @@
-package team1.angela;
+package team1;
 
 public class FieldSpecs {
     /**

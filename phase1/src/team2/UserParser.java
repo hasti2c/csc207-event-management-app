@@ -1,7 +1,6 @@
 package team2;
 
-import team1.angela.Event;
-import team1.angela.User;
+import team1.User;
 
 import java.io.*;
 

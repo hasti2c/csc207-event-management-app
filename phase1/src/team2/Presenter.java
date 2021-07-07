@@ -1,9 +1,9 @@
 package team2;
 
 import javafx.util.Pair;
-import team1.angela.Event;
-import team1.angela.Template;
-import team1.angela.User;
+import team1.Event;
+import team1.Template;
+import team1.User;
 
 import java.util.List;
 

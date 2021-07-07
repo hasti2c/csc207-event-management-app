@@ -1,8 +1,6 @@
-package team1.angela;
+package team1;
 
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 public class Template {  //are we allowed to have multiple genres as templates like bbq, concerts? yes
     /**
