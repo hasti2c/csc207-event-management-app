@@ -41,11 +41,7 @@ public class EventManager {
     }
 
 
-    public Event getEvent(int eventID){
-        return new Event(new Template(), "Placeholder"); // Placeholder
-    }
-
-    public Event getEvent(String eventName){
+    public Event getEvent(String eventId){
         return new Event(new Template(), "Placeholder"); // Placeholder
     }
 

@@ -19,6 +19,7 @@ public class TemplateManager {
         // returns true if name is updated successfully
         return true;
     }
+
     public Template generateTemplateFromFile(String templateFileName) {
         File file = new File(templateFileName);
         if(file.exists()){
