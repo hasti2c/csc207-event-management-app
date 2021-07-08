@@ -71,13 +71,13 @@ public class Event {
     }
 
     // Setters
-    public void setEditDate(Date editDate) {
-        this.editDate = editDate;
+    public void setEditTime(Date editTime) {
+        this.editTime = editTime;
     }
     public void setPublished(boolean published) {
         this.published = published;
     }
-    public void setEventDetails(Map<String, String> eventDetails) {
+    public void setEventDetails(Map<String, Object> eventDetails) {
         this.eventDetails = eventDetails;
     }
 }

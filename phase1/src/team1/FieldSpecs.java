@@ -16,4 +16,30 @@ public class FieldSpecs {
         this.dataType = dataType;
         this. required = required;
     }
+    // Getters
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    // Setters
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 }

@@ -1,6 +1,7 @@
 package team1;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TemplateManager {
@@ -19,15 +20,19 @@ public class TemplateManager {
         // returns true if name is updated successfully
         return true;
     }
-    public Template generateTemplateFromFile(String templateFileName) {
-        File file = new File(templateFileName);
-        if(file.exists()){
-            return new Template(templateFileName);
-        }
-        return null;
+
+    public List<FieldSpecs> getFieldSpecs(String templateName){
+        return new ArrayList<>(); //placeholder
     }
-    public Template createNewTemplate(String templateFileName) {
-        Template obj = new Template(templateFileName);
-        return obj;
-    }
+//    public Template generateTemplateFromFile(String templateFileName) {
+//        File file = new File(templateFileName);
+//        if(file.exists()){
+//            return new Template(templateFileName);
+//        }
+//        return null;
+//    }
+//    public Template createNewTemplate(String templateFileName) {
+//        Template obj = new Template(templateFileName);
+//        return obj;
+//    }
 }
