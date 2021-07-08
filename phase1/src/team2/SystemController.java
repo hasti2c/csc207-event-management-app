@@ -9,9 +9,20 @@ public class SystemController {
     private EventManager eventManager;
     private TemplateManager templateManager;
 
-    public SystemController() {}
+    public SystemController() {
+        this.run();
+    }
 
     public void run() {
+        // starts at the main login page and asks to login or signup
 
+        // if sign up then open the sign up menu and return user credentials to be added to user manager
+
+        // if login, then give login credentials and check if they are correct, if they are, then proceed to main menu
     }
+    // add helper methods down here
+
+
+
 }
+
