@@ -76,5 +76,7 @@ public class SystemController {
         this.presenter.printEvents(this.eventManager.getAllEvents()); //assume this will also be implemented
     }
 
+    private void joinEvemt(String eventID) {
+        this.userManager.addAttendingEvent(/* somehow get user */, eventID);
+    }
 }
-
