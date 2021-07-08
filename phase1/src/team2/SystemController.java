@@ -58,7 +58,6 @@ public class SystemController {
         Map<String, Object> userFields = new HashMap<String, Object>();
 
         for (FieldSpecs fieldData: field_specs) {
-
             Object user_input = this.reqUserInput(fieldData.getFieldName(), fieldData.getDataType());
 
             while (fieldData.getRequired && user_input == null) {
@@ -66,11 +65,16 @@ public class SystemController {
             }
             userFields.put(fieldData.getFieldName(), this.reqUserInput());
         }
-
         this.eventManager.setEventDetails(newEventID, userFields);
     }
 
+    private void viewEvent(String eventID) {
+        this.presenter.printFormattedEvent(eventID); // assume this will be implemented
+    }
 
+    private void browseEvents() {
+        this.presenter.printEvents(this.eventManager.getAllEvents()); //assume this will also be implemented
+    }
 
 }
 
