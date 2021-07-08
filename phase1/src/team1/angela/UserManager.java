@@ -136,7 +136,7 @@ public class UserManager {
         // Register the user under the event since it has no limit
         if (maxAttendees == null) {
             user.getAttendEvents().add(event);
-            event.setNumAttendees(Event.getNumAttendees() + 1);
+            event.setNumAttendees(event.getNumAttendees() + 1);
             return true;
         }
 
@@ -144,7 +144,7 @@ public class UserManager {
         else {
             if ((int) event.getMaxAttendees() != null && event.getNumAttendees() < event.getMaxAttendees()) {
                 user.getAttendEvents().add(event);
-                event.setNumAttendees(Event.getNumAttendees() + 1);
+                event.setNumAttendees(event.getNumAttendees() + 1);
                 return true;
             }
             return false;
