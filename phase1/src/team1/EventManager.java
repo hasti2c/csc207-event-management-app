@@ -22,9 +22,9 @@ public class EventManager {
     }
 
     public void deleteEvent(String eventId){
-        for (int counter = 0; counter < eventList.size(); counter++) {
-            if (eventList.get(counter).getEventID().equals(eventId)){
-                eventList.remove(counter);
+        for (Event event: eventList) {
+            if (event.getEventID().equals(eventId)){
+                eventList.remove(event);
             };
         }
     }
