@@ -61,21 +61,67 @@ public class UserManager {
             return false;
         }
     }
+
+    /**
+     * Logs out a user by checking the inputted password against the User's username
+     * @param username The username of the user attempting to log out
+     * @param password The password the user has inputted
+     * @return boolean Whether the logout was successful
+     */
     public boolean logOut(String username, String password) {
         // returns true if successfully logged out, false if otherwise (like if password is wrong)
-        return true;
+        try{
+            User userToLogout = getUser(username);
+            if (userToLogout.getPassword().equals(password)){
+                userToLogout.setLoggedIn(false);
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (UserNotFound userNotFound) {
+            return false;
+        }
     }
-    public boolean updatePassword(User user, String newPassword){
+
+    /**
+     * Update a users password to the newPassword
+     * @param user The user whose password is to be updated
+     * @param newPassword The users new password
+     * @throws UserNotLoggedIn If the User is not logged in
+     * @return Whether the password was updated successfully
+     */
+    public boolean updatePassword(User user, String newPassword) throws UserNotLoggedIn{
         // returns true if user is updated successfully
         // access getters and setters of useUser class
         // User needs to be logged in
-        return true;
+        if (user.isLoggedIn()){
+            user.setPassword(newPassword);
+            return true;
+        }
+        else{
+            throw new UserNotLoggedIn();
+        }
     }
-    public boolean updateUsername(User user, String newUsername){
+
+    /**
+     * Update a users username to the newUsername
+     * @param user The user whose username is to be updated
+     * @param newUsername The users new username
+     * @throws UserNotLoggedIn If the User is not logged in
+     * @return Whether the username was updated successfully
+     */
+    public boolean updateUsername(User user, String newUsername) throws UserNotLoggedIn{
         // returns true if user is updated successfully
         // access getters and setters of useUser class
         // User needs to be logged in
-        return true;
+        if (user.isLoggedIn()){
+            user.setUsername(newUsername);
+            return true;
+        }
+        else{
+            throw new UserNotLoggedIn();
+        }
     }
     public boolean updateEmail(User user, String newEmail){
         // returns true if user is updated successfully
