@@ -17,8 +17,8 @@ public class EventManager {
     }
 
     // === Creation and Deletion ===
-    public void createEvent(String templateName, String username){
-        eventList.add(new Event(new Template(templateName), username));
+    public void createEvent(String templateName, String eventOwner){
+        eventList.add(new Event(new Template(templateName), eventOwner));
     }
 
     public void deleteEvent(String eventId){
@@ -46,7 +46,13 @@ public class EventManager {
 
 
     public Event getEvent(String eventId){
-        return new Event(new Template(), "Placeholder"); // Placeholder
+        List<Event> holderList = new ArrayList<>();
+        for (Event event: eventList) {
+            if (event.getEventID().equals(eventId)) {
+                holderList.add(event);
+            }
+        }
+        return holderList.remove(0);
     }
 
     public ArrayList<Event> getPublicEvents(){
