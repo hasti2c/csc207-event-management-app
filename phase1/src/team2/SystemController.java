@@ -22,7 +22,10 @@ public class SystemController {
     }
     // add helper methods down here
 
-
-
+    private boolean checkLogin(){
+        /* checks given user credentials from presenter and checks if it is correct or not
+         */
+        return true;
+    }
 }
 
