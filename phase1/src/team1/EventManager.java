@@ -17,12 +17,16 @@ public class EventManager {
     }
 
     // === Creation and Deletion ===
-    public Event createEvent(String templateName, String username){
-        return new Event(new Template(templateName), "Placeholder"); // Placeholder
+    public void createEvent(String templateName, String username){
+        eventList.add(new Event(new Template(templateName), username));
     }
 
-    public boolean deleteEvent(String eventId){
-        return true; // Placeholder
+    public void deleteEvent(String eventId){
+        for (int counter = 0; counter < eventList.size(); counter++) {
+            if (eventList.get(counter).getEventID().equals(eventId)){
+                eventList.remove(counter);
+            };
+        }
     }
 
     // === Getters and Setters ===
