@@ -1,5 +1,7 @@
 package team1;
 
+import sun.font.TrueTypeFont;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +16,50 @@ public class UserManager {
     public UserManager() {
 
     }
-    public void createUser() {
 
+
+    /**
+     * Create a user in the program
+     * @param username the User's username
+     * @param password the User's password
+     * @param userEmail the User's email
+     * @param type the User's type. (R, A, T)
+     */
+    public void createUser(String username, String password, String userEmail, User.UserType type) {
+            User newUser = new User(username, password, userEmail, type);
+            userList.add(newUser);
     }
+
+    /**
+     * Deletes a user from the program
+     * @param user The User to delete
+     */
     public void deleteUser(User user) {
         // remove User from list of users
+        userList.remove(user);
     }
+
+    /**
+     * Logs in a user by checking the inputted password against the User's username
+     * @param username The username of the user attempting to log in
+     * @param password The password the user has inputted
+     * @return boolean Whether the login was successful
+     */
     public boolean logIn(String username, String password) {
         // returns true if successfully logged in, false if otherwise (like if password is wrong)
         // updates the loggedIn boolean to True
-        return true;
+        try{
+            User userToLogin = getUser(username);
+            if (userToLogin.getPassword().equals(password)){
+                userToLogin.setLoggedIn(true);
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (UserNotFound userNotFound) {
+            return false;
+        }
     }
     public boolean logOut(String username, String password) {
         // returns true if successfully logged out, false if otherwise (like if password is wrong)
@@ -62,8 +98,21 @@ public class UserManager {
         // for loop that returns the usernames
         return;
     }
-    // Gets user
-    public User getUser(String username) {
 
+    /**
+     * Get the user with the matching username
+     * @param username the username to attempt to find a matching user with
+     * @return User The user with the given username
+     * @throws UserNotFound If the username does not match any users within the program
+     * */
+    public User getUser(String username) throws UserNotFound{
+        for (User user :
+                userList) {
+            if (user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        // If the loop ends and no users with the matching username are found, throw UserNotFound
+        throw new UserNotFound();
     }
 }
