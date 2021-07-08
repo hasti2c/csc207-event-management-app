@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    ///
     /**
      * The users of the system
      */
@@ -57,6 +58,7 @@ public class User {
                 ", userEmail='" + userEmail + '\'' +
                 ", userEvents=" + userEvents +
                 '}';
+        // Test
     }
 
     // === Setters ===
