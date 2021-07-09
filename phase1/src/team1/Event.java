@@ -40,16 +40,22 @@ public class Event {
         eventDetails = new HashMap<>(); //I added this since we were missing this.
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
-        this.templateFieldSpec = populateFieldSpecMap(template);
+//        this.templateFieldSpec = populateFieldSpecMap(template);
     }
 
-    private Map<String, Class<?>> populateFieldSpecMap(Template template){
-        // TODO make method to loop through template list and put it in the map.
-    }
-
-    private Map<String, Object> addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec){
-        // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
-    }
+//    private Map<String, Class<?>> populateFieldSpecMap(Template template){
+//        // TODO make method to loop through template list and put it in the map.
+//        Map<String, Class<?>> populatedMap = new HashMap<>();
+//        for (Template templateIterator: TemplateManager.getTemplateList()){
+//            if (templateIterator.equals(template)){
+//                populatedMap.put(templateIterator.getFieldDescriptions())
+//            }
+//        }
+//    }
+//
+//    private Map<String, Object> addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec){
+//        // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
+//    }
 
     // Getters
 

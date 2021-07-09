@@ -13,12 +13,16 @@ public class TemplateManager {
     // === Methods ===
 
     public TemplateManager() {
-
+        templateList = new ArrayList<>();
     }
 
     public boolean editTemplateName(String templateName, String newName){
         // returns true if name is updated successfully
         return true;
+    }
+
+    public static List<Template> getTemplateList() {
+        return templateList;
     }
 
     public List<FieldSpecs> getFieldSpecs(String templateName){
