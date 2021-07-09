@@ -130,20 +130,69 @@ public class UserManager {
         return true;
     }
     public boolean deleteEvent(User user, Event event){
+        if (user.getUserEvents().contains(event)) {
+            // deleting an event created by the user means they are also not attending it
+            // delete the event from both of the appropriate Lists
+            user.getUserEvents().remove(event);
+            user.getAttendEvents().remove(event);
+        }
+
+        else {
+            if (user.getAttendEvents().contains(event)) {
+                user.getAttendEvents().remove(event);
+            }
+        }
         return true;
     }
+
     public boolean createEvent(User user, Event event){
+        // Add this event to the list of events the user has created
+        user.getUserEvents().add(event);
+        // Add this event to the list of events the user will attend
+        user.getAttendEvents().add(event);
         return true;
     }
+
+    public boolean attendEvent(User user, Event event) {
+        Object maxAttendees = event.getEventDetails.get("max attendees");
+
+        // Register the user under the event since it has no limit
+        if (maxAttendees == null) {
+            user.getAttendEvents().add(event);
+            event.setNumAttendees(event.getNumAttendees() + 1);
+            return true;
+        }
+
+        // Check if the event has enough space and register the user under the event if so
+        else {
+            if ((int) event.getMaxAttendees() != null && event.getNumAttendees() < event.getMaxAttendees()) {
+                user.getAttendEvents().add(event);
+                event.setNumAttendees(event.getNumAttendees() + 1);
+                return true;
+            }
+            return false;
+        }
+    }
+
     // Display list of events
     public List<Event> getEvents(User user) {
-
+        // return the union of events the user has created and is attending
+        List<Event> events = user.getAttendEvents();
+        events.addAll(user.getUserEvents());
+        return events;
     }
+
+    // Returns list of usernames
     // Returns list of usernames
     public static List<String> getUsernameList() {
-        // for loop that returns the usernames
-        return;
+        // Go through each user object in userList and add their username attribute to usernameList
+        List<String> usernameList = new ArrayList<>();
+        for (User u : userList) {
+            usernameList.add(u.getUsername());
+        }
+        return usernameList;
     }
+
 
     /**
      * Get the user with the matching username
@@ -160,5 +209,26 @@ public class UserManager {
         }
         // If the loop ends and no users with the matching username are found, throw UserNotFound
         throw new UserNotFound();
+    }
+
+    public boolean attendEvent(User user, Event event) {
+        Object maxAttendees = event.getEventDetails.get("max attendees");
+
+        // Register the user under the event since it has no limit
+        if (maxAttendees == null) {
+            user.getAttendEvents().add(event);
+            event.setNumAttendees(event.getNumAttendees() + 1);
+            return true;
+        }
+
+        // Check if the event has enough space and register the user under the event if so
+        else {
+            if ((int) event.getMaxAttendees() != null && event.getNumAttendees() < event.getMaxAttendees()) {
+                user.getAttendEvents().add(event);
+                event.setNumAttendees(event.getNumAttendees() + 1);
+                return true;
+            }
+            return false;
+        }
     }
 }

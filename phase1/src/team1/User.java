@@ -31,32 +31,36 @@ public class User {
         this.username = username;
         this.password = password;
         this.userEmail = userEmail;
-        userEvents = new ArrayList<>();
-        loggedIn = false;
+        this.userEvents = new ArrayList<>();
+        this.attendEvents = new ArrayList<>()
+        this.loggedIn = false;
     }
     // === Getters ===
     public String getUsername() {
-        return username;
+        return this.username;
     }
     public String getPassword() {
-        return password;
+        return this.password;
     }
     public String getUserEmail() {
-        return userEmail;
+        return this.userEmail;
     }
     public boolean isLoggedIn() {
-        return loggedIn;
+        return this.loggedIn;
     }
     public List<Event> getUserEvents() {
-        return userEvents;
+        return this.userEvents;
+    }
+    public List<Event> getAttendEvents() {
+        return this.userEvents;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", userEvents=" + userEvents +
+                "username='" + this.username + '\'' +
+                ", userEmail='" + this.userEmail + '\'' +
+                ", userEvents=" + this.userEvents +
                 '}';
         // Test
     }
