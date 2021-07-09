@@ -51,7 +51,16 @@ public class Event {
     }
 
     // Getters
-    public String getEventID() {
+
+    public int getNumAttendees() {
+        return numAttendees;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public String getEventId() {
         return eventId;
     }
     public Date getCreatedTime() {
@@ -71,6 +80,15 @@ public class Event {
     }
 
     // Setters
+
+    public void setEventOwner(String eventOwner) {
+        this.eventOwner = eventOwner;
+    }
+
+    public void setNumAttendees(int numAttendees) {
+        this.numAttendees = numAttendees;
+    }
+
     public void setEditTime(Date editTime) {
         this.editTime = editTime;
     }

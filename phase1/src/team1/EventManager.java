@@ -10,7 +10,7 @@ public class EventManager {
      * Manages the Events in the system
      */
     // === Class Variables ===
-    private static List<Event> eventList = new ArrayList<>();
+    private static List<Event> eventList;
 
     public EventManager() {
 
