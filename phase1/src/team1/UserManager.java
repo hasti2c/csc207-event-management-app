@@ -48,16 +48,16 @@ public class UserManager {
     public boolean logIn(String username, String password) {
         // returns true if successfully logged in, false if otherwise (like if password is wrong)
         // updates the loggedIn boolean to True
-        try{
-            User userToLogin = getUser(username);
-            if (userToLogin.getPassword().equals(password)){
-                userToLogin.setLoggedIn(true);
-                return true;
-            }
-            else{
-                return false;
-            }
-        } catch (UserNotFound userNotFound) {
+
+        User userToLogin = getUser(username);
+        if (userToLogin == null){
+            return false;
+        }
+        if (userToLogin.getPassword().equals(password)){
+            userToLogin.setLoggedIn(true);
+            return true;
+        }
+        else{
             return false;
         }
     }
@@ -70,16 +70,16 @@ public class UserManager {
      */
     public boolean logOut(String username, String password) {
         // returns true if successfully logged out, false if otherwise (like if password is wrong)
-        try{
-            User userToLogout = getUser(username);
-            if (userToLogout.getPassword().equals(password)){
-                userToLogout.setLoggedIn(false);
-                return true;
-            }
-            else{
-                return false;
-            }
-        } catch (UserNotFound userNotFound) {
+
+        User userToLogout = getUser(username);
+        if (userToLogout == null){
+            return false;
+        }
+        else if (userToLogout.getPassword().equals(password)){
+            userToLogout.setLoggedIn(false);
+            return true;
+        }
+        else{
             return false;
         }
     }
@@ -88,10 +88,9 @@ public class UserManager {
      * Update a users password to the newPassword
      * @param user The user whose password is to be updated
      * @param newPassword The users new password
-     * @throws UserNotLoggedIn If the User is not logged in
      * @return Whether the password was updated successfully
      */
-    public boolean updatePassword(User user, String newPassword) throws UserNotLoggedIn{
+    public boolean updatePassword(User user, String newPassword){
         // returns true if user is updated successfully
         // access getters and setters of useUser class
         // User needs to be logged in
@@ -100,7 +99,7 @@ public class UserManager {
             return true;
         }
         else{
-            throw new UserNotLoggedIn();
+            return false;
         }
     }
 
@@ -108,10 +107,9 @@ public class UserManager {
      * Update a users username to the newUsername
      * @param user The user whose username is to be updated
      * @param newUsername The users new username
-     * @throws UserNotLoggedIn If the User is not logged in
      * @return Whether the username was updated successfully
      */
-    public boolean updateUsername(User user, String newUsername) throws UserNotLoggedIn{
+    public boolean updateUsername(User user, String newUsername) {
         // returns true if user is updated successfully
         // access getters and setters of useUser class
         // User needs to be logged in
@@ -120,7 +118,7 @@ public class UserManager {
             return true;
         }
         else{
-            throw new UserNotLoggedIn();
+            return false;
         }
     }
     public boolean updateEmail(User user, String newEmail){
@@ -136,7 +134,7 @@ public class UserManager {
             user.getUserEvents().remove(event);
             user.getAttendEvents().remove(event);
         }
-
+        // Else check if the user is only attending the event, and if so, remove it
         else {
             if (user.getAttendEvents().contains(event)) {
                 user.getAttendEvents().remove(event);
@@ -197,18 +195,17 @@ public class UserManager {
     /**
      * Get the user with the matching username
      * @param username the username to attempt to find a matching user with
-     * @return User The user with the given username
-     * @throws UserNotFound If the username does not match any users within the program
+     * @return User If the user was found, otherwise return a null object
      * */
-    public User getUser(String username) throws UserNotFound{
+    public User getUser(String username){
         for (User user :
                 userList) {
             if (user.getUsername().equals(username)){
                 return user;
             }
         }
-        // If the loop ends and no users with the matching username are found, throw UserNotFound
-        throw new UserNotFound();
+        // If the loop ends and no users with the matching username are found, return null
+        return null;
     }
 
     public boolean attendEvent(User user, Event event) {
