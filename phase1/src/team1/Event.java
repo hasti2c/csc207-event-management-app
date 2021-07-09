@@ -39,16 +39,18 @@ public class Event {
         editTime = createdTime;
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
-        this.templateFieldSpec = populateFieldSpecMap(template);
+        // this.templateFieldSpec = populateFieldSpecMap(template);
     }
-
+    /*
     private Map<String, Class<?>> populateFieldSpecMap(Template template){
         // TODO make method to loop through template list and put it in the map.
     }
 
+
     private Map<String, Object> addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec){
         // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
     }
+    */
 
     // Getters
 
