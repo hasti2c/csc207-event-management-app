@@ -21,7 +21,7 @@ public class Event {
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-//    // equal -1 if no max is specified (Don't need this, will be in eventDetails map)
+    //    // equal -1 if no max is specified (Don't need this, will be in eventDetails map)
 //    private int maxAttendees;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
@@ -51,7 +51,16 @@ public class Event {
     }
 
     // Getters
-    public String getEventID() {
+
+    public int getNumAttendees() {
+        return numAttendees;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public String getEventId() {
         return eventId;
     }
     public Date getCreatedTime() {
@@ -71,6 +80,15 @@ public class Event {
     }
 
     // Setters
+
+    public void setEventOwner(String eventOwner) {
+        this.eventOwner = eventOwner;
+    }
+
+    public void setNumAttendees(int numAttendees) {
+        this.numAttendees = numAttendees;
+    }
+
     public void setEditTime(Date editTime) {
         this.editTime = editTime;
     }
