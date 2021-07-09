@@ -23,7 +23,7 @@ public class EventManager {
 
     public void deleteEvent(String eventId) {
         for (Event event : eventList) {
-            if (event.getEventID().equals(eventId)) {
+            if (event.getEventId().equals(eventId)) {
                 eventList.remove(event);
             }
             ;
@@ -34,7 +34,7 @@ public class EventManager {
     public Map<String, Object> getEventDetails(String eventId) {
         Map<String, Object> holderMap = new HashMap<>();
         for (Event event : eventList) {
-            if (event.getEventID().equals(eventId)) {
+            if (event.getEventId().equals(eventId)) {
                 holderMap = event.getEventDetails();
             }
         }
@@ -55,7 +55,7 @@ public class EventManager {
     public Event getEvent(String eventId) {
         List<Event> holderList = new ArrayList<>();
         for (Event event : eventList) {
-            if (event.getEventID().equals(eventId)) {
+            if (event.getEventId().equals(eventId)) {
                 holderList.add(event);
             }
         }
