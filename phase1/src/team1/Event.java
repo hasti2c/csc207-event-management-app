@@ -37,6 +37,7 @@ public class Event {
         published = false;
         createdTime = Calendar.getInstance().getTime();
         editTime = createdTime;
+        eventDetails = new HashMap<>(); //I added this since we were missing this.
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
         this.templateFieldSpec = populateFieldSpecMap(template);

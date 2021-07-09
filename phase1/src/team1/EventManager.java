@@ -1,9 +1,6 @@
 package team1;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EventManager {
     /**
@@ -13,7 +10,7 @@ public class EventManager {
     private static List<Event> eventList;
 
     public EventManager() {
-
+        eventList = new ArrayList<>();
     }
 
     // === Creation and Deletion ===
@@ -32,13 +29,13 @@ public class EventManager {
 
     // === Getters and Setters ===
     public Map<String, Object> getEventDetails(String eventId) {
-        Map<String, Object> holderMap = new HashMap<>();
+        List<Map<String, Object>> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
-                holderMap = event.getEventDetails();
+                holderList.add(event.getEventDetails());
             }
         }
-        return holderMap;
+        return holderList.remove(0);
     }
 
     public static int getNumEvents() {
@@ -47,8 +44,12 @@ public class EventManager {
 
     // Editing Event variables will be done through this setter as all info is
     // kept in the eventDetails map of the Event object
-    public boolean setEventDetails(String eventId) {
-        return true; // Placeholder
+    public void setEventDetails(String eventId) {
+        for (Event event: eventList) {
+            if (event.getEventId().equals(eventId)){
+                event.getEventDetails().put(eventId, ""); //Placeholder like what is going into the values of the map
+            }
+        }
     }
 
 
