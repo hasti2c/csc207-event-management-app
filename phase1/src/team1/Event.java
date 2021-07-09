@@ -37,7 +37,7 @@ public class Event {
         published = false;
         createdTime = Calendar.getInstance().getTime();
         editTime = createdTime;
-        eventDetails = new HashMap<>(); //I added this since we were missing this.
+        this.eventDetails = new HashMap<>(); //I added this since we were missing this.
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
 //        this.templateFieldSpec = populateFieldSpecMap(template);
@@ -48,14 +48,20 @@ public class Event {
 //        Map<String, Class<?>> populatedMap = new HashMap<>();
 //        for (Template templateIterator: TemplateManager.getTemplateList()){
 //            if (templateIterator.equals(template)){
-//                populatedMap.put(templateIterator.getFieldDescriptions())
+//                populatedMap.put(templateIterator.getFieldDescriptions().getFieldName, templateIterator.getFieldDescriptions().getDataType)
 //            }
 //        }
+//        return populatedMap
 //    }
 //
-//    private Map<String, Object> addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec){
-//        // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
-//    }
+    private void addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec) {
+        // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
+        Map<String, Class<?>> populatedMap = new HashMap<>();
+        for (Map.Entry<String, Class<?>> entry : templateFieldSpec.entrySet()) {
+            this.eventDetails.put(entry.getKey(), entry.getValue());
+        }
+    }
+
 
     // Getters
 

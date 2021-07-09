@@ -2,7 +2,7 @@ package team1;
 
 import java.util.List;
 
-public class Template {  //are we allowed to have multiple genres as templates like bbq, concerts? yes
+public class Template {
     /**
      * Templates
      */
