@@ -56,9 +56,8 @@ public class Event {
 //
     private void addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec) {
         // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
-        Map<String, Class<?>> populatedMap = new HashMap<>();
         for (Map.Entry<String, Class<?>> entry : templateFieldSpec.entrySet()) {
-            this.eventDetails.put(entry.getKey(), entry.getValue());
+            this.eventDetails.put(entry.getKey(), null);
         }
     }
 
