@@ -12,26 +12,33 @@ public class EventManager {
     // === Class Variables ===
     private static List<Event> eventList = new ArrayList<>();
 
-    public EventManager(){
+    public EventManager() {
 
     }
 
     // === Creation and Deletion ===
-    public void createEvent(String templateName, String eventOwner){
+    public void createEvent(String templateName, String eventOwner) {
         eventList.add(new Event(new Template(templateName), eventOwner));
     }
 
-    public void deleteEvent(String eventId){
-        for (Event event: eventList) {
-            if (event.getEventID().equals(eventId)){
+    public void deleteEvent(String eventId) {
+        for (Event event : eventList) {
+            if (event.getEventID().equals(eventId)) {
                 eventList.remove(event);
-            };
+            }
+            ;
         }
     }
 
     // === Getters and Setters ===
-    public Map<String, Object> getEventDetails(String eventId){
-        return new HashMap<>(); // Placeholder
+    public Map<String, Object> getEventDetails(String eventId) {
+        Map<String, Object> holderMap = new HashMap<>();
+        for (Event event : eventList) {
+            if (event.getEventID().equals(eventId)) {
+                holderMap = event.getEventDetails();
+            }
+        }
+        return holderMap;
     }
 
     public static int getNumEvents() {
@@ -40,14 +47,14 @@ public class EventManager {
 
     // Editing Event variables will be done through this setter as all info is
     // kept in the eventDetails map of the Event object
-    public boolean setEventDetails(String eventId){
+    public boolean setEventDetails(String eventId) {
         return true; // Placeholder
     }
 
 
-    public Event getEvent(String eventId){
+    public Event getEvent(String eventId) {
         List<Event> holderList = new ArrayList<>();
-        for (Event event: eventList) {
+        for (Event event : eventList) {
             if (event.getEventID().equals(eventId)) {
                 holderList.add(event);
             }
@@ -55,7 +62,13 @@ public class EventManager {
         return holderList.remove(0);
     }
 
-    public ArrayList<Event> getPublicEvents(){
-        return new ArrayList<>(); // Placeholder
+    public ArrayList<Event> getPublicEvents() {
+        ArrayList<Event> holderList = new ArrayList<>();
+        for (Event event : eventList) {
+            if (event.isPublished()) {
+                holderList.add(event);
+            }
+        }
+        return holderList;
     }
 }
