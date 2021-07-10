@@ -12,11 +12,11 @@ public class UserManager {
     // === Class Variables ===
     public static List<User> userList = new ArrayList<>();
     // === Instance Variables ===
+    private List<String> usernamesList = new ArrayList<>();
     // === Methods ===
     public UserManager() {
 
     }
-
 
     /**
      * Create a user in the program
@@ -28,6 +28,7 @@ public class UserManager {
     public void createUser(String username, String password, String userEmail, User.UserType type) {
             User newUser = new User(username, password, userEmail, type);
             userList.add(newUser);
+            usernamesList.add(username);
     }
 
     /**
@@ -121,12 +122,26 @@ public class UserManager {
             return false;
         }
     }
+
+    /**
+     * Update a users username to the newUsername
+     * @param user The user whose username is to be updated
+     * @param newEmail The users new email
+     * @return Whether the username was updated successfully
+     */
     public boolean updateEmail(User user, String newEmail){
         // returns true if user is updated successfully
         // access getters and setters of useUser class
         // User needs to be logged in
-        return true;
+        if (user.isLoggedIn()){
+            user.setUserEmail(newEmail);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
+
     public boolean deleteEvent(User user, Event event){
         if (user.getUserEvents().contains(event)) {
             // deleting an event created by the user means they are also not attending it
