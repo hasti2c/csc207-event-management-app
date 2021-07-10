@@ -152,6 +152,10 @@ public class UserManager {
         if (user.getUserEvents().contains(event)) {
             // deleting an event created by the user means they are also not attending it
             // delete the event from both of the appropriate Lists
+
+            // Since the user is deciding to not host the event, the event should be removed from the event
+            // list in EventManager ?
+            // Something to keep in mind
             user.getUserEvents().remove(event);
             user.getAttendEvents().remove(event);
         }
