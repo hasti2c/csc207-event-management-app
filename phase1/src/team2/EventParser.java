@@ -1,13 +1,17 @@
 package team2;
 
-import team1.angela.Event;
+// TODO exceptions/boolean return value
+// TODO ask for transient fields
+// TODO usernames & file names
+// TODO test
+
+import testing.Event;
 
 import java.io.*;
 
-// TODO source https://www.tutorialspoint.com/java/java_serialization.htm
-// TODO exceptions
-// TODO boolean return value
-// TODO ask for transient fields
+/* Serialization from examples in
+   https://www.tutorialspoint.com/java/java_serialization.htm
+ */
 public class EventParser {
     private final String path;
 
@@ -15,7 +19,7 @@ public class EventParser {
         this.path = path;
     }
 
-    public Event getEvent(int eventId) {
+    public Event getEvent(String eventId) {
         try {
             String filePath = getFilePath(eventId);
             FileInputStream input = new FileInputStream(filePath);
@@ -33,7 +37,7 @@ public class EventParser {
 
     public void saveEvent(Event event) {
         try {
-            String filePath = getFilePath(event.getEventID());
+            String filePath = getFilePath(event.getEventId());
             FileOutputStream output = new FileOutputStream(filePath);
             ObjectOutputStream serializer = new ObjectOutputStream(output);
 
@@ -46,7 +50,7 @@ public class EventParser {
     }
 
     public void createEvent(Event event) {
-        String filePath = getFilePath(event.getEventID());
+        String filePath = getFilePath(event.getEventId());
         File file = new File(filePath);
         try {
             file.createNewFile();
@@ -56,8 +60,7 @@ public class EventParser {
         saveEvent(event);
     }
 
-    private String getFilePath(int eventId) {
-        // TODO eventID int or string?
-        return path + "/event-" + eventId + ".ser";
+    private String getFilePath(String eventId) {
+        return path + "/event-" + eventId + ".csv";
     }
 }

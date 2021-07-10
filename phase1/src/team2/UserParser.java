@@ -5,11 +5,16 @@ import team1.angela.User;
 
 import java.io.*;
 
-// TODO source https://www.tutorialspoint.com/java/java_serialization.htm
-// TODO exceptions
-// TODO boolean return value
-// TODO ask for username to be okay in file name, and not include dashes.
+// TODO exceptions/boolean return value
 // TODO ask for transient fields
+// TODO usernames & file names
+// TODO hash passwords
+// TODO test
+
+/* Serialization from examples in
+   https://www.tutorialspoint.com/java/java_serialization.htm
+ */
+
 public class UserParser {
     private final String path;
 
@@ -59,7 +64,7 @@ public class UserParser {
     }
 
     private String getFilePath(String username) {
-        return path + "/user-" + username + ".ser";
+        return path + "/user-" + username + ".csv";
     }
 }
 
