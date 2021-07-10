@@ -1,8 +1,9 @@
 package team1;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Event {
+public class Event implements Serializable {
     /**
      * Events
      */

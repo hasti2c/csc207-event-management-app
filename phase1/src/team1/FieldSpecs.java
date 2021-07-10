@@ -1,6 +1,8 @@
 package team1;
 
-public class FieldSpecs {
+import java.io.Serializable;
+
+public class FieldSpecs implements Serializable {
     /**
      * Template for what needs to be included in a field in a template
      */

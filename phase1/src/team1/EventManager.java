@@ -19,12 +19,7 @@ public class EventManager {
     }
 
     public void deleteEvent(String eventId) {
-        for (Event event : eventList) {
-            if (event.getEventId().equals(eventId)) {
-                eventList.remove(event);
-            }
-            ;
-        }
+        eventList.removeIf(event -> event.getEventId().equals(eventId));
     }
 
     // === Getters and Setters ===

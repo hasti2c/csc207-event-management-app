@@ -1,8 +1,9 @@
 package team1;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Template {
+public class Template implements Serializable {
     /**
      * Templates
      */
