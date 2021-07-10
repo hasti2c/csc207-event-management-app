@@ -58,7 +58,6 @@ public class SystemController {
         Map<String, Object> userFields = new HashMap<String, Object>();
 
         for (FieldSpecs fieldData: field_specs) {
-
             Object user_input = this.reqUserInput(fieldData.getFieldName(), fieldData.getDataType());
 
             while (fieldData.getRequired && user_input == null) {
@@ -66,7 +65,6 @@ public class SystemController {
             }
             userFields.put(fieldData.getFieldName(), this.reqUserInput());
         }
-
         this.eventManager.setEventDetails(newEventID, userFields);
     }
 
@@ -74,6 +72,18 @@ public class SystemController {
         /* checks given user credentials from presenter and checks if it is correct or not
          */
         return true;
+    }
+}
+    private void viewEvent(String eventID) {
+        this.presenter.printFormattedEvent(eventID); // assume this will be implemented
+    }
+
+    private void browseEvents() {
+        this.presenter.printEvents(this.eventManager.getAllEvents()); //assume this will also be implemented
+    }
+
+    private void joinEvemt(String eventID) {
+        this.userManager.addAttendingEvent(/* somehow get user */, eventID);
     }
 }
 
