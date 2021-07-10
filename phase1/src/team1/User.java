@@ -32,29 +32,58 @@ public class User {
         this.password = password;
         this.userEmail = userEmail;
         this.userEvents = new ArrayList<>();
-        this.attendEvents = new ArrayList<>()
+        this.attendEvents = new ArrayList<>();
         this.loggedIn = false;
     }
     // === Getters ===
+
+    /**
+     * Get the user's username
+     * @return String user's username
+     */
     public String getUsername() {
         return this.username;
     }
+    /**
+     * Get the user's password
+     * @return String user's password
+     */
     public String getPassword() {
         return this.password;
     }
+    /**
+     * Get the user's email
+     * @return String user's email
+     */
     public String getUserEmail() {
         return this.userEmail;
     }
+    /**
+     * Get the user's logged in status
+     * @return boolean The user's logged in status
+     */
     public boolean isLoggedIn() {
         return this.loggedIn;
     }
+    /**
+     * Get the user's created events
+     * @return List<Event> List of created events
+     */
     public List<Event> getUserEvents() {
         return this.userEvents;
     }
+    /**
+     * Get the user's attended events
+     * @return List<Event> List of attended events
+     */
     public List<Event> getAttendEvents() {
         return this.userEvents;
     }
 
+    /**
+     * Get the string representation of a user
+     * @return String The string representation of a user.
+     */
     @Override
     public String toString() {
         return "User{" +
@@ -66,20 +95,53 @@ public class User {
     }
 
     // === Setters ===
+
+    /**
+     * Set a new username for the user
+     * @param username The new username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
+
+    /**
+     * Set a new password for the user
+     * @param password the new password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /**
+     * Set a new email for the user
+     * @param userEmail the new email
+     */
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
+
+    /**
+     * Set a new logged in status for the user
+     * @param loggedIn The new logged in status
+     */
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
+
+    /**
+     * Set a new list of created events
+     * @param userEvents The new list of created events
+     */
     public void setUserEvents(List<Event> userEvents) {
         this.userEvents = userEvents;
+    }
+
+    /**
+     * Set a new list of attended events
+     * @param attendEvents The new list of attended events
+     */
+    public void setAttendEvents(List<Event> attendEvents) {
+        this.attendEvents = attendEvents;
     }
 
 }
