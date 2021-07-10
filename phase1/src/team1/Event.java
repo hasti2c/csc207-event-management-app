@@ -1,5 +1,6 @@
 package team1;
 
+import java.io.Serializable;
 import java.util.*;
 
 public class Event {
@@ -17,10 +18,10 @@ public class Event {
     // This saves the fieldName and dataType from the FieldSpecs class into a map so that we can keep a reference of it
     // for the event, in case the template gets changed. Also we can match the data type to the Object in the
     // eventDetails map so things don't break.
-    private Map<String, Class<?>> templateFieldSpec;
+    private Map<String, Class<? extends Serializable>> templateFieldSpec;
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
-    private Map<String, Object> eventDetails;
+    private Map<String, Serializable> eventDetails;
 //    // equal -1 if no max is specified (Don't need this, will be in eventDetails map)
 //    private int maxAttendees;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
