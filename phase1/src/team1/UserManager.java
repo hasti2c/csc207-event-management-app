@@ -2,6 +2,7 @@ package team1;
 
 import sun.font.TrueTypeFont;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class UserManager {
     public static List<User> userList = new ArrayList<>();
     // === Instance Variables ===
     private List<String> usernamesList = new ArrayList<>();
+    private List<String> emailList = new ArrayList<>();
     // === Methods ===
     public UserManager() {
 
@@ -29,6 +31,7 @@ public class UserManager {
             User newUser = new User(username, password, userEmail, type);
             userList.add(newUser);
             usernamesList.add(username);
+            emailList.add(userEmail);
     }
 
     /**
@@ -63,6 +66,7 @@ public class UserManager {
         }
     }
 
+    // TODO: Remove password stuff for logout
     /**
      * Logs out a user by checking the inputted password against the User's username
      * @param username The username of the user attempting to log out
@@ -115,7 +119,9 @@ public class UserManager {
         // access getters and setters of User class
         // User needs to be logged in
         if (user.isLoggedIn()){
-            user.setUsername(newUsername);
+            usernamesList.remove(user.getUsername()); // Remove old usernamesList
+            usernamesList.add(newUsername); // Add new usernamesList
+            user.setUsername(newUsername); // Set new username
             return true;
         }
         else{
@@ -134,6 +140,8 @@ public class UserManager {
         // access getters and setters of User class
         // User needs to be logged in
         if (user.isLoggedIn()){
+            emailList.remove(user.getUserEmail()); // remove old email from emailList
+            emailList.add(newEmail); // Add new email to emailList
             user.setUserEmail(newEmail);
             return true;
         }
@@ -170,6 +178,7 @@ public class UserManager {
         return true;
     }
 
+    // TODO: User creating might not be attending
     /**
      * create an Event that is hosted by the given User
      * @param user the User who is hosting the event
@@ -184,6 +193,7 @@ public class UserManager {
         return true;
     }
 
+    // TODO: GET RID OF EVENT STUFF
     /**
      * Register the user to attend the event
      * @param user The user who wishes to attend the event
@@ -212,6 +222,7 @@ public class UserManager {
         return false;
     }
 
+    // TODO: Is the events.addAll call needed?
     /**
      * Retrieve the events that a user has created or is attending
      * @param user The user whose created events / attending events are to be retrieved
@@ -224,6 +235,8 @@ public class UserManager {
         return events;
     }
 
+
+    // TODO REPLACE WITH JUST GET USERNAME LIST
     /**
      * Retrieve all usernames that are registered in UserManager
      * @return a list of all usernames of every User in UserManager's userList
@@ -252,5 +265,41 @@ public class UserManager {
         }
         // If the loop ends and no users with the matching username are found, return null
         return null;
+    }
+
+    /**
+     * Checks if the username is present within the program
+     * @param username The username to check exists
+     * @return Whether the username is taken
+     */
+    public boolean isUsernameTaken(String username){
+        return usernamesList.contains(username);
+    }
+
+    /**
+     * Checks if the email is present within the program
+     * @param email The email to check exists
+     * @return Whether the email is taken
+     */
+    public boolean isEmailTaken(String email){
+        return emailList.contains(email);
+    }
+
+    /**
+     * Delete an event from the attending and creation list of each user
+     * @param eventToDelete The event to delete
+     * @return Whether the deletion was successful
+     */
+    public boolean deleteEventFromAllUsers(Event eventToDelete){
+        for (User user :
+                userList) {
+            if (user.getAttendEvents().contains(eventToDelete)){ // If the user is attending this event
+                user.getAttendEvents().remove(eventToDelete); // Removes the event via aliasing
+            }
+            if (user.getUserEvents().contains(eventToDelete)){ // If the user made this event
+                user.getUserEvents().remove(eventToDelete); // Removes the event via aliasing
+            }
+        }
+        return true;
     }
 }
