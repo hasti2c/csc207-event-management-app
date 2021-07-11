@@ -38,11 +38,20 @@ public class EventManager {
     }
 
     public Map<String, String> returnFieldNameAndType(String eventId){
-        // returns a list of the fields associated with this event
+        // returns a list (did u mean map?) of the fields associated with this event
         // 1. find event in list of events
         // 2. get the eventDetails map for that event
         // 3. put all the Keys as the key and ... might want to do this in Event class oops
+        Map<String, String> fieldNameAndType = new HashMap<>();
+        for (Event event: eventList){
+            if (event.getEventId().equals(eventId)){
+                for (Map.Entry<String, String> fieldSpecEntry: event.getFieldNameAndTypeMap().entrySet()) {
+                    fieldNameAndType.put(fieldSpecEntry.getKey(), fieldSpecEntry.getValue());
+                }
 
+            }
+        }
+        return fieldNameAndType;
     }
 
     private void enterFieldValue (String fieldName, String fieldValue, String eventId) {

@@ -19,7 +19,7 @@ public class Event implements Serializable {
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-
+    private Map<String, String> fieldNameAndTypeMap;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
@@ -36,18 +36,23 @@ public class Event implements Serializable {
         published = false;
         createdTime = Calendar.getInstance().getTime();
         editTime = createdTime;
-        this.eventDetails = new HashMap<>(); //I added this since we were missing this.
+        this.eventDetails = new HashMap<>();
+        this.fieldNameAndTypeMap = new HashMap<>();
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
     }
 
     private void addFieldsToEventDetails(Template template) {
-        // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
-        for (Map.Entry<String, Class<?>> entry : templateFieldSpec.entrySet()) {
-            this.eventDetails.put(entry.getKey(), null);
+        for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
+            this.eventDetails.put(fieldSpecs.getFieldName(), null);
         }
     }
 
+    private void addFieldNameAndTypeToEventDetails(Template template) { //creates a map that has fieldName as key, fieldType as value
+        for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
+            this.fieldNameAndTypeMap.put(fieldSpecs.getFieldName(), fieldSpecs.getDataType());
+        }
+    }
 
     // Getters
 
@@ -78,6 +83,10 @@ public class Event implements Serializable {
         return eventDetails;
     }
 
+    public Map<String, String> getFieldNameAndTypeMap() {
+        return fieldNameAndTypeMap;
+    }
+
     // Setters
 
     public void setEventOwner(String eventOwner) {
@@ -96,5 +105,8 @@ public class Event implements Serializable {
     }
     public void setEventDetails(Map<String, Object> eventDetails) {
         this.eventDetails = eventDetails;
+    }
+    public void setFieldNameAndTypeMap(Map<String, String> fieldNameAndTypeMap) {
+        this.fieldNameAndTypeMap = fieldNameAndTypeMap;
     }
 }
