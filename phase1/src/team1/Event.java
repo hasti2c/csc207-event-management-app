@@ -15,19 +15,21 @@ public class Event implements Serializable {
     private Date createdTime;
     private Date editTime;
     private String eventOwner;
-    // This saves the fieldName and dataType from the FieldSpecs class into a map so that we can keep a reference of it
-    // for the event, in case the template gets changed. Also we can match the data type to the Object in the
-    // eventDetails map so things don't break.
-    private Map<String, Class<?>>templateFieldSpec;
+//    // This saves the fieldName and dataType from the FieldSpecs class into a map so that we can keep a reference of it
+//    // for the event, in case the template gets changed. Also we can match the data type to the Object in the
+//    // eventDetails map so things don't break.
+//    private Map<String, Class<?>>templateFieldSpec;
+
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-//    // equal -1 if no max is specified (Don't need this, will be in eventDetails map)
-//    private int maxAttendees;
+
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
     private String eventType;
+    private String templateId;
+    private String templateVersion;
 
     // === Representation Invariants ===
     // Not sure yet
@@ -41,21 +43,9 @@ public class Event implements Serializable {
         this.eventDetails = new HashMap<>(); //I added this since we were missing this.
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
-//        this.templateFieldSpec = populateFieldSpecMap(template);
     }
 
-//    private Map<String, Class<?>> populateFieldSpecMap(Template template){
-//        // TODO make method to loop through template list and put it in the map.
-//        Map<String, Class<?>> populatedMap = new HashMap<>();
-//        for (Template templateIterator: TemplateManager.getTemplateList()){
-//            if (templateIterator.equals(template)){
-//                populatedMap.put(templateIterator.getFieldDescriptions().getFieldName, templateIterator.getFieldDescriptions().getDataType)
-//            }
-//        }
-//        return populatedMap
-//    }
-//
-    private void addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec) {
+    private void addFieldsToEventDetails(Template template) {
         // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
         for (Map.Entry<String, Class<?>> entry : templateFieldSpec.entrySet()) {
             this.eventDetails.put(entry.getKey(), null);

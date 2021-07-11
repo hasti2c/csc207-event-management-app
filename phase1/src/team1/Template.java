@@ -9,9 +9,9 @@ public class Template implements Serializable {
      */
     // === Instance Variables ===
     private List<FieldSpecs> fieldDescriptions;
-    // The type of template eg concert, fundraiser, garage sale... this will also act as the file name. Template name
-    // must be unique... we might need to fix this later this might cause issues
+    // The type of template eg concert, fundraiser, garage sale...
     private String templateName;
+    private String templateId;
     // stores the version number, each time the template is edited the version number increases by one. This way we can
     // store and access previous versions if necessary but only the version number will change. It's a string so that
     // it's easier to concatenate with the file name
@@ -35,6 +35,11 @@ public class Template implements Serializable {
     public List<FieldSpecs> getFieldDescriptions() {
         return fieldDescriptions;
     }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
     // Setters
 
     public void setTemplateName(String templateName) {

@@ -16,7 +16,7 @@ public class FieldSpecs implements Serializable {
     public FieldSpecs(String fieldName, String dataType, boolean required) {
         this.fieldName = fieldName;
         this.dataType = dataType;
-        this. required = required;
+        this.required = required;
     }
     // Getters
 
