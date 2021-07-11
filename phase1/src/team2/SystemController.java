@@ -78,7 +78,7 @@ public class SystemController {
          */
         return true;
     }
-}
+
     private void viewEvent(String eventID) {
         this.presenter.printFormattedEvent(eventID); // assume this will be implemented
     }
@@ -89,6 +89,11 @@ public class SystemController {
 
     private void joinEvemt(String eventID) {
         this.userManager.addAttendingEvent(/* somehow get user */, eventID);
+    }
+
+    private void deleteEvent(String eventID) {
+        this.userManager.completelyWipeEvent(eventID);
+        this.eventManager.deleteEvent(eventID);
     }
 }
 
