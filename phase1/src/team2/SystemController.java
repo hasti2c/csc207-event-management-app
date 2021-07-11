@@ -11,12 +11,17 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class SystemController {
-    private UserManager userManager;
-    private EventManager eventManager;
-    private TemplateManager templateManager;
-    private Presenter presenter;
+    private final UserManager userManager;
+    private final EventManager eventManager;
+    private final TemplateManager templateManager;
+    private final Presenter presenter;
+    private final Map<String, List<String>> menuMap = new HashMap<>();
 
     public SystemController() {
+        this.userManager = new UserManager();
+        this.eventManager = new EventManager();
+        this.templateManager = new TemplateManager();
+        this.presenter = new Presenter();
         this.run();
     }
 
