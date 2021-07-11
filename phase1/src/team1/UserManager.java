@@ -153,26 +153,24 @@ public class UserManager {
     /**
      * unregister a user from an event
      * @param user the user that is to be removed from the event
-     * @param event the event that the user will be removed from
+     * @param eventID the eventID that the user will be removed from
      * @return whether the user is removed from the event successfully
      */
-    public boolean deleteEvent(User user, Event event){
-        if (user.getUserEvents().contains(event)) {
+    public boolean deleteEvent(User user, String eventID){
+        if (user.getUserEvents().contains(eventID)) {
             // deleting an event created by the user means they are also not attending it
             // delete the event from both of the appropriate Lists
 
             // Since the user is deciding to not host the event, the event should be removed from the event
             // list in EventManager ?
             // Something to keep in mind
-            user.getUserEvents().remove(event);
-            user.getAttendEvents().remove(event);
+            user.getUserEvents().remove(eventID);
+            user.getAttendEvents().remove(eventID);
         }
         // Else check if the user is only attending the event, and if so, remove it
         else {
-            if (user.getAttendEvents().contains(event)) {
-                user.getAttendEvents().remove(event);
-                // the event has one less attendant
-                event.setNumAttendees(event.getNumAttendees() - 1);
+            if (user.getAttendEvents().contains(eventID)) {
+                user.getAttendEvents().remove(eventID);
             }
         }
         return true;
@@ -182,18 +180,18 @@ public class UserManager {
     /**
      * create an Event that is hosted by the given User
      * @param user the User who is hosting the event
-     * @param event the Event that the user is hosting
+     * @param eventID the eventID that the user is hosting
      * @return whether the Event has been successfully created
      */
-    public boolean createEvent(User user, Event event){
+    public boolean createEvent(User user, String eventID){
         // Add this event to the list of events the user has created
-        user.getUserEvents().add(event);
+        user.getUserEvents().add(eventID);
         // Add this event to the list of events the user will attend
-        user.getAttendEvents().add(event);
+        user.getAttendEvents().add(eventID);
         return true;
     }
 
-    // TODO: GET RID OF EVENT STUFF
+    // TODO: GET RID OF EVENT STUFF ALSO EVENT IS A STRING NOW!
     /**
      * Register the user to attend the event
      * @param user The user who wishes to attend the event
@@ -222,32 +220,27 @@ public class UserManager {
         return false;
     }
 
-    // TODO: Is the events.addAll call needed?
+    // TODO: What is this method? Why would we want the union between attending events and created events?
+    // TODO: It might be better to just have 2 different methods?
     /**
      * Retrieve the events that a user has created or is attending
      * @param user The user whose created events / attending events are to be retrieved
      * @return a list of events the user has created or the user is attending
      */
-    public List<Event> getEvents(User user) {
+    public List<String> getEvents(User user) {
         // return the union of events the user has created and is attending
-        List<Event> events = user.getAttendEvents();
+        List<String> events = user.getAttendEvents();
         events.addAll(user.getUserEvents());
         return events;
     }
 
-
-    // TODO REPLACE WITH JUST GET USERNAME LIST
+    // TODO: I removed static from this? Was it needed? It wouldnt let me return the list otherwise
     /**
      * Retrieve all usernames that are registered in UserManager
      * @return a list of all usernames of every User in UserManager's userList
      */
-    public static List<String> getUsernameList() {
-        // Go through each user object in userList and add their username attribute to usernameList
-        List<String> usernameList = new ArrayList<>();
-        for (User u : userList) {
-            usernameList.add(u.getUsername());
-        }
-        return usernameList;
+    public List<String> getUsernameList() {
+        return usernamesList;
     }
 
 
@@ -287,17 +280,17 @@ public class UserManager {
 
     /**
      * Delete an event from the attending and creation list of each user
-     * @param eventToDelete The event to delete
+     * @param eventIDToDelete The eventID to delete
      * @return Whether the deletion was successful
      */
-    public boolean deleteEventFromAllUsers(Event eventToDelete){
+    public boolean deleteEventFromAllUsers(String eventIDToDelete){
         for (User user :
                 userList) {
-            if (user.getAttendEvents().contains(eventToDelete)){ // If the user is attending this event
-                user.getAttendEvents().remove(eventToDelete); // Removes the event via aliasing
+            if (user.getAttendEvents().contains(eventIDToDelete)){ // If the user is attending this event
+                user.getAttendEvents().remove(eventIDToDelete); // Removes the event via aliasing
             }
-            if (user.getUserEvents().contains(eventToDelete)){ // If the user made this event
-                user.getUserEvents().remove(eventToDelete); // Removes the event via aliasing
+            if (user.getUserEvents().contains(eventIDToDelete)){ // If the user made this event
+                user.getUserEvents().remove(eventIDToDelete); // Removes the event via aliasing
             }
         }
         return true;
