@@ -37,16 +37,25 @@ public class EventManager {
         return eventList.size();
     }
 
-    // Editing Event variables will be done through this setter as all info is
-    // kept in the eventDetails map of the Event object
-    public void setEventDetails(String eventId) {
-        for (Event event: eventList) {
-            if (event.getEventId().equals(eventId)){
-                event.getEventDetails().put(eventId, ""); //Placeholder like what is going into the values of the map
-            }
-        }
+    public Map<String, String> returnFieldNameAndType(String eventId){
+        // returns a list of the fields associated with this event
+        // 1. find event in list of events
+        // 2. get the eventDetails map for that event
+        // 3. put all the Keys as the key and ... might want to do this in Event class oops
+
     }
 
+    private void enterFieldValue (String fieldName, String fieldValue, String eventId) {
+
+    }
+
+    public boolean checkDataValidation(String fieldName, String fieldValue, String eventId) {
+        // if the field value passes validation return true and call enterFieldValue to add it to eventDetails
+        // if the field value doesn't pass, return false and do nothing.
+        // basically try and catch changing the string into the type it's supposed to be. If it doesn't work then...
+        // it's probably wrong.
+        return true;
+    }
 
     public Event getEvent(String eventId) {
         List<Event> holderList = new ArrayList<>();

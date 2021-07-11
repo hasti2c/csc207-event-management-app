@@ -15,10 +15,6 @@ public class Event implements Serializable {
     private Date createdTime;
     private Date editTime;
     private String eventOwner;
-//    // This saves the fieldName and dataType from the FieldSpecs class into a map so that we can keep a reference of it
-//    // for the event, in case the template gets changed. Also we can match the data type to the Object in the
-//    // eventDetails map so things don't break.
-//    private Map<String, Class<?>>templateFieldSpec;
 
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
