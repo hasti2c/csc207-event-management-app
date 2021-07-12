@@ -41,7 +41,7 @@ public class EventManager {
         // returns a list (did u mean map?) of the fields associated with this event
         // 1. find event in list of events
         // 2. get the eventDetails map for that event
-        // 3. put all the Keys as the key and ... might want to do this in Event class oops
+        // 3. put all the Keys as the key and return the dataType for each key (fieldName)
         Map<String, String> fieldNameAndType = new HashMap<>();
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){

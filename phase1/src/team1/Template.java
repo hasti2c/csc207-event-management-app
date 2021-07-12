@@ -31,7 +31,7 @@ public class Template implements Serializable {
     public String getTemplateName() {
         return templateName;
     }
-    // not sure about this one
+
     public List<FieldSpecs> getFieldDescriptions() {
         return fieldDescriptions;
     }
