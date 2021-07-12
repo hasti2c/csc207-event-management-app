@@ -55,7 +55,15 @@ public class EventManager {
     }
 
     private void enterFieldValue (String fieldName, String fieldValue, String eventId) {
-
+        for (Event event : eventList) {
+            if (event.getEventId().equals(eventId)) {
+                for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
+                    if (eventDetailsEntry.getKey().equals(fieldName)) {
+                        event.getEventDetails().replace(fieldName, fieldValue);
+                    }
+                }
+            }
+        }
     }
 
     public boolean checkDataValidation(String fieldName, String fieldValue, String eventId) {
