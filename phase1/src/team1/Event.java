@@ -36,6 +36,8 @@ public class Event implements Serializable {
         published = false;
         createdTime = Calendar.getInstance().getTime();
         editTime = createdTime;
+        templateId = template.getTemplateId();
+        templateVersion = template.getFileVersionNumber();
         this.eventDetails = new HashMap<>();
         this.fieldNameAndTypeMap = new HashMap<>();
         this.eventOwner = eventOwner;
@@ -89,7 +91,8 @@ public class Event implements Serializable {
     public Map<String, List<Object>> getFieldNameAndTypeMap() {
         return fieldNameAndTypeMap;
     }
-
+    public String getTemplateId(){return templateId;} 
+    public String getTemplateVersion(){return templateVersion;}
     // Setters
 
     public void setEventOwner(String eventOwner) {
