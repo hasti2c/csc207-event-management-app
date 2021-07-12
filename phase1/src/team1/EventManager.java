@@ -45,8 +45,8 @@ public class EventManager {
         Map<String, String> fieldNameAndType = new HashMap<>();
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
-                for (Map.Entry<String, String> fieldSpecEntry: event.getFieldNameAndTypeMap().entrySet()) {
-                    fieldNameAndType.put(fieldSpecEntry.getKey(), fieldSpecEntry.getValue());
+                for (Map.Entry<String, List<Object>> fieldSpecEntry: event.getFieldNameAndTypeMap().entrySet()) {
+                    fieldNameAndType.put(fieldSpecEntry.getKey(), fieldSpecEntry.getValue().get(0).toString());
                 }
 
             }
@@ -66,23 +66,22 @@ public class EventManager {
         }
     }
 
-    public boolean checkDataValidation(String fieldName, String fieldValue, String eventId) {
+    public boolean checkDataValidation(String fieldName, String fieldValue, String eventId) { //check it over for the values
         // if the field value passes validation return true and call enterFieldValue to add it to eventDetails
         // if the field value doesn't pass, return false and do nothing.
         // basically try and catch changing the string into the type it's supposed to be. If it doesn't work then...
         // it's probably wrong.
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
-                for (Map.Entry<String, String> fieldSpecEntry : event.getFieldNameAndTypeMap().entrySet()){
-                    if (fieldSpecEntry.getKey().equals(fieldName)){
-                        if (fieldSpecEntry.getValue().equals(fieldValue.getClass().getSimpleName())){
-                            enterFieldValue(fieldName,fieldValue,eventId);
-                            return true;
+                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndTypeMap().entrySet()){
+                    if ((fieldSpecEntry.getKey().equals(fieldName)) && (fieldSpecEntry.getValue().get(0).equals(fieldValue.getClass().getSimpleName()))
+                    && (fieldSpecEntry.getValue().get(1).equals(true))){
+                        enterFieldValue(fieldName,fieldValue,eventId);
+                        return true;
                         }
                     }
                 }
             }
-        }
         return false;
     }
 

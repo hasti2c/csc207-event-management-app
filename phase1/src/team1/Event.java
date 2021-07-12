@@ -19,7 +19,7 @@ public class Event implements Serializable {
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-    private Map<String, String> fieldNameAndTypeMap;
+    private Map<String, List<Object>> fieldNameAndTypeMap;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
@@ -50,7 +50,10 @@ public class Event implements Serializable {
 
     private void addFieldNameAndTypeToMap(Template template) { //creates a map that has fieldName as key, fieldType as value
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
-            this.fieldNameAndTypeMap.put(fieldSpecs.getFieldName(), fieldSpecs.getDataType());
+            List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();
+            fieldSpecsTypeAndRequired.add(fieldSpecs.getDataType()); //the first element, 0
+            fieldSpecsTypeAndRequired.add(fieldSpecs.isRequired()); //the second element, 1
+            this.fieldNameAndTypeMap.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
         }
     }
 
@@ -83,7 +86,7 @@ public class Event implements Serializable {
         return eventDetails;
     }
 
-    public Map<String, String> getFieldNameAndTypeMap() {
+    public Map<String, List<Object>> getFieldNameAndTypeMap() {
         return fieldNameAndTypeMap;
     }
 
@@ -106,7 +109,7 @@ public class Event implements Serializable {
     public void setEventDetails(Map<String, Object> eventDetails) {
         this.eventDetails = eventDetails;
     }
-    public void setFieldNameAndTypeMap(Map<String, String> fieldNameAndTypeMap) {
+    public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndTypeMap) {
         this.fieldNameAndTypeMap = fieldNameAndTypeMap;
     }
 }

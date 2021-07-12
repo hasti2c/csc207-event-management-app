@@ -32,6 +32,7 @@ public class FieldSpecs implements Serializable {
         return required;
     }
 
+
     // Setters
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
