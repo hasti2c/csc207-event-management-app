@@ -12,9 +12,8 @@ import java.util.List;
 public class UserManager {
     // === Class Variables ===
     public static List<User> userList = new ArrayList<>();
-    // === Instance Variables ===
-    private List<String> usernamesList = new ArrayList<>();
-    private List<String> emailList = new ArrayList<>();
+    private static List<String> usernamesList = new ArrayList<>();
+    private static List<String> emailList = new ArrayList<>();
     // === Methods ===
     public UserManager() {
 
@@ -41,6 +40,8 @@ public class UserManager {
     public void deleteUser(User user) {
         // remove User from list of users
         userList.remove(user);
+        usernamesList.remove(user.getUsername());
+        emailList.remove(user.getUserEmail());
     }
 
     /**
@@ -66,26 +67,21 @@ public class UserManager {
         }
     }
 
-    // TODO: Remove password stuff for logout
     /**
      * Logs out a user by checking the inputted password against the User's username
      * @param username The username of the user attempting to log out
-     * @param password The password the user has inputted
      * @return boolean Whether the logout was successful
      */
-    public boolean logOut(String username, String password) {
-        // returns true if successfully logged out, false if otherwise (like if password is wrong)
+    public boolean logOut(String username) {
+        // returns true if successfully logged out, false otherwise
 
         User userToLogout = getUser(username);
         if (userToLogout == null){
             return false;
         }
-        else if (userToLogout.getPassword().equals(password)){
+        else {
             userToLogout.setLoggedIn(false);
             return true;
-        }
-        else{
-            return false;
         }
     }
 
@@ -152,31 +148,43 @@ public class UserManager {
 
     /**
      * unregister a user from an event
-     * @param user the user that is to be removed from the event
-     * @param eventID the eventID that the user will be removed from
-     * @return whether the user is removed from the event successfully
+     * @param user the user who wishes to delete an Event they had created
+     * @param eventID the eventID of the event that the user will delete
+     * @return whether the user has deleted the event successfully
      */
     public boolean deleteEvent(User user, String eventID){
         if (user.getUserEvents().contains(eventID)) {
-            // deleting an event created by the user means they are also not attending it
-            // delete the event from both of the appropriate Lists
-
-            // Since the user is deciding to not host the event, the event should be removed from the event
-            // list in EventManager ?
-            // Something to keep in mind
             user.getUserEvents().remove(eventID);
-            user.getAttendEvents().remove(eventID);
-        }
-        // Else check if the user is only attending the event, and if so, remove it
-        else {
-            if (user.getAttendEvents().contains(eventID)) {
-                user.getAttendEvents().remove(eventID);
+            // remove this event's eventID from any user's attendEvents list
+            for (User u : userList) {
+                if (u.getAttendEvents().contains(eventID)) {
+                    u.getAttendEvents().remove(eventID);
+                }
             }
+            return true;
         }
-        return true;
+
+        else {
+            return false;
+        }
     }
 
-    // TODO: User creating might not be attending
+    /**
+     * unregister this user from an Event
+     * @param user the user who wishes to unregister from an Event corresponding to the given eventID
+     * @param eventID the event ID number of the event the user wishes to no longer attend
+     * @return whether the user has unregistered from the event successfully
+     */
+    public boolean unAttendEvent(User user, String eventID) {
+        if (user.getAttendEvents().contains(eventID)) {
+            user.getAttendEvents().remove(eventID);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * create an Event that is hosted by the given User
      * @param user the User who is hosting the event
@@ -186,60 +194,46 @@ public class UserManager {
     public boolean createEvent(User user, String eventID){
         // Add this event to the list of events the user has created
         user.getUserEvents().add(eventID);
-        // Add this event to the list of events the user will attend
+        return true;
+    }
+
+
+    /**
+     * Register the user to attend the event
+     * @param user The user who wishes to attend the event
+     * @param eventID The event ID of the Event that the user wishes to attend
+     * @return True if the user was able to register for the event. False if the event has no available space.
+     */
+    public boolean attendEvent(User user, String eventID) {
         user.getAttendEvents().add(eventID);
         return true;
     }
 
-    // TODO: GET RID OF EVENT STUFF ALSO EVENT IS A STRING NOW!
     /**
-     * Register the user to attend the event
-     * @param user The user who wishes to attend the event
-     * @param event The Event that the user wishes to attend
-     * @return True if the user was able to register for the event. False if the event has no available space.
+     * Retrieve the events IDS for the events that a user has created
+     * @param user The user whose created event's event ID's are to be retrieved
+     * @return a list of event IDS for the events the user has created
      */
-    public boolean attendEvent(User user, Event event) {
-        Object maxAttendees = event.getEventDetails().get("max attendees");
-
-        // Register the user under the event since it has no limit
-        if (maxAttendees == null) {
-            user.getAttendEvents().add(event);
-            event.setNumAttendees(event.getNumAttendees() + 1);
-            return true;
-        }
-
-        // Check if the event has enough space and register the user under the event if so
-        else {
-            if (event.getNumAttendees() < (int) maxAttendees) {
-                user.getAttendEvents().add(event);
-                event.setNumAttendees(event.getNumAttendees() + 1);
-                return true;
-            }
-        }
-
-        return false;
+    public List<String> getCreatedEvents(User user) {
+        // return the events the user has created
+        return user.getUserEvents();
     }
 
-    // TODO: What is this method? Why would we want the union between attending events and created events?
-    // TODO: It might be better to just have 2 different methods?
     /**
-     * Retrieve the events that a user has created or is attending
-     * @param user The user whose created events / attending events are to be retrieved
-     * @return a list of events the user has created or the user is attending
+     * Retrieve the events IDS for the events that a user is attending
+     * @param user The user whose attended event's event ID's are to be retrieved
+     * @return a list of event IDS for the events the user is attending
      */
-    public List<String> getEvents(User user) {
-        // return the union of events the user has created and is attending
-        List<String> events = user.getAttendEvents();
-        events.addAll(user.getUserEvents());
-        return events;
+    public List<String> getAttendedEvents(User user) {
+        // return the events the user is attending
+        return user.getAttendEvents();
     }
 
-    // TODO: I removed static from this? Was it needed? It wouldnt let me return the list otherwise
     /**
      * Retrieve all usernames that are registered in UserManager
      * @return a list of all usernames of every User in UserManager's userList
      */
-    public List<String> getUsernameList() {
+    public static List<String> getUsernameList() {
         return usernamesList;
     }
 
