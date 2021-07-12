@@ -71,7 +71,19 @@ public class EventManager {
         // if the field value doesn't pass, return false and do nothing.
         // basically try and catch changing the string into the type it's supposed to be. If it doesn't work then...
         // it's probably wrong.
-        return true;
+        for (Event event: eventList){
+            if (event.getEventId().equals(eventId)){
+                for (Map.Entry<String, String> fieldSpecEntry : event.getFieldNameAndTypeMap().entrySet()){
+                    if (fieldSpecEntry.getKey().equals(fieldName)){
+                        if (fieldSpecEntry.getValue().equals(fieldValue.getClass().getSimpleName())){
+                            enterFieldValue(fieldName,fieldValue,eventId);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public Event getEvent(String eventId) {
