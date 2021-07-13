@@ -6,6 +6,7 @@ import team1.angela.EventManager;
 import team1.angela.TemplateManager;
 import team1.angela.UserManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,63 @@ public class SystemController {
         // if login, then give login credentials and check if they are correct, if they are, then proceed to main menu
     }
     // add helper methods down here
+
+    private void userSignUp(){
+        presenter.printText("Enter an Email: ");
+        String email = inputParser.readLine();
+        boolean correctEmail = false;
+        while(!correctEmail){
+            if(userManager.isEmailTaken(email) == false){
+                correctEmail = true;
+            }else{
+                presenter.printText("Email already exists. Enter another email: ");
+                email = inputParser.readLine();
+            }
+        }
+
+        presenter.printText("Enter a Username: ");
+        String username = inputParser.readLine();
+        boolean correctUsername = false;
+        while(!correctUsername){
+            if(userManager.isUsernameTaken(email) == false){
+                correctUsername = true;
+            }else{
+                presenter.printText("Username already exists. Enter another username: ");
+                email = inputParser.readLine();
+            }
+        }
+
+        presenter.printText("Enter a Password: ");
+        String password = inputParser.readLine();
+
+        userManager.createUser(username, password, email);
+        presenter.printText("Account has been created Successfully. Please login.");
+
+    }
+    private void userLogin(){
+
+        presenter.printText("Enter your Username: ");
+        String username = inputParser.readLine();
+
+        presenter.printText("Enter your Password: ");
+        String password = inputParser.readLine();
+
+        boolean correctLogin = false;
+        while(!correctLogin){
+            if(userManager.logIn(username, password)){
+                correctLogin = true;
+            }else{
+                presenter.printText("Username or Password is incorrect, please try again.");
+
+                presenter.printText("Enter your Username: ");
+                username = inputParser.readLine();
+
+                presenter.printText("Enter your Password: ");
+                password = inputParser.readLine();
+            }
+        }
+        presenter.printText("Login was successful");
+    }
 
     private void createEvent(String templateString){
         String newEventID = this.eventManager.createEvent(templateString, /* somehow get user*/ ); //i will  assume an id is returned, not full Event
