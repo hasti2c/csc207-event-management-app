@@ -8,46 +8,46 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+// TODO first line
 public class CSVManager {
     private final String path;
-    private ArrayList<String[]> data;
+    private Map<String, String[]> data;
 
     public CSVManager(String path) {
         this.path = path;
+        readData();
     }
 
     public void addLine(String[] line) {
-        readData();
-        data.add(line);
+        data.put(line[0], line);
         writeData();
     }
 
-    public void changeLine(String id, String[] line) {
-        readData();
-        for (int i = 0; i < data.size(); i++)
-            if (id.equals(data.get(i)[0]))
-                data.set(i, line);
+    public void changeLine(String[] line) {
+        data.replace(line[0], line);
         writeData();
     }
 
     public String[] getLine(String id) {
-        readData();
-        for (String[] line: data)
-            if (id.equals(line[0]))
-                return line;
-        return null;
+        return data.get(id);
+    }
+
+    public Map<String, String[]> getData() {
+        return data;
     }
 
     private void readData() {
         try {
             FileReader fileReader = new FileReader(path);
             CSVReader reader = new CSVReader(fileReader);
-            data = new ArrayList<>();
+            data = new HashMap<>();
 
             String[] line = reader.readNext();
             while (line != null) {
-                data.add(line);
+                data.put(line[0], line);
                 line = reader.readNext();
             }
 
@@ -62,7 +62,7 @@ public class CSVManager {
         try {
             FileWriter fileWriter = new FileWriter(path);
             CSVWriter writer = new CSVWriter(fileWriter);
-            for (String[] line: data)
+            for (String[] line: data.values())
                 writer.writeNext(line);
             writer.close();
             fileWriter.close();
