@@ -1,6 +1,8 @@
 package team1;
 
-public class FieldSpecs {
+import java.io.Serializable;
+
+public class FieldSpecs implements Serializable {
     /**
      * Template for what needs to be included in a field in a template
      */
@@ -14,6 +16,33 @@ public class FieldSpecs {
     public FieldSpecs(String fieldName, String dataType, boolean required) {
         this.fieldName = fieldName;
         this.dataType = dataType;
-        this. required = required;
+        this.required = required;
+    }
+    // Getters
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+
+    // Setters
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 }

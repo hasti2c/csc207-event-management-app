@@ -1,8 +1,9 @@
 package team1;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Event {
+public class Event implements Serializable {
     /**
      * Events
      */
@@ -14,19 +15,17 @@ public class Event {
     private Date createdTime;
     private Date editTime;
     private String eventOwner;
-    // This saves the fieldName and dataType from the FieldSpecs class into a map so that we can keep a reference of it
-    // for the event, in case the template gets changed. Also we can match the data type to the Object in the
-    // eventDetails map so things don't break.
-    private Map<String, Class<?>> templateFieldSpec;
+
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-    //    // equal -1 if no max is specified (Don't need this, will be in eventDetails map)
-//    private int maxAttendees;
+    private Map<String, List<Object>> fieldNameAndTypeMap;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
     private String eventType;
+    private String templateId;
+    private String templateVersion;
 
     // === Representation Invariants ===
     // Not sure yet
@@ -37,20 +36,28 @@ public class Event {
         published = false;
         createdTime = Calendar.getInstance().getTime();
         editTime = createdTime;
+        this.templateId = template.getTemplateId();
+        this.templateVersion = template.getFileVersionNumber();
+        this.eventDetails = new HashMap<>();
+        this.fieldNameAndTypeMap = new HashMap<>();
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
-        // this.templateFieldSpec = populateFieldSpecMap(template);
-    }
-    /*
-    private Map<String, Class<?>> populateFieldSpecMap(Template template){
-        // TODO make method to loop through template list and put it in the map.
     }
 
-
-    private Map<String, Object> addFieldsToEventDetails(Map<String, Class<?>> templateFieldSpec){
-        // TODO make method to loop through keys of templateFieldSpec and put into key of eventDetails map set Object to Null
+    private void addFieldsToEventDetails(Template template) {
+        for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
+            this.eventDetails.put(fieldSpecs.getFieldName(), null);
+        }
     }
-    */
+
+    private void addFieldNameAndTypeToMap(Template template) { //creates a map that has fieldName as key, [fieldType, required] as value
+        for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
+            List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();
+            fieldSpecsTypeAndRequired.add(fieldSpecs.getDataType()); //the first element, 0
+            fieldSpecsTypeAndRequired.add(fieldSpecs.isRequired()); //the second element, 1
+            this.fieldNameAndTypeMap.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
+        }
+    }
 
     // Getters
 
@@ -81,6 +88,11 @@ public class Event {
         return eventDetails;
     }
 
+    public Map<String, List<Object>> getFieldNameAndTypeMap() {
+        return fieldNameAndTypeMap;
+    }
+    public String getTemplateId(){return templateId;}
+    public String getTemplateVersion(){return templateVersion;}
     // Setters
 
     public void setEventOwner(String eventOwner) {
@@ -99,5 +111,8 @@ public class Event {
     }
     public void setEventDetails(Map<String, Object> eventDetails) {
         this.eventDetails = eventDetails;
+    }
+    public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndTypeMap) {
+        this.fieldNameAndTypeMap = fieldNameAndTypeMap;
     }
 }
