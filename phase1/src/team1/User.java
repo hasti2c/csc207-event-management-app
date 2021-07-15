@@ -14,9 +14,9 @@ public class User {
     private String userEmail;
     private boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
-    private List<Event> userEvents;
+    private List<String> userEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be published.
-    private List<Event> attendEvents;
+    private List<String> attendEvents;
     // needs to be public so that it can be used in the constructor and the UserManager class can access it.
     public enum UserType {
         R, A, T
@@ -69,14 +69,14 @@ public class User {
      * Get the user's created events
      * @return List<Event> List of created events
      */
-    public List<Event> getUserEvents() {
+    public List<String> getUserEvents() {
         return this.userEvents;
     }
     /**
      * Get the user's attended events
      * @return List<Event> List of attended events
      */
-    public List<Event> getAttendEvents() {
+    public List<String> getAttendEvents() {
         return this.userEvents;
     }
 
@@ -132,7 +132,7 @@ public class User {
      * Set a new list of created events
      * @param userEvents The new list of created events
      */
-    public void setUserEvents(List<Event> userEvents) {
+    public void setUserEvents(List<String> userEvents) {
         this.userEvents = userEvents;
     }
 
@@ -140,7 +140,7 @@ public class User {
      * Set a new list of attended events
      * @param attendEvents The new list of attended events
      */
-    public void setAttendEvents(List<Event> attendEvents) {
+    public void setAttendEvents(List<String> attendEvents) {
         this.attendEvents = attendEvents;
     }
 
