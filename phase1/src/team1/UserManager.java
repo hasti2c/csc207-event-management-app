@@ -274,4 +274,32 @@ public class UserManager {
         return emailList.contains(email);
     }
 
+    /**
+     * Retrieves the designated User's type
+     * @param user The user whose type will be retrieved
+     * @return User.UserType The type of the User, R.A.T
+     */
+    public User.UserType retrieveUserType(User user){
+        return user.getUserType();
+    }
+
+    /**
+     * Updates the designated user to the Regular type
+     * @param user The user to update
+     * @return boolean If the change was successful
+     */
+    public boolean changeUserTypeToRegular(User user){
+        user.setUserType(User.UserType.R);
+        return true;
+    }
+
+    /**
+     * Updates the designated user to the Admin type
+     * @param user The user to update
+     * @return boolean If the change was successful
+     */
+    public boolean changeUserTypeToAdmin(User user){
+        user.setUserType(User.UserType.A);
+        return true;
+    }
 }

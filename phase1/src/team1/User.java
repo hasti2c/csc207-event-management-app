@@ -39,6 +39,10 @@ public class User {
     }
     // === Getters ===
 
+    /**
+     * Gets the User's type, R.A.T
+     * @return Enum The User's type, R.A.T
+     */
     public UserType getUserType() {
         return userType;
     }
@@ -126,6 +130,9 @@ public class User {
         this.userEmail = userEmail;
     }
 
+    /**
+     * Sets the User's type, R.A.T
+     */
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
