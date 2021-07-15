@@ -7,6 +7,7 @@ public class User {
     ///
     /**
      * The users of the system
+     * @
      */
     // === Instance Variables ===
     private String username;
@@ -14,6 +15,7 @@ public class User {
     private String userEmail;
     private boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
+    // TODO: Change to ownedEvents
     private List<String> userEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be published.
     private List<String> attendEvents;
@@ -36,6 +38,10 @@ public class User {
         this.loggedIn = false;
     }
     // === Getters ===
+
+    public UserType getUserType() {
+        return userType;
+    }
 
     /**
      * Get the user's username
@@ -77,7 +83,7 @@ public class User {
      * @return List<Event> List of attended events
      */
     public List<String> getAttendEvents() {
-        return this.userEvents;
+        return this.attendEvents;
     }
 
     /**
@@ -118,6 +124,10 @@ public class User {
      */
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     /**

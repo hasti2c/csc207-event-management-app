@@ -1,8 +1,5 @@
 package team1;
 
-import sun.font.TrueTypeFont;
-
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +7,15 @@ import java.util.List;
  * Manages the Users in the system
  */
 public class UserManager {
-    // === Class Variables ===
-    public static List<User> userList = new ArrayList<>();
-    private static List<String> usernamesList = new ArrayList<>();
-    private static List<String> emailList = new ArrayList<>();
+    // === Instance Variables ===
+    private List<User> userList;
+    private List<String> usernamesList;
+    private List<String> emailList;
     // === Methods ===
     public UserManager() {
-
+        userList = new ArrayList<>();
+        usernamesList = new ArrayList<>();
+        emailList = new ArrayList<>();
     }
 
     /**
@@ -147,7 +146,7 @@ public class UserManager {
     }
 
     /**
-     * unregister a user from an event
+     * Delete the Event and unregister everyone who is attending
      * @param user the user who wishes to delete an Event they had created
      * @param eventID the eventID of the event that the user will delete
      * @return whether the user has deleted the event successfully
@@ -233,7 +232,7 @@ public class UserManager {
      * Retrieve all usernames that are registered in UserManager
      * @return a list of all usernames of every User in UserManager's userList
      */
-    public static List<String> getUsernameList() {
+    public List<String> getUsernameList() {
         return usernamesList;
     }
 
@@ -243,6 +242,7 @@ public class UserManager {
      * @param username the username to attempt to find a matching user with
      * @return User If the user was found, otherwise return a null object
      * */
+    // TODO: Change to retrieveUser
     public User getUser(String username){
         for (User user :
                 userList) {
@@ -259,6 +259,7 @@ public class UserManager {
      * @param username The username to check exists
      * @return Whether the username is taken
      */
+    // TODO: Rename to usernameIsTaken
     public boolean isUsernameTaken(String username){
         return usernamesList.contains(username);
     }
@@ -268,25 +269,9 @@ public class UserManager {
      * @param email The email to check exists
      * @return Whether the email is taken
      */
-    public boolean isEmailTaken(String email){
+    // TODO: Rename emailIsTaken
+    public boolean isEmailTaken(String email) {
         return emailList.contains(email);
     }
 
-    /**
-     * Delete an event from the attending and creation list of each user
-     * @param eventIDToDelete The eventID to delete
-     * @return Whether the deletion was successful
-     */
-    public boolean deleteEventFromAllUsers(String eventIDToDelete){
-        for (User user :
-                userList) {
-            if (user.getAttendEvents().contains(eventIDToDelete)){ // If the user is attending this event
-                user.getAttendEvents().remove(eventIDToDelete); // Removes the event via aliasing
-            }
-            if (user.getUserEvents().contains(eventIDToDelete)){ // If the user made this event
-                user.getUserEvents().remove(eventIDToDelete); // Removes the event via aliasing
-            }
-        }
-        return true;
-    }
 }
