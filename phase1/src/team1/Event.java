@@ -1,6 +1,7 @@
 package team1;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Event implements Serializable {
@@ -12,8 +13,8 @@ public class Event implements Serializable {
     // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
     private String eventId;
     private boolean published;
-    private Date createdTime;
-    private Date editTime;
+    private LocalDateTime createdTime;
+    private LocalDateTime editTime;
     private String eventOwner;
 
     // The actual map containing event details using the same field details from Template class and with the values
@@ -34,7 +35,7 @@ public class Event implements Serializable {
         eventId = UUID.randomUUID().toString();
         // need user to explicitly change to published
         published = false;
-        createdTime = Calendar.getInstance().getTime();
+        createdTime = LocalDateTime.now();
         editTime = createdTime;
         this.templateId = template.getTemplateId();
         this.templateVersion = template.getFileVersionNumber();
@@ -72,10 +73,10 @@ public class Event implements Serializable {
     public String getEventId() {
         return eventId;
     }
-    public Date getCreatedTime() {
+    public LocalDateTime getCreatedTime() {
         return createdTime;
     }
-    public Date getEditTime() {
+    public LocalDateTime getEditTime() {
         return editTime;
     }
     public boolean isPublished() {
@@ -103,7 +104,7 @@ public class Event implements Serializable {
         this.numAttendees = numAttendees;
     }
 
-    public void setEditTime(Date editTime) {
+    public void setEditTime(LocalDateTime editTime) {
         this.editTime = editTime;
     }
     public void setPublished(boolean published) {
