@@ -125,7 +125,7 @@ public class UserManager {
     }
 
     /**
-     * Update a users email to the newEmail
+     * Updates a users email to the newEmail
      * @param user The user whose email is to be updated
      * @param newEmail The users new email
      * @return Whether the email was updated successfully
@@ -146,7 +146,7 @@ public class UserManager {
     }
 
     /**
-     * Delete the Event and unregister everyone who is attending
+     * Deletes the Event and unregister everyone who is attending
      * @param user the user who wishes to delete an Event they had created
      * @param eventID the eventID of the event that the user will delete
      * @return whether the user has deleted the event successfully
