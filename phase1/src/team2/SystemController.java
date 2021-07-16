@@ -134,7 +134,7 @@ public class SystemController {
     }
 
     private void deleteEvent(String eventID) {
-        this.userManager.completelyWipeEvent(eventID);
+        this.userManager.deleteEvent(/*somrhow get user */, eventID);
         this.eventManager.deleteEvent(eventID);
     }
 }
