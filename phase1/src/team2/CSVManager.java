@@ -21,6 +21,7 @@ public class CSVManager {
         readData();
     }
 
+    // TODO make line[0] different parameter
     public void addLine(String[] line) {
         data.put(line[0], line);
         writeData();
