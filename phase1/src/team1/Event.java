@@ -64,7 +64,7 @@ public class Event implements Serializable {
     // Getters
 
     /**
-     * Get the number of attendees for this event
+     * Gets the number of attendees for this event
      * @return int Number of attendees for this event
      */
     public int getNumAttendees() {
@@ -72,7 +72,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the type of this event (Also, this will match the name of the template)
+     * Gets the type of this event (Also, this will match the name of the template)
      * @return String Type of this event
      */
     public String getEventType() {
@@ -80,7 +80,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the Id of this event
+     * Gets the Id of this event
      * @return String Id of this event
      */
     public String getEventId() {
@@ -88,7 +88,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the time of when this event was created
+     * Gets the time of when this event was created
      * @return LocalDateTime Time when this event was created
      */
     public LocalDateTime getCreatedTime() {
@@ -96,7 +96,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the time of when this event was edited
+     * Gets the time of when this event was edited
      * @return LocalDateTime Time when this event was edited
      */
     public LocalDateTime getEditTime() {
@@ -104,7 +104,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the event's published status
+     * Gets the event's published status
      * @return boolean Whether the event is published
      */
     public boolean isPublished() {
@@ -112,7 +112,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the owner of this Event
+     * Gets the owner of this Event
      * @return String The owner of this event
      */
     public String getEventOwner() {
@@ -120,7 +120,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the details of this event
+     * Gets the details of this event
      * @return Map</String,Object> The details of this event
      */
     public Map<String, Object> getEventDetails() {
@@ -128,7 +128,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the map with FieldName as key and FieldType as value of this event
+     * Gets the map with FieldName as key and FieldType as value of this event
      * @return Map</String, List<Object>> The map with FieldName as key and FieldType as value of this event
      */
     public Map<String, List<Object>> getFieldNameAndTypeMap() {
@@ -136,13 +136,13 @@ public class Event implements Serializable {
     }
 
     /**
-     * Get the Id of the template associated with this event
+     * Gets the Id of the template associated with this event
      * @return String The Id of the template associated with this event
      */
     public String getTemplateId(){return templateId;}
 
     /**
-     * Get the version of the template associated with this event
+     * Gets the version of the template associated with this event
      * @return String The version of the template associated with this event
      */
     public String getTemplateVersion(){return templateVersion;}
@@ -151,7 +151,7 @@ public class Event implements Serializable {
     // Setters
 
     /**
-     * Set a new owner for this event
+     * Sets a new owner for this event
      * @param eventOwner The new owner of this event
      */
     public void setEventOwner(String eventOwner) {
@@ -159,7 +159,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Set a new number of attendees for this event
+     * Sets a new number of attendees for this event
      * @param numAttendees The new number of attendees for this event
      */
     public void setNumAttendees(int numAttendees) {
@@ -167,7 +167,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Set a new time of when this event was edited
+     * Sets a new time of when this event was edited
      * @param editTime The new time this event was edited
      */
     public void setEditTime(LocalDateTime editTime) {
@@ -175,7 +175,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Set a new published status for this event
+     * Sets a new published status for this event
      * @param published The new published status
      */
     public void setPublished(boolean published) {
@@ -183,7 +183,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Set new details for this event
+     * Sets new details for this event
      * @param eventDetails The new details of this event
      */
     public void setEventDetails(Map<String, Object> eventDetails) {
@@ -191,7 +191,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * Set new map map with FieldName as key and FieldType as value for this event
+     * Sets a new map with FieldName as key and FieldType as value for this event
      * @param fieldNameAndTypeMap The new map with FieldName as key and FieldType as value of this event
      */
     public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndTypeMap) {

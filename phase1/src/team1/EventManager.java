@@ -16,7 +16,7 @@ public class EventManager {
     // === Creation and Deletion ===
 
     /**
-     * Create an event with the given name of template templateName and name of owner of the event eventOwner
+     * Creates an event with the given name of template templateName and name of owner of the event eventOwner
      * @param templateName The name of the template
      * @param eventOwner The owner of this event
      */
@@ -25,7 +25,7 @@ public class EventManager {
     }
 
     /**
-     * Delete the event with the matching eventId in eventList, a list of events
+     * Deletes the event with the matching eventId in eventList, a list of events
      * @param eventId The Id of the event that is to be deleted
      */
     public void deleteEvent(String eventId) {
@@ -44,7 +44,7 @@ public class EventManager {
     }
 
     /**
-     * Get the size of eventList, a list of events
+     * Gets the size of eventList, a list of events
      * @return The size of eventList
      */
     public static int getNumEvents() {
@@ -52,7 +52,7 @@ public class EventManager {
     }
 
     /**
-     * Return a map of the event with the matching event Id, where the key is field name of map eventDetails
+     * Returns a map of the event with the matching event Id, where the key is field name of map eventDetails
      * and the value is data type that associates with each key
      * @param eventId The Id of the event
      * @return Map<String, String> The map of the event with the matching event Id, where the key is field name and
@@ -88,7 +88,7 @@ public class EventManager {
     }
 
     /**
-     * Check for the validation of data fieldValue
+     * Checks for the validation of data fieldValue
      * @param fieldName The name of the field
      * @param fieldValue The value that is
      * @param eventId The Id of the event that is to be checked
@@ -115,7 +115,7 @@ public class EventManager {
     }
 
     /**
-     * Return an event that has the matching Id from eventList, a list of events
+     * Returns an event that has the matching Id from eventList, a list of events
      * @param eventId The Id of the event that is to be returned
      * @return The event that the event Id
      */
@@ -130,7 +130,7 @@ public class EventManager {
     }
 
     /**
-     * Return an Arraylist of all the published events from eventList, a list of events
+     * Returns an Arraylist of all the published events from eventList, a list of events
      * @return Arraylist of all the published events from eventList, a list of events
      */
     public ArrayList<Event> getPublicEvents() {
