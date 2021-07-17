@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Event implements Serializable {
     /**
-     * Events
+     * The events of the system
      */
     // === Class Variables ===
     // === Instance Variables ===
@@ -62,57 +62,137 @@ public class Event implements Serializable {
 
     // Getters
 
+    /**
+     * Get the number of attendees for this event
+     * @return int Number of attendees for this event
+     */
     public int getNumAttendees() {
         return numAttendees;
     }
 
+    /**
+     * Get the type of this event (Also, this will match the name of the template)
+     * @return String Type of this event
+     */
     public String getEventType() {
         return eventType;
     }
 
+    /**
+     * Get the Id of this event
+     * @return String Id of this event
+     */
     public String getEventId() {
         return eventId;
     }
+
+    /**
+     * Get the time of when this event was created
+     * @return LocalDateTime Time when this event was created
+     */
     public LocalDateTime getCreatedTime() {
         return createdTime;
     }
+
+    /**
+     * Get the time of when this event was edited
+     * @return LocalDateTime Time when this event was edited
+     */
     public LocalDateTime getEditTime() {
         return editTime;
     }
+
+    /**
+     * Get the event's published status
+     * @return boolean Whether the event is published
+     */
     public boolean isPublished() {
         return published;
     }
+
+    /**
+     * Get the owner of this Event
+     * @return String The owner of this event
+     */
     public String getEventOwner() {
         return eventOwner;
     }
+
+    /**
+     * Get the details of this event
+     * @return Map</String,Object> The details of this event
+     */
     public Map<String, Object> getEventDetails() {
         return eventDetails;
     }
 
+    /**
+     * Get the map with FieldName as key and FieldType as value of this event
+     * @return Map</String, List<Object>> The map with FieldName as key and FieldType as value of this event
+     */
     public Map<String, List<Object>> getFieldNameAndTypeMap() {
         return fieldNameAndTypeMap;
     }
+
+    /**
+     * Get the Id of the template associated with this event
+     * @return String The Id of the template associated with this event
+     */
     public String getTemplateId(){return templateId;}
+
+    /**
+     * Get the version of the template associated with this event
+     * @return String The version of the template associated with this event
+     */
     public String getTemplateVersion(){return templateVersion;}
+
+
     // Setters
 
+    /**
+     * Set a new owner for this event
+     * @param eventOwner The new owner of this event
+     */
     public void setEventOwner(String eventOwner) {
         this.eventOwner = eventOwner;
     }
 
+    /**
+     * Set a new number of attendees for this event
+     * @param numAttendees The new number of attendees for this event
+     */
     public void setNumAttendees(int numAttendees) {
         this.numAttendees = numAttendees;
     }
 
+    /**
+     * Set a new time of when this event was edited
+     * @param editTime The new time this event was edited
+     */
     public void setEditTime(LocalDateTime editTime) {
         this.editTime = editTime;
     }
+
+    /**
+     * Set a new published status for this event
+     * @param published The new published status
+     */
     public void setPublished(boolean published) {
         this.published = published;
     }
+
+    /**
+     * Set new details for this event
+     * @param eventDetails The new details of this event
+     */
     public void setEventDetails(Map<String, Object> eventDetails) {
         this.eventDetails = eventDetails;
     }
+
+    /**
+     * Set new map map with FieldName as key and FieldType as value for this event
+     * @param fieldNameAndTypeMap The new map with FieldName as key and FieldType as value of this event
+     */
     public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndTypeMap) {
         this.fieldNameAndTypeMap = fieldNameAndTypeMap;
     }
