@@ -3,12 +3,12 @@ package team1;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A user within the program
+ */
 public class User {
     ///
-    /**
-     * The users of the system
-     * @
-     */
+
     // === Instance Variables ===
     private String username;
     private String password;
