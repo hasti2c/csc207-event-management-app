@@ -6,10 +6,7 @@ import team1.angela.EventManager;
 import team1.angela.TemplateManager;
 import team1.angela.UserManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class SystemController {
@@ -26,15 +23,23 @@ public class SystemController {
         this.templateManager = new TemplateManager();
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
+        List<String> mainMenuOptions = Arrays.asList("SignUp", "Login");
+        List<String> loginOptions = Arrays.asList("Create Event", "View Event", "Logout");
+        this.menuMap.put("Main Menu", mainMenuOptions);
+        this.menuMap.put("Login Menu", loginOptions);
         this.run();
+
     }
 
     public void run() {
         // starts at the main login page and asks to login or signup
-
-        // if sign up then open the sign up menu and return user credentials to be added to user manager
-
-        // if login, then give login credentials and check if they are correct, if they are, then proceed to main menu
+        presenter.printMenu("Main Menu", this.menuMap.get("Main Menu"));
+        int signupChoice = inputParser.readInt();
+        if(signupChoice == 1){
+            this.userSignUp();
+        }
+        this.userLogin();
+        // after this point, the event controller should take over
     }
     // add helper methods down here
 
@@ -43,7 +48,7 @@ public class SystemController {
         String email = inputParser.readLine();
         boolean correctEmail = false;
         while(!correctEmail){
-            if(userManager.isEmailTaken(email) == false){
+            if(userManager.isEmailTaken(email) == false){ // needs to be implemented
                 correctEmail = true;
             }else{
                 presenter.printText("Email already exists. Enter another email: ");
@@ -55,7 +60,7 @@ public class SystemController {
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if(userManager.isUsernameTaken(email) == false){
+            if(userManager.isUsernameTaken(email) == false){ // needs to be implemented
                 correctUsername = true;
             }else{
                 presenter.printText("Username already exists. Enter another username: ");
@@ -66,7 +71,7 @@ public class SystemController {
         presenter.printText("Enter a Password: ");
         String password = inputParser.readLine();
 
-        userManager.createUser(username, password, email);
+        userManager.createUser(username, password, email); // this needs to be implemented
         presenter.printText("Account has been created Successfully. Please login.");
 
     }
