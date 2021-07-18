@@ -1,22 +1,36 @@
 package team2;
 
-import team1.Template;
+import com.google.gson.*;
+import team1.angela.Template;
 
-public class TemplateParser {
-    private String path;
-
+public class TemplateParser extends EntityParser<Template> {
     public TemplateParser(String path) {
-
+        super(Template.class, path);
     }
 
-    public Template getTemplate (String templateName) {
-        return null;
+    @Override
+    protected GsonBuilder getGsonBuilder() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+
+        JsonSerializer<Class<?>> serializer = (aClass, type, context) -> new JsonPrimitive(aClass.getName());
+        gsonBuilder.registerTypeAdapter(Class.class, serializer);
+
+        JsonDeserializer<Class<?>> deserializer = (jsonElement, type, context) -> {
+            try {
+                return Class.forName(jsonElement.getAsString());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
+        };
+        gsonBuilder.registerTypeAdapter(Class.class, deserializer);
+
+        return gsonBuilder;
     }
 
-    public void saveTemplate(Template template) {
-    }
-
-    public void createEvent(Template template) {
-
+    @Override
+    protected String getElementId(Template template) {
+        return template.getTemplateName();
     }
 }
