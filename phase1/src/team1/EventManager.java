@@ -58,6 +58,7 @@ public class EventManager {
      * @return Map<String, String> The map of the event with the matching event Id, where the key is field name and
      * the value is data type
      */
+    // TODO change to retrieve
     public Map<String, String> returnFieldNameAndType(String eventId){
         // returns a map of the fields associated with this event
         // 1. find event in list of events
@@ -133,6 +134,7 @@ public class EventManager {
      * Returns an Arraylist of all the published events from eventList, a list of events
      * @return Arraylist of all the published events from eventList, a list of events
      */
+    // TODO change name to retrievePublishedEvents
     public ArrayList<Event> getPublicEvents() {
         ArrayList<Event> holderList = new ArrayList<>();
         for (Event event : eventList) {

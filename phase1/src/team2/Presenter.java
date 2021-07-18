@@ -1,6 +1,6 @@
 package team2;
 
-import team1.angela.Event;
+import team1.Event;
 
 import java.util.List;
 import java.util.ArrayList;
