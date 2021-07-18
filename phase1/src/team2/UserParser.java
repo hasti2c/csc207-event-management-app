@@ -1,7 +1,7 @@
 package team2;
 
 import com.google.gson.GsonBuilder;
-import team1.angela.User;
+import team1.User;
 
 // TODO hash passwords
 

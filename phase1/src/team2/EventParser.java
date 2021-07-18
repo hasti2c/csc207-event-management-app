@@ -132,7 +132,7 @@ public class EventParser extends EntityParser<Event> {
                 return null;
             }
         }
-
+        // TODO Change to be the same as other ones.
         private Event populateEvent(Map<String, Object> values) {
             return new Event((String) values.get("eventId"), (boolean) values.get("published"),
                     (LocalDateTime) values.get("createdTime"), (LocalDateTime) values.get("editTime"),

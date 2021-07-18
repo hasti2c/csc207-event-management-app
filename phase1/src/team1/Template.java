@@ -24,6 +24,8 @@ public class Template implements Serializable {
         this.templateId = templateId;
         this.fileVersionNumber = fileVersionNumber;
     }
+    public Template() {
+    }
 
     // Getters
     public String getFileVersionNumber() {

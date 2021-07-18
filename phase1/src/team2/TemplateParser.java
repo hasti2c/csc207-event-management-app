@@ -3,6 +3,8 @@ package team2;
 import com.google.gson.*;
 import team1.Template;
 
+// TODO Generics
+// Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums
 public class TemplateParser extends EntityParser<Template> {
     public TemplateParser(String path) {
         super(Template.class, path);

@@ -45,6 +45,9 @@ public class Event implements Serializable {
         this.eventType = template.getTemplateName();
     }
 
+    public Event() {
+    }
+
     private void addFieldsToEventDetails(Template template) {
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
             this.eventDetails.put(fieldSpecs.getFieldName(), null);

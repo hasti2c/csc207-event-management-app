@@ -22,6 +22,7 @@ public class EventManager {
      * @param eventOwner The owner of this event
      * @return The Id of the event
      */
+    // TODO this method is still wrong...
     public String createEvent(String templateName, String eventOwner) {
         Event e = new Event(new Template(templateName), eventOwner);
         eventList.add(e);

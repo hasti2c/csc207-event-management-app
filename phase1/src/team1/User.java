@@ -37,6 +37,8 @@ public class User {
         this.attendingEvents = new ArrayList<>();
         this.loggedIn = false;
     }
+    public User() {
+    }
     // === Getters ===
 
     /**
