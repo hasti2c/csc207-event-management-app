@@ -1,77 +1,30 @@
 package team2;
 
-// TODO exceptions
-// TODO test
-
 import com.google.gson.*;
 import javafx.util.Pair;
 import testing.Event;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class EventParser {
-    private final String path;
-    private final Gson gson;
-    private Map<String, Event> events;
-
+public class EventParser extends EntityParser<Event> {
     public EventParser(String path) {
-        this.path = path;
-        gson = getGsonBuilder().create();
-        readEvents();
+        super(Event.class, path);
     }
 
-    public Event getEvent(String eventId) {
-        return events.get(eventId);
-    }
-
-    public void saveEvent(Event event) {
-        events.replace(event.getEventId(), event);
-        writeEvents();
-    }
-
-    public void createEvent(Event event) {
-        events.put(event.getEventId(), event);
-        writeEvents();
-    }
-
-    private void readEvents() {
-        try {
-            FileReader fileReader = new FileReader(path);
-            Event[] events = gson.fromJson(fileReader, Event[].class);
-            fileReader.close();
-
-            this.events = new HashMap<>();
-            for (Event event: events)
-                this.events.put(event.getEventId(), event);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    private void writeEvents() {
-        try {
-            Event[] events = this.events.values().toArray(new Event[0]);
-
-            FileWriter fileWriter = new FileWriter(path);
-            gson.toJson(events, fileWriter);
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private GsonBuilder getGsonBuilder() {
+    @Override
+    protected GsonBuilder getGsonBuilder() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(Event.class, new EventSerializer());
         gsonBuilder.registerTypeAdapter(Event.class, new EventDeserializer());
         return gsonBuilder;
+    }
+
+    @Override
+    protected String getElementId(Event event) {
+        return event.getEventId();
     }
 
     // TODO source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
