@@ -16,9 +16,9 @@ public class User {
     private boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
     // TODO: Change to ownedEvents
-    private List<String> userEvents;
+    private List<String> createdEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be published.
-    private List<String> attendEvents;
+    private List<String> attendingEvents;
     // needs to be public so that it can be used in the constructor and the UserManager class can access it.
     public enum UserType {
         R, A, T
@@ -33,8 +33,8 @@ public class User {
         this.username = username;
         this.password = password;
         this.userEmail = userEmail;
-        this.userEvents = new ArrayList<>();
-        this.attendEvents = new ArrayList<>();
+        this.createdEvents = new ArrayList<>();
+        this.attendingEvents = new ArrayList<>();
         this.loggedIn = false;
     }
     // === Getters ===
@@ -79,15 +79,15 @@ public class User {
      * Get the user's created events
      * @return List<Event> List of created events
      */
-    public List<String> getUserEvents() {
-        return this.userEvents;
+    public List<String> getCreatedEvents() {
+        return this.createdEvents;
     }
     /**
      * Get the user's attended events
      * @return List<Event> List of attended events
      */
-    public List<String> getAttendEvents() {
-        return this.attendEvents;
+    public List<String> getAttendingEvents() {
+        return this.attendingEvents;
     }
 
     /**
@@ -99,7 +99,7 @@ public class User {
         return "User{" +
                 "username='" + this.username + '\'' +
                 ", userEmail='" + this.userEmail + '\'' +
-                ", userEvents=" + this.userEvents +
+                ", userEvents=" + this.createdEvents +
                 '}';
         // Test
     }
@@ -147,18 +147,18 @@ public class User {
 
     /**
      * Set a new list of created events
-     * @param userEvents The new list of created events
+     * @param createdEvents The new list of created events
      */
-    public void setUserEvents(List<String> userEvents) {
-        this.userEvents = userEvents;
+    public void setcreatedEvents(List<String> createdEvents) {
+        this.createdEvents = createdEvents;
     }
 
     /**
      * Set a new list of attended events
-     * @param attendEvents The new list of attended events
+     * @param attendingEvents The new list of attending events
      */
-    public void setAttendEvents(List<String> attendEvents) {
-        this.attendEvents = attendEvents;
+    public void setAttendingEvents(List<String> attendingEvents) {
+        this.attendingEvents = attendingEvents;
     }
 
 }

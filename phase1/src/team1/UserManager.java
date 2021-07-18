@@ -152,12 +152,12 @@ public class UserManager {
      * @return whether the user has deleted the event successfully
      */
     public boolean deleteEvent(User user, String eventID){
-        if (user.getUserEvents().contains(eventID)) {
-            user.getUserEvents().remove(eventID);
-            // remove this event's eventID from any user's attendEvents list
+        if (user.getCreatedEvents().contains(eventID)) {
+            user.getCreatedEvents().remove(eventID);
+            // remove this event's eventID from any user's attendingEvents list
             for (User u : userList) {
-                if (u.getAttendEvents().contains(eventID)) {
-                    u.getAttendEvents().remove(eventID);
+                if (u.getAttendingEvents().contains(eventID)) {
+                    u.getAttendingEvents().remove(eventID);
                 }
             }
             return true;
@@ -175,8 +175,8 @@ public class UserManager {
      * @return whether the user has unregistered from the event successfully
      */
     public boolean unAttendEvent(User user, String eventID) {
-        if (user.getAttendEvents().contains(eventID)) {
-            user.getAttendEvents().remove(eventID);
+        if (user.getAttendingEvents().contains(eventID)) {
+            user.getAttendingEvents().remove(eventID);
             return true;
         }
         else {
@@ -192,7 +192,7 @@ public class UserManager {
      */
     public boolean createEvent(User user, String eventID){
         // Add this event to the list of events the user has created
-        user.getUserEvents().add(eventID);
+        user.getCreatedEvents().add(eventID);
         return true;
     }
 
@@ -204,7 +204,7 @@ public class UserManager {
      * @return True if the user was able to register for the event. False if the event has no available space.
      */
     public boolean attendEvent(User user, String eventID) {
-        user.getAttendEvents().add(eventID);
+        user.getAttendingEvents().add(eventID);
         return true;
     }
 
@@ -215,7 +215,7 @@ public class UserManager {
      */
     public List<String> getCreatedEvents(User user) {
         // return the events the user has created
-        return user.getUserEvents();
+        return user.getCreatedEvents();
     }
 
     /**
@@ -223,9 +223,9 @@ public class UserManager {
      * @param user The user whose attended event's event ID's are to be retrieved
      * @return a list of event IDS for the events the user is attending
      */
-    public List<String> getAttendedEvents(User user) {
+    public List<String> getAttendingEvents(User user) {
         // return the events the user is attending
-        return user.getAttendEvents();
+        return user.getAttendingEvents();
     }
 
     /**
