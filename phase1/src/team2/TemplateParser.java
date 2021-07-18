@@ -1,7 +1,7 @@
 package team2;
 
 import com.google.gson.*;
-import team1.angela.Template;
+import team1.Template;
 
 public class TemplateParser extends EntityParser<Template> {
     public TemplateParser(String path) {

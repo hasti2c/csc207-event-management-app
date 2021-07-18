@@ -2,8 +2,8 @@ package team2;
 
 import com.google.gson.*;
 import javafx.util.Pair;
-import testing.Event;
 
+import team1.Event;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
