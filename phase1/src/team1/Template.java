@@ -18,9 +18,11 @@ public class Template implements Serializable {
     private String fileVersionNumber;
 
     // === Methods ===
-    public Template(String templateName) {
-        // Template files don't have a version number to start with
+    public Template(List<FieldSpecs> fieldDescriptions, String templateName, String templateId, String fileVersionNumber) {
+        this.fieldDescriptions = fieldDescriptions;
         this.templateName = templateName;
+        this.templateId = templateId;
+        this.fileVersionNumber = fileVersionNumber;
     }
 
     // Getters
