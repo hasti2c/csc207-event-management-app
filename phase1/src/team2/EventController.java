@@ -21,8 +21,8 @@ public class EventController {
         this.inputParser = new InputParser();
     }
 
-    private void createEvent(String templateString){
-        String newEventID = this.eventManager.createEvent(templateString, /* somehow get user*/ ); //i will  assume an id is returned, not full Event
+    private void createEvent(String templateString, String username){
+        String newEventID = this.eventManager.createEvent(templateString, username); //i will  assume an id is returned, not full Event
 
         Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
         for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
@@ -30,7 +30,7 @@ public class EventController {
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {
-                if (eventManager.checkDataValidation(entry.getKey(), userInput)) {
+                if (eventManager.checkDataValidation(entry.getKey(), userInput, newEventID)) {
                     accepted = true;
                 }
                 else {
@@ -46,19 +46,19 @@ public class EventController {
     }
 
     private void browseEvents() {
-        this.presenter.printEvents(this.eventManager.getPublicEvents()); //assume this will also be implemented
+        this.presenter.printEvents(this.eventManager.getPublicEvents());
     }
 
-    private void joinEvent(String eventID) {
+    private void joinEvent(String username, String eventID) {
         this.userManager.attendEvent(userManager.getUser(username), eventID);
     }
 
-    private void leaveEvent(String eventID) {
-
+    private void leaveEvent(String username, String eventID) {
+        this.userManager.unAttendEvent(userManager.getUser(username), eventID);
     }
 
-    private void deleteEvent(String eventID) {
-        this.userManager.deleteEvent(/*somehow get user */, eventID);
+    private void deleteEvent(String username, String eventID) {
+        this.userManager.deleteEvent(userManager.getUser(username), eventID);
         this.eventManager.deleteEvent(eventID);
     }
 
