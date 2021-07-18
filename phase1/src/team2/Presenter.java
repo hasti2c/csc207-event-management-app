@@ -1,40 +1,47 @@
 package team2;
 
-import javafx.util.Pair;
-import team1.Event;
-import team1.Template;
-import team1.User;
+import team1.angela.Event;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Presenter {
-    private String currentPage;
-    public enum Command {
-        SIGN_UP,
-        LOGIN,
-        LOG_OUT,
-        CREATE_EVENT,
-        BROWSE_EVENTS,
-        VIEW_EVENT,
-        JOIN_EVENT,
-        DELETE_EVENT,
-        EDIT_EVENT,
-        EDIT_TEMPLATE
+    public void printText(String text) {
+        System.out.println(text);
     }
 
-    public Pair<Command, List<String>> menu() {
-        return null;
+    public void printMenu(String title, List<String> options) {
+        printText(title);
+        printText("Please choose one of the following options.");
+        for (int i = 0; i < options.size(); i++) {
+            printText(i + ". " + options.get(i));
+        }
     }
 
     public void printEvents(List<Event> events) {
+        if (events.size() == 0) {
+            printText("There are no events to be displayed.");
+            return;
+        }
+        ArrayList<ArrayList<String>> cells = new ArrayList<>();
 
-    }
+        ArrayList<String> firstRow = new ArrayList<>();
+        firstRow.add("ID");
+        firstRow.add("Owner");
 
-    public void printTemplates(List<Template> templates) {
+        cells.add(firstRow);
 
-    }
+        // We can add more fields after meeting
 
-    public void printUsers(List<User> users) {
+        for (Event event : events) {
+            ArrayList<String> row = new ArrayList<>();
+            row.add(String.format("%d", event.getEventID()));
+            row.add(event.getEventOwner());
 
+            cells.add(row);
+        }
+
+        TextTable textTable = new TextTable("Event Table", cells);
+        printText(textTable.toString());
     }
 }
