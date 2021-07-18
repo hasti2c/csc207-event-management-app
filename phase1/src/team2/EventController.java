@@ -30,7 +30,7 @@ public class EventController {
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {
-                if (eventManager.checkDataValidation(entry.getKey(), userInput)) {
+                if (eventManager.checkDataValidation(entry.getKey(), userInput, newEventID)) {
                     accepted = true;
                 }
                 else {
