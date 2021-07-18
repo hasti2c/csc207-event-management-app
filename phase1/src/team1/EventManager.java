@@ -16,12 +16,16 @@ public class EventManager {
     // === Creation and Deletion ===
 
     /**
-     * Creates an event with the given name of template templateName and name of owner of the event eventOwner
+     * Creates an event with the given name of template templateName and name of owner of the event eventOwner. Also
+     * returns the id of the Event for the controller.
      * @param templateName The name of the template
      * @param eventOwner The owner of this event
+     * @return The Id of the event
      */
-    public void createEvent(String templateName, String eventOwner) {
-        eventList.add(new Event(new Template(templateName), eventOwner));
+    public String createEvent(String templateName, String eventOwner) {
+        Event e = new Event(new Template(templateName), eventOwner);
+        eventList.add(e);
+        return e.getEventId();
     }
 
     /**
