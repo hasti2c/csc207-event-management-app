@@ -20,7 +20,7 @@ public class EventController {
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
     }
-    // TODO figure out when to use template name vs template ID
+
     private void createEvent(String templateName, String username){
         String newEventID = this.eventManager.createEvent(templateName, username); //i will  assume an id is returned, not full Event
 

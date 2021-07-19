@@ -18,13 +18,13 @@ public class EventManager {
     /**
      * Creates an event with the given name of template templateName and name of owner of the event eventOwner. Also
      * returns the id of the Event for the controller.
-     * @param templateId The Name of the template
+     * @param templateName The Name of the template
      * @param eventOwner The owner of this event
      * @return The Id of the event
      */
     // TODO need to check templateId vs templateName
-    public String createEvent(String templateId, String eventOwner) {
-        Event e = new Event(TemplateManager.retrieveTemplateById(templateId), eventOwner);
+    public String createEvent(String templateName, String eventOwner) {
+        Event e = new Event(TemplateManager.retrieveTemplateById(templateName), eventOwner);
         eventList.add(e);
         return e.getEventId();
     }

@@ -29,10 +29,10 @@ public class TemplateManager {
         return new ArrayList<>(); //placeholder
     }
 
-    public static Template retrieveTemplateById(String templateId){
+    public static Template retrieveTemplateById(String templateName){
         List<Template> holderList = new ArrayList<>();
         for (Template template : templateList) {
-            if (template.getTemplateId().equals(templateId)) {
+            if (template.getTemplateName().equals(templateName)) {
                 holderList.add(template);
             }
         }
