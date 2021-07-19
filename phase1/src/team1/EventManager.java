@@ -18,13 +18,13 @@ public class EventManager {
     /**
      * Creates an event with the given name of template templateName and name of owner of the event eventOwner. Also
      * returns the id of the Event for the controller.
-     * @param templateName The name of the template
+     * @param templateId The Name of the template
      * @param eventOwner The owner of this event
      * @return The Id of the event
      */
-    // TODO this method is still wrong...
-    public String createEvent(String templateName, String eventOwner) {
-        Event e = new Event(new Template(templateName), eventOwner);
+    // TODO need to check templateId vs templateName
+    public String createEvent(String templateId, String eventOwner) {
+        Event e = new Event(TemplateManager.retrieveTemplateById(templateId), eventOwner);
         eventList.add(e);
         return e.getEventId();
     }
@@ -94,7 +94,7 @@ public class EventManager {
     }
 
     /**
-     * Checks for the validation of data fieldValue
+     * Checks if the entered field is the same type
      * @param fieldName The name of the field
      * @param fieldValue The value that is
      * @param eventId The Id of the event that is to be checked

@@ -16,7 +16,7 @@ public class TemplateManager {
         templateList = new ArrayList<>();
     }
 
-    public boolean editTemplateName(String templateName, String newName){
+    public boolean editTemplateName(String templateId, String newName){
         // returns true if name is updated successfully
         return true;
     }
@@ -25,8 +25,18 @@ public class TemplateManager {
         return templateList;
     }
 
-    public List<FieldSpecs> getFieldSpecs(String templateName){
+    public List<FieldSpecs> getFieldSpecs(String templateId){
         return new ArrayList<>(); //placeholder
+    }
+
+    public static Template retrieveTemplateById(String templateId){
+        List<Template> holderList = new ArrayList<>();
+        for (Template template : templateList) {
+            if (template.getTemplateId().equals(templateId)) {
+                holderList.add(template);
+            }
+        }
+        return holderList.remove(0);
     }
 //    public Template generateTemplateFromFile(String templateFileName) {
 //        File file = new File(templateFileName);
