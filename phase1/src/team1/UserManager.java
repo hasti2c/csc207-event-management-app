@@ -34,10 +34,10 @@ public class UserManager {
 
     /**
      * Deletes a user from the program
-     * @param user The User to delete
+     * @param username The username of the User to delete
      */
-    public void deleteUser(User user) {
-        // remove User from list of users
+    public void deleteUser(String username) {
+        User user = getUser(username);
         userList.remove(user);
         usernamesList.remove(user.getUsername());
         emailList.remove(user.getUserEmail());
@@ -86,14 +86,12 @@ public class UserManager {
 
     /**
      * Update a users password to the newPassword
-     * @param user The user whose password is to be updated
+     * @param username The username of the User whose password is to be updated
      * @param newPassword The users new password
      * @return Whether the password was updated successfully
      */
-    public boolean updatePassword(User user, String newPassword){
-        // returns true if user is updated successfully
-        // access getters and setters of User class
-        // User needs to be logged in
+    public boolean updatePassword(String username, String newPassword){
+        User user = getUser(username);
         if (user.isLoggedIn()){
             user.setPassword(newPassword);
             return true;
@@ -105,14 +103,12 @@ public class UserManager {
 
     /**
      * Update a users username to the newUsername
-     * @param user The user whose username is to be updated
+     * @param username The username of the User whose username is to be updated
      * @param newUsername The users new username
      * @return Whether the username was updated successfully
      */
-    public boolean updateUsername(User user, String newUsername) {
-        // returns true if user is updated successfully
-        // access getters and setters of User class
-        // User needs to be logged in
+    public boolean updateUsername(String username, String newUsername) {
+        User user = getUser(username);
         if (user.isLoggedIn()){
             usernamesList.remove(user.getUsername()); // Remove old usernamesList
             usernamesList.add(newUsername); // Add new usernamesList
@@ -126,14 +122,12 @@ public class UserManager {
 
     /**
      * Updates a users email to the newEmail
-     * @param user The user whose email is to be updated
+     * @param username The username of the User whose email is to be updated
      * @param newEmail The users new email
      * @return Whether the email was updated successfully
      */
-    public boolean updateEmail(User user, String newEmail){
-        // returns true if user is updated successfully
-        // access getters and setters of User class
-        // User needs to be logged in
+    public boolean updateEmail(String username, String newEmail){
+        User user = getUser(username);
         if (user.isLoggedIn()){
             emailList.remove(user.getUserEmail()); // remove old email from emailList
             emailList.add(newEmail); // Add new email to emailList
@@ -147,18 +141,17 @@ public class UserManager {
 
     /**
      * Deletes the Event and unregister everyone who is attending
-     * @param user the user who wishes to delete an Event they had created
+     * @param username the username of the User who wishes to delete an Event they had created
      * @param eventID the eventID of the event that the user will delete
      * @return whether the user has deleted the event successfully
      */
-    public boolean deleteEvent(User user, String eventID){
+    public boolean deleteEvent(String username, String eventID){
+        User user = getUser(username);
         if (user.getCreatedEvents().contains(eventID)) {
             user.getCreatedEvents().remove(eventID);
             // remove this event's eventID from any user's attendingEvents list
             for (User u : userList) {
-                if (u.getAttendingEvents().contains(eventID)) {
-                    u.getAttendingEvents().remove(eventID);
-                }
+                unAttendEvent(username, eventID);
             }
             return true;
         }
@@ -170,11 +163,12 @@ public class UserManager {
 
     /**
      * unregister this user from an Event
-     * @param user the user who wishes to unregister from an Event corresponding to the given eventID
+     * @param username the username of the User who wishes to unregister from an Event corresponding to the given eventID
      * @param eventID the event ID number of the event the user wishes to no longer attend
      * @return whether the user has unregistered from the event successfully
      */
-    public boolean unAttendEvent(User user, String eventID) {
+    public boolean unAttendEvent(String username, String eventID) {
+        User user = getUser(username);
         if (user.getAttendingEvents().contains(eventID)) {
             user.getAttendingEvents().remove(eventID);
             return true;
@@ -186,12 +180,13 @@ public class UserManager {
 
     /**
      * create an Event that is hosted by the given User
-     * @param user the User who is hosting the event
+     * @param username the username of the User who is hosting the event
      * @param eventID the eventID that the user is hosting
      * @return whether the Event has been successfully created
      */
-    public boolean createEvent(User user, String eventID){
+    public boolean createEvent(String username, String eventID){
         // Add this event to the list of events the user has created
+        User user = getUser(username);
         user.getCreatedEvents().add(eventID);
         return true;
     }
@@ -199,32 +194,35 @@ public class UserManager {
 
     /**
      * Register the user to attend the event
-     * @param user The user who wishes to attend the event
+     * @param username The username of the User who wishes to attend the event
      * @param eventID The event ID of the Event that the user wishes to attend
      * @return True if the user was able to register for the event. False if the event has no available space.
      */
-    public boolean attendEvent(User user, String eventID) {
+    public boolean attendEvent(String username, String eventID) {
+        User user = getUser(username);
         user.getAttendingEvents().add(eventID);
         return true;
     }
 
     /**
      * Retrieve the events IDS for the events that a user has created
-     * @param user The user whose created event's event ID's are to be retrieved
+     * @param username The username of the User whose created event's eventID's are to be retrieved
      * @return a list of event IDS for the events the user has created
      */
-    public List<String> getCreatedEvents(User user) {
+    public List<String> getCreatedEvents(String username) {
         // return the events the user has created
+        User user = getUser(username);
         return user.getCreatedEvents();
     }
 
     /**
      * Retrieve the events IDS for the events that a user is attending
-     * @param user The user whose attended event's event ID's are to be retrieved
+     * @param username The username of the User whose attended event's event ID's are to be retrieved
      * @return a list of event IDS for the events the user is attending
      */
-    public List<String> getAttendingEvents(User user) {
+    public List<String> getAttendingEvents(String username) {
         // return the events the user is attending
+        User user = getUser(username);
         return user.getAttendingEvents();
     }
 
@@ -276,29 +274,32 @@ public class UserManager {
 
     /**
      * Retrieves the designated User's type
-     * @param user The user whose type will be retrieved
+     * @param username The username of the User whose type will be retrieved
      * @return User.UserType The type of the User, R.A.T
      */
-    public User.UserType retrieveUserType(User user){
+    public User.UserType retrieveUserType(String username){
+        User user = getUser(username);
         return user.getUserType();
     }
 
     /**
      * Updates the designated user to the Regular type
-     * @param user The user to update
+     * @param username The username of the User to update
      * @return boolean If the change was successful
      */
-    public boolean changeUserTypeToRegular(User user){
+    public boolean changeUserTypeToRegular(String username){
+        User user = getUser(username);
         user.setUserType(User.UserType.R);
         return true;
     }
 
     /**
      * Updates the designated user to the Admin type
-     * @param user The user to update
+     * @param username The username of the User to update
      * @return boolean If the change was successful
      */
-    public boolean changeUserTypeToAdmin(User user){
+    public boolean changeUserTypeToAdmin(String username){
+        User user = getUser(username);
         user.setUserType(User.UserType.A);
         return true;
     }

@@ -50,15 +50,15 @@ public class EventController {
     }
 
     private void joinEvent(String username, String eventID) {
-        this.userManager.attendEvent(userManager.getUser(username), eventID);
+        this.userManager.attendEvent(username, eventID);
     }
 
     private void leaveEvent(String username, String eventID) {
-        this.userManager.unAttendEvent(userManager.getUser(username), eventID);
+        this.userManager.unAttendEvent(username, eventID);
     }
 
     private void deleteEvent(String username, String eventID) {
-        this.userManager.deleteEvent(userManager.getUser(username), eventID);
+        this.userManager.deleteEvent(username, eventID);
         this.eventManager.deleteEvent(eventID);
     }
 
