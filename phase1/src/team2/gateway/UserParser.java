@@ -1,4 +1,4 @@
-package team2;
+package team2.gateway;
 
 import com.google.gson.GsonBuilder;
 import team1.User;

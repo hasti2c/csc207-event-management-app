@@ -1,4 +1,4 @@
-package team2;
+package team2.gateway;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -7,13 +7,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // TODO exceptions
 // TODO test
 
-public abstract class EntityParser <T> {
+public abstract class EntityParser<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
     private final Gson gson;
@@ -26,17 +28,28 @@ public abstract class EntityParser <T> {
         readElements();
     }
 
+    @Override
     public T getElement(String elementId) {
         return elements.get(elementId);
     }
 
+    @Override
+    public List<T> getAllElements() {
+        return new ArrayList<>(elements.values());
+    }
+
+    @Override
     public void saveElement(T element) {
-        elements.replace(getElementId(element), element);
+        String elementId = getElementId(element);
+        if (elements.containsKey(elementId))
+            elements.replace(elementId, element);
+        else
+            elements.put(elementId, element);
         writeElements();
     }
 
-    public void createElement(T element) {
-        elements.put(getElementId(element), element);
+    @Override
+    public void saveAllElements() {
         writeElements();
     }
 

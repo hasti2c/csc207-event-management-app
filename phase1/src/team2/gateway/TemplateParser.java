@@ -1,10 +1,12 @@
-package team2;
+package team2.gateway;
 
 import com.google.gson.*;
 import team1.Template;
 
 // TODO Generics
+// TODO correct list below
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums
+
 public class TemplateParser extends EntityParser<Template> {
     public TemplateParser(String path) {
         super(Template.class, path);

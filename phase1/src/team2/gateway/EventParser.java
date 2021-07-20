@@ -1,9 +1,11 @@
-package team2;
+package team2.gateway;
 
 import com.google.gson.*;
 import javafx.util.Pair;
 
 import team1.Event;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -27,7 +29,7 @@ public class EventParser extends EntityParser<Event> {
         return event.getEventId();
     }
 
-    // TODO source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
+    // source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
     private static class EventSerializer implements JsonSerializer<Event> {
         @Override
         public JsonElement serialize(Event event, Type type, JsonSerializationContext context) {
@@ -73,51 +75,51 @@ public class EventParser extends EntityParser<Event> {
         }
     }
 
-    // TODO source https://futurestud.io/tutorials/gson-advanced-custom-deserialization-basics
+    // source https://futurestud.io/tutorials/gson-advanced-custom-deserialization-basics
     private static class EventDeserializer implements JsonDeserializer<Event> {
         @Override
         public Event deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             JsonObject json = jsonElement.getAsJsonObject();
-            Map<String, Object> values = new HashMap<>();
-            getPrimitives(json, values);
-            getDates(json, values);
-            getFields(json, values);
-            return populateEvent(values);
+            Event event = new Event();
+            getPrimitives(json, event);
+            getDates(json, event);
+            getFields(json, event);
+            return event;
         }
 
-        private void getPrimitives(JsonObject json, Map<String, Object> values) {
-            values.put("eventId", json.get("eventId").getAsString());
-            values.put("published", json.get("published").getAsBoolean());
-            values.put("eventOwner", json.get("eventOwner").getAsString());
-            values.put("eventType", json.get("eventType").getAsString());
-            values.put("maxAttendees", json.get("maxAttendees").getAsInt());
-            values.put("numAttendees", json.get("numAttendees").getAsInt());
+        private void getPrimitives(JsonObject json, Event event) {
+            setField(event, "eventId", json.get("eventId").getAsString());
+            setField(event, "published", json.get("published").getAsBoolean());
+            setField(event, "eventOwner", json.get("eventOwner").getAsString());
+            setField(event, "eventType", json.get("eventType").getAsString());
+            setField(event, "maxAttendees", json.get("maxAttendees").getAsInt());
+            setField(event, "numAttendees", json.get("numAttendees").getAsInt());
         }
 
-        private void getDates(JsonObject json, Map<String, Object> values) {
+        private void getDates(JsonObject json, Event event) {
             LocalDateTime createdTime = LocalDateTime.parse(json.get("createdTime").getAsString());
-            values.put("createdTime", createdTime);
+            setField(event, "createdTime", createdTime);
             LocalDateTime editTime = LocalDateTime.parse(json.get("editTime").getAsString());
-            values.put("editTime", editTime);
+            setField(event, "editTime", editTime);
         }
 
-        private void getFields(JsonObject json, Map<String, Object> values) {
+        private void getFields(JsonObject json, Event event) {
             Map<String, Class<?>> templateFieldSpec = new HashMap<>();
             Map<String, Object> eventDetails = new HashMap<>();
 
             JsonObject fields = json.get("fields").getAsJsonObject();
             for (String fieldName: fields.keySet()) {
                 JsonArray fieldData = fields.get(fieldName).getAsJsonArray();
-                Pair<Class<?>, Object> field = getField(fieldData);
+                Pair<Class<?>, Object> field = getProperty(fieldData);
                 templateFieldSpec.put(fieldName, field.getKey());
                 eventDetails.put(fieldName, field.getValue());
             }
 
-            values.put("templateFieldSpec", templateFieldSpec);
-            values.put("eventDetails", eventDetails);
+            setField(event, "templateFieldSpec", templateFieldSpec);
+            setField(event, "eventDetails", eventDetails);
         }
 
-        private Pair<Class<?>, Object> getField(JsonArray fieldData) {
+        private Pair<Class<?>, Object> getProperty(JsonArray fieldData) {
             try {
                 String className = fieldData.get(0).getAsString();
                 Class<?> dataType = Class.forName(className);
@@ -132,13 +134,17 @@ public class EventParser extends EntityParser<Event> {
                 return null;
             }
         }
-        // TODO Change to be the same as other ones.
-        private Event populateEvent(Map<String, Object> values) {
-            return new Event((String) values.get("eventId"), (boolean) values.get("published"),
-                    (LocalDateTime) values.get("createdTime"), (LocalDateTime) values.get("editTime"),
-                    (String) values.get("eventOwner"), (Map<String, Class<?>>) values.get("templateFieldSpec"),
-                    (Map<String, Object>) values.get("eventDetails"), (int) values.get("maxAttendees"),
-                    (int) values.get("numAttendees"), (String) values.get("eventType"));
+
+        private <T> void setField(Event event, String fieldName, T value) {
+            try {
+                Field field = Event.class.getDeclaredField(fieldName);
+                boolean accessible = field.isAccessible();
+                field.setAccessible(true);
+                field.set(event, value);
+                field.setAccessible(accessible);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
