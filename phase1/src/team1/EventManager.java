@@ -7,7 +7,7 @@ public class EventManager {
      * Manages the Events in the system
      */
     // === Class Variables ===
-    private static List<Event> eventList;
+    private final List<Event> eventList;
 
     public EventManager() {
         eventList = new ArrayList<>();
@@ -24,6 +24,7 @@ public class EventManager {
      */
     // TODO need to check templateId vs templateName
     public String createEvent(String templateName, String eventOwner) {
+        // TODO: CHANGING TEMPLATE MANAGER TO STATIC BROKE THIS METHOD! MIGHT BE ABLE TO FIX WITH DEPENDENCY INJECTION!?
         Event e = new Event(TemplateManager.retrieveTemplateById(templateName), eventOwner);
         eventList.add(e);
         return e.getEventId();
@@ -52,7 +53,7 @@ public class EventManager {
      * Gets the size of eventList, a list of events
      * @return The size of eventList
      */
-    public static int getNumEvents() {
+    public int getNumEvents() {
         return eventList.size();
     }
 

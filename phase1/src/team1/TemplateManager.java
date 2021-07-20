@@ -9,7 +9,7 @@ public class TemplateManager {
      * Manages templates in the system
      */
     // === Class Variables ===
-    private static List<Template> templateList;
+    private final List<Template> templateList;
     // === Methods ===
 
     public TemplateManager() {
@@ -29,7 +29,7 @@ public class TemplateManager {
         return new ArrayList<>(); //placeholder
     }
 
-    public static Template retrieveTemplateById(String templateName){
+    public Template retrieveTemplateById(String templateName){
         List<Template> holderList = new ArrayList<>();
         for (Template template : templateList) {
             if (template.getTemplateName().equals(templateName)) {
