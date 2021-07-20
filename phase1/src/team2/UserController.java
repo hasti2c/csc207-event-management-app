@@ -80,4 +80,83 @@ public class UserController {
          */
         return true;
     }
+
+    /**
+     * The controller method that allows the User at the keyboard to update their username
+     * @param username The username of the User who is attempting to update their username
+     */
+    private void changeUsername(String username){
+        presenter.printText("Enter your NEW username (or type Cancel to go back!): ");
+        String newUsername = inputParser.readLine();
+        if (newUsername.toUpperCase().equals("CANCEL")){
+            presenter.printText("Returning to previous menu...");
+            return;
+        }
+        else if (!userManager.isUsernameTaken(newUsername)){
+            userManager.updateUsername(username, newUsername);
+            presenter.printText("Your username has been updated!");
+            return;
+        }
+        else{
+            presenter.printText("That username is already taken, please try again!");
+            changeUsername(username);
+        }
+    }
+
+    /**
+     * The controller method that allows the User at the keyboard to update their email
+     * @param username The username of the User who is attempting to update their email
+     */
+    private void changeEmail(String username){
+        presenter.printText("Enter your NEW email (or type Cancel to go back!): ");
+        String newEmail = inputParser.readLine();
+        if (newEmail.toUpperCase().equals("CANCEL")){
+            presenter.printText("Returning to previous menu...");
+            return;
+        }
+        else if (!userManager.isEmailTaken(newEmail)){
+            userManager.updateEmail(username, newEmail);
+            presenter.printText("Your email has been updated!");
+            return;
+        }
+        else{
+            presenter.printText("That email is already taken, please try again!");
+            changeEmail(username);
+        }
+    }
+
+    /**
+     * The controller method that allows the User at the keyboard to update their password
+     * @param username The username of the User who is attempting to update their password
+     */
+    private void changePassword(String username){
+        presenter.printText("Enter your NEW password (or type 'Cancel' to go back!): ");
+        String newPassword = inputParser.readLine();
+        if (newPassword.toUpperCase().equals("CANCEL")) {
+            presenter.printText("Returning to previous menu...");
+            return;
+        }
+        else{
+            userManager.updatePassword(username, newPassword);
+            presenter.printText("Your password has been updated!");
+        }
+    }
+
+    /**
+     * The controller method that allows the User at the keyboard to update their account to the Regular type
+     * @param username The username of the User who is attempting to update their account type
+     */
+    private void changeToRegular(String username){
+        presenter.printText("Updating type to Regular");
+        userManager.changeUserTypeToRegular(username);
+    }
+
+    /**
+     * The controller method that allows the User at the keyboard to update their account to the Admin type
+     * @param username The username of the User who is attempting to update their account type
+     */
+    private void changeToAdmin(String username){
+        presenter.printText("Updating type to Regular");
+        userManager.changeUserTypeToAdmin(username);
+    }
 }

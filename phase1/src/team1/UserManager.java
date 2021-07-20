@@ -289,7 +289,9 @@ public class UserManager {
      */
     public boolean changeUserTypeToRegular(String username){
         User user = getUser(username);
-        user.setUserType(User.UserType.R);
+        if (user.getUserType() != User.UserType.R){
+            user.setUserType(User.UserType.R);
+        }
         return true;
     }
 
@@ -300,7 +302,9 @@ public class UserManager {
      */
     public boolean changeUserTypeToAdmin(String username){
         User user = getUser(username);
-        user.setUserType(User.UserType.A);
+        if (user.getUserType() != User.UserType.A) {
+            user.setUserType(User.UserType.A);
+        }
         return true;
     }
 }
