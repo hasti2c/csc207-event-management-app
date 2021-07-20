@@ -5,7 +5,10 @@ import team1.Template;
 
 // TODO Generics
 // TODO correct list below
-// Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums
+// Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums, Class<?>
+// TODO why did FieldSpecs change from using Class<?> to String?
+// TODO FieldSpecs also needs no parameter constructor
+// TODO does templateId depend on version or no + what input to give getter
 
 public class TemplateParser extends EntityParser<Template> {
     public TemplateParser(String path) {
@@ -35,6 +38,6 @@ public class TemplateParser extends EntityParser<Template> {
 
     @Override
     protected String getElementId(Template template) {
-        return template.getTemplateName();
+        return template.getTemplateId() + "-" + template.getFileVersionNumber();
     }
 }

@@ -4,6 +4,8 @@ import com.google.gson.GsonBuilder;
 import team1.User;
 
 // TODO hash passwords
+// TODO ask for enum UserType to be transient
+// TODO loggedIn probably transient
 
 public class UserParser extends EntityParser<User> {
     public UserParser(String path) {

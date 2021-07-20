@@ -10,6 +10,11 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
 
+// TODO make field reading & writing more general
+// TODO test
+// TODO local date time serializer
+// TODO optional field specs (null value)
+
 public class EventParser extends EntityParser<Event> {
     public EventParser(String path) {
         super(Event.class, path);
@@ -45,7 +50,8 @@ public class EventParser extends EntityParser<Event> {
             json.addProperty("published", event.isPublished());
             json.addProperty("eventOwner", event.getEventOwner());
             json.addProperty("eventType", event.getEventType());
-            json.addProperty("maxAttendees", event.getMaxAttendees());
+            json.addProperty("templateId", event.getTemplateId());
+            json.addProperty("templateVersion", event.getTemplateVersion());
             json.addProperty("numAttendees", event.getNumAttendees());
         }
 
@@ -54,6 +60,7 @@ public class EventParser extends EntityParser<Event> {
             json.addProperty("editTime", event.getEditTime().toString());
         }
 
+        // TODO update fieldSpecs
         private void addFields(Event event, JsonObject json) {
             Map<String, Class<?>> templateFieldSpec = event.getTemplateFieldSpec();
             Map<String, Object> eventDetails = event.getEventDetails();
@@ -92,7 +99,8 @@ public class EventParser extends EntityParser<Event> {
             setField(event, "published", json.get("published").getAsBoolean());
             setField(event, "eventOwner", json.get("eventOwner").getAsString());
             setField(event, "eventType", json.get("eventType").getAsString());
-            setField(event, "maxAttendees", json.get("maxAttendees").getAsInt());
+            setField(event, "templateId", json.get("templateId").getAsString());
+            setField(event, "templateVersion", json.get("templateVersion").getAsString());
             setField(event, "numAttendees", json.get("numAttendees").getAsInt());
         }
 

@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 // TODO exceptions
-// TODO test
+// TODO javadocs
+// TODO update parsers to newest entity version
+// TODO entities can stop implementing serializable
 
 public abstract class EntityParser<T> implements IGateway<T> {
     private final Class<T> dataType;
@@ -45,11 +47,6 @@ public abstract class EntityParser<T> implements IGateway<T> {
             elements.replace(elementId, element);
         else
             elements.put(elementId, element);
-        writeElements();
-    }
-
-    @Override
-    public void saveAllElements() {
         writeElements();
     }
 
