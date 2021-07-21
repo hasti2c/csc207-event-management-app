@@ -8,9 +8,11 @@ public class EventManager {
      */
     // === Class Variables ===
     private List<Event> eventList;
+    private TemplateManager templateManager;
 
-    public EventManager() {
+    public EventManager(TemplateManager templateManager) {
         eventList = new ArrayList<>();
+        this.templateManager = templateManager;
     }
 
     // === Creation and Deletion ===
@@ -25,7 +27,7 @@ public class EventManager {
     // TODO need to check templateId vs templateName
     public String createEvent(String templateName, String eventOwner) {
         // TODO: CHANGING TEMPLATE MANAGER TO STATIC BROKE THIS METHOD! MIGHT BE ABLE TO FIX WITH DEPENDENCY INJECTION!?
-        Event e = new Event(TemplateManager.retrieveTemplateById(templateName), eventOwner);
+        Event e = new Event(templateManager.retrieveTemplateById(templateName), eventOwner);
         eventList.add(e);
         return e.getEventId();
     }
