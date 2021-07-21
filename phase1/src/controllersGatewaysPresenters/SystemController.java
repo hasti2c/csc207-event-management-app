@@ -1,10 +1,10 @@
-package team2;
+package controllersGatewaysPresenters;
 
 
-import team1.EventManager;
+import entitiesAndUseCases.EventManager;
 
-import team1.TemplateManager;
-import team1.UserManager;
+import entitiesAndUseCases.TemplateManager;
+import entitiesAndUseCases.UserManager;
 
 import java.util.*;
 

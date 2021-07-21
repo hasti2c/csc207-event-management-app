@@ -1,6 +1,5 @@
-package team1;
+package entitiesAndUseCases;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +15,11 @@ public class TemplateManager {
         templateList = new ArrayList<>();
     }
 
-    public boolean editTemplateName(String templateId, String newName){
-        // returns true if name is updated successfully
+    public boolean editTemplateName(String templateName, String newName){
+        // Check for uniqueness
+        if ()
+        }
+        this.retrieveTemplateByName(templateName).setTemplateName(newName);
         return true;
     }
 
@@ -25,11 +27,11 @@ public class TemplateManager {
         return templateList;
     }
 
-    public List<FieldSpecs> getFieldSpecs(String templateId){
-        return new ArrayList<>(); //placeholder
+    public List<FieldSpecs> getFieldSpecs(String templateName){
+        return this.retrieveTemplateByName(templateName).getFieldDescriptions();
     }
 
-    public Template retrieveTemplateById(String templateName){
+    public Template retrieveTemplateByName(String templateName){
         List<Template> holderList = new ArrayList<>();
         for (Template template : templateList) {
             if (template.getTemplateName().equals(templateName)) {

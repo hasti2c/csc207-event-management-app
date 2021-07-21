@@ -1,7 +1,7 @@
-package team2;
-import team1.EventManager;
-import team1.TemplateManager;
-import team1.UserManager;
+package controllersGatewaysPresenters;
+import entitiesAndUseCases.EventManager;
+import entitiesAndUseCases.TemplateManager;
+import entitiesAndUseCases.UserManager;
 
 public class UserController {
     private final UserManager userManager;
@@ -35,7 +35,7 @@ public class UserController {
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if(!userManager.isUsernameTaken(email)){ // needs to be implemented
+            if(!userManager.isUsernameTaken(email)){
                 correctUsername = true;
             }else{
                 presenter.printText("Username already exists. Enter another username: ");
@@ -112,12 +112,10 @@ public class UserController {
         String newEmail = inputParser.readLine();
         if (newEmail.toUpperCase().equals("CANCEL")){
             presenter.printText("Returning to previous menu...");
-            return;
         }
         else if (!userManager.isEmailTaken(newEmail)){
             userManager.updateEmail(username, newEmail);
             presenter.printText("Your email has been updated!");
-            return;
         }
         else{
             presenter.printText("That email is already taken, please try again!");

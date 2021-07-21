@@ -1,4 +1,4 @@
-package team1;
+package entitiesAndUseCases;
 
 import java.util.*;
 
@@ -26,7 +26,7 @@ public class EventManager {
      */
     // TODO need to check templateId vs templateName
     public String createEvent(String templateName, String eventOwner) {
-        Event e = new Event(templateManager.retrieveTemplateById(templateName), eventOwner);
+        Event e = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
         eventList.add(e);
         return e.getEventId();
     }

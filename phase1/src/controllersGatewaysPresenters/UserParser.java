@@ -1,7 +1,7 @@
-package team2;
+package controllersGatewaysPresenters;
 
 import com.google.gson.GsonBuilder;
-import team1.User;
+import entitiesAndUseCases.User;
 
 // TODO hash passwords
 

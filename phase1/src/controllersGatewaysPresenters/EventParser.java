@@ -1,9 +1,9 @@
-package team2;
+package controllersGatewaysPresenters;
 
 import com.google.gson.*;
 import javafx.util.Pair;
 
-import team1.Event;
+import entitiesAndUseCases.Event;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;

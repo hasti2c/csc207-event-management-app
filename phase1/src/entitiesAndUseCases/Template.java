@@ -1,4 +1,4 @@
-package team1;
+package entitiesAndUseCases;
 
 import java.io.Serializable;
 import java.util.List;

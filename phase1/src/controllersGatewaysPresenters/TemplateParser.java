@@ -1,7 +1,7 @@
-package team2;
+package controllersGatewaysPresenters;
 
 import com.google.gson.*;
-import team1.Template;
+import entitiesAndUseCases.Template;
 
 // TODO Generics
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums

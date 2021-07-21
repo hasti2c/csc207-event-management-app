@@ -1,8 +1,8 @@
-package team2;
+package controllersGatewaysPresenters;
 
-import team1.EventManager;
-import team1.TemplateManager;
-import team1.UserManager;
+import entitiesAndUseCases.EventManager;
+import entitiesAndUseCases.TemplateManager;
+import entitiesAndUseCases.UserManager;
 
 import java.util.Map;
 

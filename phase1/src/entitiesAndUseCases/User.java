@@ -1,4 +1,4 @@
-package team1;
+package entitiesAndUseCases;
 
 import java.util.ArrayList;
 import java.util.List;
