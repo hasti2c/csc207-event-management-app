@@ -9,7 +9,7 @@ public class TemplateManager {
      * Manages templates in the system
      */
     // === Class Variables ===
-    private final List<Template> templateList;
+    private List<Template> templateList;
     // === Methods ===
 
     public TemplateManager() {
@@ -21,7 +21,7 @@ public class TemplateManager {
         return true;
     }
 
-    public static List<Template> getTemplateList() {
+    public List<Template> getTemplateList() {
         return templateList;
     }
 
