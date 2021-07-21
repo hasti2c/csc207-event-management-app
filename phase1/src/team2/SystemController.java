@@ -24,6 +24,7 @@ public class SystemController {
         this.userManager = new UserManager();
         this.templateManager = new TemplateManager();
         this.eventManager = new EventManager(this.templateManager);
+
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
         this.eventController = new EventController(this.userManager, this.eventManager, this.templateManager);

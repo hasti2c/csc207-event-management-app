@@ -26,7 +26,6 @@ public class EventManager {
      */
     // TODO need to check templateId vs templateName
     public String createEvent(String templateName, String eventOwner) {
-        // TODO: CHANGING TEMPLATE MANAGER TO STATIC BROKE THIS METHOD! MIGHT BE ABLE TO FIX WITH DEPENDENCY INJECTION!?
         Event e = new Event(templateManager.retrieveTemplateById(templateName), eventOwner);
         eventList.add(e);
         return e.getEventId();
