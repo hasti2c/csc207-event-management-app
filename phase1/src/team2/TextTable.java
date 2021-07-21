@@ -1,25 +1,23 @@
 package team2;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.lang.StringBuilder;
 
 // Inspired by https://stackoverflow.com/questions/2745206/output-in-a-table-format-in-javas-system-out
 
 public class TextTable {
-    private String title;
-    private ArrayList<ArrayList<String>> cells;
+    private List<List<String>> cells;
     public int width;
     private int height;
-    private ArrayList<Integer> columnLargestItemSizes = new ArrayList<Integer>();
+    private List<Integer> columnLargestItemSizes = new ArrayList<Integer>();
 
     // SETTINGS
     private int paddingWidth = 1;
     private int paddingHeight = 0;
 
     // WIDTH, HEIGHT OF cells MUST BE AT LEAST 1
-    public TextTable(String title, ArrayList<ArrayList<String>> cells) {
-        this.title = title;
+    public TextTable(List<List<String>> cells) {
         this.cells = cells;
         width = calculateWidth();
         height = calculateHeight();

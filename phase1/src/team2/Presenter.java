@@ -1,9 +1,8 @@
 package team2;
 
-import team1.Event;
-
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Presenter {
     public void printText(String text) {
@@ -18,30 +17,38 @@ public class Presenter {
         }
     }
 
-    public void printEvents(List<Event> events) {
-        if (events.size() == 0) {
-            printText("There are no events to be displayed.");
-            return;
-        }
-        ArrayList<ArrayList<String>> cells = new ArrayList<>();
-
-        ArrayList<String> firstRow = new ArrayList<>();
-        firstRow.add("ID");
-        firstRow.add("Owner");
-
-        cells.add(firstRow);
-
-        // We can add more fields after meeting
-
-        for (Event event : events) {
-            ArrayList<String> row = new ArrayList<>();
-            row.add(String.format("%d", event.getEventID()));
-            row.add(event.getEventOwner());
-
+    public void printEntity(Map<String, String> details) {
+        if (details.keySet().size() == 0) return;
+        List<List<String>> cells = new ArrayList<>();
+        for (String key : details.keySet()) {
+            List<String> row = new ArrayList<>();
+            row.add(key);
+            row.add(details.get(key));
             cells.add(row);
         }
+        TextTable textTable = new TextTable(cells);
+        printText(textTable.toString());
+    }
 
-        TextTable textTable = new TextTable("Event Table", cells);
+    // It is expected that keys of every element of detailsList are the same
+    public void printEntities(List<Map<String, String>> detailsList) {
+        boolean atLeastOneCell = false;
+        for (Map<String, String> details : detailsList) {
+            if (details.keySet().size() != 0) atLeastOneCell = true;
+        }
+        if (!atLeastOneCell) return;
+        List<List<String>> cells = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        for (String key : detailsList.get(0).keySet()) labels.add(key);
+        cells.add(labels);
+        for (Map<String, String> detail : detailsList) {
+            List<String> row = new ArrayList<>();
+            for (String label : labels) {
+                row.add(detail.get(label));
+            }
+            cells.add(row);
+        }
+        TextTable textTable = new TextTable(cells);
         printText(textTable.toString());
     }
 }
