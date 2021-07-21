@@ -16,11 +16,17 @@ public class TemplateManager {
     }
 
     public boolean editTemplateName(String templateName, String newName){
-        // Check for uniqueness
-        if ()
-        }
         this.retrieveTemplateByName(templateName).setTemplateName(newName);
         return true;
+    }
+
+    public boolean checkNameUniqueness(String newName){
+        // Note: this will return false even if the new name is the same as the previous name.
+        List<String> templateNames = new ArrayList<>();
+        for (Template template : templateList){
+            templateNames.add(template.getTemplateName());
+        }
+        return !templateNames.contains(newName);
     }
 
     public List<Template> getTemplateList() {
@@ -40,15 +46,4 @@ public class TemplateManager {
         }
         return holderList.remove(0);
     }
-//    public Template generateTemplateFromFile(String templateFileName) {
-//        File file = new File(templateFileName);
-//        if(file.exists()){
-//            return new Template(templateFileName);
-//        }
-//        return null;
-//    }
-//    public Template createNewTemplate(String templateFileName) {
-//        Template obj = new Template(templateFileName);
-//        return obj;
-//    }
 }
