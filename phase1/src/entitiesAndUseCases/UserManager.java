@@ -47,6 +47,12 @@ public class UserManager {
      */
     public void deleteUser(String username) {
         User user = retrieveUser(username);
+        // Remove all the User's Events
+        for (String eventID :
+                user.getOwnedEvents()) {
+            deleteEvent(username, eventID);
+        }
+        // Remove all the User's info
         userList.remove(user);
         usernamesList.remove(user.getUsername());
         emailList.remove(user.getUserEmail());
