@@ -1,10 +1,10 @@
-package team2;
+package controllersGatewaysPresenters;
 
 
-import team1.EventManager;
+import entitiesAndUseCases.EventManager;
 
-import team1.TemplateManager;
-import team1.UserManager;
+import entitiesAndUseCases.TemplateManager;
+import entitiesAndUseCases.UserManager;
 
 import java.util.*;
 
@@ -22,8 +22,9 @@ public class SystemController {
 
     public SystemController() {
         this.userManager = new UserManager();
-        this.eventManager = new EventManager();
         this.templateManager = new TemplateManager();
+        this.eventManager = new EventManager(this.templateManager);
+
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
         this.eventController = new EventController(this.userManager, this.eventManager, this.templateManager);

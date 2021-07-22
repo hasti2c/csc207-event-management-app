@@ -1,10 +1,14 @@
-package team2;
+package controllersGatewaysPresenters;
 
-import team1.EventManager;
-import team1.TemplateManager;
-import team1.UserManager;
+import entitiesAndUseCases.EventManager;
+import entitiesAndUseCases.TemplateManager;
+import entitiesAndUseCases.UserManager;
 
 import java.util.Map;
+
+/**
+ * Controller handling all event related requests.
+ */
 
 public class EventController {
     private final UserManager userManager;
@@ -21,8 +25,13 @@ public class EventController {
         this.inputParser = new InputParser();
     }
 
+    /**
+     * Creates a new event based on chosen template and adds to User's owned events.
+     * @param templateName - name of the template
+     * @param username - username of the currently logged in user
+     */
     private void createEvent(String templateName, String username){
-        String newEventID = this.eventManager.createEvent(templateName, username); //i will  assume an id is returned, not full Event
+        String newEventID = this.eventManager.createEvent(templateName, username);
 
         Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
         for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
@@ -31,6 +40,7 @@ public class EventController {
             boolean accepted = false;
             while (!accepted) {
                 if (eventManager.checkDataValidation(entry.getKey(), userInput, newEventID)) {
+                    eventManager.enterFieldValue(entry.getKey(), userInput, newEventID);
                     accepted = true;
                 }
                 else {
@@ -41,24 +51,46 @@ public class EventController {
         }
     }
 
+    /**
+     * Prints details of a single event.
+     * @param eventID - unique identifier for event
+     */
     private void viewEvent(String eventID) {
-        this.presenter.printFormattedEvent(eventID); // assume this will be implemented
+        this.presenter.printEntity(eventManager.getEventMap(eventID)); // assume this will be implemented
     }
 
+    /**
+     * Prints a list of all public events created by all users.
+     */
     private void browseEvents() {
-        this.presenter.printEvents(this.eventManager.getPublicEvents());
+        this.presenter.printEntities(this.eventManager.getPublicEvents());// needs to return list of maps
     }
 
+    /**
+     * Adds event to User's joined event list.
+     * @param username - username of the currently logged in user
+     * @param eventID - unique identifier for event
+     */
     private void joinEvent(String username, String eventID) {
-        this.userManager.attendEvent(userManager.getUser(username), eventID);
+        this.userManager.attendEvent(username, eventID);
     }
 
+    /**
+     * Removes selected event from User's joined event list.
+     * @param username - username of the currently logged in user
+     * @param eventID - unique identifier for event
+     */
     private void leaveEvent(String username, String eventID) {
-        this.userManager.unAttendEvent(userManager.getUser(username), eventID);
+        this.userManager.unAttendEvent(username, eventID);
     }
 
+    /**
+     * Completely deletes specified event from system.
+     * @param username - username of the currently logged in user
+     * @param eventID - unique identifier for event
+     */
     private void deleteEvent(String username, String eventID) {
-        this.userManager.deleteEvent(userManager.getUser(username), eventID);
+        this.userManager.deleteEvent(username, eventID);
         this.eventManager.deleteEvent(eventID);
     }
 

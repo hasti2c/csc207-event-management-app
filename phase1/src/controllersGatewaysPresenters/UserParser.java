@@ -1,7 +1,11 @@
+<<<<<<< HEAD:phase1/src/team2/gateway/UserParser.java
 package team2.gateway;
+=======
+package controllersGatewaysPresenters;
+>>>>>>> testing:phase1/src/controllersGatewaysPresenters/UserParser.java
 
 import com.google.gson.GsonBuilder;
-import team1.User;
+import entitiesAndUseCases.User;
 
 // TODO hash passwords
 // TODO ask for enum UserType to be transient

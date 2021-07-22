@@ -1,4 +1,4 @@
-package team1;
+package entitiesAndUseCases;
 
 import java.util.*;
 
@@ -7,10 +7,12 @@ public class EventManager {
      * Manages the Events in the system
      */
     // === Class Variables ===
-    private static List<Event> eventList;
+    private List<Event> eventList;
+    private TemplateManager templateManager;
 
-    public EventManager() {
+    public EventManager(TemplateManager templateManager) {
         eventList = new ArrayList<>();
+        this.templateManager = templateManager;
     }
 
     // === Creation and Deletion ===
@@ -24,7 +26,7 @@ public class EventManager {
      */
     // TODO need to check templateId vs templateName
     public String createEvent(String templateName, String eventOwner) {
-        Event e = new Event(TemplateManager.retrieveTemplateById(templateName), eventOwner);
+        Event e = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
         eventList.add(e);
         return e.getEventId();
     }
@@ -38,7 +40,7 @@ public class EventManager {
     }
 
     // === Getters and Setters ===
-    public Map<String, Object> getEventDetails(String eventId) {
+    public Map<String, Object> retrieveEventDetails(String eventId) {
         List<Map<String, Object>> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
@@ -52,7 +54,7 @@ public class EventManager {
      * Gets the size of eventList, a list of events
      * @return The size of eventList
      */
-    public static int getNumEvents() {
+    public int getNumEvents() {
         return eventList.size();
     }
 
@@ -81,18 +83,24 @@ public class EventManager {
         return fieldNameAndType;
     }
 
-    private void enterFieldValue (String fieldName, String fieldValue, String eventId) {
+    /**
+     * Enters a value to a field name
+     * @param fieldName
+     * @param fieldValue
+     * @param eventId
+     */
+    public void enterFieldValue (String fieldName, String fieldValue, String eventId) {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
                     if (eventDetailsEntry.getKey().equals(fieldName)) {
-                        event.getEventDetails().replace(fieldName, fieldValue);
+                            event.getEventDetails().replace(fieldName, fieldValue);
+
                     }
                 }
             }
         }
     }
-
     /**
      * Checks if the entered field is the same type
      * @param fieldName The name of the field
@@ -111,7 +119,6 @@ public class EventManager {
                     if ((fieldSpecEntry.getKey().equals(fieldName)) && (fieldSpecEntry.getValue().get(0).equals
                             (fieldValue.getClass().getSimpleName()))
                     && (fieldSpecEntry.getValue().get(1).equals(true))){
-                        enterFieldValue(fieldName,fieldValue,eventId);
                         return true;
                         }
                     }
@@ -125,7 +132,7 @@ public class EventManager {
      * @param eventId The Id of the event that is to be returned
      * @return The event that the event Id
      */
-    public Event getEvent(String eventId) {
+    public Event retrieveEventById(String eventId) {
         List<Event> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
@@ -135,16 +142,28 @@ public class EventManager {
         return holderList.remove(0);
     }
 
+    public Map<String, Object> returnEventAsMap(String eventId) {
+        Map<String, Object> eventMap = new HashMap<>();
+        List<Event> holderList = new ArrayList<>();
+        for (Event event : eventList) {
+            if (event.getEventId().equals(eventId)) {
+                holderList.add(event);
+            }
+        }
+        Event thisEvent = holderList.remove(0);
+        eventMap =
+    }
+
     /**
-     * Returns an Arraylist of all the published events from eventList, a list of events
+     * Returns a List of the IDs of all the published events from eventList, a list of events
      * @return Arraylist of all the published events from eventList, a list of events
      */
     // TODO change name to retrievePublishedEvents
-    public ArrayList<Event> getPublicEvents() {
-        ArrayList<Event> holderList = new ArrayList<>();
+    public List<String> returnPublishedEvents() {
+        List<String> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.isPublished()) {
-                holderList.add(event);
+                holderList.add(event.getEventId());
             }
         }
         return holderList;

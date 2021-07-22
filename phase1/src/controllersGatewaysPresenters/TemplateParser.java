@@ -1,7 +1,11 @@
+<<<<<<< HEAD:phase1/src/team2/gateway/TemplateParser.java
 package team2.gateway;
+=======
+package controllersGatewaysPresenters;
+>>>>>>> testing:phase1/src/controllersGatewaysPresenters/TemplateParser.java
 
 import com.google.gson.*;
-import team1.Template;
+import entitiesAndUseCases.Template;
 
 // TODO Generics
 // TODO correct list below

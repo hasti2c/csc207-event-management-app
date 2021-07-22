@@ -1,4 +1,8 @@
+<<<<<<< HEAD:phase1/src/team2/gateway/EntityParser.java
 package team2.gateway;
+=======
+package controllersGatewaysPresenters;
+>>>>>>> testing:phase1/src/controllersGatewaysPresenters/EntityParser.java
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -67,7 +71,7 @@ public abstract class EntityParser<T> implements IGateway<T> {
 
     private void writeElements() {
         try {
-            T[] emptyArray = (T[]) Array.newInstance(dataType);
+            T[] emptyArray = (T[]) Array.newInstance(dataType, 0);
             T[] elements = this.elements.values().toArray(emptyArray);
 
             FileWriter fileWriter = new FileWriter(path);
