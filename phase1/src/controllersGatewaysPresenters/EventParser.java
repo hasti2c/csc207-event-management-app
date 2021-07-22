@@ -14,6 +14,7 @@ import java.util.*;
 // TODO test
 // TODO local date time serializer
 // TODO optional field specs (null value)
+// TODO implement save all elements
 
 public class EventParser extends EntityParser<Event> {
     public EventParser(String path) {

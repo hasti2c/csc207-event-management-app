@@ -1,6 +1,7 @@
 package controllersGatewaysPresenters;
 import entitiesAndUseCases.EventManager;
 import entitiesAndUseCases.TemplateManager;
+import entitiesAndUseCases.User;
 import entitiesAndUseCases.UserManager;
 
 public class UserController {
@@ -20,6 +21,8 @@ public class UserController {
 
     // TODO: Add usertype!
     public void userSignUp(){
+
+        // Entering email
         presenter.printText("Enter an Email: ");
         String email = inputParser.readLine();
         boolean correctEmail = false;
@@ -32,18 +35,39 @@ public class UserController {
             }
         }
 
+        // Choosing account type
+        presenter.printText("Please choose an account type: ");
+        presenter.printText("1) Regular 2) Admin");
+        String type = inputParser.readLine();
+        User.UserType userType = User.UserType.T;
+        boolean validUserType = false;
+        while (!validUserType) {
+            if (type.equals("1")) {
+                userType = User.UserType.R;
+                validUserType = true;
+            } else if (type.equals("2")) {
+                userType = User.UserType.A;
+                validUserType = true;
+            } else {
+                presenter.printText("Please enter either 1 or 2.");
+                type = inputParser.readLine();
+            }
+        }
+
+        // Choosing a Username
         presenter.printText("Enter a Username: ");
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if(userManager.usernameIsUnique(email)){
+            if(userManager.usernameIsUnique(username)){
                 correctUsername = true;
             }else{
                 presenter.printText("Username already exists. Enter another username: ");
-                email = inputParser.readLine();
+                username = inputParser.readLine();
             }
         }
 
+        // Choosing a password
         presenter.printText("Enter a Password: ");
         String password = inputParser.readLine();
 
