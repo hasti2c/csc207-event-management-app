@@ -7,13 +7,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // TODO exceptions
-// TODO test
+// TODO javadocs
+// TODO update parsers to newest entity version
+// TODO entities can stop implementing serializable
 
-public abstract class EntityParser <T> {
+public abstract class EntityParser<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
     private final Gson gson;
@@ -26,17 +30,23 @@ public abstract class EntityParser <T> {
         readElements();
     }
 
+    @Override
     public T getElement(String elementId) {
         return elements.get(elementId);
     }
 
-    public void saveElement(T element) {
-        elements.replace(getElementId(element), element);
-        writeElements();
+    @Override
+    public List<T> getAllElements() {
+        return new ArrayList<>(elements.values());
     }
 
-    public void createElement(T element) {
-        elements.put(getElementId(element), element);
+    @Override
+    public void saveElement(T element) {
+        String elementId = getElementId(element);
+        if (elements.containsKey(elementId))
+            elements.replace(elementId, element);
+        else
+            elements.put(elementId, element);
         writeElements();
     }
 
@@ -57,7 +67,7 @@ public abstract class EntityParser <T> {
 
     private void writeElements() {
         try {
-            T[] emptyArray = (T[]) Array.newInstance(dataType);
+            T[] emptyArray = (T[]) Array.newInstance(dataType, 0);
             T[] elements = this.elements.values().toArray(emptyArray);
 
             FileWriter fileWriter = new FileWriter(path);

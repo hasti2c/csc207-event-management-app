@@ -1,9 +1,12 @@
 package controllersGatewaysPresenters;
 
-// TODO saveAll / getAll
-// TODO remove create
+import java.util.List;
+
+// TODO save all?
+// TODO delete
+
 public interface IGateway <T> {
     T getElement(String elementId);
     void saveElement(T element);
-    void createElement(T element);
+    List<T> getAllElements();
 }
