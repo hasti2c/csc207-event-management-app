@@ -1,6 +1,6 @@
 package entitiesAndUseCases;
-
 import java.util.*;
+import java.time.format.DateTimeFormatter;
 
 public class EventManager {
     /**
@@ -9,7 +9,7 @@ public class EventManager {
     // === Class Variables ===
     private List<Event> eventList;
     private TemplateManager templateManager;
-
+    private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm:ss";
     public EventManager(TemplateManager templateManager) {
         eventList = new ArrayList<>();
         this.templateManager = templateManager;
@@ -109,7 +109,6 @@ public class EventManager {
      * @return boolean Whether data fieldValue is valid
      */
     public boolean checkDataValidation(String fieldName, String fieldValue, String eventId) {
-        // if the field value passes validation return true and call enterFieldValue to add it to eventDetails
         // if the field value doesn't pass, return false and do nothing.
         // basically try and catch changing the string into the type it's supposed to be. If it doesn't work then...
         // it's probably wrong.
@@ -142,10 +141,18 @@ public class EventManager {
         return holderList.remove(0);
     }
 
-    public Map<String, Object> returnEventAsMap(String eventId) {
-        Map<String, Object> eventMap = new HashMap<>();
+    public LinkedHashMap<String, String> returnEventAsMap(String eventId) {
+        LinkedHashMap<String, String> eventMap = new LinkedHashMap<>();
         Event event = retrieveEventById(eventId);
-        eventMap.put(event.getEventId(), event.getEventDetails());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+        String formattedCreatedTime = event.getCreatedTime().format(formatter);
+        String formattedEditTime = event.getEditTime().format(formatter);
+        eventMap.put("Created Time", formattedCreatedTime);
+        eventMap.put("Last Edited", formattedEditTime);
+        eventMap.put("Event Id", event.getEventId());
+        eventMap.put("Event Owner", event.getEventOwner());
+        eventMap.put("Type of Event", event.getEventType());
+        eventMap.put("Number of Attendees", Integer.toString(event.getNumAttendees()));
         return eventMap;
     }
 

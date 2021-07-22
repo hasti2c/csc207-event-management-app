@@ -64,7 +64,7 @@ public class EventController {
      */
     // TODO Need to figure out how this will be presented
     private void browseEvents() {
-        List<Map<String, Object>> eventList = new ArrayList<>();
+        List<Map<String, String>> eventList = new ArrayList<>();
 
         for (String eventID : this.eventManager.returnPublishedEvents()) {
             eventList.add(this.eventManager.returnEventAsMap(eventID));
