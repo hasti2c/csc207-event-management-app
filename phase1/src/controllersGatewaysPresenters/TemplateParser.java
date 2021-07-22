@@ -1,8 +1,4 @@
-<<<<<<< HEAD:phase1/src/team2/gateway/TemplateParser.java
-package team2.gateway;
-=======
 package controllersGatewaysPresenters;
->>>>>>> testing:phase1/src/controllersGatewaysPresenters/TemplateParser.java
 
 import com.google.gson.*;
 import entitiesAndUseCases.Template;

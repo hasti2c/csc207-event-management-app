@@ -1,17 +1,8 @@
-<<<<<<< HEAD:phase1/src/team2/gateway/EventParser.java
-package team2.gateway;
-=======
 package controllersGatewaysPresenters;
->>>>>>> testing:phase1/src/controllersGatewaysPresenters/EventParser.java
-
 import com.google.gson.*;
 import javafx.util.Pair;
 
-<<<<<<< HEAD:phase1/src/team2/gateway/EventParser.java
-import team1.Event;
-=======
 import entitiesAndUseCases.Event;
->>>>>>> testing:phase1/src/controllersGatewaysPresenters/EventParser.java
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;

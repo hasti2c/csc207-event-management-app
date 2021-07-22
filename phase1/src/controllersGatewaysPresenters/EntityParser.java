@@ -1,11 +1,8 @@
-<<<<<<< HEAD:phase1/src/team2/gateway/EntityParser.java
-package team2.gateway;
-=======
 package controllersGatewaysPresenters;
->>>>>>> testing:phase1/src/controllersGatewaysPresenters/EntityParser.java
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllersGatewaysPresenters.IGateway;
 
 import java.io.FileReader;
 import java.io.FileWriter;
