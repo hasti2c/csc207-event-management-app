@@ -1,13 +1,15 @@
 package controllersGatewaysPresenters;
 
 // TODO: ADD LOADING FOR TEMPLATE AND EVENT, USER HAS BEEN DONE CAN BE AN EXAMPLE!
-// TODO: Make Initializer less bulky by using helper functions
-// TODO: Make the Main Run Method
-// TODO: Make the StartupMenu Method
-// TODO: Make the mainMenu Method
-// TODO: Make the trialMenu Method
-// TODO: Make the AdminMenu Method
-// TODO: Make the accountMenu Method
+
+
+// H TODO: Make Initializer less bulky by using helper functions
+// A TODO: Make the Main Run Method
+// A TODO: Make the StartupMenu Method
+// H TODO: Make the mainMenu Method
+// A TODO: Make the trialMenu Method
+// H TODO: Make the AdminMenu Method
+// A TODO: Make the accountMenu Method
 
 import entitiesAndUseCases.EventManager;
 
@@ -95,7 +97,6 @@ public class SystemController {
                     }
                 }
             }
-
             else if (user_input.equals("3")){
                 // Create trial user and goto next menu
             }
