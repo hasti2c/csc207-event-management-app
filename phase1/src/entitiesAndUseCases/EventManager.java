@@ -89,7 +89,7 @@ public class EventManager {
      * @param fieldValue
      * @param eventId
      */
-    private void enterFieldValue (String fieldName, String fieldValue, String eventId) {
+    public void enterFieldValue (String fieldName, String fieldValue, String eventId) {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
