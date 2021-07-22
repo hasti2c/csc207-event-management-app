@@ -31,9 +31,9 @@ public class SystemController {
         this.userController = new UserController(this.userManager, this.eventManager, this.templateManager);
         List<String> startupMenu = Arrays.asList("SignUp", "Login", "Trial");
         List<String> mainMenu = Arrays.asList("Create Event", "View Events", "View My Events", "Account Menu", "Save");
-        List<String> trialMenu = Arrays.asList("Create Event", "View Event");
+        List<String> trialMenu = Arrays.asList("Create Event", "View Events");
         List<String> adminMenu = Arrays.asList("Create Event", "View Events", "View My Events", "Edit Template", "Account Menu", "Save");
-        List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email", "Change User Type", "Go Back");
+        List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email", "Change User Type", "Go Back", "Delete Account");
         this.menuMap.put("Startup Menu", startupMenu);
         this.menuMap.put("Main Menu", mainMenu);
         this.menuMap.put("Account Menu", accountMenu);

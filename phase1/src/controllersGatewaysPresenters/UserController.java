@@ -23,7 +23,7 @@ public class UserController {
         String email = inputParser.readLine();
         boolean correctEmail = false;
         while(!correctEmail){
-            if(!userManager.isEmailTaken(email)){ // needs to be implemented
+            if(userManager.emailIsUnique(email)){ // needs to be implemented
                 correctEmail = true;
             }else{
                 presenter.printText("Email already exists. Enter another email: ");
@@ -35,7 +35,7 @@ public class UserController {
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if(!userManager.isUsernameTaken(email)){
+            if(userManager.usernameIsUnique(email)){
                 correctUsername = true;
             }else{
                 presenter.printText("Username already exists. Enter another username: ");
@@ -74,12 +74,12 @@ public class UserController {
         }
         presenter.printText("Login was successful");
     }
-
-    private boolean checkLogin(){
-        /* checks given user credentials from presenter and checks if it is correct or not
-         */
-        return true;
-    }
+//
+//    private boolean checkLogin(){
+//        /* checks given user credentials from presenter and checks if it is correct or not
+//         */
+//        return true;
+//    }
 
     /**
      * The controller method that allows the User at the keyboard to update their username
@@ -92,7 +92,7 @@ public class UserController {
             presenter.printText("Returning to previous menu...");
             return;
         }
-        else if (!userManager.isUsernameTaken(newUsername)){
+        else if (userManager.usernameIsUnique(newUsername)){
             userManager.updateUsername(username, newUsername);
             presenter.printText("Your username has been updated!");
             return;
@@ -113,7 +113,7 @@ public class UserController {
         if (newEmail.toUpperCase().equals("CANCEL")){
             presenter.printText("Returning to previous menu...");
         }
-        else if (!userManager.isEmailTaken(newEmail)){
+        else if (userManager.emailIsUnique(newEmail)){
             userManager.updateEmail(username, newEmail);
             presenter.printText("Your email has been updated!");
         }

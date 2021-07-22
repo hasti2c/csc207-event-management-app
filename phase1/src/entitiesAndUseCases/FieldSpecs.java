@@ -1,8 +1,6 @@
 package entitiesAndUseCases;
 
-import java.io.Serializable;
-
-public class FieldSpecs implements Serializable {
+public class FieldSpecs {
     /**
      * Template for what needs to be included in a field in a template
      */
@@ -18,6 +16,10 @@ public class FieldSpecs implements Serializable {
         this.dataType = dataType;
         this.required = required;
     }
+
+    public FieldSpecs() {
+    }
+
     // Getters
 
     public String getFieldName() {

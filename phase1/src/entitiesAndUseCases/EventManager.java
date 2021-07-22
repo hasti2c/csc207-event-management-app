@@ -24,11 +24,12 @@ public class EventManager {
      * @param eventOwner The owner of this event
      * @return The Id of the event
      */
-    // TODO need to check templateId vs templateName
     public String createEvent(String templateName, String eventOwner) {
-        Event e = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
-        eventList.add(e);
-        return e.getEventId();
+        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
+        newEvent.addFieldsToEventDetails(templateManager.retrieveTemplateByName(templateName));
+        newEvent.addFieldNameAndTypeToMap(templateManager.retrieveTemplateByName(templateName));
+        eventList.add(newEvent);
+        return newEvent.getEventId();
     }
 
     /**
@@ -65,7 +66,6 @@ public class EventManager {
      * @return Map<String, String> The map of the event with the matching event Id, where the key is field name and
      * the value is data type
      */
-    // TODO change to retrieve
     public Map<String, String> returnFieldNameAndType(String eventId){
         // returns a map of the fields associated with this event
         // 1. find event in list of events
@@ -144,21 +144,15 @@ public class EventManager {
 
     public Map<String, Object> returnEventAsMap(String eventId) {
         Map<String, Object> eventMap = new HashMap<>();
-        List<Event> holderList = new ArrayList<>();
-        for (Event event : eventList) {
-            if (event.getEventId().equals(eventId)) {
-                holderList.add(event);
-            }
-        }
-        Event thisEvent = holderList.remove(0);
-        eventMap =
+        Event event = retrieveEventById(eventId);
+        eventMap.put(event.getEventId(), event.getEventDetails());
+        return eventMap;
     }
 
     /**
      * Returns a List of the IDs of all the published events from eventList, a list of events
      * @return Arraylist of all the published events from eventList, a list of events
      */
-    // TODO change name to retrievePublishedEvents
     public List<String> returnPublishedEvents() {
         List<String> holderList = new ArrayList<>();
         for (Event event : eventList) {
