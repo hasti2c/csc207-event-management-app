@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class Event implements Serializable {
+public class Event {
     /**
      * The events of the system
      */
@@ -43,9 +43,6 @@ public class Event implements Serializable {
         this.fieldNameAndTypeMap = new HashMap<>();
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
-        // TODO not sure if this is right
-        this.addFieldsToEventDetails(template);
-        this.addFieldNameAndTypeToMap(template);
     }
 
     public Event() {

@@ -4,7 +4,7 @@ import entitiesAndUseCases.EventManager;
 import entitiesAndUseCases.TemplateManager;
 import entitiesAndUseCases.UserManager;
 
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller handling all event related requests.
@@ -56,14 +56,21 @@ public class EventController {
      * @param eventID - unique identifier for event
      */
     private void viewEvent(String eventID) {
-        this.presenter.printEntity(eventManager.getEventMap(eventID)); // assume this will be implemented
+        this.presenter.printEntity(eventManager.returnEventAsMap(eventID));
     }
 
     /**
      * Prints a list of all public events created by all users.
      */
+    // TODO Need to figure out how this will be presented
     private void browseEvents() {
-        this.presenter.printEntities(this.eventManager.getPublicEvents());// needs to return list of maps
+        List<Map<String, Object>> eventList = new ArrayList<>();
+
+        for (String eventID : this.eventManager.returnPublishedEvents()) {
+            eventList.add(this.eventManager.returnEventAsMap(eventID));
+        }
+
+        this.presenter.printEntities(eventList);// needs to return list of maps
     }
 
     /**
@@ -71,7 +78,7 @@ public class EventController {
      * @param username - username of the currently logged in user
      * @param eventID - unique identifier for event
      */
-    private void joinEvent(String username, String eventID) {
+    private void attendEvent(String username, String eventID) {
         this.userManager.attendEvent(username, eventID);
     }
 

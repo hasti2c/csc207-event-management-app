@@ -1,0 +1,39 @@
+[
+  {
+    "eventId": "id30",
+    "published": true,
+    "eventOwner": "hasti2c",
+    "eventType": "Concert",
+    "templateId": "id200",
+    "templateVersion": "1",
+    "numAttendees": 40,
+    "createdTime": "2021-07-20T17:41:35.581",
+    "editTime": "2021-07-20T17:41:35.606",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        "300"
+      ],
+      "Concert Genre": [
+        "java.lang.String",
+        "null"
+      ],
+      "Performer(s)": [
+        "java.util.List",
+        "[\n  \"The Last Shadow Puppets\"\n]"
+      ],
+      "Venue": [
+        "java.lang.String",
+        "\"Albert Hall\""
+      ],
+      "Event Name": [
+        "java.lang.String",
+        "\"Some Concert\""
+      ],
+      "Time": [
+        "java.time.LocalDateTime",
+        "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 3,\n    \"day\": 24\n  },\n  \"time\": {\n    \"hour\": 1,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ]
+    }
+  }
+]

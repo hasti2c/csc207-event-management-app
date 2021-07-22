@@ -3,7 +3,7 @@ package entitiesAndUseCases;
 import java.io.Serializable;
 import java.util.List;
 
-public class Template implements Serializable {
+public class Template {
     /**
      * Templates
      */
