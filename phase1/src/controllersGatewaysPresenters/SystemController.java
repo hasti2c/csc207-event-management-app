@@ -84,66 +84,115 @@ public class SystemController {
     // add helper methods down here
 
 
+    /**
+     * Run the program, this runs the "StartUp Menu"
+     */
     public void run(){
         boolean program_running = true;
         while (program_running) {
             presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
             String user_input = inputParser.readLine();
-            if (user_input.equals("1")){
-                userController.userSignUp();
-            }
-            else if (user_input.equals("2")){
-                String username = userController.userLogin();
-                if (username.equals("")){
-                    presenter.printText("Please try to login again");
-                }
-                else {
-                    User.UserType userType = userManager.retrieveUserType(username);
-                    if (userType == User.UserType.R){
-                        // TODO: Run Main Menu
+            switch (user_input) {
+                case "1":
+                    userController.userSignUp();
+                    break;
+                case "2":
+                    String username = userController.userLogin();
+                    if (username.equals("")) {
+                        presenter.printText("Please try to login again");
+                    } else {
+                        this.currentUser = username;
+                        User.UserType userType = userManager.retrieveUserType(username);
+                        if (userType == User.UserType.R) {
+                            // TODO: Run Main Menu
+                        } else if (userType == User.UserType.A) {
+                            // TODO: Run Admin Menu
+                        }
                     }
-                    else if (userType == User.UserType.A){
-                        // TODO: Run Admin Menu
-                    }
-                }
+                    break;
+                case "3":
+                    createTrialUser();
+                    runTrialMenu();
+                    break;
             }
-            else if (user_input.equals("3")){
-                // Create trial user and goto next menu
+        }
+    }
+
+    public void runAccountMenu(){
+        boolean accountMenuActive = true;
+        while (accountMenuActive) {
+            presenter.printMenu("Account Menu", this.menuMap.get("Account Menu"));
+            String user_input = inputParser.readLine();
+            switch (user_input) {
+                case "1":
+                    // TODO: Create a logout for the program
+                    break;
+                case "2":
+                    userController.changeUsername(currentUser);
+                    break;
+                case "3":
+                    userController.changePassword(currentUser);
+                    break;
+                case "4":
+                    userController.changeEmail(currentUser);
+                    break;
+                case "5":
+                    userController.changeToAdmin(currentUser);
+                    break;
+                case "6":
+                    userController.deleteUser(currentUser);
+                    break;
+                case "7":
+                    accountMenuActive = false;
+                    break;
             }
         }
     }
 
     // "Create Event", "View Events", "View My Events", "Account Menu", "Save"
-    private boolean runMainMenu() {
-        boolean menu_running = true;
-        while (menu_running) {
+    private void runMainMenu() {
+        boolean menuRunning = true;
+        while (menuRunning) {
             String input = showMenu("Main Menu");
-            if (inputEquals(input, Arrays.asList("createevent", "create", "1"))) {
-
-            } else if (inputEquals(input, Arrays.asList("viewevents", "view", "viewall", "2"))) {
-
-            } else if (inputEquals(input, Arrays.asList("viewmyevents", "viewmy", "3"))) {
-
-            } else if (inputEquals(input, Arrays.asList("accountmenu", "account", "menu", "4"))) {
-
-            } else if (inputEquals(input, Arrays.asList("save", "5"))) {
-
-            } else {
+            switch (input) {
                 // TODO
             }
         }
     }
 
+    public void runTrialMenu(){
+        boolean trialMenuActive = true;
+        while (trialMenuActive){
+            presenter.printMenu("Trial Menu", this.menuMap.get("Trial Menu"));
+            String user_input = inputParser.readLine();
+            switch (user_input) {
+                case "1":
+                    // TODO: Call view event method
+                    break;
+                case "2":
+                    // TODO: Call View Events Method
+                    break;
+                case "3":
+                    trialMenuActive = false;
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Create a trial User in the program
+     */
+    public void createTrialUser(){
+        String trial_username = "TRIAL_USER";
+        String trial_password = "TRIAL_PASS";
+        String trial_email = "TRIAL@EMAIL.COM";
+        this.currentUser = trial_username;
+        userManager.createUser(trial_username, trial_password, trial_email, User.UserType.T);
+    }
+
     private String showMenu(String menuName) {
         presenter.printMenu(menuName, menuMap.get(menuName));
         return inputParser.readLine();
-    }
-
-    private boolean inputEquals(String input, List<String> prompts) {
-        input = input.toLowerCase();
-        input = input.trim(); // TODO maybe presenter should do this?
-        input = input.replace(" ", "");
-        return prompts.contains(input);
     }
 }
 

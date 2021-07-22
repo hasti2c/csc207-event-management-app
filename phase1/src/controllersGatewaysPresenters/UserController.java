@@ -162,4 +162,24 @@ public class UserController {
         presenter.printText("Updating type to Regular");
         userManager.changeUserTypeToAdmin(username);
     }
+
+    /**
+     * Delete a user from the program
+     * @param username The username of the User who wishes to delete their account
+     */
+    public void deleteUser(String username){
+        presenter.printText("Are you sure you wish to delete your account?");
+        presenter.printText("1) Yes 2) Go Back");
+        String user_input = inputParser.readLine();
+        if (user_input.equals("1")){
+            userManager.deleteUser(username);
+        }
+        else if (user_input.equals("2")){
+            return;
+        }
+        else {
+            presenter.printText("You did not enter a valid option, try again");
+            deleteUser(username);
+        }
+    }
 }
