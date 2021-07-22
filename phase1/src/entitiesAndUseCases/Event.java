@@ -51,13 +51,13 @@ public class Event implements Serializable {
     public Event() {
     }
 
-    private void addFieldsToEventDetails(Template template) {
+    public void addFieldsToEventDetails(Template template) {
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
             this.eventDetails.put(fieldSpecs.getFieldName(), null);
         }
     }
 
-    private void addFieldNameAndTypeToMap(Template template) { //creates a map that has fieldName as key,
+    public void addFieldNameAndTypeToMap(Template template) { //creates a map that has fieldName as key,
         // [fieldType, required] as value
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
             List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();

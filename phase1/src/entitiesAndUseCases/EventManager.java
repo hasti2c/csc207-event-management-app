@@ -26,9 +26,11 @@ public class EventManager {
      */
     // TODO need to check templateId vs templateName
     public String createEvent(String templateName, String eventOwner) {
-        Event e = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
-        eventList.add(e);
-        return e.getEventId();
+        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
+        newEvent.addFieldsToEventDetails(templateManager.retrieveTemplateByName(templateName));
+        newEvent.addFieldNameAndTypeToMap(templateManager.retrieveTemplateByName(templateName));
+        eventList.add(newEvent);
+        return newEvent.getEventId();
     }
 
     /**
