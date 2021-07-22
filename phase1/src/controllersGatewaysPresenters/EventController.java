@@ -46,7 +46,7 @@ public class EventController {
     }
 
     private void browseEvents() {
-        this.presenter.printEvents(this.eventManager.getPublicEvents());
+        this.presenter.printEvents(this.eventManager.returnPublishedEvents());
     }
 
     private void joinEvent(String username, String eventID) {

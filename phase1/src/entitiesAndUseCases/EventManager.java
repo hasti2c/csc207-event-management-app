@@ -40,7 +40,7 @@ public class EventManager {
     }
 
     // === Getters and Setters ===
-    public Map<String, Object> getEventDetails(String eventId) {
+    public Map<String, Object> retrieveEventDetails(String eventId) {
         List<Map<String, Object>> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
@@ -127,7 +127,7 @@ public class EventManager {
      * @param eventId The Id of the event that is to be returned
      * @return The event that the event Id
      */
-    public Event getEvent(String eventId) {
+    public Event retrieveEventById(String eventId) {
         List<Event> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
@@ -137,16 +137,28 @@ public class EventManager {
         return holderList.remove(0);
     }
 
+    public Map<String, Object> returnEventAsMap(String eventId) {
+        Map<String, Object> eventMap = new HashMap<>();
+        List<Event> holderList = new ArrayList<>();
+        for (Event event : eventList) {
+            if (event.getEventId().equals(eventId)) {
+                holderList.add(event);
+            }
+        }
+        Event thisEvent = holderList.remove(0);
+        eventMap =
+    }
+
     /**
-     * Returns an Arraylist of all the published events from eventList, a list of events
+     * Returns a List of the IDs of all the published events from eventList, a list of events
      * @return Arraylist of all the published events from eventList, a list of events
      */
     // TODO change name to retrievePublishedEvents
-    public ArrayList<Event> getPublicEvents() {
-        ArrayList<Event> holderList = new ArrayList<>();
+    public List<String> returnPublishedEvents() {
+        List<String> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.isPublished()) {
-                holderList.add(event);
+                holderList.add(event.getEventId());
             }
         }
         return holderList;
