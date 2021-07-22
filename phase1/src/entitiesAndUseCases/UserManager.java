@@ -1,5 +1,8 @@
 package entitiesAndUseCases;
 
+import controllersGatewaysPresenters.IGateway;
+import controllersGatewaysPresenters.UserParser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +15,16 @@ public class UserManager {
     private List<String> usernamesList;
     private List<String> emailList;
     // === Methods ===
-    public UserManager() {
-        userList = new ArrayList<>();
+    public UserManager(IGateway<User> parser) {
+        userList = parser.getAllElements();
         usernamesList = new ArrayList<>();
         emailList = new ArrayList<>();
+        for (User user :
+                userList) {
+            usernamesList.add(user.getUsername());
+            emailList.add(user.getUserEmail());
+        }
+
     }
 
     /**
