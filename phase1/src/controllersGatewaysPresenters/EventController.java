@@ -40,6 +40,7 @@ public class EventController {
             boolean accepted = false;
             while (!accepted) {
                 if (eventManager.checkDataValidation(entry.getKey(), userInput, newEventID)) {
+                    eventManager.enterFieldValue(entry.getKey(), userInput, newEventID);
                     accepted = true;
                 }
                 else {
