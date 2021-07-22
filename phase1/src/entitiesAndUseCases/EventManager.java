@@ -83,18 +83,24 @@ public class EventManager {
         return fieldNameAndType;
     }
 
+    /**
+     * Enters a value to a field name
+     * @param fieldName
+     * @param fieldValue
+     * @param eventId
+     */
     private void enterFieldValue (String fieldName, String fieldValue, String eventId) {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
                     if (eventDetailsEntry.getKey().equals(fieldName)) {
-                        event.getEventDetails().replace(fieldName, fieldValue);
+                            event.getEventDetails().replace(fieldName, fieldValue);
+
                     }
                 }
             }
         }
     }
-
     /**
      * Checks if the entered field is the same type
      * @param fieldName The name of the field
@@ -113,7 +119,6 @@ public class EventManager {
                     if ((fieldSpecEntry.getKey().equals(fieldName)) && (fieldSpecEntry.getValue().get(0).equals
                             (fieldValue.getClass().getSimpleName()))
                     && (fieldSpecEntry.getValue().get(1).equals(true))){
-                        enterFieldValue(fieldName,fieldValue,eventId);
                         return true;
                         }
                     }
