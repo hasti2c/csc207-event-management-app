@@ -1,5 +1,7 @@
 package entitiesAndUseCases;
 
+import controllersGatewaysPresenters.IGateway;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +11,12 @@ public class TemplateManager {
      */
     // === Class Variables ===
     private List<Template> templateList;
-    // === Methods ===
+    private IGateway<Template> parser;
 
-    public TemplateManager() {
-        templateList = new ArrayList<>();
+    // === Methods ===
+    public TemplateManager(IGateway<Template> parser) {
+        this.parser = parser;
+        templateList = parser.getAllElements();
     }
 
     public boolean editTemplateName(String templateName, String newName){
@@ -45,5 +49,9 @@ public class TemplateManager {
             }
         }
         return holderList.remove(0);
+    }
+
+    public void saveAllTemplates() {
+        parser.saveAllElements(templateList);
     }
 }

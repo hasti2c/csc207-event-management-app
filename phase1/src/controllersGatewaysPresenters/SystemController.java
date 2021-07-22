@@ -1,13 +1,13 @@
 package controllersGatewaysPresenters;
 
-// TODO: ADD LOADING FOR TEMPLATE AND EVENT, USER HAS BEEN DONE CAN BE AN EXAMPLE!
-
 // A TODO: Make the Main Run Method
 // A TODO: Make the StartupMenu Method
 // H TODO: Make the mainMenu Method
 // A TODO: Make the trialMenu Method
 // H TODO: Make the AdminMenu Method
 // A TODO: Make the accountMenu Method
+
+// TODO where do we change the field current user when logging in and out?
 
 import entitiesAndUseCases.*;
 
@@ -37,8 +37,8 @@ public class SystemController {
         templateParser = new TemplateParser("data/templates.json");
 
         userManager = new UserManager(userParser);
-        eventManager = new EventManager(eventParser); // TODO fix constructor
-        templateManager = new TemplateManager(templateParser); // TODO fix constructor
+        templateManager = new TemplateManager(templateParser);
+        eventManager = new EventManager(eventParser, templateManager);
 
         presenter = new Presenter();
         inputParser = new InputParser();
@@ -51,12 +51,12 @@ public class SystemController {
     }
 
     private void initMenuMap() {
-        List<String> startupMenu = Arrays.asList("SignUp", "Login", "Trial");
+        List<String> startupMenu = Arrays.asList("SignUp", "Login", "Trial", "Exit");
         List<String> mainMenu = Arrays.asList("Create Event", "View Events", "View My Events", "Account Menu", "Save",
-                "Go Back");
-        List<String> trialMenu = Arrays.asList("Create Event", "View Events");
+                "Logout");
+        List<String> trialMenu = Arrays.asList("Create Event", "View Events", "Go Back");
         List<String> adminMenu = Arrays.asList("Create Event", "View Events", "View My Events", "Edit Template",
-                "Account Menu", "Save");
+                "Account Menu", "Save", "Logout");
         List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email",
                 "Change User Type", "Go Back", "Delete Account");
         menuMap.put("Startup Menu", startupMenu);
@@ -149,13 +149,64 @@ public class SystemController {
         }
     }
 
-    // "Create Event", "View Events", "View My Events", "Account Menu", "Save"
     private void runMainMenu() {
-        boolean menuRunning = true;
-        while (menuRunning) {
-            String input = showMenu("Main Menu");
+        while (true) {
+            String userInput = showMenu("Main Menu");
+            int input = Integer.parseInt(userInput);
             switch (input) {
-                // TODO
+                case 1:
+                    eventController.createEvent("" /* TODO get template name */, currentUser);
+                    break;
+                case 2:
+                    eventController.browseEvents();
+                    break;
+                case 3:
+                    // TODO view own events?
+                    break;
+                case 4:
+                    runAccountMenu();
+                    break;
+                case 5:
+                    saveAll();
+                    break;
+                case 6:
+                    saveAll();
+                    // TODO call logout method
+                    return;
+                // TODO bad input?
+            }
+        }
+    }
+
+    // "Create Event", "View Events", "View My Events", "Edit Template", "Account Menu", "Save", "Logout"
+    private void runAdminMenu() {
+        while (true) {
+            String userInput = showMenu("Admin Menu");
+            int input = Integer.parseInt(userInput);
+            switch (input) {
+                case 1:
+                    eventController.createEvent("" /* TODO get template name */, currentUser);
+                    break;
+                case 2:
+                    eventController.browseEvents();
+                    break;
+                case 3:
+                    // TODO view own events?
+                    break;
+                case 4:
+                    // TODO edit template?
+                    break;
+                case 5:
+                    runAccountMenu();
+                    break;
+                case 6:
+                    saveAll();
+                    break;
+                case 7:
+                    saveAll();
+                    // TODO call logout method
+                    return;
+                // TODO bad input?
             }
         }
     }
@@ -192,7 +243,13 @@ public class SystemController {
 
     private String showMenu(String menuName) {
         presenter.printMenu(menuName, menuMap.get(menuName));
-        return inputParser.readLine();
+        return inputParser.readLine(); // TODO maybe presenter should return int of which menu item?
+    }
+
+    private void saveAll() {
+        userManager.saveAllUsers();
+        eventManager.saveAllEvents();
+        templateManager.saveAllTemplates();
     }
 }
 

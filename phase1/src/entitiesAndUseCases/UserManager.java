@@ -14,8 +14,10 @@ public class UserManager {
     private List<User> userList;
     private List<String> usernamesList;
     private List<String> emailList;
+    private IGateway<User> parser;
     // === Methods ===
     public UserManager(IGateway<User> parser) {
+        this.parser = parser;
         userList = parser.getAllElements();
         usernamesList = new ArrayList<>();
         emailList = new ArrayList<>();
@@ -318,5 +320,9 @@ public class UserManager {
             user.setUserType(User.UserType.A);
         }
         return true;
+    }
+
+    public void saveAllUsers() {
+        parser.saveAllElements(userList);
     }
 }

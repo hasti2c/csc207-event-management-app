@@ -1,4 +1,6 @@
 package entitiesAndUseCases;
+import controllersGatewaysPresenters.IGateway;
+
 import java.util.*;
 import java.time.format.DateTimeFormatter;
 
@@ -9,9 +11,12 @@ public class EventManager {
     // === Class Variables ===
     private List<Event> eventList;
     private TemplateManager templateManager;
+    private IGateway<Event> parser;
     private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm:ss";
-    public EventManager(TemplateManager templateManager) {
-        eventList = new ArrayList<>();
+
+    public EventManager(IGateway<Event> parser, TemplateManager templateManager) {
+        this.parser = parser;
+        eventList = parser.getAllElements();
         this.templateManager = templateManager;
     }
 
@@ -168,5 +173,9 @@ public class EventManager {
             }
         }
         return holderList;
+    }
+
+    public void saveAllEvents() {
+        parser.saveAllElements(eventList);
     }
 }

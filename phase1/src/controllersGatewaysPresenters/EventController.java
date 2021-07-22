@@ -30,7 +30,7 @@ public class EventController {
      * @param templateName - name of the template
      * @param username - username of the currently logged in user
      */
-    private void createEvent(String templateName, String username){
+    public void createEvent(String templateName, String username){
         String newEventID = this.eventManager.createEvent(templateName, username);
 
         Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
@@ -63,7 +63,7 @@ public class EventController {
      * Prints a list of all public events created by all users.
      */
     // TODO Need to figure out how this will be presented
-    private void browseEvents() {
+    public void browseEvents() {
         List<Map<String, String>> eventList = new ArrayList<>();
 
         for (String eventID : this.eventManager.returnPublishedEvents()) {
