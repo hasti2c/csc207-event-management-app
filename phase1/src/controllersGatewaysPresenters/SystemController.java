@@ -45,9 +45,9 @@ public class SystemController {
         this.userController = new UserController(this.userManager, this.eventManager, this.templateManager);
         List<String> startupMenu = Arrays.asList("SignUp", "Login", "Trial");
         List<String> mainMenu = Arrays.asList("Create Event", "View Events", "View My Events", "Account Menu", "Save");
-        List<String> trialMenu = Arrays.asList("Create Event", "View Events");
+        List<String> trialMenu = Arrays.asList("Create Event", "View Events", "Go Back");
         List<String> adminMenu = Arrays.asList("Create Event", "View Events", "View My Events", "Edit Template", "Account Menu", "Save");
-        List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email", "Change User Type", "Go Back", "Delete Account");
+        List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email", "Change User Type to Admin", "Delete Account", "Go Back");
         this.menuMap.put("Startup Menu", startupMenu);
         this.menuMap.put("Main Menu", mainMenu);
         this.menuMap.put("Account Menu", accountMenu);
@@ -74,35 +74,100 @@ public class SystemController {
     // add helper methods down here
 
 
+    /**
+     * Run the program, this runs the "StartUp Menu"
+     */
     public void run(){
         boolean program_running = true;
         while (program_running) {
             presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
             String user_input = inputParser.readLine();
-            if (user_input.equals("1")){
-                userController.userSignUp();
-            }
-            else if (user_input.equals("2")){
-                String username = userController.userLogin();
-                if (username.equals("")){
-                    presenter.printText("Please try to login again");
-                }
-                else {
-                    User.UserType userType = userManager.retrieveUserType(username);
-                    if (userType == User.UserType.R){
-                        // TODO: Run Main Menu
+            switch (user_input) {
+                case "1":
+                    userController.userSignUp();
+                    break;
+                case "2":
+                    String username = userController.userLogin();
+                    if (username.equals("")) {
+                        presenter.printText("Please try to login again");
+                    } else {
+                        this.currentUser = username;
+                        User.UserType userType = userManager.retrieveUserType(username);
+                        if (userType == User.UserType.R) {
+                            // TODO: Run Main Menu
+                        } else if (userType == User.UserType.A) {
+                            // TODO: Run Admin Menu
+                        }
                     }
-                    else if (userType == User.UserType.A){
-                        // TODO: Run Admin Menu
-                    }
-                }
-            }
-            else if (user_input.equals("3")){
-                // Create trial user and goto next menu
+                    break;
+                case "3":
+                    createTrialUser();
+                    runTrialMenu();
+                    break;
             }
         }
     }
 
+    public void runAccountMenu(){
+        boolean accountMenuActive = true;
+        while (accountMenuActive) {
+            presenter.printMenu("Account Menu", this.menuMap.get("Account Menu"));
+            String user_input = inputParser.readLine();
+            switch (user_input) {
+                case "1":
+                    // TODO: Create a logout for the program
+                    break;
+                case "2":
+                    userController.changeUsername(currentUser);
+                    break;
+                case "3":
+                    userController.changePassword(currentUser);
+                    break;
+                case "4":
+                    userController.changeEmail(currentUser);
+                    break;
+                case "5":
+                    userController.changeToAdmin(currentUser);
+                    break;
+                case "6":
+                    userController.deleteUser(currentUser);
+                    break;
+                case "7":
+                    accountMenuActive = false;
+                    break;
+            }
+        }
+    }
+
+    public void runTrialMenu(){
+        boolean trialMenuActive = true;
+        while (trialMenuActive){
+            presenter.printMenu("Trial Menu", this.menuMap.get("Trial Menu"));
+            String user_input = inputParser.readLine();
+            switch (user_input) {
+                case "1":
+                    // TODO: Call view event method
+                    break;
+                case "2":
+                    // TODO: Call View Events Method
+                    break;
+                case "3":
+                    trialMenuActive = false;
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Create a trial User in the program
+     */
+    public void createTrialUser(){
+        String trial_username = "TRIAL_USER";
+        String trial_password = "TRIAL_PASS";
+        String trial_email = "TRIAL@EMAIL.COM";
+        this.currentUser = trial_username;
+        userManager.createUser(trial_username, trial_password, trial_email, User.UserType.T);
+    }
 
 
 //    public static void main(String[] args) {
