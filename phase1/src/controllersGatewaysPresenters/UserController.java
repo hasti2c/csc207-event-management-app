@@ -18,12 +18,13 @@ public class UserController {
         this.inputParser = new InputParser();
     }
 
-    private void userSignUp(){
+    // TODO: Add usertype!
+    public void userSignUp(){
         presenter.printText("Enter an Email: ");
         String email = inputParser.readLine();
         boolean correctEmail = false;
         while(!correctEmail){
-            if(!userManager.isEmailTaken(email)){ // needs to be implemented
+            if(userManager.emailIsUnique(email)){ // needs to be implemented
                 correctEmail = true;
             }else{
                 presenter.printText("Email already exists. Enter another email: ");
@@ -35,7 +36,7 @@ public class UserController {
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if(!userManager.isUsernameTaken(email)){
+            if(userManager.usernameIsUnique(email)){
                 correctUsername = true;
             }else{
                 presenter.printText("Username already exists. Enter another username: ");
@@ -50,7 +51,10 @@ public class UserController {
         presenter.printText("Account has been created Successfully. Please login.");
 
     }
-    private void userLogin(){
+
+    // TODO: Return the username if successful else return empty string. Also do not allow users to create a username
+    // of the empty string.
+    public String userLogin(){
 
         presenter.printText("Enter your Username: ");
         String username = inputParser.readLine();
@@ -73,26 +77,27 @@ public class UserController {
             }
         }
         presenter.printText("Login was successful");
+        return username;
     }
-
-    private boolean checkLogin(){
-        /* checks given user credentials from presenter and checks if it is correct or not
-         */
-        return true;
-    }
+//
+//    private boolean checkLogin(){
+//        /* checks given user credentials from presenter and checks if it is correct or not
+//         */
+//        return true;
+//    }
 
     /**
      * The controller method that allows the User at the keyboard to update their username
      * @param username The username of the User who is attempting to update their username
      */
-    private void changeUsername(String username){
+    public void changeUsername(String username){
         presenter.printText("Enter your NEW username (or type Cancel to go back!): ");
         String newUsername = inputParser.readLine();
         if (newUsername.toUpperCase().equals("CANCEL")){
             presenter.printText("Returning to previous menu...");
             return;
         }
-        else if (!userManager.isUsernameTaken(newUsername)){
+        else if (userManager.usernameIsUnique(newUsername)){
             userManager.updateUsername(username, newUsername);
             presenter.printText("Your username has been updated!");
             return;
@@ -107,13 +112,13 @@ public class UserController {
      * The controller method that allows the User at the keyboard to update their email
      * @param username The username of the User who is attempting to update their email
      */
-    private void changeEmail(String username){
+    public void changeEmail(String username){
         presenter.printText("Enter your NEW email (or type Cancel to go back!): ");
         String newEmail = inputParser.readLine();
         if (newEmail.toUpperCase().equals("CANCEL")){
             presenter.printText("Returning to previous menu...");
         }
-        else if (!userManager.isEmailTaken(newEmail)){
+        else if (userManager.emailIsUnique(newEmail)){
             userManager.updateEmail(username, newEmail);
             presenter.printText("Your email has been updated!");
         }
@@ -127,7 +132,7 @@ public class UserController {
      * The controller method that allows the User at the keyboard to update their password
      * @param username The username of the User who is attempting to update their password
      */
-    private void changePassword(String username){
+    public void changePassword(String username){
         presenter.printText("Enter your NEW password (or type 'Cancel' to go back!): ");
         String newPassword = inputParser.readLine();
         if (newPassword.toUpperCase().equals("CANCEL")) {
@@ -144,7 +149,7 @@ public class UserController {
      * The controller method that allows the User at the keyboard to update their account to the Regular type
      * @param username The username of the User who is attempting to update their account type
      */
-    private void changeToRegular(String username){
+    public void changeToRegular(String username){
         presenter.printText("Updating type to Regular");
         userManager.changeUserTypeToRegular(username);
     }
@@ -153,7 +158,7 @@ public class UserController {
      * The controller method that allows the User at the keyboard to update their account to the Admin type
      * @param username The username of the User who is attempting to update their account type
      */
-    private void changeToAdmin(String username){
+    public void changeToAdmin(String username){
         presenter.printText("Updating type to Regular");
         userManager.changeUserTypeToAdmin(username);
     }

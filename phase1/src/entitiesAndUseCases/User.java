@@ -13,10 +13,9 @@ public class User {
     private String username;
     private String password;
     private String userEmail;
-    private boolean loggedIn;
+    private transient boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
-    // TODO: Change to ownedEvents
-    private List<String> createdEvents;
+    private List<String> ownedEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be published.
     private List<String> attendingEvents;
     // needs to be public so that it can be used in the constructor and the UserManager class can access it.
@@ -33,7 +32,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.userEmail = userEmail;
-        this.createdEvents = new ArrayList<>();
+        this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
         this.loggedIn = false;
     }
@@ -81,8 +80,8 @@ public class User {
      * Get the user's created events
      * @return List<Event> List of created events
      */
-    public List<String> getCreatedEvents() {
-        return this.createdEvents;
+    public List<String> getOwnedEvents() {
+        return this.ownedEvents;
     }
     /**
      * Get the user's attended events
@@ -101,7 +100,7 @@ public class User {
         return "User{" +
                 "username='" + this.username + '\'' +
                 ", userEmail='" + this.userEmail + '\'' +
-                ", userEvents=" + this.createdEvents +
+                ", userEvents=" + this.ownedEvents +
                 '}';
         // Test
     }
@@ -152,7 +151,7 @@ public class User {
      * @param createdEvents The new list of created events
      */
     public void setcreatedEvents(List<String> createdEvents) {
-        this.createdEvents = createdEvents;
+        this.ownedEvents = createdEvents;
     }
 
     /**
