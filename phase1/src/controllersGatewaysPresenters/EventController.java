@@ -115,6 +115,9 @@ public class EventController {
     public void browsePublicEvents(String username) {
         List<Map<String, String>> eventList = new ArrayList<>();
         List<String> eventNameList = new ArrayList<>();
+        Map<String, List<String>> menuMap = new HashMap<>();
+        menuMap.put("True", new ArrayList<>(Arrays.asList("Leave", "Back")));
+        menuMap.put("False", new ArrayList<>(Arrays.asList("Join", "Back")));
 
         for (String eventID : this.eventManager.returnPublishedEvents()) {
             Map<String, String> tempEventMap = this.eventManager.returnEventAsMap(eventID);
@@ -123,12 +126,23 @@ public class EventController {
         }
         while (true) {
             int eventIndex = viewEventList(eventNameList);
+
+            String attended;
             if (eventIndex == eventNameList.size() - 1) {
                 break;
             }
-            int menuChoice = viewDetailedEvent(eventList.get(eventIndex), new ArrayList<>(Arrays.asList("Join", "Back")));
-            if (menuChoice == 0) {
+            else if (userManager.getAttendingEvents(username).contains(eventList.get(eventIndex).get("Event Id")) ){
+                attended = "True";
+            }
+            else {
+                attended = "False";
+            }
+            int menuChoice = viewDetailedEvent(eventList.get(eventIndex), menuMap.get(attended));
+            if (menuChoice == 0 && attended.equals("False")) {
                 userManager.attendEvent(username, eventList.get(eventIndex).get("Event Id"));
+            }
+            else if (menuChoice == 0) {
+                userManager.unAttendEvent(username, eventList.get(eventIndex).get("Event Id"));
             }
         }
 
