@@ -25,19 +25,39 @@ public class EventController {
         this.inputParser = new InputParser();
     }
 
+    public void viewUsersEvents(String username) {
+        List<String> myEvents = userManager.getCreatedEvents(username);
+        myEvents.add("Back");
+
+        while (true) {
+            presenter.printMenu("My Events", myEvents);
+            int eventChoice = getChoice(0, myEvents.size());
+
+            if (eventChoice == myEvents.size() - 1) {
+                break;
+            }
+
+            int menuChoice = viewDetailedEvent(eventManager.returnEventAsMap(myEvents.get(eventChoice)), new ArrayList<>(Arrays.asList("Delete", "Back")));
+            if (menuChoice == 0) {
+                deleteEvent(username, myEvents.get(eventChoice));
+                myEvents = userManager.getCreatedEvents(username);
+                myEvents.add("Back");
+            }
+        }
+
+    }
+
+
     public void createEventMenu(String username) {
         List<String> templateList = templateManager.getTemplateList(); // assume this will return list of str
         presenter.printMenu("Type a number corresponding to a template", templateList);
         int choice = getChoice(0, templateList.size());
         this.createNewEvent(templateList.get(choice), username);
-
-
-
     }
 
     private int getChoice(int lowBound, int highBound) {
         int choice = inputParser.readInt();
-        while (choice < lowBound || choice >= highBound){
+        while (choice < lowBound || choice >= highBound) {
             presenter.printText("Do it right. Pick a good number: ");
             choice = inputParser.readInt();
         }
@@ -46,11 +66,13 @@ public class EventController {
 
     /**
      * Creates a new event based on chosen template and adds to User's owned events.
+     *
      * @param templateName - name of the template
-     * @param username - username of the currently logged in user
+     * @param username     - username of the currently logged in user
      */
-    public void createNewEvent(String templateName, String username){
+    public void createNewEvent(String templateName, String username) {
         String newEventID = this.eventManager.createEvent(templateName, username);
+        userManager.createEvent(username, newEventID);
 
         Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
         for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
@@ -61,8 +83,7 @@ public class EventController {
                 if (eventManager.checkDataValidation(entry.getKey(), userInput, newEventID)) {
                     eventManager.enterFieldValue(entry.getKey(), userInput, newEventID);
                     accepted = true;
-                }
-                else {
+                } else {
                     presenter.printText("Do it right. Enter " + entry.getKey() + "(" + entry.getValue() + "):");
                     userInput = inputParser.readLine();
                 }
@@ -72,24 +93,23 @@ public class EventController {
 
     /**
      * Prints details of a single event.
+     *
      * @param eventMap- Map representation of Event Entity
      */
-    private int viewDetailedEvent(Map<String, String> eventMap) {
+    private int viewDetailedEvent(Map<String, String> eventMap, List<String> options) {
         this.presenter.printEntity(eventMap);
-        presenter.printMenu("Select an option", new ArrayList<>(Arrays.asList("Join", "Back")));
-        return getChoice(0, 2);
+        presenter.printMenu("Select an option", options);
+        return getChoice(0, options.size());
     }
 
     /**
      * Prints a list of all public events created by all users.
      */
-    // TODO Need to figure out how this will be presented
-
     private int viewEventList(List<String> eventNameList) {
         eventNameList.add("Back");
         presenter.printMenu("Type a valid number", eventNameList);
 
-        return getChoice(0, eventNameList.size() + 1);
+        return getChoice(0, eventNameList.size());
     }
 
     public void browsePublicEvents(String username) {
@@ -103,30 +123,22 @@ public class EventController {
         }
         while (true) {
             int eventIndex = viewEventList(eventNameList);
-            if (eventIndex == eventNameList.size()) {
+            if (eventIndex == eventNameList.size() - 1) {
                 break;
             }
-            int menuChoice = viewDetailedEvent(eventList.get(eventIndex));
+            int menuChoice = viewDetailedEvent(eventList.get(eventIndex), new ArrayList<>(Arrays.asList("Join", "Back")));
             if (menuChoice == 0) {
-                attendEvent(username, eventList.get(eventIndex).get("Event Id"));
+                userManager.attendEvent(username, eventList.get(eventIndex).get("Event Id"));
             }
         }
 
     }
 
     /**
-     * Adds event to User's joined event list.
-     * @param username - username of the currently logged in user
-     * @param eventID - unique identifier for event
-     */
-    private void attendEvent(String username, String eventID) {
-        this.userManager.attendEvent(username, eventID);
-    }
-
-    /**
      * Removes selected event from User's joined event list.
+     *
      * @param username - username of the currently logged in user
-     * @param eventID - unique identifier for event
+     * @param eventID  - unique identifier for event
      */
     private void leaveEvent(String username, String eventID) {
         this.userManager.unAttendEvent(username, eventID);
@@ -134,8 +146,9 @@ public class EventController {
 
     /**
      * Completely deletes specified event from system.
+     *
      * @param username - username of the currently logged in user
-     * @param eventID - unique identifier for event
+     * @param eventID  - unique identifier for event
      */
     private void deleteEvent(String username, String eventID) {
         this.userManager.deleteEvent(username, eventID);
