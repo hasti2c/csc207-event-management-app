@@ -31,7 +31,7 @@ public class Event {
     // === Representation Invariants ===
     // Not sure yet
     // === Methods ===
-    public Event(Template template, String eventName, String eventOwner){
+    public Event(Template template, String eventOwner){
         eventId = UUID.randomUUID().toString();
         // need user to explicitly change to published
         published = false;
@@ -41,7 +41,7 @@ public class Event {
         this.templateVersion = template.getFileVersionNumber();
         this.eventDetails = new HashMap<>();
         this.fieldNameAndTypeMap = new HashMap<>();
-        this.eventName = eventName;
+        this.eventName = null;
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
     }

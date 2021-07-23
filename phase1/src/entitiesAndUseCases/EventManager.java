@@ -29,8 +29,8 @@ public class EventManager {
      * @param eventOwner The owner of this event
      * @return The Id of the event
      */
-    public String createEvent(String templateName, String eventName, String eventOwner) {
-        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventName,eventOwner);
+    public String createEvent(String templateName, String eventOwner) {
+        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
         newEvent.addFieldsToEventDetails(templateManager.retrieveTemplateByName(templateName));
         newEvent.addFieldNameAndTypeToMap(templateManager.retrieveTemplateByName(templateName));
         eventList.add(newEvent);
@@ -88,6 +88,22 @@ public class EventManager {
         return fieldNameAndType;
     }
 
+    /**
+     * Returns the event details for the event with the given event id
+     * @param eventId The event id of the event
+     * @return Map The event details of map for the event with the given event id
+     */
+    public Map<String, String> returnEventDetails(String eventId) {
+        Map<String, String> eventDetailsMap = new HashMap<>();
+        for (Event event : eventList) {
+            if (event.getEventId().equals(eventId)) {
+                for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
+                    eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
+                }
+            }
+        }
+        return eventDetailsMap;
+    }
     /**
      * Enters a value to a field name
      * @param fieldName
