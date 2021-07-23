@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// TODO* update parsers to newest entity version
+
 // TODO exceptions
 // TODO javadocs
-// TODO update parsers to newest entity version
-// TODO entities can stop implementing serializable
 
 public abstract class EntityParser<T> implements IGateway<T> {
     private final Class<T> dataType;
@@ -48,6 +48,24 @@ public abstract class EntityParser<T> implements IGateway<T> {
         else
             elements.put(elementId, element);
         writeElements();
+    }
+
+    @Override
+    public void saveAllElements(List<T> elements) {
+        this.elements = new HashMap<>();
+        for (T element: elements)
+            this.elements.put(getElementId(element), element);
+        writeElements();
+    }
+
+    @Override
+    public void deleteElement(T element) {
+        elements.remove(getElementId(element));
+    }
+
+    @Override
+    public void deleteElement(String elementId) {
+        elements.remove(elementId);
     }
 
     private void readElements() {

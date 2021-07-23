@@ -1,11 +1,7 @@
 package controllersGatewaysPresenters;
 
-// A TODO: Make the Main Run Method
-// A TODO: Make the StartupMenu Method
-// H TODO: Make the mainMenu Method
-// A TODO: Make the trialMenu Method
-// H TODO: Make the AdminMenu Method
-// A TODO: Make the accountMenu Method
+// A: main run method + startUpMenu + TrialMenu + accountMenu
+// H: initializer + mainMenu + adminMenu
 
 // TODO where do we change the field current user when logging in and out?
 
@@ -47,7 +43,6 @@ public class SystemController {
         userController = new UserController(userManager, eventManager, templateManager);
 
         initMenuMap();
-        // TODO run() was being called before, but i (hasti) feel like it's better to not call it
     }
 
     private void initMenuMap() {
@@ -65,24 +60,6 @@ public class SystemController {
         menuMap.put("Trial Menu", trialMenu);
         menuMap.put("Admin Menu", adminMenu);
     }
-
-
-
-//    // Allow user to go back
-//    public void run() {
-//        // starts at the main login page and asks to login or signup
-//        presenter.printMenu("Main Menu", this.menuMap.get("Main Menu"));
-//        int signupChoice = inputParser.readInt();
-//        if(signupChoice == 1){
-//            this.userSignUp();
-//        }
-//        this.userLogin();
-//        // after this point, the event controller should take over
-//        // Bring user to loginOptions
-//
-//    }
-    // add helper methods down here
-
 
     /**
      * Run the program, this runs the "StartUp Menu"
@@ -155,7 +132,7 @@ public class SystemController {
             int input = Integer.parseInt(userInput);
             switch (input) {
                 case 1:
-                    eventController.createEvent("" /* TODO get template name */, currentUser);
+                    eventController.createEvent(currentUser);
                     break;
                 case 2:
                     eventController.browseEvents();
@@ -178,14 +155,13 @@ public class SystemController {
         }
     }
 
-    // "Create Event", "View Events", "View My Events", "Edit Template", "Account Menu", "Save", "Logout"
     private void runAdminMenu() {
         while (true) {
             String userInput = showMenu("Admin Menu");
             int input = Integer.parseInt(userInput);
             switch (input) {
                 case 1:
-                    eventController.createEvent("" /* TODO get template name */, currentUser);
+                    eventController.createEvent(currentUser);
                     break;
                 case 2:
                     eventController.browseEvents();
