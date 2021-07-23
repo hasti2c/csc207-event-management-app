@@ -3,12 +3,11 @@ package controllersGatewaysPresenters;
 import com.google.gson.*;
 import entitiesAndUseCases.Template;
 
-// TODO Generics
+// TODO* Generics
+
 // TODO correct list below
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums, Class<?>
-// TODO why did FieldSpecs change from using Class<?> to String?
-// TODO FieldSpecs also needs no parameter constructor
-// TODO does templateId depend on version or no + what input to give getter
+// TODO specify input for getter as precondition
 
 public class TemplateParser extends EntityParser<Template> {
     public TemplateParser(String path) {

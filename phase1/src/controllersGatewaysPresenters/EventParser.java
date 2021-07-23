@@ -10,11 +10,10 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
 
+// TODO* optional field specs (null value)
+
 // TODO make field reading & writing more general
-// TODO test
 // TODO local date time serializer
-// TODO optional field specs (null value)
-// TODO implement save all elements
 
 public class EventParser extends EntityParser<Event> {
     public EventParser(String path) {
