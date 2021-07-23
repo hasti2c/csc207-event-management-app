@@ -32,7 +32,7 @@ public class EventManager {
     public String createEvent(String templateName, String eventOwner) {
         Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
         newEvent.addFieldsToEventDetails(templateManager.retrieveTemplateByName(templateName));
-        newEvent.addFieldNameAndTypeToMap(templateManager.retrieveTemplateByName(templateName));
+        newEvent.addFieldNameAndFieldSpecsInfo(templateManager.retrieveTemplateByName(templateName));
         eventList.add(newEvent);
         return newEvent.getEventId();
     }

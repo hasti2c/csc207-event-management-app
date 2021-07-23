@@ -20,7 +20,7 @@ public class Event {
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-    private Map<String, List<Object>> fieldNameAndTypeMap;
+    private Map<String, List<Object>> fieldNameAndFieldSpecsInfo;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
@@ -40,7 +40,7 @@ public class Event {
         this.templateId = template.getTemplateId();
         this.templateVersion = template.getFileVersionNumber();
         this.eventDetails = new HashMap<>();
-        this.fieldNameAndTypeMap = new HashMap<>();
+        this.fieldNameAndFieldSpecsInfo = new HashMap<>();
         this.eventName = null;
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
@@ -55,13 +55,13 @@ public class Event {
         }
     }
 
-    public void addFieldNameAndTypeToMap(Template template) { //creates a map that has fieldName as key,
+    public void addFieldNameAndFieldSpecsInfo(Template template) { //creates a map that has fieldName as key,
         // [fieldType, required] as value
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
             List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();
             fieldSpecsTypeAndRequired.add(fieldSpecs.getDataType()); //the first element, 0
             fieldSpecsTypeAndRequired.add(fieldSpecs.isRequired()); //the second element, 1
-            this.fieldNameAndTypeMap.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
+            this.fieldNameAndFieldSpecsInfo.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
         }
     }
 
@@ -142,7 +142,7 @@ public class Event {
      * @return Map</String, List<Object>> The map with FieldName as key and FieldType as value of this event
      */
     public Map<String, List<Object>> getFieldNameAndTypeMap() {
-        return fieldNameAndTypeMap;
+        return fieldNameAndFieldSpecsInfo;
     }
 
     /**
@@ -207,9 +207,9 @@ public class Event {
 
     /**
      * Sets a new map with FieldName as key and FieldType as value for this event
-     * @param fieldNameAndTypeMap The new map with FieldName as key and FieldType as value of this event
+     * @param fieldNameAndFieldSpecsInfo The new map with FieldName as key and FieldType as value of this event
      */
-    public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndTypeMap) {
-        this.fieldNameAndTypeMap = fieldNameAndTypeMap;
+    public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndFieldSpecsInfo) {
+        this.fieldNameAndFieldSpecsInfo = fieldNameAndFieldSpecsInfo;
     }
 }
