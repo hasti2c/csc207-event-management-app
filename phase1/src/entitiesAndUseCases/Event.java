@@ -11,12 +11,12 @@ public class Event {
     // === Class Variables ===
     // === Instance Variables ===
     // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
+    private String eventName;
     private String eventId;
     private boolean published;
     private LocalDateTime createdTime;
     private LocalDateTime editTime;
     private String eventOwner;
-
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
@@ -31,7 +31,7 @@ public class Event {
     // === Representation Invariants ===
     // Not sure yet
     // === Methods ===
-    public Event(Template template, String eventOwner){
+    public Event(Template template, String eventName, String eventOwner){
         eventId = UUID.randomUUID().toString();
         // need user to explicitly change to published
         published = false;
@@ -41,6 +41,7 @@ public class Event {
         this.templateVersion = template.getFileVersionNumber();
         this.eventDetails = new HashMap<>();
         this.fieldNameAndTypeMap = new HashMap<>();
+        this.eventName = eventName;
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
     }
@@ -115,7 +116,13 @@ public class Event {
     }
 
     /**
-     * Gets the owner of this Event
+     * Gets the name of this event
+     * @return String the name of this event
+     */
+    public String getEventName(){return eventName;}
+
+    /**
+     * Gets the owner of this event
      * @return String The owner of this event
      */
     public String getEventOwner() {
@@ -153,6 +160,11 @@ public class Event {
 
     // Setters
 
+    /**
+     * Set a new name for this event
+     * @param eventName The new name of this event
+     */
+    public void setEventName(String eventName){this.eventName = eventName;}
     /**
      * Sets a new owner for this event
      * @param eventOwner The new owner of this event
