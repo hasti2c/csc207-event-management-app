@@ -57,6 +57,23 @@ public class EventManager {
     }
 
     /**
+     * Returns the event details for the event with the given event id
+     * @param eventId The event id of the event
+     * @return Map The event details of map for the event with the given event id
+     */
+    public Map<String, String> returnEventDetails(String eventId) {
+        Map<String, String> eventDetailsMap = new HashMap<>();
+        for (Event event : eventList) {
+            if (event.getEventId().equals(eventId)) {
+                for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
+                    eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
+                }
+            }
+        }
+        return eventDetailsMap;
+    }
+
+    /**
      * Gets the size of eventList, a list of events
      * @return The size of eventList
      */
@@ -88,22 +105,6 @@ public class EventManager {
         return fieldNameAndType;
     }
 
-    /**
-     * Returns the event details for the event with the given event id
-     * @param eventId The event id of the event
-     * @return Map The event details of map for the event with the given event id
-     */
-    public Map<String, String> returnEventDetails(String eventId) {
-        Map<String, String> eventDetailsMap = new HashMap<>();
-        for (Event event : eventList) {
-            if (event.getEventId().equals(eventId)) {
-                for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
-                    eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
-                }
-            }
-        }
-        return eventDetailsMap;
-    }
     /**
      * Enters a value to a field name
      * @param fieldName
