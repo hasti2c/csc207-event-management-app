@@ -29,8 +29,8 @@ public class EventManager {
      * @param eventOwner The owner of this event
      * @return The Id of the event
      */
-    public String createEvent(String templateName, String eventOwner) {
-        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
+    public String createEvent(String templateName, String eventName, String eventOwner) {
+        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventName,eventOwner);
         newEvent.addFieldsToEventDetails(templateManager.retrieveTemplateByName(templateName));
         newEvent.addFieldNameAndTypeToMap(templateManager.retrieveTemplateByName(templateName));
         eventList.add(newEvent);
@@ -154,6 +154,7 @@ public class EventManager {
         String formattedEditTime = event.getEditTime().format(formatter);
         eventMap.put("Created Time", formattedCreatedTime);
         eventMap.put("Last Edited", formattedEditTime);
+        eventMap.put("Name of Event", event.getEventName());
         eventMap.put("Event Id", event.getEventId());
         eventMap.put("Event Owner", event.getEventOwner());
         eventMap.put("Type of Event", event.getEventType());
