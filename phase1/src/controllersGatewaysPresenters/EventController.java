@@ -25,12 +25,31 @@ public class EventController {
         this.inputParser = new InputParser();
     }
 
+    public void createEventMenu(String username) {
+        List<String> templateList = templateManager.getTemplateList(); // assume this will return list of str
+        presenter.printMenu("Type a number corresponding to a template", templateList);
+        int choice = getChoice(0, templateList.size());
+        this.createNewEvent(templateList.get(choice), username);
+
+
+
+    }
+
+    private int getChoice(int lowBound, int highBound) {
+        int choice = inputParser.readInt();
+        while (choice < lowBound || choice >= highBound){
+            presenter.printText("Do it right. Pick a good number: ");
+            choice = inputParser.readInt();
+        }
+        return choice;
+    }
+
     /**
      * Creates a new event based on chosen template and adds to User's owned events.
      * @param templateName - name of the template
      * @param username - username of the currently logged in user
      */
-    public void createEvent(String templateName, String username){
+    public void createNewEvent(String templateName, String username){
         String newEventID = this.eventManager.createEvent(templateName, username);
 
         Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
@@ -53,24 +72,46 @@ public class EventController {
 
     /**
      * Prints details of a single event.
-     * @param eventID - unique identifier for event
+     * @param eventMap- Map representation of Event Entity
      */
-    private void viewEvent(String eventID) {
-        this.presenter.printEntity(eventManager.returnEventAsMap(eventID));
+    private int viewDetailedEvent(Map<String, String> eventMap) {
+        this.presenter.printEntity(eventMap);
+        presenter.printMenu("Select an option", new ArrayList<>(Arrays.asList("Join", "Back")));
+        return getChoice(0, 2);
     }
 
     /**
      * Prints a list of all public events created by all users.
      */
     // TODO Need to figure out how this will be presented
-    public void browseEvents() {
+
+    private int viewEventList(List<String> eventNameList) {
+        eventNameList.add("Back");
+        presenter.printMenu("Type a valid number", eventNameList);
+
+        return getChoice(0, eventNameList.size() + 1);
+    }
+
+    public void browsePublicEvents(String username) {
         List<Map<String, String>> eventList = new ArrayList<>();
+        List<String> eventNameList = new ArrayList<>();
 
         for (String eventID : this.eventManager.returnPublishedEvents()) {
-            eventList.add(this.eventManager.returnEventAsMap(eventID));
+            Map<String, String> tempEventMap = this.eventManager.returnEventAsMap(eventID);
+            eventList.add(tempEventMap);
+            eventNameList.add(tempEventMap.get("name")); //name prob wont be field update when notified
+        }
+        while (true) {
+            int eventIndex = viewEventList(eventNameList);
+            if (eventIndex == eventNameList.size()) {
+                break;
+            }
+            int menuChoice = viewDetailedEvent(eventList.get(eventIndex));
+            if (menuChoice == 0) {
+                attendEvent(username, eventList.get(eventIndex).get("Event Id"));
+            }
         }
 
-        this.presenter.printEntities(eventList);// needs to return list of maps
     }
 
     /**
