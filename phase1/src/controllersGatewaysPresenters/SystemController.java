@@ -28,9 +28,9 @@ public class SystemController {
     private String currentUser;
 
     public SystemController() {
-        userParser = new UserParser("data/users.json");
-        eventParser = new EventParser("data/events.json");
-        templateParser = new TemplateParser("data/templates.json");
+        userParser = new UserParser("phase1/data/users.json");
+        eventParser = new EventParser("phase1/data/events.json");
+        templateParser = new TemplateParser("phase1/data/templates.json");
 
         userManager = new UserManager(userParser);
         templateManager = new TemplateManager(templateParser);
@@ -66,6 +66,7 @@ public class SystemController {
      */
     public void run(){
         boolean program_running = true;
+        presenter.printText(AppConstant.WELCOME_TEXT);
         while (program_running) {
             presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
             int user_input = inputParser.readInt();
@@ -75,17 +76,14 @@ public class SystemController {
                     break;
                 case 2:
                     String username = userController.userLogin();
-                    if (username == null || username.length() == 0) {
-                        presenter.printText("Please try to login again");
+                    if (username == null){
+                        break;
+                    }
+                    else if (username.length() == 0) {
+                        presenter.printText("Please try to login again.");
                     } else {
                         this.currentUser = username;
                         runMainMenu();
-//                        User.UserType userType = userManager.retrieveUserType(username);
-//                        if (userType == User.UserType.R) {
-//                            // TODO: Run Main Menu
-//                        } else if (userType == User.UserType.A) {
-//                            // TODO: Run Admin Menu
-//                        }
                     }
                     break;
                 case 3:
@@ -94,6 +92,7 @@ public class SystemController {
                     break;
                 case 4:
                     program_running = false;
+                    presenter.printText("Exiting...");
                     break;
             }
         }
@@ -113,9 +112,9 @@ public class SystemController {
                     eventController.browseEvents(currentUser, eventIDList1, true);
                     break;
                 case 3:
-                    eventManager.returnPublishedEvents().removeAll(userManager.getAttendingEvents(currentUser));
-                    List<String> eventIDList2 = eventManager.returnPublishedEvents();
-                    eventController.browseEvents(currentUser, eventIDList2, false);
+                    List<String> publishedEvents = eventManager.returnPublishedEvents();
+                    publishedEvents.removeAll(userManager.getAttendingEvents(currentUser));
+                    eventController.browseEvents(currentUser, publishedEvents, false);
                     break;
                 case 4:
                     eventController.viewAndEditMyEvents(currentUser);
@@ -144,38 +143,6 @@ public class SystemController {
             }
         }
     }
-
-//    private void runAdminMenu() {
-//        while (true) {
-//            String userInput = showMenu("Admin Menu");
-//            int input = Integer.parseInt(userInput);
-//            switch (input) {
-//                case 1:
-//                    eventController.createEvent(currentUser);
-//                    break;
-//                case 2:
-//                    eventController.browseEvents();
-//                    break;
-//                case 3:
-//                    // TODO view own events?
-//                    break;
-//                case 4:
-//                    // TODO edit template?
-//                    break;
-//                case 5:
-//                    runAccountMenu();
-//                    break;
-//                case 6:
-//                    saveAll();
-//                    break;
-//                case 7:
-//                    saveAll();
-//                    // TODO call logout method
-//                    return;
-//                // TODO bad input?
-//            }
-//        }
-//    }
 
     /**
      * Run the menu that the trial users interact with
@@ -242,11 +209,9 @@ public class SystemController {
      */
     public void createTrialUser(){
         // TODO Should be a constant
-        String trial_username = "TRIAL_USER";
-        String trial_password = "TRIAL_PASS";
-        String trial_email = "TRIAL@EMAIL.COM";
-        this.currentUser = trial_username;
-        userManager.createUser(trial_username, trial_password, trial_email, User.UserType.T);
+
+        this.currentUser = AppConstant.trial_username;
+        userManager.createUser(AppConstant.trial_username, AppConstant.trial_password, AppConstant.trial_email, User.UserType.T);
     }
 
     private int showMenu(String menuName) {

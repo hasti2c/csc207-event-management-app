@@ -19,18 +19,20 @@ public class UserController {
         this.inputParser = new InputParser();
     }
 
-    // TODO: Add usertype!
     public void userSignUp(){
-
         // Entering email
-        presenter.printText("Enter an Email: ");
+        presenter.printText("Enter an Email " + AppConstant.TEXT_EXIT_OPTION + ": ");
         String email = inputParser.readLine();
         boolean correctEmail = false;
         while(!correctEmail){
+            if(email.equals(AppConstant.EXIT_TEXT)) {
+                presenter.printText(AppConstant.EXITING_TEXT);
+                return;
+            }
             if(userManager.emailIsUnique(email)){ // needs to be implemented
                 correctEmail = true;
             }else{
-                presenter.printText("Email already exists. Enter another email: ");
+                presenter.printText("Email already exists. Enter another email " + AppConstant.TEXT_EXIT_OPTION + ": ");
                 email = inputParser.readLine();
             }
         }
@@ -55,14 +57,19 @@ public class UserController {
         }
 
         // Choosing a Username
-        presenter.printText("Enter a Username: ");
+        presenter.printText("Enter a Username" + AppConstant.TEXT_EXIT_OPTION + ": ");
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if(userManager.usernameIsUnique(username)){
+            if (username.equals(AppConstant.EXIT_TEXT)) {
+                presenter.printText(AppConstant.EXITING_TEXT);
+                return;
+            }
+            else if (userManager.usernameIsUnique(username) && username.length() != 0){
                 correctUsername = true;
-            }else{
-                presenter.printText("Username already exists. Enter another username: ");
+            }
+            else {
+                presenter.printText("Username is not valid. Enter another username: ");
                 username = inputParser.readLine();
             }
         }
@@ -72,12 +79,10 @@ public class UserController {
         String password = inputParser.readLine();
 
         userManager.createUser(username, password, email, userType); // this needs to be implemented
-        presenter.printText("Account has been created Successfully. Please login.");
+        presenter.printText("Account has been created Successfully. You may now login.");
 
     }
 
-    // TODO: Return the username if successful else return empty string. Also do not allow users to create a username
-    // of the empty string.
     public String userLogin(){
 
         presenter.printText("Enter your Username: ");
@@ -90,8 +95,8 @@ public class UserController {
         while(!correctLogin){
             if(userManager.logIn(username, password)){
                 correctLogin = true;
-            }else{
-                presenter.printText("Username or Password is incorrect, please try again.");
+            } else{
+                presenter.printText("Your account doesn't exist or your Username or Password is incorrect, please try again." + AppConstant.TEXT_EXIT_OPTION);
 
                 presenter.printText("Enter your Username: ");
                 username = inputParser.readLine();
@@ -103,12 +108,6 @@ public class UserController {
         presenter.printText("Login was successful");
         return username;
     }
-//
-//    private boolean checkLogin(){
-//        /* checks given user credentials from presenter and checks if it is correct or not
-//         */
-//        return true;
-//    }
 
     /**
      * The controller method that allows the User at the keyboard to update their username

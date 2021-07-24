@@ -3,31 +3,28 @@
     "username": "haze",
     "password": "gray",
     "userEmail": "grayishhaze@gmail.com",
-    "createdEvent": [
-      "id6",
-      "id12"
-    ],
-    "attendingEvents": [
-      "id4",
-      "id1",
-      "id12"
-    ],
+    "ownedEvents": [],
+    "attendingEvents": [],
     "userType": "A"
   },
   {
-    "username": "hasti2c",
+    "username": "hasti1c",
     "password": "thisisagoodpassword",
     "userEmail": "hastitoossi@gmail.com",
-    "createdEvent": [
-      "id1",
-      "id2",
-      "id3",
-      "id4"
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "R"
+  },
+  {
+    "username": "hasti2c",
+    "password": "yay",
+    "userEmail": "test@email.com",
+    "ownedEvents": [
+      "id30"
     ],
     "attendingEvents": [
-      "id4",
-      "id3"
+      "id30"
     ],
-    "userType": "R"
+    "userType": "A"
   }
 ]

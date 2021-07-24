@@ -5,9 +5,8 @@ import entitiesAndUseCases.Template;
 
 // TODO* Generics
 
-// TODO correct list below
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums, Class<?>
-// TODO specify input for getter as precondition
+// TODO javadocs: specify input for getter as precondition
 
 public class TemplateParser extends EntityParser<Template> {
     public TemplateParser(String path) {
