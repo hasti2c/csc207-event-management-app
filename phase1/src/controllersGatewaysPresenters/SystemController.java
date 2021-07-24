@@ -66,8 +66,8 @@ public class SystemController {
      */
     public void run(){
         boolean program_running = true;
+        presenter.printText(AppConstant.WELCOME_TEXT);
         while (program_running) {
-            presenter.printText(AppConstant.WELCOME_TEXT);
             presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
             int user_input = inputParser.readInt();
             switch (user_input) {
@@ -76,7 +76,10 @@ public class SystemController {
                     break;
                 case 2:
                     String username = userController.userLogin();
-                    if (username == null || username.length() == 0) {
+                    if (username == null){
+                        break;
+                    }
+                    else if (username.length() == 0) {
                         presenter.printText("Please try to login again.");
                     } else {
                         this.currentUser = username;
@@ -140,38 +143,6 @@ public class SystemController {
             }
         }
     }
-
-//    private void runAdminMenu() {
-//        while (true) {
-//            String userInput = showMenu("Admin Menu");
-//            int input = Integer.parseInt(userInput);
-//            switch (input) {
-//                case 1:
-//                    eventController.createEvent(currentUser);
-//                    break;
-//                case 2:
-//                    eventController.browseEvents();
-//                    break;
-//                case 3:
-//                    // TODO view own events?
-//                    break;
-//                case 4:
-//                    // TODO edit template?
-//                    break;
-//                case 5:
-//                    runAccountMenu();
-//                    break;
-//                case 6:
-//                    saveAll();
-//                    break;
-//                case 7:
-//                    saveAll();
-//                    // TODO call logout method
-//                    return;
-//                // TODO bad input?
-//            }
-//        }
-//    }
 
     /**
      * Run the menu that the trial users interact with

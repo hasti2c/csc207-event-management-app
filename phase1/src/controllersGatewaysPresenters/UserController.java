@@ -88,15 +88,21 @@ public class UserController {
         presenter.printText("Enter your Username: ");
         String username = inputParser.readLine();
 
+        if (username.equals(AppConstant.EXIT_TEXT)) {
+            presenter.printText(AppConstant.EXITING_TEXT);
+            return null;
+        }
+
         presenter.printText("Enter your Password: ");
         String password = inputParser.readLine();
 
+        if (password.equals(AppConstant.EXIT_TEXT)) {
+            presenter.printText(AppConstant.EXITING_TEXT);
+            return null;
+        }
+
         boolean correctLogin = false;
         while(!correctLogin){
-            if (username.equals(AppConstant.EXIT_TEXT) || password.equals(AppConstant.EXIT_TEXT)) {
-                presenter.printText(AppConstant.EXITING_TEXT);
-                return null;
-            }
             if(userManager.logIn(username, password)){
                 correctLogin = true;
             }else{
@@ -105,8 +111,18 @@ public class UserController {
                 presenter.printText("Enter your Username: ");
                 username = inputParser.readLine();
 
+                if (username.equals(AppConstant.EXIT_TEXT)) {
+                    presenter.printText(AppConstant.EXITING_TEXT);
+                    return null;
+                }
+
                 presenter.printText("Enter your Password: ");
                 password = inputParser.readLine();
+
+                if (password.equals(AppConstant.EXIT_TEXT)) {
+                    presenter.printText(AppConstant.EXITING_TEXT);
+                    return null;
+                }
             }
         }
         presenter.printText("Login was successful");
