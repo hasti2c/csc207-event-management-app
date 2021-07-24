@@ -30,13 +30,11 @@ public class EventController {
 
     // TODO this is kind of long...
     public void viewAndEditMyEvents(String username) {
-        List<String> myEvents = eventManager.returnEventNamesListFromIdList(userManager.getCreatedEvents(username));
-        myEvents.add("Go Back");
+        List<String> myEvents = userManager.getCreatedEvents(username);
+        int eventChoice = generateEventList(eventManager.returnEventNamesListFromIdList(userManager.getCreatedEvents(username)));
 
         boolean exitMenu = false;
         while (!exitMenu) {
-            presenter.printMenu("My Events", myEvents);
-            int eventChoice = getChoice(0, myEvents.size());
             if (eventChoice == myEvents.size() - 1) {
                 exitMenu = true;
             }
@@ -45,25 +43,25 @@ public class EventController {
                 viewEventDetails(eventID);
                 viewEventMetaDetails(eventID);
                 presenter.printText("1) Delete Event 2) Edit Event 3) Go Back");
-                String userInput = inputParser.readLine();
+                int userInput = inputParser.readInt();
 
                 boolean correctInput = false;
                 while (!correctInput) {
                     switch (userInput) {
-                        case "1":
+                        case 1:
                             deleteEvent(username, eventID);
                             correctInput = true;
                             break;
-                        case "2":
+                        case 2:
                             editEvent(eventID, username);
                             break;
-                        case "3":
+                        case 3:
                             correctInput = true;
                             break;
                         default:
                             presenter.printText("You did not enter a valid option, try again");
                             presenter.printText("1) Delete Event 2) Edit Event 3) Go Back");
-                            userInput = inputParser.readLine();
+                            userInput = inputParser.readInt();
                             break;
                     }
                 }
@@ -76,7 +74,7 @@ public class EventController {
      */
     private int generateEventList(List<String> eventNameList) {
         eventNameList.add("Go Back");
-        presenter.printMenu("Choose a valid number", eventNameList);
+        presenter.printMenu("Choose an event by entering a number", eventNameList);
         return getChoice(0, eventNameList.size());
     }
 
@@ -121,12 +119,12 @@ public class EventController {
 
             // Then they get shown the correct menu along with the details of the event they chose.
             presenter.printMenu("Viewing Selected Event", menuMap.get(menuMapChoice));
-            String menuChoice = inputParser.readLine();
+            int menuChoice = inputParser.readInt();
             viewEventDetails(eventID);
             boolean exitMenu = false;
             while (!exitMenu) {
                 // If the user isn't attending the event, and they choose to attend the event
-                if (menuChoice.equals("1") && menuMapChoice.equals("IsNotAttending")) {
+                if (menuChoice == 1 && menuMapChoice.equals("IsNotAttending")) {
                     // check to make sure there's still room in the event
                     if(attendEvent(username, eventID)){
                         menuMapChoice = "IsAttending";
@@ -137,22 +135,22 @@ public class EventController {
                     else{
                         presenter.printText("Sorry this event is full. Choose 2) to go back to the list of events.");
                     }
-                    menuChoice = inputParser.readLine();
+                    menuChoice = inputParser.readInt();
                 // If the user is attending the event and they choose to leave the event
-                } else if (menuChoice.equals("1") && menuMapChoice.equals("IsAttending")) {
+                } else if (menuChoice == 1 && menuMapChoice.equals("IsAttending")) {
                     if(leaveEvent(username, eventID)){
                         menuMapChoice = "IsNotAttending";
                         presenter.printText("You have successfully unregistered for the event. Choose 1) to re-register or" +
                                 " 2) to go back to the list of events.");
                     }
                 // If the user chooses to go back
-                } else if (menuChoice.equals("2") || (menuMapChoice.equals("Trial") && menuChoice.equals("1"))) {
+                } else if (menuChoice == 2 || (menuMapChoice.equals("Trial") && menuChoice == 1)) {
                     exitMenu = true;
                 // If the entry is invalid
                 } else {
                     presenter.printText("Invalid Choice.");
                     presenter.printMenu("Viewing Selected Event", menuMap.get(menuMapChoice));
-                    menuChoice = inputParser.readLine();
+                    menuChoice = inputParser.readInt();
                     viewEventDetails(eventID);
                 }
             }
@@ -188,6 +186,7 @@ public class EventController {
         }
     }
 
+    // TODO need to implement edit event
     public void editEvent (String eventID, String username) {
 
     }

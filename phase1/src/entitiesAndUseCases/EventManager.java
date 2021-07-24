@@ -159,7 +159,7 @@ public class EventManager {
     // Chris, you can use the same local date time formatter that you had before. Use parse in local dat time that has the formatter thing. Link below
     // https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
     private Object convertToCorrectDataType (String fieldName, Object fieldValue, String eventId) {
-
+        return null;
     }
 
     /**

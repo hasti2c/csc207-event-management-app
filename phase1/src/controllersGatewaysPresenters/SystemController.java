@@ -68,12 +68,12 @@ public class SystemController {
         boolean program_running = true;
         while (program_running) {
             presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
-            String user_input = inputParser.readLine();
+            int user_input = inputParser.readInt();
             switch (user_input) {
-                case "1":
+                case 1:
                     userController.userSignUp();
                     break;
-                case "2":
+                case 2:
                     String username = userController.userLogin();
                     if (username == null || username.length() == 0) {
                         presenter.printText("Please try to login again");
@@ -88,11 +88,11 @@ public class SystemController {
 //                        }
                     }
                     break;
-                case "3":
+                case 3:
                     createTrialUser();
                     runTrialMenu();
                     break;
-                case "4":
+                case 4:
                     program_running = false;
                     break;
             }
@@ -101,9 +101,8 @@ public class SystemController {
 
     private void runMainMenu() {
         while (true) {
-            String userInput = showMenu("Main Menu");
-            int input = Integer.parseInt(userInput);
-            switch (input) {
+            int userInput = showMenu("Main Menu");
+            switch (userInput) {
                 case 1:
                     int templateChoice = eventController.chooseTemplate(currentUser);
                     String templateName = templateManager.returnTemplateNames().get(templateChoice);
@@ -182,19 +181,19 @@ public class SystemController {
         boolean trialMenuActive = true;
         while (trialMenuActive){
             presenter.printMenu("Trial Menu", this.menuMap.get("Trial Menu"));
-            String user_input = inputParser.readLine();
-            switch (user_input) {
-                case "1":
+            int userInput = inputParser.readInt();
+            switch (userInput) {
+                case 1:
                     int templateChoice = eventController.chooseTemplate(currentUser);
                     String templateName = templateManager.returnTemplateNames().get(templateChoice);
                     eventController.createNewEvent(templateName, currentUser);
                     break;
-                case "2":
+                case 2:
                     // Since this is a trial user, the unattended events is all of the events.
                     List<String> eventIDList = eventManager.returnPublishedEvents();
                     eventController.browseEvents(currentUser, eventIDList, false);
                     break;
-                case "3":
+                case 3:
                     trialMenuActive = false;
                     break;
             }
@@ -244,9 +243,9 @@ public class SystemController {
         userManager.createUser(trial_username, trial_password, trial_email, User.UserType.T);
     }
 
-    private String showMenu(String menuName) {
+    private int showMenu(String menuName) {
         presenter.printMenu(menuName, menuMap.get(menuName));
-        return inputParser.readLine(); // TODO maybe presenter should return int of which menu item?
+        return inputParser.readInt();
     }
 
     private void editTemplateName(String templateName) {
