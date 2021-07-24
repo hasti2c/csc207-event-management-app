@@ -45,16 +45,45 @@ public class EventManager {
         eventList.removeIf(event -> event.getEventId().equals(eventId));
     }
 
-    // === Getters and Setters ===
-    public Map<String, Object> retrieveEventDetails(String eventId) {
-        List<Map<String, Object>> holderList = new ArrayList<>();
-        for (Event event : eventList) {
-            if (event.getEventId().equals(eventId)) {
-                holderList.add(event.getEventDetails());
-            }
+    /**
+     * Adds an attendee for this event if there is still room in the event.
+     * @param eventID the ID of the event that is being attended.
+     * @return false if there is no room in the event, true if the event has been successfully singed up for.
+     */
+    public boolean attendEvent(String eventID) {
+        Event currentEvent = retrieveEventById(eventID);
+        if (currentEvent.getNumAttendees() == currentEvent.returnMaxAttendees()) {
+            return false;
         }
-        return holderList.remove(0);
+        else {
+            int numAttendees = currentEvent.getNumAttendees();
+            currentEvent.setNumAttendees(numAttendees + 1);
+            return true;
+        }
     }
+
+    /**
+     * Removes an attendee from the event.
+     * @param eventID the ID of the event that is being unattended.
+     * @return if the attendee has been removed successfully.
+     */
+    public boolean unAttendEvent (String eventID) {
+        Event currentEvent = retrieveEventById(eventID);
+        int numAttendees = currentEvent.getNumAttendees();
+        currentEvent.setNumAttendees(numAttendees - 1);
+        return true;
+    }
+
+    // === Getters and Setters ===
+//    public Map<String, Object> retrieveEventDetails(String eventId) {
+//        List<Map<String, Object>> holderList = new ArrayList<>();
+//        for (Event event : eventList) {
+//            if (event.getEventId().equals(eventId)) {
+//                holderList.add(event.getEventDetails());
+//            }
+//        }
+//        return holderList.remove(0);
+//    }
 
     /**
      * Returns the event details for the event with the given event id
@@ -111,7 +140,8 @@ public class EventManager {
      * @param fieldValue
      * @param eventId
      */
-    public void enterFieldValue (String fieldName, String fieldValue, String eventId) {
+    // TODO: need to convert the value to the correct data type before entering. Also if the fieldValue is "", just keep the value as null.
+    public void enterFieldValue (String fieldName, Object fieldValue, String eventId) {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
@@ -123,6 +153,15 @@ public class EventManager {
             }
         }
     }
+
+    // TODO returns the fieldValue converted to the correct data type. If it doesn't work throw an error.
+    // Check data validation can catch the error that this throws
+    // Chris, you can use the same local date time formatter that you had before. Use parse in local dat time that has the formatter thing. Link below
+    // https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
+    private Object convertToCorrectDataType (String fieldName, Object fieldValue, String eventId) {
+
+    }
+
     /**
      * Checks if the entered field is the same type
      * @param fieldName The name of the field
@@ -130,10 +169,13 @@ public class EventManager {
      * @param eventId The Id of the event that is to be checked
      * @return boolean Whether data fieldValue is valid
      */
+    // TODO this needs to be fixed
     public boolean checkDataValidation(String fieldName, String fieldValue, String eventId) {
         // if the field value doesn't pass, return false and do nothing.
-        // basically try and catch changing the string into the type it's supposed to be. If it doesn't work then...
-        // it's probably wrong.
+        // first check if the field value is empty, if it is empty then check if the field is required
+        // if it is required, then return false, if it isn't then return true
+        // next check if the data type is correct. Call the convertToCorrectDataType method and if it throws an error return false
+        // else, return true. (I think this works, if not we can try something different)
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
                 for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndTypeMap().entrySet()){
@@ -163,15 +205,25 @@ public class EventManager {
         return holderList.remove(0);
     }
 
-    public LinkedHashMap<String, String> returnEventAsMap(String eventId) {
-        LinkedHashMap<String, String> eventMap = new LinkedHashMap<>();
+
+    /**
+     * Returns the name of the event from the event's ID.
+     * @param eventId
+     * @return eventName
+     */
+    public String retrieveEventNameById(String eventId) {
+        Event event = retrieveEventById(eventId);
+        return event.returnEventName();
+    }
+
+    public Map<String, String> returnEventAsMap(String eventId) {
+        Map<String, String> eventMap = new LinkedHashMap<>();
         Event event = retrieveEventById(eventId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
         String formattedCreatedTime = event.getCreatedTime().format(formatter);
         String formattedEditTime = event.getEditTime().format(formatter);
         eventMap.put("Created Time", formattedCreatedTime);
         eventMap.put("Last Edited", formattedEditTime);
-        eventMap.put("Name of Event", event.getEventName());
         eventMap.put("Event Id", event.getEventId());
         eventMap.put("Event Owner", event.getEventOwner());
         eventMap.put("Type of Event", event.getEventType());
@@ -191,6 +243,14 @@ public class EventManager {
             }
         }
         return holderList;
+    }
+    // TODO might want to put this method in event controller
+    public List <String> returnEventNamesListFromIdList(List <String> eventIdList) {
+        List<String> eventNames = new ArrayList<>();
+        for (String eventID : eventIdList) {
+            eventNames.add(retrieveEventNameById(eventID));
+        }
+        return eventNames;
     }
 
     public void saveAllEvents() {

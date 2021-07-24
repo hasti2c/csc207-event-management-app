@@ -11,7 +11,6 @@ public class Event {
     // === Class Variables ===
     // === Instance Variables ===
     // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
-    private String eventName;
     private String eventId;
     private boolean published;
     private LocalDateTime createdTime;
@@ -41,7 +40,6 @@ public class Event {
         this.templateVersion = template.getFileVersionNumber();
         this.eventDetails = new HashMap<>();
         this.fieldNameAndFieldSpecsInfo = new HashMap<>();
-        this.eventName = null;
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
     }
@@ -63,6 +61,39 @@ public class Event {
             fieldSpecsTypeAndRequired.add(fieldSpecs.isRequired()); //the second element, 1
             this.fieldNameAndFieldSpecsInfo.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
         }
+    }
+
+    /**
+     * Returns the maximum number of attendees for this event. If the event doesn't specify a maximum, returns -1.
+     * @return int the maximum number of attendees or -1.
+     */
+    public int returnMaxAttendees() {
+        // returns the maximum number of attendees, if the event doesn't have a maximum, returns -1
+        Map<String, Object> eventDetailsMap = getEventDetails();
+        int maxAttendees;
+        if (eventDetailsMap.get("Max Attendees") == null) {
+            maxAttendees = -1;
+        }
+        else {
+            maxAttendees = (Integer) eventDetailsMap.get("Max Attendees");
+        }
+        return maxAttendees;
+    }
+
+    /**
+     * Returns the event's name. If the event has no name, it is called "Untitled".
+     * @return String the name of the event
+     */
+    public String returnEventName() {
+        Map<String, Object> eventDetailsMap = getEventDetails();
+        String eventName;
+        if (eventDetailsMap.get("Event Name") == null) {
+            eventName = "Untitled";
+        }
+        else {
+            eventName = (String) eventDetailsMap.get("Event Name");
+        }
+        return eventName;
     }
 
     // Getters
@@ -115,11 +146,11 @@ public class Event {
         return published;
     }
 
-    /**
-     * Gets the name of this event
-     * @return String the name of this event
-     */
-    public String getEventName(){return eventName;}
+//    /**
+//     * Gets the name of this event
+//     * @return String the name of this event
+//     */
+//    public String getEventName(){return ;}
 
     /**
      * Gets the owner of this event
@@ -160,11 +191,11 @@ public class Event {
 
     // Setters
 
-    /**
-     * Set a new name for this event
-     * @param eventName The new name of this event
-     */
-    public void setEventName(String eventName){this.eventName = eventName;}
+//    /**
+//     * Set a new name for this event
+//     * @param eventName The new name of this event
+//     */
+//    public void setEventName(String eventName){this.eventName = eventName;}
     /**
      * Sets a new owner for this event
      * @param eventOwner The new owner of this event
