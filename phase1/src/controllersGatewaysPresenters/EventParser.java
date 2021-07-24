@@ -1,7 +1,6 @@
 package controllersGatewaysPresenters;
 
 import com.google.gson.*;
-
 import entitiesAndUseCases.Event;
 
 import java.lang.reflect.Field;
@@ -54,15 +53,14 @@ public class EventParser extends EntityParser<Event> {
             json.addProperty("editTime", event.getEditTime().toString());
         }
 
-        // TODO update fieldSpecs
         private void addFields(Event event, JsonObject json) {
-            Map<String, List<Object>> fieldNameAndTypeMap = event.getFieldNameAndTypeMap();
+            Map<String, List<Object>> fieldNameAndFieldSpecs = event.getFieldNameAndFieldSpecsMap();
             Map<String, Object> eventDetails = event.getEventDetails();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
             JsonObject fields = new JsonObject();
-            for (String fieldName: fieldNameAndTypeMap.keySet()) {
-                List<Object> fieldData = fieldNameAndTypeMap.get(fieldName);
+            for (String fieldName: fieldNameAndFieldSpecs.keySet()) {
+                List<Object> fieldData = fieldNameAndFieldSpecs.get(fieldName);
                 String className = (String) fieldData.get(0);
                 Boolean required = (Boolean) fieldData.get(1);
                 String value = gson.toJson(eventDetails.get(fieldName));
@@ -120,7 +118,7 @@ public class EventParser extends EntityParser<Event> {
                 eventDetails.put(fieldName, field.getSecond());
             }
 
-            setField(event, "fieldNameAndTypeMap", fieldNameAndTypeMap);
+            setField(event, "fieldNameAndFieldSpecs", fieldNameAndTypeMap);
             setField(event, "eventDetails", eventDetails);
         }
 
@@ -154,4 +152,5 @@ public class EventParser extends EntityParser<Event> {
             }
         }
     }
+
 }
