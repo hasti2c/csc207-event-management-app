@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 // TODO* optional field specs (null value)
+// TODO* field specs have changed in Event
 
 // TODO make field reading & writing more general
 // TODO local date time serializer
