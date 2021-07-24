@@ -23,14 +23,8 @@ public abstract class EntityParser<T> implements IGateway<T> {
     public EntityParser(Class<T> dataType, String path) {
         this.dataType = dataType;
         this.path = path;
-        GsonBuilder builder = getGsonBuilder();
-        if(builder!=null) {
-            gson = builder.create();
-            readElements();
-        } else {
-            elements = new HashMap<>();
-        }
-
+        gson = getGsonBuilder().create();
+        readElements();
     }
 
     @Override
