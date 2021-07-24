@@ -261,7 +261,7 @@ public class EventController {
     // === Helpers ===
     private int getChoice(int lowBound, int highBound) {
         int choice = inputParser.readInt();
-        while (choice < lowBound || choice >= highBound) {
+        while (choice <= lowBound || choice > highBound) {
             presenter.printText("Do it right. Pick a good number: ");
             choice = inputParser.readInt();
         }
