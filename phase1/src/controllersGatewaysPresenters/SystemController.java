@@ -53,7 +53,7 @@ public class SystemController {
         List<String> adminMenu = Arrays.asList("Create Event", "View Events", "View My Events", "Edit Template",
                 "Account Menu", "Save", "Logout");
         List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email",
-                "Change User Type", "Go Back", "Delete Account");
+                "Change User Type to Admin",  "Delete Account", "Go Back");
         menuMap.put("Startup Menu", startupMenu);
         menuMap.put("Main Menu", mainMenu);
         menuMap.put("Account Menu", accountMenu);
@@ -90,6 +90,9 @@ public class SystemController {
                 case "3":
                     createTrialUser();
                     runTrialMenu();
+                    break;
+                case "4":
+                    // TODO: Quit program
                     break;
             }
         }
