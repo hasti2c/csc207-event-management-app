@@ -177,6 +177,9 @@ public class SystemController {
 //        }
 //    }
 
+    /**
+     * Run the menu that the trial users interact with
+     */
     public void runTrialMenu(){
         boolean trialMenuActive = true;
         while (trialMenuActive){
@@ -200,31 +203,34 @@ public class SystemController {
         }
     }
 
+    /**
+     * Run the menu that allows the User to interact with their account
+     */
     public void runAccountMenu(){
         boolean accountMenuActive = true;
         while (accountMenuActive) {
             presenter.printMenu("Account Menu", this.menuMap.get("Account Menu"));
-            String user_input = inputParser.readLine();
+            int user_input = inputParser.readInt();
             switch (user_input) {
-                case "1":
+                case 1:
                     // TODO: Create a logout for the program
                     break;
-                case "2":
+                case 2:
                     userController.changeUsername(currentUser);
                     break;
-                case "3":
+                case 3:
                     userController.changePassword(currentUser);
                     break;
-                case "4":
+                case 4:
                     userController.changeEmail(currentUser);
                     break;
-                case "5":
+                case 5:
                     userController.changeToAdmin(currentUser);
                     break;
-                case "6":
+                case 6:
                     userController.deleteUser(currentUser);
                     break;
-                case "7":
+                case 7:
                     accountMenuActive = false;
                     break;
             }
