@@ -32,7 +32,7 @@ public class UserController {
             if(userManager.emailIsUnique(email)){ // needs to be implemented
                 correctEmail = true;
             }else{
-                presenter.printText("Email already exists. Enter another email (type exit for previous screen): ");
+                presenter.printText("Email already exists. Enter another email " + AppConstant.TEXT_EXIT_OPTION + ": ");
                 email = inputParser.readLine();
             }
         }

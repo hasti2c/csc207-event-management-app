@@ -31,26 +31,25 @@ public class EventController {
     // TODO this is kind of long...
     public void viewAndEditMyEvents(String username) {
         List<String> myEvents = userManager.getCreatedEvents(username);
-        int eventChoice = generateEventList(eventManager.returnEventNamesListFromIdList(userManager.getCreatedEvents(username)));
         List<String> myEventsMenu = Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
         boolean exitMenu = false;
         while (!exitMenu) {
-            if (eventChoice == myEvents.size() - 1) {
+            int eventChoice = generateEventList(eventManager.returnEventNamesListFromIdList(userManager.getCreatedEvents(username)));
+            if (eventChoice == myEvents.size()) {
                 exitMenu = true;
             }
             else{
                 String eventID = myEvents.get(eventChoice);
-                presenter.printMenu("Viewing Event Details", myEventsMenu);
                 viewEventDetails(eventID);
                 viewEventMetaDetails(eventID);
-                int userInput = inputParser.readInt();
-
-                boolean correctInput = false;
-                while (!correctInput) {
+                boolean stopLoop = false;
+                while (!stopLoop) {
+                    presenter.printMenu("Viewing Event Details", myEventsMenu);
+                    int userInput = inputParser.readInt();
                     switch (userInput) {
                         case 1:
                             deleteEvent(username, eventID);
-                            correctInput = true;
+                            stopLoop = true;
                             break;
                         case 2:
                             editEvent(eventID, username);
@@ -59,7 +58,7 @@ public class EventController {
                             changePublishStatus(eventID);
                             break;
                         case 4:
-                            correctInput = true;
+                            stopLoop = true;
                             break;
                         default:
                             presenter.printText("You did not enter a valid option, try again.");
@@ -76,9 +75,10 @@ public class EventController {
      * Prints a list of all public events created by all users.
      */
     private int generateEventList(List<String> eventNameList) {
-        eventNameList.add("Go Back");
-        presenter.printMenu("Choose an event by entering a number", eventNameList);
-        return getChoice(0, eventNameList.size());
+        List<String> temp = new ArrayList<>(eventNameList);
+        temp.add(AppConstant.MENU_EXIT_OPTION);
+        presenter.printMenu("Choose an event by entering a number", temp);
+        return getChoice(0, temp.size()) - 1;
     }
 
     /**
@@ -89,9 +89,6 @@ public class EventController {
      */
     // TODO This is also pretty long someone help (Angela)
     public void browseEvents(String username, List<String> eventIDList, boolean isAttending) {
-        // Changes the list of event IDs into a list of event names
-        List<String> eventNameList = eventManager.returnEventNamesListFromIdList(eventIDList);
-
         // Creates a new menu map to print based on input of the method
         Map<String, List<String>> menuMap = new HashMap<>();
         menuMap.put("IsAttending", new ArrayList<>(Arrays.asList("Un-Attend Event", "Go Back")));
@@ -99,18 +96,20 @@ public class EventController {
         menuMap.put("Trial", new ArrayList<>(Collections.singletonList("Go Back")));
 
         while (true) {
+            // Changes the list of event IDs into a list of event names
+            List<String> eventNameList = eventManager.returnEventNamesListFromIdList(eventIDList);
             // Displays all of the events in the list as well as an option to go back to the previous menu. The returned
             // int is the value that the user selected from the list of options.
             int eventIndex = generateEventList(eventNameList);
+            // Comes here if the user chooses "go back"
+            if (eventIndex == eventNameList.size()) {
+                break;
+            }
             String eventID = eventIDList.get(eventIndex);
             // Internal variable to determine which menu to display in from the menu map.
             String menuMapChoice;
-            // Comes here if the user chooses "go back"
-            if (eventIndex == eventNameList.size() - 1) {
-                break;
-            }
             // If the user doesn't choose to go back and instead chooses an event to view one of the following three things happens
-            else if (userManager.retrieveUserType(username) == User.UserType.T && !isAttending) {
+            if (userManager.retrieveUserType(username) == User.UserType.T && !isAttending) {
                 menuMapChoice = "Trial";
             }
             else if (isAttending) {
@@ -121,19 +120,18 @@ public class EventController {
             }
 
             // Then they get shown the correct menu along with the details of the event they chose.
+            viewEventDetails(eventID);
             presenter.printMenu("Viewing Selected Event", menuMap.get(menuMapChoice));
             int menuChoice = inputParser.readInt();
-            viewEventDetails(eventID);
             boolean exitMenu = false;
             while (!exitMenu) {
                 // If the user isn't attending the event, and they choose to attend the event
                 if (menuChoice == 1 && menuMapChoice.equals("IsNotAttending")) {
                     // check to make sure there's still room in the event
                     if(attendEvent(username, eventID)){
-                        menuMapChoice = "IsAttending";
                         // TODO I'm not sure if this works or and also if the event gets removed from the list when they go back to view the list...
-                        presenter.printText("You have successfully registered for the event. Choose 1) to unregister or" +
-                                " 2) to go back to the list of events.");
+                        presenter.printText("You have successfully registered for the event. Choose 2) to go back to the list of events.");
+                        eventIDList.remove(eventID);
                     }
                     else{
                         presenter.printText("Sorry this event is full. Choose 2) to go back to the list of events.");
@@ -142,10 +140,13 @@ public class EventController {
                 // If the user is attending the event and they choose to leave the event
                 } else if (menuChoice == 1 && menuMapChoice.equals("IsAttending")) {
                     if(leaveEvent(username, eventID)){
-                        menuMapChoice = "IsNotAttending";
-                        presenter.printText("You have successfully unregistered for the event. Choose 1) to re-register or" +
-                                " 2) to go back to the list of events.");
+                        presenter.printText("You have successfully unregistered for the event. Choose 2) to go back to the list of events.");
+                        eventIDList.remove(eventID);
                     }
+                    else{
+                        presenter.printText("You could not leave this event. Choose 2) to go back to the list of events.");
+                    }
+                    menuChoice = inputParser.readInt();
                 // If the user chooses to go back
                 } else if (menuChoice == 2 || (menuMapChoice.equals("Trial") && menuChoice == 1)) {
                     exitMenu = true;
@@ -246,8 +247,9 @@ public class EventController {
     private boolean leaveEvent(String username, String eventID) {
         if (this.userManager.unAttendEvent(username, eventID)) {
             this.eventManager.unAttendEvent(eventID);
+            return true;
         }
-        return this.userManager.unAttendEvent(username, eventID);
+        return false;
     }
 
     /**
@@ -316,7 +318,7 @@ public class EventController {
     public int chooseTemplate(String username) {
         List<String> templateList = templateManager.returnTemplateNames();
         presenter.printMenu("Type a number corresponding to a template", templateList);
-        return getChoice(0, templateList.size());
+        return getChoice(0, templateList.size()) - 1;
     }
 
 }

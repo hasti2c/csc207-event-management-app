@@ -103,7 +103,12 @@ public class EventManager {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
-                    eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
+                    if (eventDetailsEntry.getValue() == null) {
+                        eventDetailsMap.put(eventDetailsEntry.getKey(), "N/A");
+                    }
+                    else {
+                        eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
+                    }
                 }
             }
         }

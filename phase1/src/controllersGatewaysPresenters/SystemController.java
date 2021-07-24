@@ -112,9 +112,9 @@ public class SystemController {
                     eventController.browseEvents(currentUser, eventIDList1, true);
                     break;
                 case 3:
-                    eventManager.returnPublishedEvents().removeAll(userManager.getAttendingEvents(currentUser));
-                    List<String> eventIDList2 = eventManager.returnPublishedEvents();
-                    eventController.browseEvents(currentUser, eventIDList2, false);
+                    List<String> publishedEvents = eventManager.returnPublishedEvents();
+                    publishedEvents.removeAll(userManager.getAttendingEvents(currentUser));
+                    eventController.browseEvents(currentUser, publishedEvents, false);
                     break;
                 case 4:
                     eventController.viewAndEditMyEvents(currentUser);
