@@ -175,8 +175,8 @@ public class EventController {
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {
-                if (eventManager.checkDataValidation(entry.getKey(), userInput, newEventID)) {
-                    eventManager.enterFieldValue(entry.getKey(), userInput, newEventID);
+                if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput)) {
+                    eventManager.enterFieldValue(newEventID, entry.getKey(), userInput);
                     accepted = true;
                 } else {
                     presenter.printText("Do it right. Enter " + entry.getKey() + "(" + entry.getValue() + "):");
