@@ -66,6 +66,10 @@ public class TextTable {
         }
     }
 
+    /**
+     * Constructs a table using cells (List<List<String>>).
+     * @return String table made using cells.
+     */
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

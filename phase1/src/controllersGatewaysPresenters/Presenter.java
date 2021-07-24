@@ -9,6 +9,12 @@ public class Presenter {
         System.out.println(text);
     }
 
+    /**
+     * Prints menu to user. Menu numbering starts at 1, and increments by 1 per subsequent option.
+     * @param title The title of the table. Title will be printed before the menu is displayed.
+     * @param options A List of String options, where the first item in the List corresponds to option 1,
+     *                the second option 2, and so on.
+     */
     public void printMenu(String title, List<String> options) {
         printText(title);
         printText("Please choose one of the following options.");
@@ -17,6 +23,10 @@ public class Presenter {
         }
     }
 
+    /**
+     * Prints the information regarding an entity in table format by using TextTable.
+     * @param details A Map<String, String> mapping properties of the entity to its corresponding value.
+     */
     public void printEntity(Map<String, String> details) {
         if (details.keySet().size() == 0) return;
         List<List<String>> cells = new ArrayList<>();
@@ -30,6 +40,12 @@ public class Presenter {
         printText(textTable.toString());
     }
 
+    /**
+     * Prints information regarding multiple entities using TextTable.
+     * @param detailsList A List<Map<String, String>>, with each Map containing the information of a single entity,
+     *                    every key corresponding to a property, and the value corresponding to the value of that
+     *                    property.
+     */
     // It is expected that keys of every element of detailsList are the same
     public void printEntities(List<Map<String, String>> detailsList) {
         boolean atLeastOneCell = false;
