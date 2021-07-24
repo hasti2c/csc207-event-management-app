@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO exceptions
 // TODO javadocs
 
 public abstract class EntityParser<T> implements IGateway<T> {

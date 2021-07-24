@@ -12,26 +12,32 @@
     "fields": {
       "Max Attendees": [
         "java.lang.Integer",
+        true,
         "300"
       ],
       "Concert Genre": [
         "java.lang.String",
+        false,
         "null"
       ],
       "Performer(s)": [
         "java.util.List",
+        false,
         "[\n  \"The Last Shadow Puppets\"\n]"
       ],
       "Venue": [
         "java.lang.String",
+        true,
         "\"Albert Hall\""
       ],
       "Event Name": [
         "java.lang.String",
+        true,
         "\"Some Concert\""
       ],
       "Time": [
         "java.time.LocalDateTime",
+        true,
         "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 3,\n    \"day\": 24\n  },\n  \"time\": {\n    \"hour\": 1,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
       ]
     }
