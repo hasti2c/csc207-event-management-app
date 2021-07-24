@@ -67,6 +67,7 @@ public class SystemController {
     public void run(){
         boolean program_running = true;
         while (program_running) {
+            presenter.printText(AppConstant.WELCOME_TEXT);
             presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
             int user_input = inputParser.readInt();
             switch (user_input) {
@@ -76,16 +77,10 @@ public class SystemController {
                 case 2:
                     String username = userController.userLogin();
                     if (username == null || username.length() == 0) {
-                        presenter.printText("Please try to login again");
+                        presenter.printText("Please try to login again.");
                     } else {
                         this.currentUser = username;
                         runMainMenu();
-//                        User.UserType userType = userManager.retrieveUserType(username);
-//                        if (userType == User.UserType.R) {
-//                            // TODO: Run Main Menu
-//                        } else if (userType == User.UserType.A) {
-//                            // TODO: Run Admin Menu
-//                        }
                     }
                     break;
                 case 3:
@@ -94,6 +89,7 @@ public class SystemController {
                     break;
                 case 4:
                     program_running = false;
+                    presenter.printText("Exiting...");
                     break;
             }
         }
@@ -242,11 +238,9 @@ public class SystemController {
      */
     public void createTrialUser(){
         // TODO Should be a constant
-        String trial_username = "TRIAL_USER";
-        String trial_password = "TRIAL_PASS";
-        String trial_email = "TRIAL@EMAIL.COM";
-        this.currentUser = trial_username;
-        userManager.createUser(trial_username, trial_password, trial_email, User.UserType.T);
+
+        this.currentUser = AppConstant.trial_username;
+        userManager.createUser(AppConstant.trial_username, AppConstant.trial_password, AppConstant.trial_email, User.UserType.T);
     }
 
     private int showMenu(String menuName) {

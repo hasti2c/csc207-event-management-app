@@ -32,7 +32,7 @@ public class EventController {
     public void viewAndEditMyEvents(String username) {
         List<String> myEvents = userManager.getCreatedEvents(username);
         int eventChoice = generateEventList(eventManager.returnEventNamesListFromIdList(userManager.getCreatedEvents(username)));
-
+        List<String> myEventsMenu = Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
         boolean exitMenu = false;
         while (!exitMenu) {
             if (eventChoice == myEvents.size() - 1) {
@@ -40,9 +40,9 @@ public class EventController {
             }
             else{
                 String eventID = myEvents.get(eventChoice);
+                presenter.printMenu("Viewing Event Details", myEventsMenu);
                 viewEventDetails(eventID);
                 viewEventMetaDetails(eventID);
-                presenter.printText("1) Delete Event 2) Edit Event 3) Go Back");
                 int userInput = inputParser.readInt();
 
                 boolean correctInput = false;
@@ -56,11 +56,14 @@ public class EventController {
                             editEvent(eventID, username);
                             break;
                         case 3:
+                            changePublishStatus(eventID);
+                            break;
+                        case 4:
                             correctInput = true;
                             break;
                         default:
-                            presenter.printText("You did not enter a valid option, try again");
-                            presenter.printText("1) Delete Event 2) Edit Event 3) Go Back");
+                            presenter.printText("You did not enter a valid option, try again.");
+                            presenter.printMenu("Choose one of the following options:", myEventsMenu);
                             userInput = inputParser.readInt();
                             break;
                     }
@@ -179,11 +182,13 @@ public class EventController {
                     eventManager.enterFieldValue(newEventID, entry.getKey(), userInput);
                     accepted = true;
                 } else {
-                    presenter.printText("Do it right. Enter " + entry.getKey() + "(" + entry.getValue() + "):");
+                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue() + "):");
                     userInput = inputParser.readLine();
                 }
             }
         }
+        presenter.printText("Your event has been successfully created.");
+        changePublishStatus(newEventID);
     }
 
     // TODO need to implement edit event
@@ -191,6 +196,46 @@ public class EventController {
 
     }
 
+    private void changePublishStatus (String eventID) {
+        if (eventManager.returnIsPublished(eventID)){
+            presenter.printText("Your event is currently published, would you like to unpublish? (Y/N)");
+            String published = inputParser.readLine();
+            while (true) {
+                if (published.equals("Y")) {
+                    eventManager.publishEvent(eventID);
+                    presenter.printText("Your event has now been unpublished.");
+                    break;
+                }
+                else if (published.equals("N")){
+                    presenter.printText("Returning to previous screen.");
+                    break;
+                }
+                else {
+                    presenter.printText("Please enter either Y or N.");
+                    published = inputParser.readLine();
+                }
+            }
+        }
+        else {
+            presenter.printText("Your event is currently unpublished, would you like to publish? (Y/N)");
+            String published = inputParser.readLine();
+            while (true) {
+                if (published.equals("Y")) {
+                    eventManager.publishEvent(eventID);
+                    presenter.printText("Your event has now been published.");
+                    break;
+                }
+                else if (published.equals("N")){
+                    presenter.printText("Returning to previous screen.");
+                    break;
+                }
+                else {
+                    presenter.printText("Please enter either Y or N.");
+                    published = inputParser.readLine();
+                }
+            }
+        }
+    }
     /**
      * Removes selected event to the User's list of events they are attending.
      *

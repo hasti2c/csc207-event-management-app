@@ -125,7 +125,7 @@ public class EventManager {
         Map<String, String> fieldNameAndType = new HashMap<>();
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
-                for (Map.Entry<String, List<Object>> fieldSpecEntry: event.getFieldNameAndTypeMap().entrySet()) {
+                for (Map.Entry<String, List<Object>> fieldSpecEntry: event.getFieldNameAndFieldSpecsMap().entrySet()) {
                     fieldNameAndType.put(fieldSpecEntry.getKey(), fieldSpecEntry.getValue().get(0).toString());
                 }
 
@@ -251,7 +251,7 @@ public class EventManager {
         // else, return true. (I think this works, if not we can try something different)
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
-                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndTypeMap().entrySet()){
+                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()){
                     if ((fieldSpecEntry.getKey().equals(fieldName)) && (fieldSpecEntry.getValue().get(0).equals
                             (fieldValue.getClass().getSimpleName()))
                     && (fieldSpecEntry.getValue().get(1).equals(true))){

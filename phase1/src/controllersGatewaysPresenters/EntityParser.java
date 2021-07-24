@@ -20,14 +20,20 @@ import java.util.Map;
 public abstract class EntityParser<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
-    private final Gson gson;
+    private Gson gson;
     private Map<String, T> elements;
 
     public EntityParser(Class<T> dataType, String path) {
         this.dataType = dataType;
         this.path = path;
-        gson = getGsonBuilder().create();
-        readElements();
+        GsonBuilder builder = getGsonBuilder();
+        if(builder!=null) {
+            gson = builder.create();
+            readElements();
+        } else {
+            elements = new HashMap<>();
+        }
+
     }
 
     @Override

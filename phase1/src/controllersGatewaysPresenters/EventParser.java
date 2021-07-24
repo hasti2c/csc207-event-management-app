@@ -1,7 +1,7 @@
 package controllersGatewaysPresenters;
 
 import com.google.gson.*;
-import javafx.util.Pair;
+
 
 import entitiesAndUseCases.Event;
 
@@ -20,6 +20,17 @@ public class EventParser extends EntityParser<Event> {
         super(Event.class, path);
     }
 
+    @Override
+    protected GsonBuilder getGsonBuilder() {
+        return null;
+    }
+
+    @Override
+    protected String getElementId(Event element) {
+        return null;
+    }
+
+    /*
     @Override
     protected GsonBuilder getGsonBuilder() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -155,4 +166,6 @@ public class EventParser extends EntityParser<Event> {
             }
         }
     }
+    // */
+
 }

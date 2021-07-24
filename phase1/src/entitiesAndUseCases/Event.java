@@ -177,7 +177,7 @@ public class Event {
      * the second object is whether or not the field is a required one.
      * @return Map</String, List<Object>> The map with FieldName as key and FieldSpecs as value of this event
      */
-    public Map<String, List<Object>> getFieldNameAndTypeMap() {
+    public Map<String, List<Object>> getFieldNameAndFieldSpecsMap() {
         return fieldNameAndFieldSpecs;
     }
 
