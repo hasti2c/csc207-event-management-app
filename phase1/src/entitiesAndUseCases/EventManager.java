@@ -260,7 +260,8 @@ public class EventManager {
                     }
                 }
             }
-        return false;
+//        return false;
+        return true;
     }
 
 //    /**

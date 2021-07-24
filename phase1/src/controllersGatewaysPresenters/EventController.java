@@ -174,7 +174,7 @@ public class EventController {
 
         Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
         for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
-            presenter.printText("Enter " + entry.getKey() + "(" + entry.getValue() + "):");
+            presenter.printText("Enter " + entry.getKey() + ":");
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {

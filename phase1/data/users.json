@@ -16,6 +16,18 @@
   },
   {
     "username": "hasti2c",
+    "password": "yay",
+    "userEmail": "test@email.com",
+    "createdEvent": [
+      "id30"
+    ],
+    "attendingEvents": [
+      "id30"
+    ],
+    "userType": "A"
+  },
+  {
+    "username": "hasti1c",
     "password": "thisisagoodpassword",
     "userEmail": "hastitoossi@gmail.com",
     "createdEvent": [
