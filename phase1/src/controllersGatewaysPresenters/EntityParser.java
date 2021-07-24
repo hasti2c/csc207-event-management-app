@@ -17,7 +17,7 @@ import java.util.Map;
 public abstract class EntityParser<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
-    private Gson gson;
+    private final Gson gson;
     private Map<String, T> elements;
 
     public EntityParser(Class<T> dataType, String path) {
