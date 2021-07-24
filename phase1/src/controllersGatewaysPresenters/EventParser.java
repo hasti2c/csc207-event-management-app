@@ -130,7 +130,7 @@ public class EventParser extends EntityParser<Event> {
                 List<Object> typeAndRequired = Arrays.asList(className, required);
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String valueJson = fieldData.get(1).getAsString();
+                String valueJson = fieldData.get(2).getAsString();
                 Object value = gson.fromJson(valueJson, dataType);
 
                 return new Pair<>(typeAndRequired, value);
