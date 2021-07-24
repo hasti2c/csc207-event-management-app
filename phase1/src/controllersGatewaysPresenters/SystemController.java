@@ -28,9 +28,9 @@ public class SystemController {
     private String currentUser;
 
     public SystemController() {
-        userParser = new UserParser("data/users.json");
-        eventParser = new EventParser("data/events.json");
-        templateParser = new TemplateParser("data/templates.json");
+        userParser = new UserParser("phase1/data/users.json");
+        eventParser = new EventParser("phase1/data/events.json");
+        templateParser = new TemplateParser("phase1/data/templates.json");
 
         userManager = new UserManager(userParser);
         templateManager = new TemplateManager(templateParser);

@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO exceptions
 // TODO javadocs
 
 public abstract class EntityParser<T> implements IGateway<T> {
@@ -24,14 +23,8 @@ public abstract class EntityParser<T> implements IGateway<T> {
     public EntityParser(Class<T> dataType, String path) {
         this.dataType = dataType;
         this.path = path;
-        GsonBuilder builder = getGsonBuilder();
-        if(builder!=null) {
-            gson = builder.create();
-            readElements();
-        } else {
-            elements = new HashMap<>();
-        }
-
+        gson = getGsonBuilder().create();
+        readElements();
     }
 
     @Override

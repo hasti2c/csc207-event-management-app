@@ -1,8 +1,6 @@
 package controllersGatewaysPresenters;
 
 import com.google.gson.*;
-
-
 import entitiesAndUseCases.Event;
 
 import java.lang.reflect.Field;
@@ -10,28 +8,11 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
 
-// TODO* optional field specs (null value)
-// TODO* field specs have changed in Event
-
-// TODO make field reading & writing more general
-// TODO local date time serializer
-
 public class EventParser extends EntityParser<Event> {
     public EventParser(String path) {
         super(Event.class, path);
     }
 
-    @Override
-    protected GsonBuilder getGsonBuilder() {
-        return null;
-    }
-
-    @Override
-    protected String getElementId(Event element) {
-        return null;
-    }
-
-    /*
     @Override
     protected GsonBuilder getGsonBuilder() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -72,19 +53,21 @@ public class EventParser extends EntityParser<Event> {
             json.addProperty("editTime", event.getEditTime().toString());
         }
 
-        // TODO update fieldSpecs
         private void addFields(Event event, JsonObject json) {
-            Map<String, Class<?>> templateFieldSpec = event.getTemplateFieldSpec();
+            Map<String, List<Object>> fieldNameAndFieldSpecs = event.getFieldNameAndFieldSpecsMap();
             Map<String, Object> eventDetails = event.getEventDetails();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
             JsonObject fields = new JsonObject();
-            for (String fieldName: templateFieldSpec.keySet()) {
-                String className = templateFieldSpec.get(fieldName).getName();
+            for (String fieldName: fieldNameAndFieldSpecs.keySet()) {
+                List<Object> fieldData = fieldNameAndFieldSpecs.get(fieldName);
+                String className = (String) fieldData.get(0);
+                Boolean required = (Boolean) fieldData.get(1);
                 String value = gson.toJson(eventDetails.get(fieldName));
 
                 JsonArray array = new JsonArray();
                 array.add(className);
+                array.add(required);
                 array.add(value);
 
                 fields.add(fieldName, array);
@@ -124,31 +107,33 @@ public class EventParser extends EntityParser<Event> {
         }
 
         private void getFields(JsonObject json, Event event) {
-            Map<String, Class<?>> templateFieldSpec = new HashMap<>();
+            Map<String, List<Object>> fieldNameAndTypeMap = new HashMap<>();
             Map<String, Object> eventDetails = new HashMap<>();
 
             JsonObject fields = json.get("fields").getAsJsonObject();
             for (String fieldName: fields.keySet()) {
                 JsonArray fieldData = fields.get(fieldName).getAsJsonArray();
-                Pair<Class<?>, Object> field = getProperty(fieldData);
-                templateFieldSpec.put(fieldName, field.getKey());
-                eventDetails.put(fieldName, field.getValue());
+                Pair<List<Object>, Object> field = getProperty(fieldData);
+                fieldNameAndTypeMap.put(fieldName, field.getFirst());
+                eventDetails.put(fieldName, field.getSecond());
             }
 
-            setField(event, "templateFieldSpec", templateFieldSpec);
+            setField(event, "fieldNameAndFieldSpecs", fieldNameAndTypeMap);
             setField(event, "eventDetails", eventDetails);
         }
 
-        private Pair<Class<?>, Object> getProperty(JsonArray fieldData) {
+        private Pair<List<Object>, Object> getProperty(JsonArray fieldData) {
             try {
                 String className = fieldData.get(0).getAsString();
+                Boolean required = fieldData.get(1).getAsBoolean();
                 Class<?> dataType = Class.forName(className);
+                List<Object> typeAndRequired = Arrays.asList(className, required);
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 String valueJson = fieldData.get(1).getAsString();
                 Object value = gson.fromJson(valueJson, dataType);
 
-                return new Pair<>(dataType, value);
+                return new Pair<>(typeAndRequired, value);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
                 return null;
@@ -167,6 +152,5 @@ public class EventParser extends EntityParser<Event> {
             }
         }
     }
-    // */
 
 }
