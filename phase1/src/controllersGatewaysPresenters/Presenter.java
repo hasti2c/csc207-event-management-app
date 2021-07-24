@@ -13,7 +13,7 @@ public class Presenter {
         printText(title);
         printText("Please choose one of the following options.");
         for (int i = 0; i < options.size(); i++) {
-            printText(i + ". " + options.get(i));
+            printText((i + 1) + ". " + options.get(i));
         }
     }
 
