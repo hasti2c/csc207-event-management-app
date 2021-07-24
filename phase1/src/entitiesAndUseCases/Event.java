@@ -1,13 +1,13 @@
 package entitiesAndUseCases;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Events of the system
+ */
 public class Event {
-    /**
-     * The events of the system
-     */
+
     // === Class Variables ===
     // === Instance Variables ===
     // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
@@ -16,11 +16,10 @@ public class Event {
     private LocalDateTime createdTime;
     private LocalDateTime editTime;
     private String eventOwner;
-
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-    private Map<String, List<Object>> fieldNameAndTypeMap;
+    private Map<String, List<Object>> fieldNameAndFieldSpecs;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
@@ -28,9 +27,13 @@ public class Event {
     private String templateId;
     private String templateVersion;
 
-    // === Representation Invariants ===
-    // Not sure yet
-    // === Methods ===
+    // === Constructors ===
+
+    /**
+     * Initializes a new event with the given template and owner.
+     * @param template the template used to create the event
+     * @param eventOwner the creator of the event
+     */
     public Event(Template template, String eventOwner){
         eventId = UUID.randomUUID().toString();
         // need user to explicitly change to published
@@ -40,28 +43,67 @@ public class Event {
         this.templateId = template.getTemplateId();
         this.templateVersion = template.getFileVersionNumber();
         this.eventDetails = new HashMap<>();
-        this.fieldNameAndTypeMap = new HashMap<>();
+        this.fieldNameAndFieldSpecs = new HashMap<>();
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
     }
 
+    // Empty constructor
     public Event() {
     }
 
+    // === Methods ===
     public void addFieldsToEventDetails(Template template) {
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
             this.eventDetails.put(fieldSpecs.getFieldName(), null);
         }
     }
 
-    public void addFieldNameAndTypeToMap(Template template) { //creates a map that has fieldName as key,
+    /**
+     * Adds field name and field spec info to the event's fieldNameAndFieldSpecs map.
+     * @param template the template used to create the event
+     */
+    public void addFieldNameAndFieldSpecsInfo(Template template) { //creates a map that has fieldName as key,
         // [fieldType, required] as value
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
             List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();
             fieldSpecsTypeAndRequired.add(fieldSpecs.getDataType()); //the first element, 0
             fieldSpecsTypeAndRequired.add(fieldSpecs.isRequired()); //the second element, 1
-            this.fieldNameAndTypeMap.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
+            this.fieldNameAndFieldSpecs.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
         }
+    }
+
+    /**
+     * Returns the maximum number of attendees for this event. If the event doesn't specify a maximum, returns -1.
+     * @return int the maximum number of attendees or -1.
+     */
+    public int returnMaxAttendees() {
+        // returns the maximum number of attendees, if the event doesn't have a maximum, returns -1
+        Map<String, Object> eventDetailsMap = getEventDetails();
+        int maxAttendees;
+        if (eventDetailsMap.get("Max Attendees") == null) {
+            maxAttendees = -1;
+        }
+        else {
+            maxAttendees = (Integer) eventDetailsMap.get("Max Attendees");
+        }
+        return maxAttendees;
+    }
+
+    /**
+     * Returns the event's name. If the event has no name, it is called "Untitled".
+     * @return String the name of the event
+     */
+    public String returnEventName() {
+        Map<String, Object> eventDetailsMap = getEventDetails();
+        String eventName;
+        if (eventDetailsMap.get("Event Name") == null) {
+            eventName = "Untitled";
+        }
+        else {
+            eventName = (String) eventDetailsMap.get("Event Name");
+        }
+        return eventName;
     }
 
     // Getters
@@ -75,7 +117,7 @@ public class Event {
     }
 
     /**
-     * Gets the type of this event (Also, this will match the name of the template)
+     * Gets the type of this event (Also, this will match the name of the template that was used to create the event.)
      * @return String Type of this event
      */
     public String getEventType() {
@@ -115,7 +157,7 @@ public class Event {
     }
 
     /**
-     * Gets the owner of this Event
+     * Gets the owner of this event
      * @return String The owner of this event
      */
     public String getEventOwner() {
@@ -131,27 +173,29 @@ public class Event {
     }
 
     /**
-     * Gets the map with FieldName as key and FieldType as value of this event
-     * @return Map</String, List<Object>> The map with FieldName as key and FieldType as value of this event
+     * Gets the map with FieldName as key and a list as the value, the first object is the field's data type and
+     * the second object is whether or not the field is a required one.
+     * @return Map</String, List<Object>> The map with FieldName as key and FieldSpecs as value of this event
      */
     public Map<String, List<Object>> getFieldNameAndTypeMap() {
-        return fieldNameAndTypeMap;
+        return fieldNameAndFieldSpecs;
     }
 
     /**
      * Gets the Id of the template associated with this event
      * @return String The Id of the template associated with this event
      */
-    public String getTemplateId(){return templateId;}
+    public String getTemplateId(){
+        return templateId;
+    }
 
     /**
      * Gets the version of the template associated with this event
-     * @return String The version of the template associated with this event
+     * @return String The version number of the template associated with this event
      */
-    public String getTemplateVersion(){return templateVersion;}
-
-
-    // Setters
+    public String getTemplateVersion(){
+        return templateVersion;
+    }
 
     /**
      * Sets a new owner for this event
@@ -185,19 +229,19 @@ public class Event {
         this.published = published;
     }
 
-    /**
-     * Sets new details for this event
-     * @param eventDetails The new details of this event
-     */
-    public void setEventDetails(Map<String, Object> eventDetails) {
-        this.eventDetails = eventDetails;
-    }
+//    /**
+//     * Sets new details for this event
+//     * @param eventDetails The new details of this event
+//     */
+//    public void setEventDetails(Map<String, Object> eventDetails) {
+//        this.eventDetails = eventDetails;
+//    }
 
-    /**
-     * Sets a new map with FieldName as key and FieldType as value for this event
-     * @param fieldNameAndTypeMap The new map with FieldName as key and FieldType as value of this event
-     */
-    public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndTypeMap) {
-        this.fieldNameAndTypeMap = fieldNameAndTypeMap;
-    }
+//    /**
+//     * Sets a new map with FieldName as key and FieldType as value for this event
+//     * @param fieldNameAndFieldSpecsInfo The new map with FieldName as key and FieldType as value of this event
+//     */
+//    public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndFieldSpecsInfo) {
+//        this.fieldNameAndFieldSpecs = fieldNameAndFieldSpecsInfo;
+//    }
 }

@@ -33,12 +33,12 @@ public class TemplateManager {
         return !templateNames.contains(newName);
     }
 
-    public List<Template> getTemplateList() {
-        return templateList;
-    }
-
-    public List<FieldSpecs> getFieldSpecs(String templateName){
-        return this.retrieveTemplateByName(templateName).getFieldDescriptions();
+    public List<String> returnTemplateNames() {
+        List<String> templateNames = new ArrayList<>();
+        for (Template template : templateList) {
+            templateNames.add(template.getTemplateName());
+        }
+        return templateNames;
     }
 
     public Template retrieveTemplateByName(String templateName){
@@ -49,6 +49,14 @@ public class TemplateManager {
             }
         }
         return holderList.remove(0);
+    }
+
+    public List<Template> getTemplateList() {
+        return templateList;
+    }
+
+    public List<FieldSpecs> getFieldSpecs(String templateName){
+        return this.retrieveTemplateByName(templateName).getFieldDescriptions();
     }
 
     public void saveAllTemplates() {
