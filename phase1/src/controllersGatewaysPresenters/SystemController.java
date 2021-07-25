@@ -104,7 +104,11 @@ public class SystemController {
             switch (userInput) {
                 case 1:
                     int templateChoice = eventController.chooseTemplate(currentUser);
-                    String templateName = templateManager.returnTemplateNames().get(templateChoice);
+                    List<String> templateNames= templateManager.returnTemplateNames();
+                        if (templateChoice == templateNames.size() + 1) {
+                            break;
+                        }
+                    String templateName = templateNames.get(templateChoice);
                     eventController.createNewEvent(templateName, currentUser);
                     break;
                 case 2:

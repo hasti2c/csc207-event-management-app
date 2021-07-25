@@ -71,9 +71,11 @@ public class UserManager {
         // updates the loggedIn boolean to True
 
         User userToLogin = retrieveUser(username);
+        // If the user doesn't exist
         if (userToLogin == null){
             return false;
         }
+        // If the password and username match
         if (userToLogin.getPassword().equals(password)){
             userToLogin.setLoggedIn(true);
             return true;
@@ -83,23 +85,23 @@ public class UserManager {
         }
     }
 
-    /**
-     * Logs out a user by checking the inputted password against the User's username
-     * @param username The username of the user attempting to log out
-     * @return boolean Whether the logout was successful
-     */
-    public boolean logOut(String username) {
-        // returns true if successfully logged out, false otherwise
-
-        User userToLogout = retrieveUser(username);
-        if (userToLogout == null){
-            return false;
-        }
-        else {
-            userToLogout.setLoggedIn(false);
-            return true;
-        }
-    }
+//    /**
+//     * Logs out a user by checking the inputted password against the User's username
+//     * @param username The username of the user attempting to log out
+//     * @return boolean Whether the logout was successful
+//     */
+//    public boolean logOut(String username) {
+//        // returns true if successfully logged out, false otherwise
+//
+//        User userToLogout = retrieveUser(username);
+//        if (userToLogout == null){
+//            return false;
+//        }
+//        else {
+//            userToLogout.setLoggedIn(false);
+//            return true;
+//        }
+//    }
 
     /**
      * Update a users password to the newPassword

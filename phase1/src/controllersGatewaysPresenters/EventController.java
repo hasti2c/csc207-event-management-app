@@ -312,7 +312,7 @@ public class EventController {
     private int getChoice(int lowBound, int highBound) {
         int choice = inputParser.readInt();
         while (choice < lowBound || choice > highBound) {
-            presenter.printText("Invalid choice. Please enter a number between " + (lowBound) + " and " + highBound);
+            presenter.printText("Invalid choice. Please enter a number between " + lowBound + " and " + highBound);
             choice = inputParser.readInt();
         }
         return choice;
@@ -322,7 +322,7 @@ public class EventController {
         List<String> templateList = templateManager.returnTemplateNames();
         templateList.add(MENU_EXIT_OPTION);
         presenter.printMenu("Available Templates", templateList);
-        return getChoice(1, templateList.size()) - 1;
+        return getChoice(1, templateList.size());
     }
 
 }
