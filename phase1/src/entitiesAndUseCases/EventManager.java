@@ -88,6 +88,13 @@ public class EventManager {
         return retrieveEventById(eventID).isPublished();
     }
 
+    public boolean unPublishEvent(String eventID) {
+        if (retrieveEventById(eventID).getNumAttendees() > 0) {
+            retrieveEventById(eventID).setPublished(false);
+        }
+        return !(retrieveEventById(eventID).isPublished());
+    }
+
     // === Retrieving information ===
     public boolean returnIsPublished(String eventID) {
         return retrieveEventById(eventID).isPublished();
