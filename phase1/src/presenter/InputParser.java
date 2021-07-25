@@ -7,8 +7,6 @@ import java.util.StringTokenizer;
 
 // Inspired by https://codeforces.com/blog/entry/6834?#comment-124539
 
-// TODO: what if readInt() is called, but the user does not input an int?
-
 public class InputParser {
     private BufferedReader bufferedReader;
     private StringTokenizer currentToken;
