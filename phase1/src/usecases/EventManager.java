@@ -116,8 +116,11 @@ public class EventManager {
                 for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
                     if (eventDetailsEntry.getValue() == null) {
                         eventDetailsMap.put(eventDetailsEntry.getKey(), "N/A");
-                    }
-                    else {
+                    } else if (eventDetailsEntry.getValue() instanceof LocalDateTime) {
+                        LocalDateTime time = (LocalDateTime) eventDetailsEntry.getValue();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+                        eventDetailsMap.put(eventDetailsEntry.getKey(), formatter.format(time));
+                    } else {
                         eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
                     }
                 }
@@ -142,7 +145,6 @@ public class EventManager {
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
                 for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry: event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                    // TODO LocalDateTime format
                     String className = fieldSpecEntry.getValue().getFirst().getSimpleName();
                     Boolean required = fieldSpecEntry.getValue().getSecond();
                     fieldNameAndType.put(fieldSpecEntry.getKey(), Arrays.asList(className, required));
@@ -249,6 +251,7 @@ public class EventManager {
     // Chris, you can use the same local date time formatter that you had before.
     // Use parse in local dat time that has the formatter thing. Link below
     // https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
+    // TODO handle list (and other types?)
     private Object convertToCorrectDataType(String eventId, String fieldName, String fieldValue) {
         Object returnFieldValue = null;
         for (Event event : eventList) {
