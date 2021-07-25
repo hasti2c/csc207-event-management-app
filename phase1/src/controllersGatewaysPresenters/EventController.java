@@ -194,7 +194,7 @@ public class EventController {
 
     // TODO need to implement edit event
     public void editEvent (String eventID, String username) {
-
+        presenter.printText("You cannot edit your event at this time.");
     }
 
     /**
@@ -223,7 +223,12 @@ public class EventController {
         if (eventManager.returnIsPublished(eventID)){
             presenter.printText("Your event is currently published, would you like to unpublish? (Y/N)");
             if (getYesNo()) {
-                eventManager.unPublishEvent(eventID);
+                if (eventManager.unPublishEvent(eventID)){
+                    presenter.printText("Your event has been successfully unpublished.");
+                }
+                else {
+                    presenter.printText("Your event could not be unpublished.");
+                }
             }
         }
         else {
