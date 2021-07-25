@@ -4,6 +4,7 @@ import entitiesAndUseCases.EventManager;
 import entitiesAndUseCases.TemplateManager;
 import entitiesAndUseCases.User;
 import entitiesAndUseCases.UserManager;
+import sun.font.TrueTypeFont;
 
 import java.util.*;
 
@@ -45,7 +46,7 @@ public class EventController {
                 boolean stopLoop = false;
                 while (!stopLoop) {
                     presenter.printMenu("Viewing Event Details", myEventsMenu);
-                    int userInput = inputParser.readInt();
+                    int userInput = getChoice(1, myEventsMenu.size());
                     switch (userInput) {
                         case 1:
                             deleteEvent(username, eventID);
@@ -60,11 +61,7 @@ public class EventController {
                         case 4:
                             stopLoop = true;
                             break;
-                        default:
-                            presenter.printText("You did not enter a valid option, try again.");
-                            presenter.printMenu("Choose one of the following options:", myEventsMenu);
-                            userInput = inputParser.readInt();
-                            break;
+
                     }
                 }
             }
@@ -78,7 +75,7 @@ public class EventController {
         List<String> temp = new ArrayList<>(eventNameList);
         temp.add(AppConstant.MENU_EXIT_OPTION);
         presenter.printMenu("Choose an event by entering a number", temp);
-        return getChoice(0, temp.size()) - 1;
+        return getChoice(1, temp.size()) - 1;
     }
 
     /**
@@ -122,40 +119,35 @@ public class EventController {
             // Then they get shown the correct menu along with the details of the event they chose.
             viewEventDetails(eventID);
             presenter.printMenu("Viewing Selected Event", menuMap.get(menuMapChoice));
-            int menuChoice = inputParser.readInt();
+            int menuChoice = getChoice(1, menuMap.get(menuMapChoice).size());
             boolean exitMenu = false;
             while (!exitMenu) {
                 // If the user isn't attending the event, and they choose to attend the event
-                if (menuChoice == 1 && menuMapChoice.equals("IsNotAttending")) {
+                if (menuMap.get(menuMapChoice).get(menuChoice - 1).equals("Attend Event")) {
                     // check to make sure there's still room in the event
                     if(attendEvent(username, eventID)){
                         // TODO I'm not sure if this works or and also if the event gets removed from the list when they go back to view the list...
-                        presenter.printText("You have successfully registered for the event. Choose 2) to go back to the list of events.");
+                        presenter.printText("You have successfully registered for the event.");
                         eventIDList.remove(eventID);
                     }
                     else{
-                        presenter.printText("Sorry this event is full. Choose 2) to go back to the list of events.");
+                        presenter.printText("Sorry this event is full.");
                     }
-                    menuChoice = inputParser.readInt();
+                    exitMenu = true;
                 // If the user is attending the event and they choose to leave the event
-                } else if (menuChoice == 1 && menuMapChoice.equals("IsAttending")) {
+                } else if (menuMap.get(menuMapChoice).get(menuChoice - 1).equals("Un-Attend Event")) {
                     if(leaveEvent(username, eventID)){
-                        presenter.printText("You have successfully unregistered for the event. Choose 2) to go back to the list of events.");
+                        presenter.printText("You have successfully unregistered for the event.");
                         eventIDList.remove(eventID);
                     }
                     else{
                         presenter.printText("You could not leave this event. Choose 2) to go back to the list of events.");
                     }
-                    menuChoice = inputParser.readInt();
+                    exitMenu = true;
                 // If the user chooses to go back
-                } else if (menuChoice == 2 || (menuMapChoice.equals("Trial") && menuChoice == 1)) {
+                } else if (menuMap.get(menuMapChoice).get(menuChoice - 1).equals("Go Back")) {
                     exitMenu = true;
                 // If the entry is invalid
-                } else {
-                    presenter.printText("Invalid Choice.");
-                    presenter.printMenu("Viewing Selected Event", menuMap.get(menuMapChoice));
-                    menuChoice = inputParser.readInt();
-                    viewEventDetails(eventID);
                 }
             }
         }
@@ -197,43 +189,29 @@ public class EventController {
 
     }
 
+    private boolean getYesNo() {
+        String userInput = inputParser.readLine();
+        while (!userInput.equals("Y") && !userInput.equals("N")) {
+            presenter.printText("Type Y or N");
+            userInput = inputParser.readLine();
+        }
+        if (userInput.equals("Y")){
+            return true;
+        }
+        return false;
+    }
+
     private void changePublishStatus (String eventID) {
         if (eventManager.returnIsPublished(eventID)){
             presenter.printText("Your event is currently published, would you like to unpublish? (Y/N)");
-            String published = inputParser.readLine();
-            while (true) {
-                if (published.equals("Y")) {
-                    eventManager.publishEvent(eventID);
-                    presenter.printText("Your event has now been unpublished.");
-                    break;
-                }
-                else if (published.equals("N")){
-                    presenter.printText("Returning to previous screen.");
-                    break;
-                }
-                else {
-                    presenter.printText("Please enter either Y or N.");
-                    published = inputParser.readLine();
-                }
+            if (getYesNo()) {
+                eventManager.publishEvent(eventID); // this should be unpublish but no method
             }
         }
         else {
             presenter.printText("Your event is currently unpublished, would you like to publish? (Y/N)");
-            String published = inputParser.readLine();
-            while (true) {
-                if (published.equals("Y")) {
-                    eventManager.publishEvent(eventID);
-                    presenter.printText("Your event has now been published.");
-                    break;
-                }
-                else if (published.equals("N")){
-                    presenter.printText("Returning to previous screen.");
-                    break;
-                }
-                else {
-                    presenter.printText("Please enter either Y or N.");
-                    published = inputParser.readLine();
-                }
+            if (getYesNo()) {
+                eventManager.publishEvent(eventID);
             }
         }
     }
@@ -271,18 +249,12 @@ public class EventController {
      * @param eventID  unique identifier for event
      */
     private void deleteEvent(String username, String eventID) {
-        presenter.printText("Are you sure you wish to delete your event? This action cannot be undone.");
-        presenter.printText("1) Yes 2) Go Back");
-        String user_input = inputParser.readLine();
-        if (user_input.equals("1")){
+        List<String> optionsList = Arrays.asList("Yes", "Go Back");
+        presenter.printMenu("Are you sure you wish to delete your event? This action cannot be undone.", optionsList);
+        int user_input = getChoice(1, 2);
+        if (optionsList.get(user_input - 1).equals("Yes")){
             this.userManager.deleteEvent(username, eventID);
-        }
-        else if (user_input.equals("2")){
-            return;
-        }
-        else {
-            presenter.printText("You did not enter a valid option, try again");
-            deleteEvent(username, eventID);
+            presenter.printText("Event was deleted.");
         }
     }
 
@@ -308,8 +280,8 @@ public class EventController {
     // === Helpers ===
     private int getChoice(int lowBound, int highBound) {
         int choice = inputParser.readInt();
-        while (choice <= lowBound || choice > highBound) {
-            presenter.printText("Do it right. Pick a good number: ");
+        while (choice < lowBound || choice > highBound) {
+            presenter.printText("Do it right. Pick a number between " + lowBound + " and " + highBound);
             choice = inputParser.readInt();
         }
         return choice;

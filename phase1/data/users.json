@@ -1,5 +1,15 @@
 [
   {
+    "username": "tony",
+    "password": "tony",
+    "userEmail": "tony",
+    "ownedEvents": [
+      "0a071963-54f4-4646-a256-ac67c616f35b"
+    ],
+    "attendingEvents": [],
+    "userType": "R"
+  },
+  {
     "username": "haze",
     "password": "gray",
     "userEmail": "grayishhaze@gmail.com",
