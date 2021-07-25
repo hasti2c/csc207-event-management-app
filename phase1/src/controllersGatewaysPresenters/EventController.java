@@ -223,7 +223,7 @@ public class EventController {
         if (eventManager.returnIsPublished(eventID)){
             presenter.printText("Your event is currently published, would you like to unpublish? (Y/N)");
             if (getYesNo()) {
-                eventManager.unPublishEvent(eventID); // this should be unpublish but no method
+                eventManager.unPublishEvent(eventID);
             }
         }
         else {
@@ -307,7 +307,7 @@ public class EventController {
     private int getChoice(int lowBound, int highBound) {
         int choice = inputParser.readInt();
         while (choice < lowBound || choice > highBound) {
-            presenter.printText("Do it right. Pick a number between " + (lowBound + 1) + " and " + highBound);
+            presenter.printText("Invalid choice. Please enter a number between " + (lowBound) + " and " + highBound);
             choice = inputParser.readInt();
         }
         return choice;
@@ -317,7 +317,7 @@ public class EventController {
         List<String> templateList = templateManager.returnTemplateNames();
         templateList.add(MENU_EXIT_OPTION);
         presenter.printMenu("Available Templates", templateList);
-        return getChoice(0, templateList.size()) - 1;
+        return getChoice(1, templateList.size()) - 1;
     }
 
 }
