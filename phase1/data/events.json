@@ -41,48 +41,5 @@
         "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 3,\n    \"day\": 24\n  },\n  \"time\": {\n    \"hour\": 1,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
       ]
     }
-  },
-  {
-    "eventId": "0a071963-54f4-4646-a256-ac67c616f35b",
-    "published": true,
-    "eventOwner": "tony",
-    "eventType": "Concert",
-    "templateId": "id100",
-    "templateVersion": "1",
-    "numAttendees": 0,
-    "createdTime": "2021-07-25T11:13:15.167",
-    "editTime": "2021-07-25T11:13:15.167",
-    "fields": {
-      "Max Attendees": [
-        "java.lang.Integer",
-        true,
-        "\"9\""
-      ],
-      "Concert Genre": [
-        "java.lang.String",
-        false,
-        "\"song\""
-      ],
-      "Performer(s)": [
-        "java.util.List",
-        false,
-        "\"me\""
-      ],
-      "Venue": [
-        "java.lang.String",
-        true,
-        "\"here\""
-      ],
-      "Event Name": [
-        "java.lang.String",
-        true,
-        "\"tony concert\""
-      ],
-      "Time": [
-        "java.time.LocalDateTime",
-        true,
-        "\"now\""
-      ]
-    }
   }
 ]

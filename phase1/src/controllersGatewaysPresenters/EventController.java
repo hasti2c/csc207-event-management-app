@@ -48,20 +48,21 @@ public class EventController {
                     presenter.printMenu("Viewing Event Details", myEventsMenu);
                     int userInput = getChoice(1, myEventsMenu.size());
 
-                    switch (myEventsMenu.get(userInput - 1)) {
-                        case "Delete Event":
+                    switch (userInput) {
+                        case 1:
                             deleteEvent(username, eventID);
                             stopLoop = true;
                             break;
-                        case "Edit Event":
+                        case 2:
                             editEvent(eventID, username);
                             break;
-                        case "Change Published Status":
+                        case 3:
                             changePublishStatus(eventID);
                             break;
-                        case "Go Back":
+                        case 4:
                             stopLoop = true;
                             break;
+
                     }
                 }
             }
