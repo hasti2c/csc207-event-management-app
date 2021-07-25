@@ -1,5 +1,7 @@
 package entities;
 
+import utility.Pair;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -19,7 +21,7 @@ public class Event {
     // The actual map containing event details using the same field details from Template class and with the values
     // entered by the user.
     private Map<String, Object> eventDetails;
-    private Map<String, List<Object>> fieldNameAndFieldSpecs;
+    private Map<String, Pair<Class<?>, Boolean>> fieldNameAndFieldSpecs;
     // the number of people who are attending the event. (We won't be having any tickets at least for Phase 1)
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
@@ -66,10 +68,8 @@ public class Event {
     public void addFieldNameAndFieldSpecsInfo(Template template) { //creates a map that has fieldName as key,
         // [fieldType, required] as value
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
-            List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();
-            fieldSpecsTypeAndRequired.add(fieldSpecs.getDataType()); //the first element, 0
-            fieldSpecsTypeAndRequired.add(fieldSpecs.isRequired()); //the second element, 1
-            this.fieldNameAndFieldSpecs.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);
+            Pair<Class<?>, Boolean> typeAndRequired = new Pair<>(fieldSpecs.getDataType(), fieldSpecs.isRequired());
+            this.fieldNameAndFieldSpecs.put(fieldSpecs.getFieldName(), typeAndRequired);
         }
     }
 
@@ -177,7 +177,7 @@ public class Event {
      * the second object is whether or not the field is a required one.
      * @return Map</String, List<Object>> The map with FieldName as key and FieldSpecs as value of this event
      */
-    public Map<String, List<Object>> getFieldNameAndFieldSpecsMap() {
+    public Map<String, Pair<Class<?>, Boolean>> getFieldNameAndFieldSpecsMap() {
         return fieldNameAndFieldSpecs;
     }
 

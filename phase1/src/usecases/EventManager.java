@@ -1,6 +1,7 @@
 package usecases;
 import gateways.IGateway;
 import entities.Event;
+import utility.Pair;
 
 import java.util.*;
 import java.time.LocalDateTime;
@@ -139,10 +140,10 @@ public class EventManager {
         Map<String, List<Object>> fieldNameAndType = new HashMap<>();
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
-                for (Map.Entry<String, List<Object>> fieldSpecEntry: event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry: event.getFieldNameAndFieldSpecsMap().entrySet()) {
                     // TODO LocalDateTime format
-                    String className = ((Class<?>) fieldSpecEntry.getValue().get(0)).getSimpleName();
-                    Boolean required = (Boolean) fieldSpecEntry.getValue().get(1);
+                    String className = fieldSpecEntry.getValue().getFirst().getSimpleName();
+                    Boolean required = fieldSpecEntry.getValue().getSecond();
                     fieldNameAndType.put(fieldSpecEntry.getKey(), Arrays.asList(className, required));
                 }
 
@@ -252,8 +253,8 @@ public class EventManager {
         Object returnFieldValue = null;
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
-                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                    Class<?> dataType = (Class<?>) fieldSpecEntry.getValue().get(0);
+                for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                    Class<?> dataType = fieldSpecEntry.getValue().getFirst();
                     if (fieldSpecEntry.getKey().equals(fieldName)) {
                         if (dataType.equals(String.class)) {
                             returnFieldValue = fieldValue;
@@ -293,21 +294,13 @@ public class EventManager {
         // if it is required, then return false, if it isn't then return true
         // next check if the data type is correct. Call the convertToCorrectDataType method and if it throws an error return false
         // else, return true. (I think this works, if not we can try something different)
-        boolean isEmpty = false;
-        if (fieldValue.isEmpty()) {
-            isEmpty = true;
-        }
+        boolean isEmpty = fieldValue.isEmpty();
         if (isEmpty){
             for (Event event : eventList) {
                 if (event.getEventId().equals(eventId)) {
-                    for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                    for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
                         if (fieldSpecEntry.getKey().equals(fieldName)){
-                            if(fieldSpecEntry.getValue().get(1).equals(true)){
-                                return false;
-                            }
-                            else {
-                                return true;
-                            }
+                            return !fieldSpecEntry.getValue().getSecond().equals(true);
                         }
                     }
                 }
@@ -316,10 +309,10 @@ public class EventManager {
         }
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
-                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
                     if (fieldSpecEntry.getKey().equals(fieldName)) {
                         Object value = convertToCorrectDataType(eventId, fieldName, fieldValue);
-                        Class<?> dataType = (Class<?>) fieldSpecEntry.getValue().get(0);
+                        Class<?> dataType = fieldSpecEntry.getValue().getFirst();
                         return dataType.isInstance(value);
                     }
                 }
