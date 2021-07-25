@@ -1,11 +1,7 @@
 package controllersGatewaysPresenters;
 
-// A: main run method + startUpMenu + TrialMenu + accountMenu
-// H: initializer + mainMenu + adminMenu
-
-// TODO where do we change the field current user when logging in and out?
-
 import entitiesAndUseCases.*;
+import static controllersGatewaysPresenters.AppConstant.*;
 
 import java.util.*;
 
@@ -50,15 +46,12 @@ public class SystemController {
         List<String> mainMenu = Arrays.asList("Create Event", "View Attended Events", "View Not Attended Events",
                 "View My Events", "Edit Template", "Account Menu", "Save", "Logout");
         List<String> trialMenu = Arrays.asList("Create Event", "View Published Events", "Go Back");
-//        List<String> adminMenu = Arrays.asList("Create Event", "View Attended Events", "View Not Attended Events",
-//                "View My Events", "Edit Template", "Account Menu", "Save", "Logout");
         List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email",
                 "Change User Type to Admin", "Delete My Account", "Go Back");
         menuMap.put("Startup Menu", startupMenu);
         menuMap.put("Main Menu", mainMenu);
         menuMap.put("Account Menu", accountMenu);
         menuMap.put("Trial Menu", trialMenu);
-//        menuMap.put("Admin Menu", adminMenu);
     }
 
     /**
@@ -66,7 +59,7 @@ public class SystemController {
      */
     public void run(){
         boolean program_running = true;
-        presenter.printText(AppConstant.WELCOME_TEXT);
+        presenter.printText(WELCOME_TEXT);
         while (program_running) {
             presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
             int user_input = inputParser.readInt();
@@ -75,16 +68,8 @@ public class SystemController {
                     userController.userSignUp();
                     break;
                 case 2:
-                    String username = userController.userLogin();
-                    if (username == null){
-                        break;
-                    }
-                    else if (username.length() == 0) {
-                        presenter.printText("Please try to login again.");
-                    } else {
-                        this.currentUser = username;
-                        runMainMenu();
-                    }
+                    this.currentUser = userController.userLogin();
+                    runMainMenu();
                     break;
                 case 3:
                     createTrialUser();
@@ -94,13 +79,16 @@ public class SystemController {
                     program_running = false;
                     presenter.printText("Exiting...");
                     break;
+                default:
+                    presenter.printText("You did not enter a valid option, try again");
             }
         }
     }
 
     private void runMainMenu() {
         while (true) {
-            int userInput = showMenu("Main Menu");
+            presenter.printMenu("Main Menu", menuMap.get("Main Menu"));
+            int userInput = inputParser.readInt();
             switch (userInput) {
                 case 1:
                     int templateChoice = eventController.chooseTemplate(currentUser);
@@ -141,10 +129,10 @@ public class SystemController {
                     presenter.printText("Everything has been successfully saved.");
                     break;
                 case 8:
-                    saveAll();
-                    // TODO call logout method
+                    logout();
                     return;
-                // TODO bad input?
+                default:
+                    presenter.printText("You did not enter a valid option, try again");
             }
         }
     }
@@ -171,6 +159,8 @@ public class SystemController {
                 case 3:
                     trialMenuActive = false;
                     break;
+                default:
+                    presenter.printText("You did not enter a valid option, try again");
             }
         }
     }
@@ -185,7 +175,7 @@ public class SystemController {
             int user_input = inputParser.readInt();
             switch (user_input) {
                 case 1:
-                    // TODO: Create a logout for the program
+                    logout();
                     break;
                 case 2:
                     userController.changeUsername(currentUser);
@@ -205,6 +195,8 @@ public class SystemController {
                 case 7:
                     accountMenuActive = false;
                     break;
+                default:
+                    presenter.printText("You did not enter a valid option, try again");
             }
         }
     }
@@ -213,10 +205,8 @@ public class SystemController {
      * Create a trial User in the program
      */
     public void createTrialUser(){
-        // TODO Should be a constant
-
-        this.currentUser = AppConstant.trial_username;
-        userManager.createUser(AppConstant.trial_username, AppConstant.trial_password, AppConstant.trial_email, User.UserType.T);
+        this.currentUser = TRIAL_USERNAME;
+        userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
     }
 
     private int showMenu(String menuName) {
@@ -243,6 +233,11 @@ public class SystemController {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
+    }
+
+    private void logout() {
+        saveAll();
+        currentUser = null;
     }
 }
 
