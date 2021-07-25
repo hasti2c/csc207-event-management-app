@@ -165,6 +165,7 @@ public class EventController {
      */
     public void createNewEvent(String templateName, String username) {
         String newEventID = this.eventManager.createEvent(templateName, username);
+
         userManager.createEvent(username, newEventID);
 
         Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);

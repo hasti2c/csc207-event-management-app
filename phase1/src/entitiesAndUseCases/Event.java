@@ -65,8 +65,8 @@ public class Event {
      */
     public void addFieldNameAndFieldSpecsInfo(Template template) { //creates a map that has fieldName as key,
         // [fieldType, required] as value
+        List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
-            List<Object> fieldSpecsTypeAndRequired = new ArrayList<>();
             fieldSpecsTypeAndRequired.add(fieldSpecs.getDataType()); //the first element, 0
             fieldSpecsTypeAndRequired.add(fieldSpecs.isRequired()); //the second element, 1
             this.fieldNameAndFieldSpecs.put(fieldSpecs.getFieldName(),fieldSpecsTypeAndRequired);

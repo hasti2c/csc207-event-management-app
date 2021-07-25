@@ -1,7 +1,8 @@
 package entitiesAndUseCases;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import controllersGatewaysPresenters.IGateway;
-
 import java.util.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventManager {
@@ -212,13 +213,12 @@ public class EventManager {
      * @param fieldName Name of the field that the user wishes to enter a value for
      * @param fieldValue Value for the specified field
      */
-    // TODO: need to convert the value to the correct data type before entering. Also if the fieldValue is "", just keep the value as null.
     public void enterFieldValue(String eventId, String fieldName, Object fieldValue) {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
                     if (eventDetailsEntry.getKey().equals(fieldName)) {
-                            event.getEventDetails().replace(fieldName, fieldValue);
+                            event.getEventDetails().replace(eventDetailsEntry.getKey(), fieldValue);
                     }
                 }
             }
@@ -234,14 +234,41 @@ public class EventManager {
      */
     // TODO returns the fieldValue converted to the correct data type. If it doesn't work throw an error.
     // Check data validation can catch the error that this throws
-    // Chris, you can use the same local date time formatter that you had before. Use parse in local dat time that has the formatter thing. Link below
+    // Chris, you can use the same local date time formatter that you had before.
+    // Use parse in local dat time that has the formatter thing. Link below
     // https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
     private Object convertToCorrectDataType(String eventId, String fieldName, String fieldValue) {
-        return null;
+        Object returnFieldValue = null;
+        for (Event event : eventList) {
+            if (event.getEventId().equals(eventId)) {
+                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                    if (fieldSpecEntry.getKey().equals(fieldName)) {
+                        if (fieldSpecEntry.getValue().get(0).equals("String")) {
+                            returnFieldValue = fieldValue;
+                        }
+                        else if (fieldSpecEntry.getValue().get(0).equals("int")){
+                            returnFieldValue = Integer.parseInt(fieldValue);
+                        }
+                        else if (fieldSpecEntry.getValue().get(0).equals("boolean")){
+                            returnFieldValue = Boolean.parseBoolean(fieldValue);
+                        }
+                        else if (fieldSpecEntry.getValue().get(0).equals("LocalDateTime")){
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+                            returnFieldValue = LocalDateTime.parse(fieldValue, formatter);
+                        }
+//                        else if (fieldSpecEntry.getValue().get(0).equals("List<String>")){
+//
+//                        }
+                    }
+                }
+            }
+        }
+        return returnFieldValue;
     }
 
     /**
-     * Checks if the entered field is of the correct format. If the field is required, also checks whether a value has been entered.
+     * Checks if the entered field is of the correct format. If the field is required,
+     * also checks whether a value has been entered.
      * @param eventId The Id of the event that is to be checked
      * @param fieldName The name of the field
      * @param fieldValue The value that is
@@ -254,28 +281,46 @@ public class EventManager {
         // if it is required, then return false, if it isn't then return true
         // next check if the data type is correct. Call the convertToCorrectDataType method and if it throws an error return false
         // else, return true. (I think this works, if not we can try something different)
-        for (Event event: eventList){
-            if (event.getEventId().equals(eventId)){
-                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()){
-                    if ((fieldSpecEntry.getKey().equals(fieldName)) && (fieldSpecEntry.getValue().get(0).equals
-                            (fieldValue.getClass().getSimpleName()))
-                    && (fieldSpecEntry.getValue().get(1).equals(true))){
-                        return true;
+        boolean isEmpty = false;
+        if (fieldValue.isEmpty()) {
+            isEmpty = true;
+        }
+        if (isEmpty){
+            for (Event event : eventList) {
+                if (event.getEventId().equals(eventId)) {
+                    for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                        if (fieldSpecEntry.getKey().equals(fieldName)){
+                            if(fieldSpecEntry.getValue().get(1).equals(true)){
+                                return false;
+                            }
+                            else{
+                                return true;
+                            }
                         }
                     }
                 }
             }
-//        return false;
-        return true;
+
+        }
+        for (Event event : eventList) {
+            if (event.getEventId().equals(eventId)) {
+                for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                    if (fieldSpecEntry.getKey().equals(fieldName)) {
+                        if (fieldSpecEntry.getValue().get(0).toString().equals((convertToCorrectDataType
+                                (eventId, fieldName, fieldValue)).getClass().getSimpleName())) {
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
-//    /**
-//     * Gets the size of eventList, a list of events
-//     * @return The size of eventList
-//     */
-//    public int getNumEvents() {
-//        return eventList.size();
-//    }
+
 
     public void saveAllEvents() {
         parser.saveAllElements(eventList);
