@@ -4,7 +4,6 @@ import entitiesAndUseCases.EventManager;
 import entitiesAndUseCases.TemplateManager;
 import entitiesAndUseCases.User;
 import entitiesAndUseCases.UserManager;
-import sun.font.TrueTypeFont;
 
 import java.util.*;
 
@@ -29,7 +28,11 @@ public class EventController {
 
     // === Viewing List of Event Names ===
 
-    // TODO this is kind of long...
+    /**
+     * Entire menu for managing a users events.
+     *
+     * @param username used to id user
+     */
     public void viewAndEditMyEvents(String username) {
         List<String> myEvents = userManager.getCreatedEvents(username);
         List<String> myEventsMenu = Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
@@ -48,21 +51,20 @@ public class EventController {
                     presenter.printMenu("Viewing Event Details", myEventsMenu);
                     int userInput = getChoice(1, myEventsMenu.size());
 
-                    switch (userInput) {
-                        case 1:
+                    switch (myEventsMenu.get(userInput - 1)) {
+                        case "Delete Event":
                             deleteEvent(username, eventID);
                             stopLoop = true;
                             break;
-                        case 2:
+                        case "Edit Event":
                             editEvent(eventID, username);
                             break;
-                        case 3:
+                        case "Change Published Status":
                             changePublishStatus(eventID);
                             break;
-                        case 4:
+                        case "Go Back":
                             stopLoop = true;
                             break;
-
                     }
                 }
             }
@@ -85,7 +87,6 @@ public class EventController {
      * @param eventIDList a list of event IDs that either the user has registered for or has not registered for
      * @param isAttending if true, it means the eventIDList contains a list of events the user has registered for. If false, the user is not registered for the events in the list.
      */
-    // TODO This is also pretty long someone help (Angela)
     public void browseEvents(String username, List<String> eventIDList, boolean isAttending) {
         // Creates a new menu map to print based on input of the method
         Map<String, List<String>> menuMap = new HashMap<>();
@@ -190,6 +191,11 @@ public class EventController {
 
     }
 
+    /**
+     * Forces user to type either "Y" or "N"
+     *
+     * @return return true if user typed "Y" and false if "N"
+     */
     private boolean getYesNo() {
         String userInput = inputParser.readLine();
         while (!userInput.equals("Y") && !userInput.equals("N")) {
@@ -202,6 +208,11 @@ public class EventController {
         return false;
     }
 
+    /**
+     * If published change to unpublished and vice versa
+     *
+     * @param eventID unique identifier for an event
+     */
     private void changePublishStatus (String eventID) {
         if (eventManager.returnIsPublished(eventID)){
             presenter.printText("Your event is currently published, would you like to unpublish? (Y/N)");
@@ -279,6 +290,14 @@ public class EventController {
     }
 
     // === Helpers ===
+
+    /**
+     * Forces user to enter an int in the range.
+     *
+     * @param lowBound lowest accepted input
+     * @param highBound highest accepted input
+     * @return the value entered
+     */
     private int getChoice(int lowBound, int highBound) {
         int choice = inputParser.readInt();
         while (choice < lowBound || choice > highBound) {
