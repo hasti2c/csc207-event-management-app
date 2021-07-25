@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 public class InputParser {
     private BufferedReader bufferedReader;
     private StringTokenizer currentToken;
+    Presenter presenter = new Presenter();
 
     private int defaultIntegerValue = -99999999;
 
@@ -39,14 +40,23 @@ public class InputParser {
      * @return int that user inputted.
      */
     public int readInt() {
-        populateCurrentToken();
-        try {
-            return Integer.parseInt(currentToken.nextToken());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+//        populateCurrentToken();
+//        try {
+//            return Integer.parseInt(currentToken.nextToken());
+//        } catch (NumberFormatException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return defaultIntegerValue;
 
-        return defaultIntegerValue;
+        // Quick fix to clogging program if user does not actually input an int.
+        String line = readLine();
+        try {
+            return Integer.parseInt(line);
+        } catch (NumberFormatException e) {
+            presenter.printText("That was not an integer. Please try again.");
+            return readInt();
+        }
     }
 
     private void populateCurrentToken() {
