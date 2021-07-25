@@ -10,7 +10,7 @@ public class AppConstant {
     public static final String WELCOME_TEXT = "Welcome to our event creation system. You may type 'back' to go back to a menu. " +
             "When on a menu, you will have a choice to return to a previous menu by choosing the correct number. Enjoy!";
 
-    public static final String trial_username = "TRIAL_USER";
-    public static final String trial_password = "TRIAL_PASS";
-    public static final String trial_email = "TRIAL@EMAIL.COM";
+    public static final String TRIAL_USERNAME = "TRIAL_USER";
+    public static final String TRIAL_PASSWORD = "TRIAL_PASS";
+    public static final String TRIAL_EMAIL = "TRIAL@EMAIL.COM";
 }
