@@ -6,18 +6,18 @@ public class FieldSpecs {
      */
     // === Instance Variables ===
     private String fieldName;
-    // private Class<?> dataType;
-    private String dataType;
+    private Class<?> dataType;
     private boolean required;
     // === Representation Invariants ===
     // === Methods ===
-    public FieldSpecs(String fieldName, String dataType, boolean required) {
+    public FieldSpecs(String fieldName, Class<?> dataType, boolean required) {
         this.fieldName = fieldName;
         this.dataType = dataType;
         this.required = required;
     }
 
     public FieldSpecs() {
+
     }
 
     // Getters
@@ -26,7 +26,7 @@ public class FieldSpecs {
         return fieldName;
     }
 
-    public String getDataType() {
+    public Class<?> getDataType() {
         return dataType;
     }
 
@@ -40,7 +40,7 @@ public class FieldSpecs {
         this.fieldName = fieldName;
     }
 
-    public void setDataType(String dataType) {
+    public void setDataType(Class<?> dataType) {
         this.dataType = dataType;
     }
 

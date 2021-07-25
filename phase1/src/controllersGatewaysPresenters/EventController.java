@@ -168,8 +168,9 @@ public class EventController {
 
         userManager.createEvent(username, newEventID);
 
-        Map<String, String> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
-        for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
+        // TODO include required or not
+        Map<String, List<Object>> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
+        for (Map.Entry<String, List<Object>> entry : fieldMap.entrySet()) {
             presenter.printText("Enter " + entry.getKey() + ":");
             String userInput = inputParser.readLine();
             boolean accepted = false;
@@ -181,7 +182,7 @@ public class EventController {
                     eventManager.enterFieldValue(newEventID, entry.getKey(), userInput);
                     accepted = true;
                 } else {
-                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue() + "):");
+                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue().get(0) + "):");
                     userInput = inputParser.readLine();
                 }
             }

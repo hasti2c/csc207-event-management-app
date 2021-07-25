@@ -123,16 +123,19 @@ public class EventManager {
      * @return Map<String, String> The map of the event with the matching event Id, where the key is field name and
      * the value is data type
      */
-    public Map<String, String> returnFieldNameAndType(String eventId){
+    public Map<String, List<Object>> returnFieldNameAndType(String eventId){
         // returns a map of the fields associated with this event
         // 1. find event in list of events
         // 2. get the eventDetails map for that event
         // 3. put all the Keys as the key and return the dataType for each key (fieldName)
-        Map<String, String> fieldNameAndType = new HashMap<>();
+        Map<String, List<Object>> fieldNameAndType = new HashMap<>();
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
                 for (Map.Entry<String, List<Object>> fieldSpecEntry: event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                    fieldNameAndType.put(fieldSpecEntry.getKey(), fieldSpecEntry.getValue().get(0).toString());
+                    // TODO LocalDateTime format
+                    String className = ((Class<?>) fieldSpecEntry.getValue().get(0)).getSimpleName();
+                    Boolean required = (Boolean) fieldSpecEntry.getValue().get(1);
+                    fieldNameAndType.put(fieldSpecEntry.getKey(), Arrays.asList(className, required));
                 }
 
             }
@@ -242,17 +245,18 @@ public class EventManager {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                    Class<?> dataType = (Class<?>) fieldSpecEntry.getValue().get(0);
                     if (fieldSpecEntry.getKey().equals(fieldName)) {
-                        if (fieldSpecEntry.getValue().get(0).equals("String")) {
+                        if (dataType.equals(String.class)) {
                             returnFieldValue = fieldValue;
                         }
-                        else if (fieldSpecEntry.getValue().get(0).equals("int")){
+                        else if (dataType.equals(Integer.class)){
                             returnFieldValue = Integer.parseInt(fieldValue);
                         }
-                        else if (fieldSpecEntry.getValue().get(0).equals("boolean")){
+                        else if (dataType.equals(Boolean.class)){
                             returnFieldValue = Boolean.parseBoolean(fieldValue);
                         }
-                        else if (fieldSpecEntry.getValue().get(0).equals("LocalDateTime")){
+                        else if (dataType.equals(LocalDateTime.class)){
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
                             returnFieldValue = LocalDateTime.parse(fieldValue, formatter);
                         }
@@ -293,7 +297,7 @@ public class EventManager {
                             if(fieldSpecEntry.getValue().get(1).equals(true)){
                                 return false;
                             }
-                            else{
+                            else {
                                 return true;
                             }
                         }
@@ -306,13 +310,9 @@ public class EventManager {
             if (event.getEventId().equals(eventId)) {
                 for (Map.Entry<String, List<Object>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
                     if (fieldSpecEntry.getKey().equals(fieldName)) {
-                        if (fieldSpecEntry.getValue().get(0).toString().equals((convertToCorrectDataType
-                                (eventId, fieldName, fieldValue)).getClass().getSimpleName())) {
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
+                        Object value = convertToCorrectDataType(eventId, fieldName, fieldValue);
+                        Class<?> dataType = (Class<?>) fieldSpecEntry.getValue().get(0);
+                        return dataType.isInstance(value);
                     }
                 }
             }
