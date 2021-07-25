@@ -4,6 +4,7 @@ import entitiesAndUseCases.EventManager;
 import entitiesAndUseCases.TemplateManager;
 import entitiesAndUseCases.User;
 import entitiesAndUseCases.UserManager;
+import static controllersGatewaysPresenters.AppConstant.*;
 
 import java.util.*;
 
@@ -76,8 +77,8 @@ public class EventController {
      */
     private int generateEventList(List<String> eventNameList) {
         List<String> temp = new ArrayList<>(eventNameList);
-        temp.add(AppConstant.MENU_EXIT_OPTION);
-        presenter.printMenu("Choose an event by entering a number", temp);
+        temp.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Event List", temp);
         return getChoice(1, temp.size()) - 1;
     }
 
@@ -175,7 +176,7 @@ public class EventController {
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {
-                if (userInput.equals(AppConstant.EXIT_TEXT)) {
+                if (userInput.equals(EXIT_TEXT)) {
                     deleteEvent(username, newEventID);
                     return;
                 } else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput)) {
@@ -222,7 +223,7 @@ public class EventController {
         if (eventManager.returnIsPublished(eventID)){
             presenter.printText("Your event is currently published, would you like to unpublish? (Y/N)");
             if (getYesNo()) {
-                eventManager.publishEvent(eventID); // this should be unpublish but no method
+                eventManager.unPublishEvent(eventID); // this should be unpublish but no method
             }
         }
         else {
@@ -306,7 +307,7 @@ public class EventController {
     private int getChoice(int lowBound, int highBound) {
         int choice = inputParser.readInt();
         while (choice < lowBound || choice > highBound) {
-            presenter.printText("Do it right. Pick a number between " + lowBound + " and " + highBound);
+            presenter.printText("Do it right. Pick a number between " + (lowBound + 1) + " and " + highBound);
             choice = inputParser.readInt();
         }
         return choice;
@@ -314,7 +315,8 @@ public class EventController {
 
     public int chooseTemplate(String username) {
         List<String> templateList = templateManager.returnTemplateNames();
-        presenter.printMenu("Type a number corresponding to a template", templateList);
+        templateList.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Available Templates", templateList);
         return getChoice(0, templateList.size()) - 1;
     }
 

@@ -1,5 +1,4 @@
 package entitiesAndUseCases;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import controllersGatewaysPresenters.IGateway;
 import java.util.*;
 import java.time.LocalDateTime;
