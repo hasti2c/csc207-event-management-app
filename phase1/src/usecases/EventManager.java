@@ -3,6 +3,7 @@ import gateways.IGateway;
 import entities.Event;
 import utility.Pair;
 
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -244,7 +245,6 @@ public class EventManager {
      * @param fieldValue
      * @return The field value converted to the correct type.
      */
-    // TODO returns the fieldValue converted to the correct data type. If it doesn't work throw an error.
     // Check data validation can catch the error that this throws
     // Chris, you can use the same local date time formatter that you had before.
     // Use parse in local dat time that has the formatter thing. Link below
@@ -287,7 +287,6 @@ public class EventManager {
      * @param fieldValue The value that is
      * @return boolean Whether data fieldValue is valid
      */
-    // TODO this needs to be fixed
     public boolean checkDataValidation(String eventId, String fieldName, String fieldValue) {
         // if the field value doesn't pass, return false and do nothing.
         // first check if the field value is empty, if it is empty then check if the field is required
@@ -295,25 +294,21 @@ public class EventManager {
         // next check if the data type is correct. Call the convertToCorrectDataType method and if it throws an error return false
         // else, return true. (I think this works, if not we can try something different)
         boolean isEmpty = fieldValue.isEmpty();
+        Event event = retrieveEventById(eventId);
         if (isEmpty){
-            for (Event event : eventList) {
-                if (event.getEventId().equals(eventId)) {
-                    for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                        if (fieldSpecEntry.getKey().equals(fieldName)){
-                            return !fieldSpecEntry.getValue().getSecond().equals(true);
-                        }
-                    }
+            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                if (fieldSpecEntry.getKey().equals(fieldName)) {
+                    return !fieldSpecEntry.getValue().getSecond().equals(true);
                 }
             }
-
-        }
-        for (Event event : eventList) {
-            if (event.getEventId().equals(eventId)) {
-                for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                    if (fieldSpecEntry.getKey().equals(fieldName)) {
-                        Object value = convertToCorrectDataType(eventId, fieldName, fieldValue);
-                        Class<?> dataType = fieldSpecEntry.getValue().getFirst();
-                        return dataType.isInstance(value);
+        } else {
+            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                if (fieldSpecEntry.getKey().equals(fieldName)) {
+                    try {
+                        convertToCorrectDataType(eventId, fieldName, fieldValue);
+                        return true;
+                    } catch (IllegalArgumentException | DateTimeParseException e) {
+                        return false;
                     }
                 }
             }
