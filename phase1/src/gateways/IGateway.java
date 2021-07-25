@@ -1,4 +1,4 @@
-package controllersGatewaysPresenters;
+package gateways;
 
 import java.util.List;
 

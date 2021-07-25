@@ -1,4 +1,4 @@
-package controllersGatewaysPresenters;
+package utility;
 
 public class Pair <T, S> {
     private T first;

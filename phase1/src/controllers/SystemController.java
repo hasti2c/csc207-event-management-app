@@ -1,7 +1,16 @@
-package controllersGatewaysPresenters;
+package controllers;
 
-import entitiesAndUseCases.*;
-import static controllersGatewaysPresenters.AppConstant.*;
+import entities.Event;
+import entities.Template;
+import entities.User;
+import gateways.EventParser;
+import gateways.IGateway;
+import gateways.TemplateParser;
+import gateways.UserParser;
+import presenter.InputParser;
+import presenter.Presenter;
+import usecases.*;
+import static utility.AppConstant.*;
 
 import java.util.*;
 

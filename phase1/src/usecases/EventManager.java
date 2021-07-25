@@ -1,5 +1,7 @@
-package entitiesAndUseCases;
-import controllersGatewaysPresenters.IGateway;
+package usecases;
+import gateways.IGateway;
+import entities.Event;
+
 import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

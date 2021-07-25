@@ -1,7 +1,7 @@
-package controllersGatewaysPresenters;
+package gateways;
 
 import com.google.gson.*;
-import entitiesAndUseCases.Template;
+import entities.Template;
 
 // TODO* Generics
 

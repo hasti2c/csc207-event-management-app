@@ -1,7 +1,7 @@
-package controllersGatewaysPresenters;
+package gateways;
 
 import com.google.gson.GsonBuilder;
-import entitiesAndUseCases.User;
+import entities.User;
 
 public class UserParser extends EntityParser<User> {
     public UserParser(String path) {

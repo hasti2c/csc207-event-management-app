@@ -1,7 +1,7 @@
-package entitiesAndUseCases;
+package usecases;
 
-import controllersGatewaysPresenters.IGateway;
-import controllersGatewaysPresenters.UserParser;
+import gateways.IGateway;
+import entities.User;
 
 import java.util.ArrayList;
 import java.util.List;

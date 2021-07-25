@@ -1,4 +1,4 @@
-package controllersGatewaysPresenters;
+package gateways;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

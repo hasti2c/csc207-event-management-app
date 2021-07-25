@@ -1,4 +1,4 @@
-package entitiesAndUseCases;
+package entities;
 
 public class FieldSpecs {
     /**

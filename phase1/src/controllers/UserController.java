@@ -1,8 +1,11 @@
-package controllersGatewaysPresenters;
-import entitiesAndUseCases.EventManager;
-import entitiesAndUseCases.TemplateManager;
-import entitiesAndUseCases.User;
-import entitiesAndUseCases.UserManager;
+package controllers;
+import utility.AppConstant;
+import presenter.InputParser;
+import presenter.Presenter;
+import usecases.EventManager;
+import usecases.TemplateManager;
+import entities.User;
+import usecases.UserManager;
 
 public class UserController {
     private final UserManager userManager;

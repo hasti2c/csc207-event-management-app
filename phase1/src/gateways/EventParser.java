@@ -1,7 +1,8 @@
-package controllersGatewaysPresenters;
+package gateways;
 
 import com.google.gson.*;
-import entitiesAndUseCases.Event;
+import utility.Pair;
+import entities.Event;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;

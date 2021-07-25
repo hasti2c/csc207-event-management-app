@@ -1,4 +1,4 @@
-package controllersGatewaysPresenters;
+package utility;
 
 public class AppConstant {
     public static final String TEXT_EXIT_OPTION = "(type 'back' for previous screen)";

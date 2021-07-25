@@ -1,4 +1,4 @@
-package controllersGatewaysPresenters;
+package presenter;
 
 import java.io.BufferedReader;
 import java.io.IOException;

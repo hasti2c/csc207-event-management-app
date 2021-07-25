@@ -1,10 +1,12 @@
-package controllersGatewaysPresenters;
+package controllers;
 
-import entitiesAndUseCases.EventManager;
-import entitiesAndUseCases.TemplateManager;
-import entitiesAndUseCases.User;
-import entitiesAndUseCases.UserManager;
-import static controllersGatewaysPresenters.AppConstant.*;
+import presenter.InputParser;
+import presenter.Presenter;
+import usecases.EventManager;
+import usecases.TemplateManager;
+import entities.User;
+import usecases.UserManager;
+import static utility.AppConstant.*;
 
 import java.util.*;
 
