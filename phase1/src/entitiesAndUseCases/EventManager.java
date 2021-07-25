@@ -1,5 +1,4 @@
 package entitiesAndUseCases;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import controllersGatewaysPresenters.IGateway;
 import java.util.*;
 import java.time.LocalDateTime;
@@ -87,6 +86,13 @@ public class EventManager {
     public boolean publishEvent(String eventID) {
         retrieveEventById(eventID).setPublished(true);
         return retrieveEventById(eventID).isPublished();
+    }
+
+    public boolean unPublishEvent(String eventID) {
+        if (retrieveEventById(eventID).getNumAttendees() > 0) {
+            retrieveEventById(eventID).setPublished(false);
+        }
+        return !(retrieveEventById(eventID).isPublished());
     }
 
     // === Retrieving information ===
