@@ -134,6 +134,7 @@ public class SystemController {
                     break;
                 case 7:
                     saveAll();
+                    presenter.printText("Everything has been successfully saved.");
                     break;
                 case 8:
                     saveAll();
