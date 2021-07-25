@@ -89,7 +89,7 @@ public class EventManager {
     }
 
     public boolean unPublishEvent(String eventID) {
-        if (retrieveEventById(eventID).getNumAttendees() > 0) {
+        if (retrieveEventById(eventID).getNumAttendees() == 0) {
             retrieveEventById(eventID).setPublished(false);
         }
         return !(retrieveEventById(eventID).isPublished());
