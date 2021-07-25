@@ -61,7 +61,7 @@ public class EventParser extends EntityParser<Event> {
             JsonObject fields = new JsonObject();
             for (String fieldName: fieldNameAndFieldSpecs.keySet()) {
                 List<Object> fieldData = fieldNameAndFieldSpecs.get(fieldName);
-                String className = (String) fieldData.get(0);
+                String className = ((Class<?>) fieldData.get(0)).getName();
                 Boolean required = (Boolean) fieldData.get(1);
                 String value = gson.toJson(eventDetails.get(fieldName));
 
@@ -125,9 +125,9 @@ public class EventParser extends EntityParser<Event> {
         private Pair<List<Object>, Object> getProperty(JsonArray fieldData) {
             try {
                 String className = fieldData.get(0).getAsString();
-                Boolean required = fieldData.get(1).getAsBoolean();
                 Class<?> dataType = Class.forName(className);
-                List<Object> typeAndRequired = Arrays.asList(className, required);
+                Boolean required = fieldData.get(1).getAsBoolean();
+                List<Object> typeAndRequired = Arrays.asList(dataType, required);
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 String valueJson = fieldData.get(2).getAsString();
