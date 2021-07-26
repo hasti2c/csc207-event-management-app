@@ -28,7 +28,7 @@
       },
       {
         "fieldName": "Performer(s)",
-        "dataType": "java.util.String",
+        "dataType": "java.lang.String",
         "required": false
       }
     ],
@@ -65,7 +65,7 @@
       },
       {
         "fieldName": "Wedding Couple",
-        "dataType": "java.util.String",
+        "dataType": "java.lang.String",
         "required": true
       },
       {
