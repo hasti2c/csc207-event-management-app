@@ -188,7 +188,11 @@ public class EventController {
                 if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                     deleteEvent(username, newEventID);
                     return;
-                } else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput)) {
+                }
+                else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput) && userInput.isEmpty()){
+                    accepted = true;
+                }
+                else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput)) {
                     Object value = eventManager.convertToCorrectDataType(newEventID, entry.getKey(), userInput);
                     eventManager.enterFieldValue(newEventID, entry.getKey(), value);
                     accepted = true;

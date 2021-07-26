@@ -1,5 +1,5 @@
 package usecases;
-import com.sun.javaws.exceptions.InvalidArgumentException;
+//import com.sun.javaws.exceptions.InvalidArgumentException;
 import gateways.IGateway;
 import entities.Event;
 import utility.Pair;
@@ -311,7 +311,8 @@ public class EventManager {
         if (isEmpty){
             for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
                 if (fieldSpecEntry.getKey().equals(fieldName)) {
-                    return !fieldSpecEntry.getValue().getSecond().equals(true);
+                    boolean test = fieldSpecEntry.getValue().getSecond().equals(true);
+                    return !test;
                 }
             }
         } else {
