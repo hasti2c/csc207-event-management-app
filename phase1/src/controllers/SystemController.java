@@ -234,7 +234,11 @@ public class SystemController {
     private void editTemplateName(String templateName) {
         presenter.printText("Please enter a new name for the template.");
         String newName = inputParser.readLine();
-        if (templateManager.checkNameUniqueness(newName)){
+        if (newName.equals("back")) {
+            presenter.printText("You have been sent back.");
+        }
+
+        else if (templateManager.checkNameUniqueness(newName)){
             templateManager.editTemplateName(templateName, newName);
             presenter.printText("Template name edited successfully.");
         }
