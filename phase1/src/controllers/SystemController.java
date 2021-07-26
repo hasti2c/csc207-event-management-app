@@ -195,7 +195,10 @@ public class SystemController {
                     logout();
                     break;
                 case 2:
-                    userController.changeUsername(currentUser);
+                    String newUsername = userController.changeUsername(currentUser);
+                    if (newUsername != null) {
+                        currentUser = newUsername;
+                    }
                     break;
                 case 3:
                     userController.changePassword(currentUser);
