@@ -1,4 +1,5 @@
 package usecases;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import gateways.IGateway;
 import entities.Event;
 import utility.Pair;
@@ -269,7 +270,12 @@ public class EventManager {
                             returnFieldValue = Integer.parseInt(fieldValue);
                         }
                         else if (dataType.equals(Boolean.class)){
-                            returnFieldValue = Boolean.parseBoolean(fieldValue);
+                            if (fieldValue.equalsIgnoreCase("true") || fieldValue.equalsIgnoreCase("yes"))
+                                returnFieldValue = true;
+                            else if (fieldValue.equalsIgnoreCase("false") || fieldValue.equalsIgnoreCase("no"))
+                                returnFieldValue = false;
+                            else
+                                throw new IllegalArgumentException();
                         }
                         else if (dataType.equals(LocalDateTime.class)){
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
