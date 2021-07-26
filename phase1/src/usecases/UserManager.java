@@ -180,10 +180,7 @@ public class UserManager {
             }
             return true;
         }
-
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**

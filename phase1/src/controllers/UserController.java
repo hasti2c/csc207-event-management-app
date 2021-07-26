@@ -6,6 +6,7 @@ import usecases.TemplateManager;
 import entities.User;
 import usecases.UserManager;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -229,18 +230,28 @@ public class UserController {
      * @param username The username of the User who wishes to delete their account
      */
     public void deleteUser(String username){
+        if (verifyDeletion(username)) {
+            List<String> userEvents = userManager.getCreatedEvents(username);
+            for (String eventId : userEvents)
+                eventManager.deleteEvent(eventId);
+            userManager.deleteUser(username);
+        }
+    }
+
+    private boolean verifyDeletion(String username) {
+        if (userManager.retrieveUser(username).getUserType() == User.UserType.T) {
+            return true;
+        }
         presenter.printText("Are you sure you wish to delete your account?");
         presenter.printText("1) Yes 2) Go Back");
         String user_input = inputParser.readLine();
-        if (user_input.equals("1")){
-            userManager.deleteUser(username);
-        }
-        else if (user_input.equals("2")){
-            return;
-        }
-        else {
+        if (user_input.equals("1")) {
+            return true;
+        } else if (user_input.equals("2")){
+            return false;
+        } else {
             presenter.printText("You did not enter a valid option, try again");
-            deleteUser(username);
+            return verifyDeletion(username);
         }
     }
 

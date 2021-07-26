@@ -193,7 +193,7 @@ public class EventController {
                     eventManager.enterFieldValue(newEventID, entry.getKey(), value);
                     accepted = true;
                 } else {
-                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue().getFirst() + "):");
+                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue().getFirst().getSimpleName() + "):");
                     userInput = inputParser.readLine();
                 }
             }
@@ -222,10 +222,7 @@ public class EventController {
             presenter.printText("Type Y or N");
             userInput = inputParser.readLine();
         }
-        if (userInput.equals("Y")){
-            return true;
-        }
-        return false;
+        return userInput.equals("Y");
     }
 
     /**
