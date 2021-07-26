@@ -59,7 +59,7 @@
         "required": true
       },
       {
-        "fieldName": "Gift Required",
+        "fieldName": "Is Gift Required",
         "dataType": "java.lang.Boolean",
         "required": false
       },
