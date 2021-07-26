@@ -17,10 +17,10 @@ public class Presenter {
      */
     public void printMenu(String title, List<String> options) {
         printText(title);
-        printText("Please choose one of the following options.");
         for (int i = 0; i < options.size(); i++) {
             printText((i + 1) + ". " + options.get(i));
         }
+        printText("Please enter one of the menu options:");
     }
 
     /**
