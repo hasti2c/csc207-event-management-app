@@ -105,7 +105,7 @@ public class SystemController {
                         if (templateChoice == templateNames.size() + 1) {
                             break;
                         }
-                    String templateName = templateNames.get(templateChoice);
+                    String templateName = templateNames.get(templateChoice - 1);
                     eventController.createNewEvent(templateName, currentUser);
                     break;
                 case 2:
@@ -121,10 +121,11 @@ public class SystemController {
                     eventController.viewAndEditMyEvents(currentUser);
                     break;
                 case 5:
+                    // TODO fix index here.
                     if (userManager.retrieveUserType(currentUser) == User.UserType.A){
                         int templateIndex = eventController.chooseTemplate(currentUser);
                         List<String> templateList = templateManager.returnTemplateNames();
-                        editTemplateName(templateList.get(templateIndex));
+                        editTemplateName(templateList.get(templateIndex - 1));
                     }
                     else {
                         presenter.printText("Sorry you do not have permission to edit the templates.");
@@ -157,7 +158,11 @@ public class SystemController {
             switch (userInput) {
                 case 1:
                     int templateChoice = eventController.chooseTemplate(currentUser);
-                    String templateName = templateManager.returnTemplateNames().get(templateChoice);
+                    List<String> templateNames= templateManager.returnTemplateNames();
+                    if (templateChoice == templateNames.size() + 1) {
+                        break;
+                    }
+                    String templateName = templateNames.get(templateChoice - 1);
                     eventController.createNewEvent(templateName, currentUser);
                     break;
                 case 2:

@@ -191,6 +191,7 @@ public class EventController {
             }
         }
         presenter.printText("Your event has been successfully created.");
+        // TODO trial user can't publish
         changePublishStatus(newEventID);
     }
 
