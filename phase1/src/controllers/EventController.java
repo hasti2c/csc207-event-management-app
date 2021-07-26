@@ -6,6 +6,8 @@ import usecases.EventManager;
 import usecases.TemplateManager;
 import entities.User;
 import usecases.UserManager;
+import utility.Pair;
+
 import static utility.AppConstant.*;
 
 import java.util.*;
@@ -172,9 +174,14 @@ public class EventController {
         userManager.createEvent(username, newEventID);
 
         // TODO include required or not
-        Map<String, List<Object>> fieldMap = this.eventManager.returnFieldNameAndType(newEventID);
-        for (Map.Entry<String, List<Object>> entry : fieldMap.entrySet()) {
-            presenter.printText("Enter " + entry.getKey() + ":");
+        Map<String, Pair<Class<?>, Boolean>> fieldMap = this.eventManager.returnFieldNameAndFieldSpecs(newEventID);
+        // A map to help display whether or not a field is required.
+        Map<Boolean, String> requiredMap = new HashMap<>();
+        requiredMap.put(true, " (Required)");
+        requiredMap.put(false, " (Not Required)");
+
+        for (Map.Entry<String, Pair<Class<?>, Boolean>> entry : fieldMap.entrySet()) {
+            presenter.printText("Enter " + entry.getKey() + requiredMap.get(entry.getValue().getSecond()) + ":");
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {
@@ -186,17 +193,20 @@ public class EventController {
                     eventManager.enterFieldValue(newEventID, entry.getKey(), value);
                     accepted = true;
                 } else {
-                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue().get(0) + "):");
+                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue().getFirst() + "):");
                     userInput = inputParser.readLine();
                 }
             }
         }
         presenter.printText("Your event has been successfully created.");
-        // TODO trial user can't publish
+        if (userManager.retrieveUserType(username) == User.UserType.T){
+            presenter.printText("Since you are a trial user, your event will not be saved once you leave the system. " +
+                    "You may choose to publish the event to view it while you are currently using the program.");
+        }
         changePublishStatus(newEventID);
     }
 
-    // TODO need to implement edit event
+    // TODO need to implement edit for phase 2
     public void editEvent (String eventID, String username) {
         presenter.printText("You cannot edit your event at this time.");
     }
@@ -281,6 +291,7 @@ public class EventController {
         int user_input = getChoice(1, 2);
         if (optionsList.get(user_input - 1).equals("Yes")){
             this.userManager.deleteEvent(username, eventID);
+            this.eventManager.deleteEvent(eventID);
             presenter.printText("Event was deleted.");
         }
     }

@@ -127,7 +127,6 @@ public class SystemController {
                     eventController.viewAndEditMyEvents(currentUser);
                     break;
                 case 5:
-                    // TODO fix index here.
                     if (userManager.retrieveUserType(currentUser) == User.UserType.A){
                         int templateIndex = eventController.chooseTemplate(currentUser);
                         List<String> templateList = templateManager.returnTemplateNames();

@@ -48,12 +48,18 @@ public class UserManager {
      * @param username The username of the User to delete
      */
     public void deleteUser(String username) {
+        // TODO doesn't delete the event from the system...
         User user = retrieveUser(username);
         // Remove all the User's Events
-        for (String eventID :
-                user.getOwnedEvents()) {
-            deleteEvent(username, eventID);
+        List<String> ownedEvents = user.getOwnedEvents();
+        while (!ownedEvents.isEmpty()){
+            deleteEvent(username, ownedEvents.get(ownedEvents.size()-1));
+
         }
+//        for (String eventID :
+//                user.getOwnedEvents()) {
+//            deleteEvent(username, eventID);
+//        }
         // Remove all the User's info
         userList.remove(user);
         usernamesList.remove(user.getUsername());

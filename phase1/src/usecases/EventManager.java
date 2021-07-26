@@ -136,18 +136,21 @@ public class EventManager {
      * @return Map<String, String> The map of the event with the matching event Id, where the key is field name and
      * the value is data type
      */
-    public Map<String, List<Object>> returnFieldNameAndType(String eventId){
+    public Map<String, Pair<Class<?>, Boolean>> returnFieldNameAndFieldSpecs(String eventId){
         // returns a map of the fields associated with this event
         // 1. find event in list of events
         // 2. get the eventDetails map for that event
         // 3. put all the Keys as the key and return the dataType for each key (fieldName)
-        Map<String, List<Object>> fieldNameAndType = new HashMap<>();
+        Map<String, Pair<Class<?>, Boolean>> fieldNameAndType = new HashMap<>();
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
                 for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry: event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                    String className = fieldSpecEntry.getValue().getFirst().getSimpleName();
+                    Class<?> className = fieldSpecEntry.getValue().getFirst();
                     Boolean required = fieldSpecEntry.getValue().getSecond();
-                    fieldNameAndType.put(fieldSpecEntry.getKey(), Arrays.asList(className, required));
+                    Pair<Class<?>, Boolean> newPair = new Pair<>();
+                    newPair.setFirst(className);
+                    newPair.setSecond(required);
+                    fieldNameAndType.put(fieldSpecEntry.getKey(), newPair);
                 }
 
             }
