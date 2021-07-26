@@ -178,7 +178,7 @@ public class EventController {
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {
-                if (userInput.equals(EXIT_TEXT)) {
+                if (userInput.toLowerCase().equals(EXIT_TEXT)) {
                     deleteEvent(username, newEventID);
                     return;
                 } else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput)) {

@@ -77,7 +77,7 @@ public class UserController {
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if (username.equals(EXIT_TEXT)) {
+            if (username.toLowerCase().equals(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
                 return;
             }
@@ -95,7 +95,7 @@ public class UserController {
         presenter.printText("Enter a Password" + TEXT_EXIT_OPTION + ": ");
         String password = inputParser.readLine();
         while(!correctPassword){
-            if (password.equals(EXIT_TEXT)) {
+            if (password.toLowerCase().equals(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
                 return;
             }
@@ -112,8 +112,8 @@ public class UserController {
     public String userLogin(){
         boolean validUsername = false;
         boolean validPassword = false;
-        String inputted_username = "";
-        String inputted_password = "";
+        String inputted_username = null;
+        String inputted_password;
         while(!validUsername){
             presenter.printText("Enter your username " + TEXT_EXIT_OPTION + ": ");
             inputted_username = inputParser.readLine();
@@ -121,7 +121,7 @@ public class UserController {
                 validUsername = true;
             }
             else if (inputted_username.toLowerCase().equals(EXIT_TEXT)){
-                return "";
+                return null;
             }
             else{
                 presenter.printText("Please enter an existing username.");
@@ -135,7 +135,7 @@ public class UserController {
                 presenter.printText(inputted_username + ", you have been logged in");
             }
             else if (inputted_password.toLowerCase().equals(EXIT_TEXT)){
-                return "";
+                return null;
             }
             else{
                 presenter.printText("That password is incorrect");
@@ -152,7 +152,7 @@ public class UserController {
         presenter.printText("Enter your NEW username " + TEXT_EXIT_OPTION + ": ");
         String newUsername = inputParser.readLine();
         if (newUsername.toLowerCase().equals(EXIT_TEXT)){
-            presenter.printText("Returning to previous menu...");
+            presenter.printText(EXITING_TEXT);
             return null;
         }
         else if (userManager.usernameIsUnique(newUsername) && isValidUsername(newUsername)){
@@ -175,7 +175,7 @@ public class UserController {
         presenter.printText("Enter your NEW email " + TEXT_EXIT_OPTION + ": ");
         String newEmail = inputParser.readLine();
         if (newEmail.toLowerCase().equals(EXIT_TEXT)){
-            presenter.printText("Returning to previous menu...");
+            presenter.printText(EXITING_TEXT);
         }
         else if (userManager.emailIsUnique(newEmail) && isValidEmail(newEmail)){
             userManager.updateEmail(username, newEmail);
@@ -195,7 +195,7 @@ public class UserController {
         presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
         String newPassword = inputParser.readLine();
         if (newPassword.toLowerCase().equals(EXIT_TEXT)) {
-            presenter.printText("Returning to previous menu...");
+            presenter.printText(EXITING_TEXT);
             return;
         }
         else{

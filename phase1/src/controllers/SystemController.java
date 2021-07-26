@@ -78,7 +78,7 @@ public class SystemController {
                     break;
                 case 2:
                     String attemptedLoginUsername = userController.userLogin();
-                    if (!attemptedLoginUsername.equals("")){
+                    if (attemptedLoginUsername != null){
                         this.currentUser = attemptedLoginUsername;
                         runMainMenu();
                     }
