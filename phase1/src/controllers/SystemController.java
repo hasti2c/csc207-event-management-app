@@ -55,7 +55,7 @@ public class SystemController {
         List<String> mainMenu = Arrays.asList("Create Event", "View Attended Events", "View Not Attended Events",
                 "View My Events", "Edit Template", "Account Menu", "Save", "Logout");
         List<String> trialMenu = Arrays.asList("Create Event", "View Published Events", "Go Back");
-        List<String> accountMenu = Arrays.asList("Logout", "Change Username", "Change Password", "Change Email",
+        List<String> accountMenu = Arrays.asList("Change Username", "Change Password", "Change Email",
                 "Change User Type to Admin", "Delete My Account", "Go Back");
         menuMap.put("Startup Menu", startupMenu);
         menuMap.put("Main Menu", mainMenu);
@@ -192,24 +192,21 @@ public class SystemController {
             int user_input = inputParser.readInt();
             switch (user_input) {
                 case 1:
-                    logout();
-                    break;
-                case 2:
                     userController.changeUsername(currentUser);
                     break;
-                case 3:
+                case 2:
                     userController.changePassword(currentUser);
                     break;
-                case 4:
+                case 3:
                     userController.changeEmail(currentUser);
                     break;
-                case 5:
+                case 4:
                     userController.changeToAdmin(currentUser);
                     break;
-                case 6:
+                case 5:
                     userController.deleteUser(currentUser);
                     break;
-                case 7:
+                case 6:
                     accountMenuActive = false;
                     break;
                 default:
