@@ -108,9 +108,9 @@ public class SystemController {
                 case 1:
                     int templateChoice = eventController.chooseTemplate(currentUser);
                     List<String> templateNames= templateManager.returnTemplateNames();
-                        if (templateChoice == templateNames.size() + 1) {
-                            break;
-                        }
+                    if (templateChoice == templateNames.size() + 1) {
+                        break;
+                    }
                     String templateName = templateNames.get(templateChoice - 1);
                     eventController.createNewEvent(templateName, currentUser);
                     break;
@@ -131,6 +131,9 @@ public class SystemController {
                     if (userManager.retrieveUserType(currentUser) == User.UserType.A){
                         int templateIndex = eventController.chooseTemplate(currentUser);
                         List<String> templateList = templateManager.returnTemplateNames();
+                        if (templateIndex == templateList.size() + 1) {
+                            break;
+                        }
                         editTemplateName(templateList.get(templateIndex - 1));
                     }
                     else {

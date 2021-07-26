@@ -6,7 +6,7 @@
     "eventType": "Concert",
     "templateId": "id100",
     "templateVersion": "1",
-    "numAttendees": 1,
+    "numAttendees": 2,
     "createdTime": "2021-07-26T11:10:59.566",
     "editTime": "2021-07-26T11:10:59.566",
     "fields": {
@@ -130,6 +130,97 @@
         "java.time.LocalDateTime",
         true,
         "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 3,\n    \"day\": 24\n  },\n  \"time\": {\n    \"hour\": 1,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ]
+    }
+  },
+  {
+    "eventId": "780482d7-d344-480d-be4a-32c4395884db",
+    "published": false,
+    "eventOwner": "hasti2c",
+    "eventType": "Concert",
+    "templateId": "id100",
+    "templateVersion": "1",
+    "numAttendees": 0,
+    "createdTime": "2021-07-26T15:30:51.310479",
+    "editTime": "2021-07-26T15:30:51.310479",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        true,
+        "null"
+      ],
+      "Concert Genre": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Performer(s)": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Venue": [
+        "java.lang.String",
+        true,
+        "null"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "null"
+      ],
+      "Time": [
+        "java.time.LocalDateTime",
+        true,
+        "null"
+      ]
+    }
+  },
+  {
+    "eventId": "42fcf247-b842-4e5d-8582-dac28c066680",
+    "published": true,
+    "eventOwner": "hasti2c",
+    "eventType": "Wedding",
+    "templateId": "id200",
+    "templateVersion": "1",
+    "numAttendees": 0,
+    "createdTime": "2021-07-26T15:40:08.751626",
+    "editTime": "2021-07-26T15:40:08.751626",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "100"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"The Best Wedding\""
+      ],
+      "Wedding Couple": [
+        "java.lang.String",
+        true,
+        "\"Bob and Annie\""
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "\"\""
+      ],
+      "Time": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2020,\n    \"month\": 12,\n    \"day\": 13\n  },\n  \"time\": {\n    \"hour\": 20,\n    \"minute\": 22,\n    \"second\": 12,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "false"
+      ],
+      "Location": [
+        "java.lang.String",
+        true,
+        "\"Best Location\""
       ]
     }
   }
