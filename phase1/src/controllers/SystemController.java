@@ -77,8 +77,11 @@ public class SystemController {
                     userController.userSignUp();
                     break;
                 case 2:
-                    this.currentUser = userController.userLogin();
-                    runMainMenu();
+                    String attemptedLoginUsername = userController.userLogin();
+                    if (!attemptedLoginUsername.equals("")){
+                        this.currentUser = attemptedLoginUsername;
+                        runMainMenu();
+                    }
                     break;
                 case 3:
                     createTrialUser();
