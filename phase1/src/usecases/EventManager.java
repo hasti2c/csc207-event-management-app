@@ -252,7 +252,7 @@ public class EventManager {
     // Use parse in local dat time that has the formatter thing. Link below
     // https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
     // TODO handle list (and other types?)
-    private Object convertToCorrectDataType(String eventId, String fieldName, String fieldValue) {
+    public Object convertToCorrectDataType(String eventId, String fieldName, String fieldValue) {
         Object returnFieldValue = null;
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {

@@ -87,6 +87,7 @@ public abstract class EntityParser<T> implements IGateway<T> {
 
             FileWriter fileWriter = new FileWriter(path);
             gson.toJson(elements, fileWriter);
+            fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

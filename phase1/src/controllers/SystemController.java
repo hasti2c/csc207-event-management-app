@@ -75,6 +75,7 @@ public class SystemController {
             switch (user_input) {
                 case 1:
                     userController.userSignUp();
+                    saveAll();
                     break;
                 case 2:
                     String attemptedLoginUsername = userController.userLogin();
@@ -86,9 +87,11 @@ public class SystemController {
                 case 3:
                     createTrialUser();
                     runTrialMenu();
+                    removeTrialUser();
                     break;
                 case 4:
                     program_running = false;
+                    saveAll();
                     presenter.printText("Exiting...");
                     break;
                 default:
@@ -139,7 +142,6 @@ public class SystemController {
                     break;
                 case 7:
                     saveAll();
-                    presenter.printText("Everything has been successfully saved.");
                     break;
                 case 8:
                     logout();
@@ -220,9 +222,14 @@ public class SystemController {
     /**
      * Create a trial User in the program
      */
-    public void createTrialUser(){
-        this.currentUser = TRIAL_USERNAME;
+    private void createTrialUser(){
+        currentUser = TRIAL_USERNAME;
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
+    }
+
+    private void removeTrialUser() {
+        currentUser = null;
+        userManager.deleteUser(TRIAL_USERNAME);
     }
 
     private int showMenu(String menuName) {
@@ -253,6 +260,7 @@ public class SystemController {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
+        presenter.printText("Everything has been successfully saved.");
     }
 
     private void logout() {

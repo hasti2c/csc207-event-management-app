@@ -1,12 +1,103 @@
 [
   {
+    "eventId": "d9d9427d-9e66-4a53-8eee-a4f2219b54b9",
+    "published": true,
+    "eventOwner": "hasti2c",
+    "eventType": "Concert",
+    "templateId": "id100",
+    "templateVersion": "1",
+    "numAttendees": 1,
+    "createdTime": "2021-07-26T11:10:59.566",
+    "editTime": "2021-07-26T11:10:59.566",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        true,
+        "30"
+      ],
+      "Concert Genre": [
+        "java.lang.String",
+        false,
+        "\"rock\""
+      ],
+      "Performer(s)": [
+        "java.lang.String",
+        false,
+        "\"someone\""
+      ],
+      "Venue": [
+        "java.lang.String",
+        true,
+        "\"somewhere\""
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"some name\""
+      ],
+      "Time": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 3,\n    \"day\": 24\n  },\n  \"time\": {\n    \"hour\": 1,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ]
+    }
+  },
+  {
+    "eventId": "fc6486b0-ef9d-4714-9ece-152d438c47c0",
+    "published": true,
+    "eventOwner": "hasti2c",
+    "eventType": "Wedding",
+    "templateId": "id200",
+    "templateVersion": "1",
+    "numAttendees": 5,
+    "createdTime": "2021-07-26T11:24:28.260",
+    "editTime": "2021-07-26T11:24:28.260",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "1000"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"nameeeee\""
+      ],
+      "Wedding Couple": [
+        "java.lang.String",
+        true,
+        "\"[\\\"someone\\\", \\\"someone else\\\"]\""
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Time": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 3,\n    \"day\": 24\n  },\n  \"time\": {\n    \"hour\": 20,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "false"
+      ],
+      "Location": [
+        "java.lang.String",
+        true,
+        "\"somewhere\""
+      ]
+    }
+  },
+  {
     "eventId": "id30",
     "published": true,
     "eventOwner": "hasti2c",
     "eventType": "Concert",
     "templateId": "id200",
     "templateVersion": "1",
-    "numAttendees": 1,
+    "numAttendees": 0,
     "createdTime": "2021-07-20T17:41:35.581",
     "editTime": "2021-07-20T17:41:35.606",
     "fields": {

@@ -178,11 +178,12 @@ public class EventController {
             String userInput = inputParser.readLine();
             boolean accepted = false;
             while (!accepted) {
-                if (userInput.toLowerCase().equals(EXIT_TEXT)) {
+                if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                     deleteEvent(username, newEventID);
                     return;
                 } else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput)) {
-                    eventManager.enterFieldValue(newEventID, entry.getKey(), userInput);
+                    Object value = eventManager.convertToCorrectDataType(newEventID, entry.getKey(), userInput);
+                    eventManager.enterFieldValue(newEventID, entry.getKey(), value);
                     accepted = true;
                 } else {
                     presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue().get(0) + "):");

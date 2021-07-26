@@ -1,5 +1,4 @@
 package controllers;
-import utility.AppConstant;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.EventManager;
@@ -40,7 +39,7 @@ public class UserController {
         boolean correctEmail = false;
         boolean correctPassword = false;
         while(!correctEmail){
-            if(email.toLowerCase().equals(EXIT_TEXT)) {
+            if(email.equalsIgnoreCase(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
                 return;
             }
@@ -60,7 +59,10 @@ public class UserController {
         User.UserType userType = User.UserType.T;
         boolean validUserType = false;
         while (!validUserType) {
-            if (type.equals("1")) {
+            if (type.equalsIgnoreCase(EXIT_TEXT)) {
+                presenter.printText(EXITING_TEXT);
+                return;
+            } else if (type.equals("1")) {
                 userType = User.UserType.R;
                 validUserType = true;
             } else if (type.equals("2")) {
@@ -77,7 +79,7 @@ public class UserController {
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if (username.toLowerCase().equals(EXIT_TEXT)) {
+            if (username.equalsIgnoreCase(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
                 return;
             }
@@ -95,16 +97,16 @@ public class UserController {
         presenter.printText("Enter a Password" + TEXT_EXIT_OPTION + ": ");
         String password = inputParser.readLine();
         while(!correctPassword){
-            if (password.toLowerCase().equals(EXIT_TEXT)) {
+            if (password.equalsIgnoreCase(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
                 return;
             }
-            else{
+            else {
                 correctPassword = true;
             }
         }
 
-        userManager.createUser(username, password, email, userType); // this needs to be implemented
+        userManager.createUser(username, password, email, userType);
         presenter.printText("Account has been created Successfully. You may now login.");
 
     }
@@ -120,7 +122,7 @@ public class UserController {
             if (!userManager.usernameIsUnique(inputted_username)){
                 validUsername = true;
             }
-            else if (inputted_username.toLowerCase().equals(EXIT_TEXT)){
+            else if (inputted_username.equalsIgnoreCase(EXIT_TEXT)){
                 return null;
             }
             else{
@@ -134,7 +136,7 @@ public class UserController {
                 validPassword = true;
                 presenter.printText(inputted_username + ", you have been logged in");
             }
-            else if (inputted_password.toLowerCase().equals(EXIT_TEXT)){
+            else if (inputted_password.equalsIgnoreCase(EXIT_TEXT)){
                 return null;
             }
             else{
