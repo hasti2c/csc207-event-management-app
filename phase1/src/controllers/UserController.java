@@ -7,12 +7,21 @@ import usecases.TemplateManager;
 import entities.User;
 import usecases.UserManager;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UserController {
     private final UserManager userManager;
     private final EventManager eventManager;
     private final TemplateManager templateManager;
     private final Presenter presenter;
     private final InputParser inputParser;
+
+    // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
+    public static final Pattern validEmail =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern validUsername =
+            Pattern.compile("^[a-zA-Z0-9._%+-]+$", Pattern.CASE_INSENSITIVE);
 
     public UserController(UserManager userManager, EventManager eventManager, TemplateManager templateManager) {
         this.userManager = userManager;
@@ -28,14 +37,15 @@ public class UserController {
         String email = inputParser.readLine();
         boolean correctEmail = false;
         while(!correctEmail){
-            if(email.equals(AppConstant.EXIT_TEXT)) {
+            if(email.toLowerCase().equals(AppConstant.EXIT_TEXT)) {
                 presenter.printText(AppConstant.EXITING_TEXT);
                 return;
             }
-            if(userManager.emailIsUnique(email)){ // needs to be implemented
+            else if(userManager.emailIsUnique(email) && isValidEmail(email)){ // needs to be implemented
                 correctEmail = true;
-            }else{
-                presenter.printText("Email already exists. Enter another email " + AppConstant.TEXT_EXIT_OPTION + ": ");
+            }
+            else{
+                presenter.printText("Email already exists or is not valid. Enter another email " + AppConstant.TEXT_EXIT_OPTION + ": ");
                 email = inputParser.readLine();
             }
         }
@@ -68,7 +78,7 @@ public class UserController {
                 presenter.printText(AppConstant.EXITING_TEXT);
                 return;
             }
-            else if (userManager.usernameIsUnique(username) && username.length() != 0){
+            else if (userManager.usernameIsUnique(username) && isValidUsername(username)){
                 correctUsername = true;
             }
             else {
@@ -87,29 +97,38 @@ public class UserController {
     }
 
     public String userLogin(){
-
-        presenter.printText("Enter your Username: ");
-        String username = inputParser.readLine();
-
-        presenter.printText("Enter your Password: ");
-        String password = inputParser.readLine();
-
-        boolean correctLogin = false;
-        while(!correctLogin){
-            if(userManager.logIn(username, password)){
-                correctLogin = true;
-            } else{
-                presenter.printText("Your account doesn't exist or your Username or Password is incorrect, please try again." + AppConstant.TEXT_EXIT_OPTION);
-
-                presenter.printText("Enter your Username: ");
-                username = inputParser.readLine();
-
-                presenter.printText("Enter your Password: ");
-                password = inputParser.readLine();
+        boolean validUsername = false;
+        boolean validPassword = false;
+        String inputted_username = "";
+        String inputted_password = "";
+        while(!validUsername){
+            presenter.printText("Enter your username " + AppConstant.TEXT_EXIT_OPTION + ": ");
+            inputted_username = inputParser.readLine();
+            if (!userManager.usernameIsUnique(inputted_username)){
+                validUsername = true;
+            }
+            else if (inputted_username.toLowerCase().equals(AppConstant.EXIT_TEXT)){
+                return "";
+            }
+            else{
+                presenter.printText("Please enter an existing username.");
             }
         }
-        presenter.printText("Login was successful");
-        return username;
+        while(!validPassword){
+            presenter.printText("Enter your password " + AppConstant.TEXT_EXIT_OPTION + ": ");
+            inputted_password = inputParser.readLine();
+            if (userManager.logIn(inputted_username, inputted_password)){
+                validPassword = true;
+                presenter.printText(inputted_username + ", you have been logged in");
+            }
+            else if (inputted_password.toLowerCase().equals(AppConstant.EXIT_TEXT)){
+                return "";
+            }
+            else{
+                presenter.printText("That password is incorrect");
+            }
+        }
+        return inputted_username;
     }
 
     /**
@@ -123,13 +142,13 @@ public class UserController {
             presenter.printText("Returning to previous menu...");
             return;
         }
-        else if (userManager.usernameIsUnique(newUsername)){
+        else if (userManager.usernameIsUnique(newUsername) && isValidUsername(newUsername)){
             userManager.updateUsername(username, newUsername);
             presenter.printText("Your username has been updated!");
             return;
         }
         else{
-            presenter.printText("That username is already taken, please try again!");
+            presenter.printText("That username is already taken or is not valid, please try again!");
             changeUsername(username);
         }
     }
@@ -144,12 +163,12 @@ public class UserController {
         if (newEmail.toUpperCase().equals("CANCEL")){
             presenter.printText("Returning to previous menu...");
         }
-        else if (userManager.emailIsUnique(newEmail)){
+        else if (userManager.emailIsUnique(newEmail) && isValidEmail(newEmail)){
             userManager.updateEmail(username, newEmail);
             presenter.printText("Your email has been updated!");
         }
         else{
-            presenter.printText("That email is already taken, please try again!");
+            presenter.printText("That email is already taken or is not valid, please try again!");
             changeEmail(username);
         }
     }
@@ -185,7 +204,7 @@ public class UserController {
      * @param username The username of the User who is attempting to update their account type
      */
     public void changeToAdmin(String username){
-        presenter.printText("Updating type to Regular");
+        presenter.printText("Updating type to Admin");
         userManager.changeUserTypeToAdmin(username);
     }
 
@@ -207,5 +226,26 @@ public class UserController {
             presenter.printText("You did not enter a valid option, try again");
             deleteUser(username);
         }
+    }
+
+    /**
+     * Check if the inputted email is valid according to the validEmail regex. This regex was retrieved from
+     * https://stackoverflow.com/questions/8204680/java-regex-email
+     * @param email The email to validate
+     * @return boolean If the email is valid according to the validEmail regex
+     */
+    private boolean isValidEmail(String email){
+        Matcher matcher = validEmail.matcher(email);
+        return matcher.find();
+    }
+
+    /**
+     * Check if the inputted username is valid according to the validUsername regex. This regex was retrieved from
+     * @param username The email to validate
+     * @return boolean If the email is valid according to the validUsername regex
+     */
+    private boolean isValidUsername(String username){
+        Matcher matcher = validUsername.matcher(username);
+        return matcher.find() && !username.equals(AppConstant.TRIAL_USERNAME);
     }
 }
