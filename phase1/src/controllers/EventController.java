@@ -193,7 +193,7 @@ public class EventController {
                     eventManager.enterFieldValue(newEventID, entry.getKey(), value);
                     accepted = true;
                 } else {
-                    presenter.printText("Please try again. Enter " + entry.getKey() + "(" + entry.getValue().getFirst().getSimpleName() + "):");
+                    presenter.printText("Please try again. Enter " + entry.getKey() + " (" + entry.getValue().getFirst().getSimpleName() + "):");
                     userInput = inputParser.readLine();
                 }
             }
@@ -218,11 +218,11 @@ public class EventController {
      */
     private boolean getYesNo() {
         String userInput = inputParser.readLine();
-        while (!userInput.equals("Y") && !userInput.equals("N")) {
+        while (!userInput.equalsIgnoreCase("Y") && !userInput.equalsIgnoreCase("N")) {
             presenter.printText("Type Y or N");
             userInput = inputParser.readLine();
         }
-        return userInput.equals("Y");
+        return userInput.equalsIgnoreCase("Y");
     }
 
     /**

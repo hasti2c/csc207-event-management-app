@@ -223,48 +223,5 @@
         "\"Best Location\""
       ]
     }
-  },
-  {
-    "eventId": "12e5463d-d4d2-4825-a11c-6cab8d88445c",
-    "published": true,
-    "eventOwner": "TRIAL_USER",
-    "eventType": "Great Concert",
-    "templateId": "id100",
-    "templateVersion": "1",
-    "numAttendees": 0,
-    "createdTime": "2021-07-26T16:24:04.386106",
-    "editTime": "2021-07-26T16:24:04.386106",
-    "fields": {
-      "Max Attendees": [
-        "java.lang.Integer",
-        true,
-        "12"
-      ],
-      "Concert Genre": [
-        "java.lang.String",
-        false,
-        "\"\""
-      ],
-      "Performer(s)": [
-        "java.lang.String",
-        false,
-        "\"\""
-      ],
-      "Venue": [
-        "java.lang.String",
-        true,
-        "\"Place\""
-      ],
-      "Event Name": [
-        "java.lang.String",
-        true,
-        "\"My Concert\""
-      ],
-      "Time": [
-        "java.time.LocalDateTime",
-        true,
-        "{\n  \"date\": {\n    \"year\": 2020,\n    \"month\": 12,\n    \"day\": 12\n  },\n  \"time\": {\n    \"hour\": 12,\n    \"minute\": 12,\n    \"second\": 12,\n    \"nano\": 0\n  }\n}"
-      ]
-    }
   }
 ]

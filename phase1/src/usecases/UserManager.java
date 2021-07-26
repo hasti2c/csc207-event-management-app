@@ -56,10 +56,6 @@ public class UserManager {
             deleteEvent(username, ownedEvents.get(ownedEvents.size()-1));
 
         }
-//        for (String eventID :
-//                user.getOwnedEvents()) {
-//            deleteEvent(username, eventID);
-//        }
         // Remove all the User's info
         userList.remove(user);
         usernamesList.remove(user.getUsername());
@@ -90,24 +86,6 @@ public class UserManager {
             return false;
         }
     }
-
-//    /**
-//     * Logs out a user by checking the inputted password against the User's username
-//     * @param username The username of the user attempting to log out
-//     * @return boolean Whether the logout was successful
-//     */
-//    public boolean logOut(String username) {
-//        // returns true if successfully logged out, false otherwise
-//
-//        User userToLogout = retrieveUser(username);
-//        if (userToLogout == null){
-//            return false;
-//        }
-//        else {
-//            userToLogout.setLoggedIn(false);
-//            return true;
-//        }
-//    }
 
     /**
      * Update a users password to the newPassword

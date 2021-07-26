@@ -259,9 +259,10 @@ public class EventManager {
         Object returnFieldValue = null;
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
-                for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                    Class<?> dataType = fieldSpecEntry.getValue().getFirst();
-                    if (fieldSpecEntry.getKey().equals(fieldName)) {
+                Pair<Class<?>, Boolean> fieldSpec = event.getFieldNameAndFieldSpecsMap().get(fieldName);
+//                for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+                    Class<?> dataType = fieldSpec.getFirst();
+//                    if (fieldSpec.getKey().equals(fieldName)) {
                         if (dataType.equals(String.class)) {
                             returnFieldValue = fieldValue;
                         }
@@ -280,8 +281,8 @@ public class EventManager {
 //                        }
                     }
                 }
-            }
-        }
+//            }
+//        }
         return returnFieldValue;
     }
 
