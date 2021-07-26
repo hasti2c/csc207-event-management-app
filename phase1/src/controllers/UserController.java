@@ -10,6 +10,8 @@ import usecases.UserManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static utility.AppConstant.*;
+
 public class UserController {
     private final UserManager userManager;
     private final EventManager eventManager;
@@ -33,20 +35,20 @@ public class UserController {
 
     public void userSignUp(){
         // Entering email
-        presenter.printText("Enter an Email " + AppConstant.TEXT_EXIT_OPTION + ": ");
+        presenter.printText("Enter an Email " + TEXT_EXIT_OPTION + ": ");
         String email = inputParser.readLine();
         boolean correctEmail = false;
         boolean correctPassword = false;
         while(!correctEmail){
-            if(email.toLowerCase().equals(AppConstant.EXIT_TEXT)) {
-                presenter.printText(AppConstant.EXITING_TEXT);
+            if(email.toLowerCase().equals(EXIT_TEXT)) {
+                presenter.printText(EXITING_TEXT);
                 return;
             }
             else if(userManager.emailIsUnique(email) && isValidEmail(email)){ // needs to be implemented
                 correctEmail = true;
             }
             else{
-                presenter.printText("Email already exists or is not valid. Enter another email " + AppConstant.TEXT_EXIT_OPTION + ": ");
+                presenter.printText("Email already exists or is not valid. Enter another email " + TEXT_EXIT_OPTION + ": ");
                 email = inputParser.readLine();
             }
         }
@@ -71,12 +73,12 @@ public class UserController {
         }
 
         // Choosing a Username
-        presenter.printText("Enter a Username" + AppConstant.TEXT_EXIT_OPTION + ": ");
+        presenter.printText("Enter a Username" + TEXT_EXIT_OPTION + ": ");
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
-            if (username.equals(AppConstant.EXIT_TEXT)) {
-                presenter.printText(AppConstant.EXITING_TEXT);
+            if (username.equals(EXIT_TEXT)) {
+                presenter.printText(EXITING_TEXT);
                 return;
             }
             else if (userManager.usernameIsUnique(username) && isValidUsername(username)){
@@ -90,11 +92,11 @@ public class UserController {
 
 
         // Choosing a password
-        presenter.printText("Enter a Password" + AppConstant.TEXT_EXIT_OPTION + ": ");
+        presenter.printText("Enter a Password" + TEXT_EXIT_OPTION + ": ");
         String password = inputParser.readLine();
         while(!correctPassword){
-            if (password.equals(AppConstant.EXIT_TEXT)) {
-                presenter.printText(AppConstant.EXITING_TEXT);
+            if (password.equals(EXIT_TEXT)) {
+                presenter.printText(EXITING_TEXT);
                 return;
             }
             else{
@@ -113,12 +115,12 @@ public class UserController {
         String inputted_username = "";
         String inputted_password = "";
         while(!validUsername){
-            presenter.printText("Enter your username " + AppConstant.TEXT_EXIT_OPTION + ": ");
+            presenter.printText("Enter your username " + TEXT_EXIT_OPTION + ": ");
             inputted_username = inputParser.readLine();
             if (!userManager.usernameIsUnique(inputted_username)){
                 validUsername = true;
             }
-            else if (inputted_username.toLowerCase().equals(AppConstant.EXIT_TEXT)){
+            else if (inputted_username.toLowerCase().equals(EXIT_TEXT)){
                 return "";
             }
             else{
@@ -126,13 +128,13 @@ public class UserController {
             }
         }
         while(!validPassword){
-            presenter.printText("Enter your password " + AppConstant.TEXT_EXIT_OPTION + ": ");
+            presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
             inputted_password = inputParser.readLine();
             if (userManager.logIn(inputted_username, inputted_password)){
                 validPassword = true;
                 presenter.printText(inputted_username + ", you have been logged in");
             }
-            else if (inputted_password.toLowerCase().equals(AppConstant.EXIT_TEXT)){
+            else if (inputted_password.toLowerCase().equals(EXIT_TEXT)){
                 return "";
             }
             else{
@@ -146,22 +148,23 @@ public class UserController {
      * The controller method that allows the User at the keyboard to update their username
      * @param username The username of the User who is attempting to update their username
      */
-    public void changeUsername(String username){
-        presenter.printText("Enter your NEW username " + AppConstant.TEXT_EXIT_OPTION + ": ");
+    public String changeUsername(String username){
+        presenter.printText("Enter your NEW username " + TEXT_EXIT_OPTION + ": ");
         String newUsername = inputParser.readLine();
-        if (newUsername.toLowerCase().equals(AppConstant.EXIT_TEXT)){
+        if (newUsername.toLowerCase().equals(EXIT_TEXT)){
             presenter.printText("Returning to previous menu...");
-            return;
+            return null;
         }
         else if (userManager.usernameIsUnique(newUsername) && isValidUsername(newUsername)){
             userManager.updateUsername(username, newUsername);
             presenter.printText("Your username has been updated!");
-            return;
+            return newUsername;
         }
         else{
             presenter.printText("That username is already taken or is not valid, please try again!");
             changeUsername(username);
         }
+        return null;
     }
 
     /**
@@ -169,9 +172,9 @@ public class UserController {
      * @param username The username of the User who is attempting to update their email
      */
     public void changeEmail(String username){
-        presenter.printText("Enter your NEW email " + AppConstant.TEXT_EXIT_OPTION + ": ");
+        presenter.printText("Enter your NEW email " + TEXT_EXIT_OPTION + ": ");
         String newEmail = inputParser.readLine();
-        if (newEmail.toLowerCase().equals(AppConstant.EXIT_TEXT)){
+        if (newEmail.toLowerCase().equals(EXIT_TEXT)){
             presenter.printText("Returning to previous menu...");
         }
         else if (userManager.emailIsUnique(newEmail) && isValidEmail(newEmail)){
@@ -189,9 +192,9 @@ public class UserController {
      * @param username The username of the User who is attempting to update their password
      */
     public void changePassword(String username){
-        presenter.printText("Enter your NEW password " + AppConstant.TEXT_EXIT_OPTION + ": ");
+        presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
         String newPassword = inputParser.readLine();
-        if (newPassword.toLowerCase().equals(AppConstant.EXIT_TEXT)) {
+        if (newPassword.toLowerCase().equals(EXIT_TEXT)) {
             presenter.printText("Returning to previous menu...");
             return;
         }
@@ -257,6 +260,6 @@ public class UserController {
      */
     private boolean isValidUsername(String username){
         Matcher matcher = validUsername.matcher(username);
-        return matcher.find() && !username.equals(AppConstant.TRIAL_USERNAME);
+        return matcher.find() && !username.equals(TRIAL_USERNAME);
     }
 }

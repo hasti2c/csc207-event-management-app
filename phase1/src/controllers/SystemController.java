@@ -192,8 +192,10 @@ public class SystemController {
             int user_input = inputParser.readInt();
             switch (user_input) {
                 case 1:
-                    userController.changeUsername(currentUser);
-                    break;
+                    String newUsername = userController.changeUsername(currentUser);
+                    if (newUsername != null) {
+                        currentUser = newUsername;
+                    }
                 case 2:
                     userController.changePassword(currentUser);
                     break;
