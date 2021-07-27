@@ -221,6 +221,9 @@ public class UserController {
      * @param username The username of the User who is attempting to update their account type
      */
     public void changeToAdmin(String username){
+        if (userManager.retrieveUserType(username) == User.UserType.A) {
+            presenter.printText("You are already an admin.");
+        }
         presenter.printText("Updating type to Admin");
         userManager.changeUserTypeToAdmin(username);
     }

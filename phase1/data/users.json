@@ -8,6 +8,14 @@
     "userType": "A"
   },
   {
+    "username": "angela",
+    "password": "password",
+    "userEmail": "angela@me.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "A"
+  },
+  {
     "username": "hasti3c",
     "password": "some",
     "userEmail": "something@somemail.com",
@@ -60,14 +68,6 @@
     "username": "mymy",
     "password": "hello",
     "userEmail": "new@email.com",
-    "ownedEvents": [],
-    "attendingEvents": [],
-    "userType": "R"
-  },
-  {
-    "username": "username",
-    "password": "password",
-    "userEmail": "angela@me.com",
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "R"
