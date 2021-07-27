@@ -197,8 +197,8 @@ public class SystemController {
                     break;
                 case 5:
                     userController.deleteUser(currentUser);
-                    saveAll();
                     presenter.printText("Your account has been deleted.");
+                    saveAll();
                     return false;
                 case 6:
                     return true;
