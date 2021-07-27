@@ -133,7 +133,6 @@ public class EventController {
                 if (menuMap.get(menuMapChoice).get(menuChoice - 1).equals("Attend Event")) {
                     // check to make sure there's still room in the event
                     if(attendEvent(username, eventID)){
-                        // TODO I'm not sure if this works or and also if the event gets removed from the list when they go back to view the list...
                         presenter.printText("You have successfully registered for the event.");
                         eventIDList.remove(eventID);
                     }
@@ -169,6 +168,13 @@ public class EventController {
      * @param username username of the currently logged in user
      */
     public void createNewEvent(String templateName, String username) {
+        if(templateName == null || templateName.isEmpty()) {
+            return;
+        }
+        if(username == null || username.isEmpty()) {
+            return;
+        }
+
         String newEventID = this.eventManager.createEvent(templateName, username);
 
         userManager.createEvent(username, newEventID);
@@ -179,7 +185,6 @@ public class EventController {
         Map<Boolean, String> requiredMap = new HashMap<>();
         requiredMap.put(true, " (Required)");
         requiredMap.put(false, " (Not Required)");
-
         for (Map.Entry<String, Pair<Class<?>, Boolean>> entry : fieldMap.entrySet()) {
             presenter.printText("Enter " + entry.getKey() + requiredMap.get(entry.getValue().getSecond()) + ":");
             String userInput = inputParser.readLine();

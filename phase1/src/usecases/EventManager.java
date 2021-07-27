@@ -17,7 +17,7 @@ public class EventManager {
     private List<Event> eventList;
     private TemplateManager templateManager;
     private IGateway<Event> parser;
-    private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm:ss";
+    private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
 
     public EventManager(IGateway<Event> parser, TemplateManager templateManager) {
         this.parser = parser;

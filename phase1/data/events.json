@@ -223,5 +223,53 @@
         "\"Best Location\""
       ]
     }
+  },
+  {
+    "eventId": "f9a3d949-9bd8-4ea9-a4d0-243a0f3f64bb",
+    "published": false,
+    "eventOwner": "TRIAL_USER",
+    "eventType": "Wedding",
+    "templateId": "id200",
+    "templateVersion": "1",
+    "numAttendees": 0,
+    "createdTime": "2021-07-26T21:19:37.817534",
+    "editTime": "2021-07-26T21:19:37.817534",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "null"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2020,\n    \"month\": 12,\n    \"day\": 12\n  },\n  \"time\": {\n    \"hour\": 12,\n    \"minute\": 12,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"Good Concert\""
+      ],
+      "Wedding Couple": [
+        "java.lang.String",
+        true,
+        "null"
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "null"
+      ],
+      "Location": [
+        "java.lang.String",
+        true,
+        "null"
+      ]
+    }
   }
 ]

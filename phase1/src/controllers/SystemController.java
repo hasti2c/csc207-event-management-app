@@ -106,13 +106,7 @@ public class SystemController {
             int userInput = inputParser.readInt();
             switch (userInput) {
                 case 1:
-                    int templateChoice = eventController.chooseTemplate(currentUser);
-                    List<String> templateNames= templateManager.returnTemplateNames();
-                    if (templateChoice == templateNames.size() + 1) {
-                        break;
-                    }
-                    String templateName = templateNames.get(templateChoice - 1);
-                    eventController.createNewEvent(templateName, currentUser);
+                    eventController.createNewEvent(retrieveTemplateName(), currentUser);
                     break;
                 case 2:
                     List<String> eventIDList1 = userManager.getAttendingEvents(currentUser);
@@ -128,12 +122,7 @@ public class SystemController {
                     break;
                 case 5:
                     if (userManager.retrieveUserType(currentUser) == User.UserType.A){
-                        int templateIndex = eventController.chooseTemplate(currentUser);
-                        List<String> templateList = templateManager.returnTemplateNames();
-                        if (templateIndex == templateList.size() + 1) {
-                            break;
-                        }
-                        editTemplateName(templateList.get(templateIndex - 1));
+                        editTemplateName(retrieveTemplateName());
                     }
                     else {
                         presenter.printText("Sorry you do not have permission to edit the templates.");
@@ -164,13 +153,7 @@ public class SystemController {
             int userInput = inputParser.readInt();
             switch (userInput) {
                 case 1:
-                    int templateChoice = eventController.chooseTemplate(currentUser);
-                    List<String> templateNames= templateManager.returnTemplateNames();
-                    if (templateChoice == templateNames.size() + 1) {
-                        break;
-                    }
-                    String templateName = templateNames.get(templateChoice - 1);
-                    eventController.createNewEvent(templateName, currentUser);
+                    eventController.createNewEvent(retrieveTemplateName(), currentUser);
                     break;
                 case 2:
                     // Since this is a trial user, the unattended events is all of the events.
@@ -229,6 +212,7 @@ public class SystemController {
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
     }
 
+    // TODO Delete the events the trial user made
     private void removeTrialUser() {
         currentUser = null;
         userManager.deleteUser(TRIAL_USERNAME);
@@ -270,5 +254,27 @@ public class SystemController {
         saveAll();
         currentUser = null;
     }
+
+    // === Helpers ===
+    private String retrieveTemplateName() {
+        int templateChoice = eventController.chooseTemplate(currentUser);
+        List<String> templateNames = templateManager.returnTemplateNames();
+        return retrieveName(templateNames, templateChoice);
+    }
+
+    private String retrieveName(List<String> nameList, int chosenIndex) {
+        if(chosenIndexLargerThanTheSize(nameList, chosenIndex)) {
+            return null;
+        }
+        return nameList.get(chosenIndex - 1);
+    }
+
+    private boolean chosenIndexLargerThanTheSize(List<?> list, int chosenIndex) {
+        if(list == null) {
+            return true;
+        }
+        return chosenIndex > list.size();
+    }
+
 }
 
