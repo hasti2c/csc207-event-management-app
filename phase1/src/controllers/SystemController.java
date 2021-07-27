@@ -74,8 +74,9 @@ public class SystemController {
             int user_input = inputParser.readInt();
             switch (user_input) {
                 case 1:
-                    userController.userSignUp();
-                    saveAll();
+                    if (userController.userSignUp()){
+                        saveAll();
+                    }
                     break;
                 case 2:
                     String attemptedLoginUsername = userController.userLogin();
@@ -101,7 +102,8 @@ public class SystemController {
     }
 
     private void runMainMenu() {
-        while (true) {
+        boolean runningMainMenu = true;
+        while (runningMainMenu) {
             presenter.printMenu("Main Menu", menuMap.get("Main Menu"));
             int userInput = inputParser.readInt();
             switch (userInput) {
@@ -129,7 +131,7 @@ public class SystemController {
                     }
                     break;
                 case 6:
-                    runAccountMenu();
+                    runningMainMenu = runAccountMenu();
                     break;
                 case 7:
                     saveAll();
@@ -171,10 +173,10 @@ public class SystemController {
 
     /**
      * Run the menu that allows the User to interact with their account
+     * @return false if the user has been deleted, true if not
      */
-    public void runAccountMenu(){
-        boolean accountMenuActive = true;
-        while (accountMenuActive) {
+    private boolean runAccountMenu(){
+        while (true) {
             presenter.printMenu("Account Menu", this.menuMap.get("Account Menu"));
             int user_input = inputParser.readInt();
             switch (user_input) {
@@ -194,10 +196,9 @@ public class SystemController {
                     break;
                 case 5:
                     userController.deleteUser(currentUser);
-                    break;
+                    return false;
                 case 6:
-                    accountMenuActive = false;
-                    break;
+                    return true;
                 default:
                     presenter.printText("You did not enter a valid option, try again");
             }

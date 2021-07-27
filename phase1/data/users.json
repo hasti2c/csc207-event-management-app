@@ -47,5 +47,13 @@
       "fc6486b0-ef9d-4714-9ece-152d438c47c0"
     ],
     "userType": "A"
+  },
+  {
+    "username": "mymy",
+    "password": "hello",
+    "userEmail": "new@email.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "R"
   }
 ]

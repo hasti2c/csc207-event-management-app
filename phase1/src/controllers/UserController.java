@@ -33,7 +33,7 @@ public class UserController {
         this.inputParser = new InputParser();
     }
 
-    public void userSignUp(){
+    public boolean userSignUp(){
         // Entering email
         presenter.printText("Enter an Email " + TEXT_EXIT_OPTION + ": ");
         String email = inputParser.readLine();
@@ -42,7 +42,7 @@ public class UserController {
         while(!correctEmail){
             if(email.equalsIgnoreCase(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
-                return;
+                return false;
             }
             else if(userManager.emailIsUnique(email) && isValidEmail(email)){ // needs to be implemented
                 correctEmail = true;
@@ -62,7 +62,7 @@ public class UserController {
         while (!validUserType) {
             if (type.equalsIgnoreCase(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
-                return;
+                return false;
             } else if (type.equals("1")) {
                 userType = User.UserType.R;
                 validUserType = true;
@@ -70,25 +70,25 @@ public class UserController {
                 userType = User.UserType.A;
                 validUserType = true;
             } else {
-                presenter.printText("Please enter either 1 or 2.");
+                presenter.printText("Please enter either 1 or 2" + TEXT_EXIT_OPTION + ": ");
                 type = inputParser.readLine();
             }
         }
 
         // Choosing a Username
-        presenter.printText("Enter a Username" + TEXT_EXIT_OPTION + ": ");
+        presenter.printText("Enter a Username " + TEXT_EXIT_OPTION + ": ");
         String username = inputParser.readLine();
         boolean correctUsername = false;
         while(!correctUsername){
             if (username.equalsIgnoreCase(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
-                return;
+                return false;
             }
             else if (userManager.usernameIsUnique(username) && isValidUsername(username)){
                 correctUsername = true;
             }
             else {
-                presenter.printText("Username is not valid. Enter another username: ");
+                presenter.printText("Username is not valid or is already taken. Enter another username: ");
                 username = inputParser.readLine();
             }
         }
@@ -100,7 +100,7 @@ public class UserController {
         while(!correctPassword){
             if (password.equalsIgnoreCase(EXIT_TEXT)) {
                 presenter.printText(EXITING_TEXT);
-                return;
+                return false;
             }
             else {
                 correctPassword = true;
@@ -109,7 +109,7 @@ public class UserController {
 
         userManager.createUser(username, password, email, userType);
         presenter.printText("Account has been created Successfully. You may now login.");
-
+        return true;
     }
 
     public String userLogin(){
@@ -154,7 +154,7 @@ public class UserController {
     public String changeUsername(String username){
         presenter.printText("Enter your NEW username " + TEXT_EXIT_OPTION + ": ");
         String newUsername = inputParser.readLine();
-        if (newUsername.toLowerCase().equals(EXIT_TEXT)){
+        if (newUsername.equalsIgnoreCase(EXIT_TEXT)){
             presenter.printText(EXITING_TEXT);
             return null;
         }
@@ -177,7 +177,7 @@ public class UserController {
     public void changeEmail(String username){
         presenter.printText("Enter your NEW email " + TEXT_EXIT_OPTION + ": ");
         String newEmail = inputParser.readLine();
-        if (newEmail.toLowerCase().equals(EXIT_TEXT)){
+        if (newEmail.equalsIgnoreCase(EXIT_TEXT)){
             presenter.printText(EXITING_TEXT);
         }
         else if (userManager.emailIsUnique(newEmail) && isValidEmail(newEmail)){
@@ -197,7 +197,7 @@ public class UserController {
     public void changePassword(String username){
         presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
         String newPassword = inputParser.readLine();
-        if (newPassword.toLowerCase().equals(EXIT_TEXT)) {
+        if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
             presenter.printText(EXITING_TEXT);
             return;
         }
