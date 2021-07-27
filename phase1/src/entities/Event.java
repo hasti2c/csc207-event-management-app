@@ -234,19 +234,4 @@ public class Event {
         this.published = published;
     }
 
-//    /**
-//     * Sets new details for this event
-//     * @param eventDetails The new details of this event
-//     */
-//    public void setEventDetails(Map<String, Object> eventDetails) {
-//        this.eventDetails = eventDetails;
-//    }
-
-//    /**
-//     * Sets a new map with FieldName as key and FieldType as value for this event
-//     * @param fieldNameAndFieldSpecsInfo The new map with FieldName as key and FieldType as value of this event
-//     */
-//    public void setFieldNameAndTypeMap(Map<String, List<Object>> fieldNameAndFieldSpecsInfo) {
-//        this.fieldNameAndFieldSpecs = fieldNameAndFieldSpecsInfo;
-//    }
 }

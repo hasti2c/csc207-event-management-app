@@ -143,10 +143,6 @@ public class EventManager {
      * the value is data type
      */
     public Map<String, Pair<Class<?>, Boolean>> returnFieldNameAndFieldSpecs(String eventId){
-        // returns a map of the fields associated with this event
-        // 1. find event in list of events
-        // 2. get the eventDetails map for that event
-        // 3. put all the Keys as the key and return the dataType for each key (fieldName)
         Map<String, Pair<Class<?>, Boolean>> fieldNameAndType = new HashMap<>();
         for (Event event: eventList){
             if (event.getEventId().equals(eventId)){
@@ -225,7 +221,11 @@ public class EventManager {
         return eventMap;
     }
 
-    // TODO might want to put this method in event controller
+    /**
+     * Returns a list of event names from a list of event ids
+     * @param eventIdList
+     * @return
+     */
     public List <String> returnEventNamesListFromIdList(List <String> eventIdList) {
         List<String> eventNames = new ArrayList<>();
         for (String eventID : eventIdList) {
@@ -256,16 +256,11 @@ public class EventManager {
 
     /**
      * Converts a field value string to its correct data type and returns the object in the correct type.
-     * @param eventId
-     * @param fieldName
-     * @param fieldValue
+     * @param eventId ID of the event that is being checked
+     * @param fieldName Name of the field that the user wants to
+     * @param fieldValue Value that is to be converted
      * @return The field value converted to the correct type.
      */
-    // Check data validation can catch the error that this throws
-    // Chris, you can use the same local date time formatter that you had before.
-    // Use parse in local dat time that has the formatter thing. Link below
-    // https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
-    // TODO handle list (and other types?)
     public Object convertToCorrectDataType(String eventId, String fieldName, String fieldValue) {
         Object returnFieldValue = null;
         for (Event event : eventList) {
@@ -311,11 +306,6 @@ public class EventManager {
      * @return boolean Whether data fieldValue is valid
      */
     public boolean checkDataValidation(String eventId, String fieldName, String fieldValue) {
-        // if the field value doesn't pass, return false and do nothing.
-        // first check if the field value is empty, if it is empty then check if the field is required
-        // if it is required, then return false, if it isn't then return true
-        // next check if the data type is correct. Call the convertToCorrectDataType method and if it throws an error return false
-        // else, return true. (I think this works, if not we can try something different)
         boolean isEmpty = fieldValue.isEmpty();
         Event event = retrieveEventById(eventId);
         if (isEmpty){
