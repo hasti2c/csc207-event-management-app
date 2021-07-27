@@ -55,6 +55,11 @@ public class Event {
     }
 
     // === Methods ===
+
+    /**
+     * Adds fieldName and sets the values for each fieldName null for this event's eventDetails map.
+     * @param template the template used to create the event
+     */
     public void addFieldsToEventDetails(Template template) {
         for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
             this.eventDetails.put(fieldSpecs.getFieldName(), null);
