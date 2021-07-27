@@ -51,7 +51,7 @@ public class SystemController {
     }
 
     private void initMenuMap() {
-        List<String> startupMenu = Arrays.asList("SignUp", "Login", "Trial", "Exit");
+        List<String> startupMenu = Arrays.asList("Sign Up", "Login", "Trial", "Exit");
         List<String> mainMenu = Arrays.asList("Create Event", "View Attended Events", "View Not Attended Events",
                 "View My Events", "Edit Template", "Account Menu", "Save", "Logout");
         List<String> trialMenu = Arrays.asList("Create Event", "View Published Events", "Go Back");
@@ -185,6 +185,7 @@ public class SystemController {
                     if (newUsername != null) {
                         currentUser = newUsername;
                     }
+                    break;
                 case 2:
                     userController.changePassword(currentUser);
                     break;
