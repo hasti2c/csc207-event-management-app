@@ -29,7 +29,7 @@ public class EventManager {
 
     /**
      * Creates an event with the given name of template templateName and name of owner of the event eventOwner. Also
-     * returns the id of the Event for the controller.
+     * returns the id of the Event for the controller
      * @param templateName The Name of the template
      * @param eventOwner The owner of this event
      * @return The Id of the event
@@ -52,9 +52,9 @@ public class EventManager {
     }
 
     /**
-     * Adds an attendee for this event if there is still room in the event.
-     * @param eventID the ID of the event that is being attended.
-     * @return false if there is no room in the event, true if the event has been successfully singed up for.
+     * Adds an attendee for this event if there is still room in the event
+     * @param eventID the ID of the event that is being attended
+     * @return false if there is no room in the event, true if the event has been successfully singed up for
      */
     public boolean attendEvent(String eventID) {
         Event currentEvent = retrieveEventById(eventID);
@@ -72,9 +72,9 @@ public class EventManager {
     }
 
     /**
-     * Removes an attendee from the event.
-     * @param eventID the ID of the event that is being unattended.
-     * @return if the attendee has been removed successfully.
+     * Removes an attendee from the event
+     * @param eventID the ID of the event that is being unattended
+     * @return if the attendee has been removed successfully
      */
     public boolean unAttendEvent (String eventID) {
         Event currentEvent = retrieveEventById(eventID);
@@ -84,8 +84,8 @@ public class EventManager {
     }
 
     /**
-     * Publishes the event so it is visible by the public.
-     * @param eventID ID of the event being published.
+     * Publishes the event so it is visible by the public
+     * @param eventID ID of the event being published
      * @return returns true if the event has been successfully published
      */
     public boolean publishEvent(String eventID) {
@@ -93,6 +93,11 @@ public class EventManager {
         return retrieveEventById(eventID).isPublished();
     }
 
+    /**
+     * Unpublishes the event so it is not visible by the public
+     * @param eventID ID of the event being unpublished
+     * @return returns true if the event has been successfully unpublished
+     */
     public boolean unPublishEvent(String eventID) {
         if (retrieveEventById(eventID).getNumAttendees() == 0) {
             retrieveEventById(eventID).setPublished(false);
@@ -190,7 +195,7 @@ public class EventManager {
 
     /**
      * Returns the name of the event from the event's ID.
-     * @param eventId
+     * @param eventId The Id of the event
      * @return eventName
      */
     public String retrieveEventNameById(String eventId) {
@@ -200,6 +205,11 @@ public class EventManager {
 
     // === Helpers for Converting to Different Types ===
 
+    /**
+     * Returns the map version of event with the given event Id
+     * @param eventId The Id of the event
+     * @return Map<String, String> of event in a map
+     */
     public Map<String, String> returnEventAsMap(String eventId) {
         Map<String, String> eventMap = new LinkedHashMap<>();
         Event event = retrieveEventById(eventId);
@@ -330,6 +340,11 @@ public class EventManager {
         return false;
     }
 
+    /**
+     * Updates the username
+     * @param username the old username
+     * @param newUsername the new username
+     */
     public void updateUsername(String username, String newUsername) {
         for (Event event: eventList) {
             if (event.getEventOwner().equals(username)) {
@@ -338,6 +353,9 @@ public class EventManager {
         }
     }
 
+    /**
+     * Saves all events
+     */
     public void saveAllEvents() {
         parser.saveAllElements(eventList);
     }
