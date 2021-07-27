@@ -73,6 +73,14 @@
     "userType": "R"
   },
   {
+    "username": "Austin",
+    "password": "asdasd",
+    "userEmail": "dgfhdfg@gmail.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "R"
+  },
+  {
     "username": "Testing",
     "password": "testing",
     "userEmail": "asd@gmail.com",

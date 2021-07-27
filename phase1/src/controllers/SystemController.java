@@ -256,6 +256,7 @@ public class SystemController {
 
     private void logout() {
         saveAll();
+        userManager.logOut(currentUser);
         currentUser = null;
     }
 

@@ -93,6 +93,23 @@ public class UserManager {
     }
 
     /**
+     * Logs out a User within the system
+     * @param username The username of the user attempting to log out
+     * @return boolean Whether the logout was successful
+     */
+    public boolean logOut(String username){
+        User userToLogout = retrieveUser(username);
+        // If the user doesn't exist
+        if (userToLogout == null){
+            return false;
+        }
+        else{
+            userToLogout.setLoggedIn(false);
+            return true;
+        }
+    }
+
+    /**
      * Update a users password to the newPassword
      * @param username The username of the User whose password is to be updated
      * @param newPassword The users new password
