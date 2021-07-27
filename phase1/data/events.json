@@ -91,6 +91,49 @@
     }
   },
   {
+    "eventId": "b41811ef-bc2d-4bdf-ad4e-262e172222ad",
+    "published": false,
+    "eventOwner": "changed",
+    "eventType": "Great Concert",
+    "templateId": "id100",
+    "templateVersion": "1",
+    "numAttendees": 0,
+    "createdTime": "2021-07-27T17:49:50.022",
+    "editTime": "2021-07-27T17:49:50.022",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        true,
+        "3000"
+      ],
+      "Concert Genre": [
+        "java.lang.String",
+        false,
+        "\"connnnncert\""
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 7,\n    \"day\": 27\n  },\n  \"time\": {\n    \"hour\": 17,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Performer(s)": [
+        "java.lang.String",
+        false,
+        "\"last shadow puppets\""
+      ],
+      "Venue": [
+        "java.lang.String",
+        true,
+        "\"park\""
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"eventttttt\""
+      ]
+    }
+  },
+  {
     "eventId": "id30",
     "published": true,
     "eventOwner": "hasti2c",
@@ -225,35 +268,35 @@
     }
   },
   {
-    "eventId": "f9a3d949-9bd8-4ea9-a4d0-243a0f3f64bb",
-    "published": false,
-    "eventOwner": "TRIAL_USER",
+    "eventId": "834cb876-0d02-4678-ae2c-77fc3e51219c",
+    "published": true,
+    "eventOwner": "changed",
     "eventType": "Wedding",
     "templateId": "id200",
     "templateVersion": "1",
     "numAttendees": 0,
-    "createdTime": "2021-07-26T21:19:37.817534",
-    "editTime": "2021-07-26T21:19:37.817534",
+    "createdTime": "2021-07-27T17:43:43.116",
+    "editTime": "2021-07-27T17:43:43.116",
     "fields": {
       "Max Attendees": [
         "java.lang.Integer",
         false,
-        "null"
+        "3"
       ],
       "Time (yyyy-MM-dd HH:mm)": [
         "java.time.LocalDateTime",
         true,
-        "{\n  \"date\": {\n    \"year\": 2020,\n    \"month\": 12,\n    \"day\": 12\n  },\n  \"time\": {\n    \"hour\": 12,\n    \"minute\": 12,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+        "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 7,\n    \"day\": 27\n  },\n  \"time\": {\n    \"hour\": 17,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
       ],
       "Event Name": [
         "java.lang.String",
         true,
-        "\"Good Concert\""
+        "\"wedding\""
       ],
       "Wedding Couple": [
         "java.lang.String",
         true,
-        "null"
+        "\"people\""
       ],
       "Dress Code": [
         "java.lang.String",
@@ -268,7 +311,7 @@
       "Location": [
         "java.lang.String",
         true,
-        "null"
+        "\"place\""
       ]
     }
   }

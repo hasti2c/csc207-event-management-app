@@ -177,10 +177,11 @@ public class UserController {
         }
         else if (userManager.usernameIsUnique(newUsername) && isValidUsername(newUsername)){
             userManager.updateUsername(username, newUsername);
+            eventManager.updateUsername(username, newUsername);
             presenter.printText("Your username has been updated!");
             return newUsername;
         }
-        else{
+        else {
             presenter.printText("That username is already taken or is not valid, please try again!");
             changeUsername(username);
         }
@@ -249,12 +250,15 @@ public class UserController {
      * Delete a user from the program
      * @param username The username of the User who wishes to delete their account
      */
-    public void deleteUser(String username){
+    public boolean deleteUser(String username){
         if (verifyDeletion(username)) {
             List<String> userEvents = userManager.getCreatedEvents(username);
             for (String eventId : userEvents)
                 eventManager.deleteEvent(eventId);
             userManager.deleteUser(username);
+            return true;
+        } else {
+            return false;
         }
     }
 

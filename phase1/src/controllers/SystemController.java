@@ -88,7 +88,7 @@ public class SystemController {
                 case 3:
                     createTrialUser();
                     runTrialMenu();
-                    removeTrialUser();
+                    deleteCurrentUser();
                     break;
                 case 4:
                     program_running = false;
@@ -196,10 +196,11 @@ public class SystemController {
                     userController.changeToAdmin(currentUser);
                     break;
                 case 5:
-                    userController.deleteUser(currentUser);
-                    presenter.printText("Your account has been deleted.");
-                    saveAll();
-                    return false;
+                    boolean result = deleteCurrentUser();
+                    if (result) {
+                        presenter.printText("Your account has been deleted.");
+                    }
+                    return !result;
                 case 6:
                     return true;
                 default:
@@ -216,10 +217,11 @@ public class SystemController {
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
     }
 
-    // TODO Delete the events the trial user made
-    private void removeTrialUser() {
-        currentUser = null;
-        userManager.deleteUser(TRIAL_USERNAME);
+    private boolean deleteCurrentUser() {
+        boolean result = userController.deleteUser(currentUser);
+        if (result)
+            logout();
+        return result;
     }
 
     private int showMenu(String menuName) {

@@ -53,7 +53,6 @@ public class UserManager {
      * @param username The username of the User to delete
      */
     public void deleteUser(String username) {
-        // TODO doesn't delete the event from the system...
         User user = retrieveUser(username);
         // Remove all the User's Events
         List<String> ownedEvents = user.getOwnedEvents();
@@ -103,7 +102,7 @@ public class UserManager {
         if (userToLogout == null){
             return false;
         }
-        else{
+        else {
             userToLogout.setLoggedIn(false);
             return true;
         }
@@ -140,7 +139,7 @@ public class UserManager {
             user.setUsername(newUsername); // Set new username
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -159,7 +158,7 @@ public class UserManager {
             user.setUserEmail(newEmail);
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -175,8 +174,8 @@ public class UserManager {
         if (user.getOwnedEvents().contains(eventID)) {
             user.getOwnedEvents().remove(eventID);
             // remove this event's eventID from any user's attendingEvents list
-            for (User u : userList) {
-                unAttendEvent(username, eventID);
+            for (User attendee : userList) {
+                unAttendEvent(attendee.getUsername(), eventID);
             }
             return true;
         }

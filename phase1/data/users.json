@@ -2,7 +2,7 @@
   {
     "username": "haze",
     "password": "gray",
-    "userEmail": "grayishhaze@gmail.com",
+    "userEmail": "mynewemail@gmail.com",
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "A"
@@ -19,14 +19,6 @@
     "username": "hasti3c",
     "password": "some",
     "userEmail": "something@somemail.com",
-    "ownedEvents": [],
-    "attendingEvents": [],
-    "userType": "R"
-  },
-  {
-    "username": "aUsername",
-    "password": "aPassword",
-    "userEmail": "a@b.ca",
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "A"
@@ -65,18 +57,21 @@
     "userType": "A"
   },
   {
-    "username": "mymy",
-    "password": "hello",
-    "userEmail": "new@email.com",
+    "username": "Austin",
+    "password": "asdasd",
+    "userEmail": "dgfhdfg@gmail.com",
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "R"
   },
   {
-    "username": "Austin",
-    "password": "asdasd",
-    "userEmail": "dgfhdfg@gmail.com",
-    "ownedEvents": [],
+    "username": "changed",
+    "password": "bye",
+    "userEmail": "new@email.com",
+    "ownedEvents": [
+      "834cb876-0d02-4678-ae2c-77fc3e51219c",
+      "b41811ef-bc2d-4bdf-ad4e-262e172222ad"
+    ],
     "attendingEvents": [],
     "userType": "R"
   },

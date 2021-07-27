@@ -330,7 +330,13 @@ public class EventManager {
         return false;
     }
 
-
+    public void updateUsername(String username, String newUsername) {
+        for (Event event: eventList) {
+            if (event.getEventOwner().equals(username)) {
+                event.setEventOwner(newUsername);
+            }
+        }
+    }
 
     public void saveAllEvents() {
         parser.saveAllElements(eventList);
