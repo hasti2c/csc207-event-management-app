@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 
 import static utility.AppConstant.*;
 
+/**
+ * Manages how the User at the keyboard interacts with their account
+ */
 public class UserController {
     private final UserManager userManager;
     private final EventManager eventManager;
@@ -25,6 +28,12 @@ public class UserController {
     public static final Pattern validUsername =
             Pattern.compile("^[a-zA-Z0-9._%+-]+$", Pattern.CASE_INSENSITIVE);
 
+    /**
+     * Create a UserController object
+     * @param userManager The UserManager of which the UserController interacts with
+     * @param eventManager The EventManager of which the UserController interacts with
+     * @param templateManager The TemplateManager of which the UserController interacts with
+     */
     public UserController(UserManager userManager, EventManager eventManager, TemplateManager templateManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
@@ -33,6 +42,10 @@ public class UserController {
         this.inputParser = new InputParser();
     }
 
+    /**
+     * Signs a User up within the program.
+     * @return boolean If the signup was successful
+     */
     public boolean userSignUp(){
         // Entering email
         presenter.printText("Enter an Email " + TEXT_EXIT_OPTION + ": ");
@@ -112,6 +125,10 @@ public class UserController {
         return true;
     }
 
+    /**
+     * Log a User in within the program
+     * @return String The User's username. If the username is the empty string, the login was not successful.
+     */
     public String userLogin(){
         boolean validUsername = false;
         boolean validPassword = false;

@@ -27,6 +27,14 @@ public class User {
     // username.length() > 0
     // password.length() > 0
     // === Methods ===
+
+    /**
+     * Create a User object
+     * @param username The username of the User
+     * @param password The password of the User
+     * @param userEmail The email of the User
+     * @param type The type of the User R.A.T
+     */
     public User(String username, String password, String userEmail, UserType type) {
         this.userType = type;
         this.username = username;

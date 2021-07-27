@@ -16,6 +16,11 @@ public class UserManager {
     private List<String> emailList;
     private IGateway<User> parser;
     // === Methods ===
+
+    /**
+     * Initializes a UserManager object
+     * @param parser A parser object of type IGateway<User> used to load data
+     */
     public UserManager(IGateway<User> parser) {
         this.parser = parser;
         userList = parser.getAllElements();

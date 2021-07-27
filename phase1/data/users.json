@@ -71,5 +71,13 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "R"
+  },
+  {
+    "username": "Testing",
+    "password": "testing",
+    "userEmail": "asd@gmail.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "R"
   }
 ]
