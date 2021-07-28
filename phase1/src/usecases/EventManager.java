@@ -266,34 +266,31 @@ public class EventManager {
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
                 Pair<Class<?>, Boolean> fieldSpec = event.getFieldNameAndFieldSpecsMap().get(fieldName);
-//                for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
-                    Class<?> dataType = fieldSpec.getFirst();
-//                    if (fieldSpec.getKey().equals(fieldName)) {
-                        if (dataType.equals(String.class)) {
-                            returnFieldValue = fieldValue;
-                        }
-                        else if (dataType.equals(Integer.class)){
-                            returnFieldValue = Integer.parseInt(fieldValue);
-                        }
-                        else if (dataType.equals(Boolean.class)){
-                            if (fieldValue.equalsIgnoreCase("true") || fieldValue.equalsIgnoreCase("yes"))
-                                returnFieldValue = true;
-                            else if (fieldValue.equalsIgnoreCase("false") || fieldValue.equalsIgnoreCase("no"))
-                                returnFieldValue = false;
-                            else
-                                throw new IllegalArgumentException();
-                        }
-                        else if (dataType.equals(LocalDateTime.class)){
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
-                            returnFieldValue = LocalDateTime.parse(fieldValue, formatter);
-                        }
-//                        else if (fieldSpecEntry.getValue().get(0).equals("List<String>")){
-//
-//                        }
-                    }
+                Class<?> dataType = fieldSpec.getFirst();
+                if (dataType.equals(String.class)) {
+                    returnFieldValue = fieldValue;
                 }
-//            }
-//        }
+                else if (dataType.equals(Integer.class)){
+                    returnFieldValue = Integer.parseInt(fieldValue);
+                }
+                else if (dataType.equals(Boolean.class)){
+                    if (fieldValue.equalsIgnoreCase("true") || fieldValue.equalsIgnoreCase("yes"))
+                        returnFieldValue = true;
+                    else if (fieldValue.equalsIgnoreCase("false") || fieldValue.equalsIgnoreCase("no"))
+                        returnFieldValue = false;
+                    else
+                        throw new IllegalArgumentException();
+                }
+                else if (dataType.equals(LocalDateTime.class)){
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+                    returnFieldValue = LocalDateTime.parse(fieldValue, formatter);
+                }
+                // For phase 2
+//                else if (fieldSpecEntry.getValue().get(0).equals("List<String>")){
+//
+//                }
+            }
+        }
         return returnFieldValue;
     }
 
