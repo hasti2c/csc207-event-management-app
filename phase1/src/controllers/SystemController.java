@@ -47,7 +47,7 @@ public class SystemController {
         inputParser = new InputParser();
 
         eventController = new EventController(userManager, eventManager, templateManager);
-        userController = new UserController(userManager, eventManager, templateManager);
+        userController = new UserController(userManager, eventManager);
 
         initMenuMap();
     }

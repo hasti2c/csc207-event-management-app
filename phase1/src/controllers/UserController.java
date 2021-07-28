@@ -18,7 +18,6 @@ import static utility.AppConstant.*;
 public class UserController {
     private final UserManager userManager;
     private final EventManager eventManager;
-    private final TemplateManager templateManager;
     private final Presenter presenter;
     private final InputParser inputParser;
 
@@ -32,12 +31,10 @@ public class UserController {
      * Create a UserController object
      * @param userManager The UserManager of which the UserController interacts with
      * @param eventManager The EventManager of which the UserController interacts with
-     * @param templateManager The TemplateManager of which the UserController interacts with
      */
-    public UserController(UserManager userManager, EventManager eventManager, TemplateManager templateManager) {
+    public UserController(UserManager userManager, EventManager eventManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
-        this.templateManager = templateManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
     }
