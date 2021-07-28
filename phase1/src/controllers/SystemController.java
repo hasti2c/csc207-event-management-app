@@ -14,7 +14,9 @@ import static utility.AppConstant.*;
 
 import java.util.*;
 
-
+/**
+ * Controller in charge of delegating to user controller and event controller. Runs the full system.
+ */
 public class SystemController {
     private final UserController userController;
     private final EventController eventController;
@@ -148,7 +150,7 @@ public class SystemController {
     /**
      * Run the menu that the trial users interact with
      */
-    public void runTrialMenu(){
+    private void runTrialMenu(){
         boolean trialMenuActive = true;
         while (trialMenuActive){
             presenter.printMenu("Trial Menu", this.menuMap.get("Trial Menu"));
