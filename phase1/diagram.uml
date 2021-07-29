@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/hasti/IdeaProjects/csc207h1/group_0014/phase1/src</OriginalElement>
+  <nodes>
+    <node x="0.0" y="460.0">presenter.InputParser</node>
+    <node x="0.0" y="160.0">gateways.EventParser</node>
+    <node x="204.0" y="385.0">usecases.UserManager</node>
+    <node x="0.0" y="235.0">usecases.TemplateManager</node>
+    <node x="169.0" y="535.0">presenter.TextTable</node>
+    <node x="0.0" y="535.0">presenter.Presenter</node>
+    <node x="158.5" y="80.0">gateways.EntityParser</node>
+    <node x="348.0" y="160.0">gateways.UserParser</node>
+    <node x="0.0" y="310.0">controllers.EventController</node>
+    <node x="336.0" y="535.0">entities.Template</node>
+    <node x="211.0" y="310.0">PhaseOneMain</node>
+    <node x="402.0" y="385.0">utility.AppConstant</node>
+    <node x="0.0" y="610.0">entities.User</node>
+    <node x="0.0" y="385.0">usecases.EventManager</node>
+    <node x="419.0" y="310.0">controllers.UserController</node>
+    <node x="502.0" y="535.0">entities.Event</node>
+    <node x="168.5" y="0.0">gateways.IGateway</node>
+    <node x="232.0" y="235.0">controllers.SystemController</node>
+    <node x="160.0" y="160.0">gateways.TemplateParser</node>
+    <node x="362.0" y="460.0">utility.Pair</node>
+    <node x="183.0" y="460.0">entities.FieldSpecs</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="gateways.UserParser" target="gateways.EntityParser" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="415.5" y="135.0" />
+      <point x="244.0" y="135.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gateways.TemplateParser" target="gateways.EntityParser" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gateways.EventParser" target="gateways.EntityParser" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="70.0" y="135.0" />
+      <point x="244.0" y="135.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gateways.EntityParser" target="gateways.IGateway" relationship="REALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="666.5" y="409.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
