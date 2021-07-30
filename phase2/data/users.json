@@ -1,0 +1,86 @@
+[
+  {
+    "username": "haze",
+    "password": "gray",
+    "userEmail": "mynewemail@gmail.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "A"
+  },
+  {
+    "username": "angela",
+    "password": "password",
+    "userEmail": "angela@me.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "A"
+  },
+  {
+    "username": "hasti3c",
+    "password": "some",
+    "userEmail": "something@somemail.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "A"
+  },
+  {
+    "username": "hasti4c",
+    "password": "",
+    "userEmail": "some@some.some",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "A"
+  },
+  {
+    "username": "hasti1c",
+    "password": "thisisagoodpassword",
+    "userEmail": "hastitoossi@gmail.com",
+    "ownedEvents": [],
+    "attendingEvents": [
+      "fc6486b0-ef9d-4714-9ece-152d438c47c0"
+    ],
+    "userType": "R"
+  },
+  {
+    "username": "hasti2c",
+    "password": "yay",
+    "userEmail": "test@email.com",
+    "ownedEvents": [
+      "id30",
+      "d9d9427d-9e66-4a53-8eee-a4f2219b54b9",
+      "fc6486b0-ef9d-4714-9ece-152d438c47c0",
+      "42fcf247-b842-4e5d-8582-dac28c066680"
+    ],
+    "attendingEvents": [
+      "fc6486b0-ef9d-4714-9ece-152d438c47c0"
+    ],
+    "userType": "A"
+  },
+  {
+    "username": "Austin",
+    "password": "asdasd",
+    "userEmail": "dgfhdfg@gmail.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "R"
+  },
+  {
+    "username": "changed",
+    "password": "bye",
+    "userEmail": "new@email.com",
+    "ownedEvents": [
+      "834cb876-0d02-4678-ae2c-77fc3e51219c",
+      "b41811ef-bc2d-4bdf-ad4e-262e172222ad"
+    ],
+    "attendingEvents": [],
+    "userType": "R"
+  },
+  {
+    "username": "Testing",
+    "password": "testing",
+    "userEmail": "asd@gmail.com",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "R"
+  }
+]
