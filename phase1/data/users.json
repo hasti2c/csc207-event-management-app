@@ -1,5 +1,13 @@
 [
   {
+    "username": "idk",
+    "password": "idkidk",
+    "userEmail": "idk@idk.idk",
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "R"
+  },
+  {
     "username": "haze",
     "password": "gray",
     "userEmail": "mynewemail@gmail.com",

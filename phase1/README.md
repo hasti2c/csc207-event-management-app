@@ -4,7 +4,7 @@
 
 Pull from [https://markus.teach.cs.toronto.edu/git/csc207-2021-05/group_0014](https://markus.teach.cs.toronto.edu/csc207-2021-05/assignments/1#) and open the project in Intellij. To run program first install the GSON library: in Intellij go to Project structure and install GSON library from Maven (com.google.code.gson:gson:2.8.5). 
 
-To run the program, go to PhaseOneMain.java and run. 
+To run the program, go to PhaseTwoMain.java and run. 
 
 UML diagram is included as a PNG and as a UML file.
 

@@ -11,7 +11,9 @@ import presenter.InputParser;
 import presenter.Presenter;
 import usecases.*;
 import static utility.AppConstant.*;
+import static controllers.Command.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -23,21 +25,18 @@ public class SystemController {
     private final Presenter presenter;
     private final InputParser inputParser;
 
-    private final IGateway<User> userParser;
-    private final IGateway<Event> eventParser;
-    private final IGateway<Template> templateParser;
-
     private final UserManager userManager;
     private final EventManager eventManager;
     private final TemplateManager templateManager;
 
-    private final Map<String, List<String>> menuMap = new HashMap<>();
+    private final Map<String, List<Command>> menuMap = new HashMap<>();
     private String currentUser;
 
+    // == initializing ==
     public SystemController() {
-        userParser = new UserParser("phase1/data/users.json");
-        eventParser = new EventParser("phase1/data/events.json");
-        templateParser = new TemplateParser("phase1/data/templates.json");
+        IGateway<User> userParser = new UserParser("phase2/data/users.json");
+        IGateway<Event> eventParser = new EventParser("phase2/data/events.json");
+        IGateway<Template> templateParser = new TemplateParser("phase2/data/templates.json");
 
         userManager = new UserManager(userParser);
         templateManager = new TemplateManager(templateParser);
@@ -53,124 +52,35 @@ public class SystemController {
     }
 
     private void initMenuMap() {
-        List<String> startupMenu = Arrays.asList("Sign Up", "Login", "Trial", "Exit");
-        List<String> mainMenu = Arrays.asList("Create Event", "View Attended Events", "View Not Attended Events",
-                "View My Events", "Edit Template", "Account Menu", "Save", "Logout");
-        List<String> trialMenu = Arrays.asList("Create Event", "View Published Events", "Go Back");
-        List<String> accountMenu = Arrays.asList("Change Username", "Change Password", "Change Email",
-                "Change User Type to Admin", "Delete My Account", "Go Back");
-        menuMap.put("Startup Menu", startupMenu);
-        menuMap.put("Main Menu", mainMenu);
-        menuMap.put("Account Menu", accountMenu);
-        menuMap.put("Trial Menu", trialMenu);
+        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
+        menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
+                ACCOUNT_MENU, SAVE, LOG_OUT));
+        menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
+        menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
+                DELETE_ACCOUNT, GO_BACK));
+
     }
 
+    // == menus ==
     /**
      * Run the program, this runs the "StartUp Menu"
      */
     public void run(){
-        boolean program_running = true;
         presenter.printText(WELCOME_TEXT);
-        while (program_running) {
-            presenter.printMenu("Startup Menu", this.menuMap.get("Startup Menu"));
-            int user_input = inputParser.readInt();
-            switch (user_input) {
-                case 1:
-                    if (userController.userSignUp()){
-                        saveAll();
-                    }
-                    break;
-                case 2:
-                    String attemptedLoginUsername = userController.userLogin();
-                    if (attemptedLoginUsername != null){
-                        this.currentUser = attemptedLoginUsername;
-                        runMainMenu();
-                    }
-                    break;
-                case 3:
-                    createTrialUser();
-                    runTrialMenu();
-                    deleteCurrentUser();
-                    break;
-                case 4:
-                    program_running = false;
-                    saveAll();
-                    presenter.printText("Exiting...");
-                    break;
-                default:
-                    presenter.printText("You did not enter a valid option, try again");
-            }
-        }
+        runMenu("Start Up Menu");
     }
 
     private void runMainMenu() {
-        boolean runningMainMenu = true;
-        while (runningMainMenu) {
-            presenter.printMenu("Main Menu", menuMap.get("Main Menu"));
-            int userInput = inputParser.readInt();
-            switch (userInput) {
-                case 1:
-                    eventController.createNewEvent(retrieveTemplateName(), currentUser);
-                    break;
-                case 2:
-                    List<String> eventIDList1 = userManager.getAttendingEvents(currentUser);
-                    eventController.browseEvents(currentUser, eventIDList1, true);
-                    break;
-                case 3:
-                    List<String> publishedEvents = eventManager.returnPublishedEvents();
-                    publishedEvents.removeAll(userManager.getAttendingEvents(currentUser));
-                    eventController.browseEvents(currentUser, publishedEvents, false);
-                    break;
-                case 4:
-                    eventController.viewAndEditMyEvents(currentUser);
-                    break;
-                case 5:
-                    if (userManager.retrieveUserType(currentUser) == User.UserType.A){
-                        editTemplateName(retrieveTemplateName());
-                    }
-                    else {
-                        presenter.printText("Sorry you do not have permission to edit the templates.");
-                    }
-                    break;
-                case 6:
-                    runningMainMenu = runAccountMenu();
-                    break;
-                case 7:
-                    saveAll();
-                    break;
-                case 8:
-                    logout();
-                    return;
-                default:
-                    presenter.printText("You did not enter a valid option, try again");
-            }
-        }
+        runMenu("Main Menu");
     }
 
     /**
      * Run the menu that the trial users interact with
      */
     private void runTrialMenu(){
-        boolean trialMenuActive = true;
-        while (trialMenuActive){
-            presenter.printMenu("Trial Menu", this.menuMap.get("Trial Menu"));
-            int userInput = inputParser.readInt();
-            switch (userInput) {
-                case 1:
-                    eventController.createNewEvent(retrieveTemplateName(), currentUser);
-                    break;
-                case 2:
-                    // Since this is a trial user, the unattended events is all of the events.
-                    List<String> eventIDList = eventManager.returnPublishedEvents();
-                    eventController.browseEvents(currentUser, eventIDList, false);
-                    break;
-                case 3:
-                    trialMenuActive = false;
-                    break;
-                default:
-                    presenter.printText("You did not enter a valid option, try again");
-            }
-        }
+        createTrialUser();
+        runMenu("Trial Menu");
+        deleteCurrentUser();
     }
 
     /**
@@ -178,42 +88,57 @@ public class SystemController {
      * @return false if the user has been deleted, true if not
      */
     private boolean runAccountMenu(){
-        while (true) {
-            presenter.printMenu("Account Menu", this.menuMap.get("Account Menu"));
-            int user_input = inputParser.readInt();
-            switch (user_input) {
-                case 1:
-                    String newUsername = userController.changeUsername(currentUser);
-                    if (newUsername != null) {
-                        currentUser = newUsername;
-                    }
-                    break;
-                case 2:
-                    userController.changePassword(currentUser);
-                    break;
-                case 3:
-                    userController.changeEmail(currentUser);
-                    break;
-                case 4:
-                    userController.changeToAdmin(currentUser);
-                    break;
-                case 5:
-                    boolean result = deleteCurrentUser();
-                    if (result) {
-                        presenter.printText("Your account has been deleted.");
-                    }
-                    return !result;
-                case 6:
-                    return true;
-                default:
-                    presenter.printText("You did not enter a valid option, try again");
-            }
+        runMenu("Account Menu");
+        return currentUser != null;
+    }
+
+    // == menu helpers ==
+    private void runMenu(String menuName) {
+        boolean isRunning = true;
+        while (isRunning) {
+            Command userInput = getUserCommand(menuName);
+            if (userInput != null)
+                isRunning = runUserCommand(userInput);
         }
     }
 
-    /**
-     * Create a trial User in the program
-     */
+    private Command getUserCommand(String menuName) {
+        List<Command> commands = menuMap.get(menuName);
+        List<String> commandNames = new ArrayList<>();
+        for (Command command: commands) {
+            commandNames.add(command.getName());
+        }
+        presenter.printMenu(menuName, commandNames);
+        int user_input = inputParser.readInt();
+        try {
+            return commands.get(user_input - 1);
+        } catch (IndexOutOfBoundsException e) {
+            invalidInput();
+            return null;
+        }
+    }
+
+    private boolean runUserCommand(Command command) {
+        try {
+            return (boolean) command.getMethod().invoke(this);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
+
+    private void invalidInput() {
+        presenter.printText("You did not enter a valid option, try again");
+    }
+
+    // == commands ==
+    private boolean signUp() {
+        if (userController.userSignUp()){
+            saveAll();
+        }
+        return true;
+    }
+
     private void createTrialUser(){
         currentUser = TRIAL_USERNAME;
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
@@ -222,14 +147,115 @@ public class SystemController {
     private boolean deleteCurrentUser() {
         boolean result = userController.deleteUser(currentUser);
         if (result)
-            logout();
+            logOut();
         return result;
     }
 
-    private int showMenu(String menuName) {
-        presenter.printMenu(menuName, menuMap.get(menuName));
-        return inputParser.readInt();
+    private boolean login() {
+        String attemptedLoginUsername = userController.userLogin();
+        if (attemptedLoginUsername != null){
+            this.currentUser = attemptedLoginUsername;
+            runMainMenu();
+        }
+        return true;
     }
+
+    private boolean exit() {
+        saveAll();
+        presenter.printText("Exiting...");
+        return false;
+    }
+
+    private boolean createEvent() {
+        eventController.createNewEvent(retrieveTemplateName(), currentUser);
+        return true;
+    }
+
+    private boolean viewAttended() {
+        List<String> eventIDList1 = userManager.getAttendingEvents(currentUser);
+        eventController.browseEvents(currentUser, eventIDList1, true);
+        return true;
+    }
+
+    private boolean viewUnattended() {
+        List<String> publishedEvents = eventManager.returnPublishedEvents();
+        publishedEvents.removeAll(userManager.getAttendingEvents(currentUser));
+        eventController.browseEvents(currentUser, publishedEvents, false);
+        return true;
+    }
+
+    private boolean viewOwned() {
+        eventController.viewAndEditMyEvents(currentUser);
+        return true;
+    }
+
+    private boolean viewPublished() {
+        List<String> publishedEvents = eventManager.returnPublishedEvents();
+        eventController.browseEvents(currentUser, publishedEvents, false);
+        return true;
+    }
+
+    private boolean editTemplate() {
+        if (userManager.retrieveUserType(currentUser) == User.UserType.A){
+            editTemplateName(retrieveTemplateName());
+        }
+        else {
+            presenter.printText("Sorry you do not have permission to edit the templates.");
+        }
+        return true;
+    }
+
+    private boolean saveAll() {
+        userManager.saveAllUsers();
+        eventManager.saveAllEvents();
+        templateManager.saveAllTemplates();
+        presenter.printText("Everything has been successfully saved.");
+        return true;
+    }
+
+    private boolean logOut() {
+        saveAll();
+        userManager.logOut(currentUser);
+        currentUser = null;
+        return false;
+    }
+
+    private boolean changeUsername() {
+        String newUsername = userController.changeUsername(currentUser);
+        if (newUsername != null) {
+            currentUser = newUsername;
+        }
+        return true;
+    }
+
+    private boolean changePassword() {
+        userController.changePassword(currentUser);
+        return true;
+    }
+
+    private boolean changeEmail() {
+        userController.changeEmail(currentUser);
+        return true;
+    }
+
+    private boolean changeToAdmin() {
+        userController.changeToAdmin(currentUser);
+        return true;
+    }
+
+    private boolean deleteAccount() {
+        boolean result = deleteCurrentUser();
+        if (result) {
+            presenter.printText("Your account has been deleted.");
+        }
+        return !result;
+    }
+
+    private boolean goBack() {
+        return false;
+    }
+
+    // == templates == TODO clean up
 
     // TODO change templateVersionNumber
     private void editTemplateName(String templateName) {
@@ -251,20 +277,6 @@ public class SystemController {
         }
     }
 
-    private void saveAll() {
-        userManager.saveAllUsers();
-        eventManager.saveAllEvents();
-        templateManager.saveAllTemplates();
-        presenter.printText("Everything has been successfully saved.");
-    }
-
-    private void logout() {
-        saveAll();
-        userManager.logOut(currentUser);
-        currentUser = null;
-    }
-
-    // === Helpers ===
     private String retrieveTemplateName() {
         int templateChoice = eventController.chooseTemplate(currentUser);
         List<String> templateNames = templateManager.returnTemplateNames();
@@ -284,6 +296,5 @@ public class SystemController {
         }
         return chosenIndex > list.size();
     }
-
 }
 
