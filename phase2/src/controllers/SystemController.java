@@ -139,6 +139,15 @@ public class SystemController {
         return true;
     }
 
+    private boolean login() {
+        String attemptedLoginUsername = userController.userLogin();
+        if (attemptedLoginUsername != null){
+            this.currentUser = attemptedLoginUsername;
+            runMainMenu();
+        }
+        return true;
+    }
+
     private void createTrialUser(){
         currentUser = TRIAL_USERNAME;
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
@@ -149,15 +158,6 @@ public class SystemController {
         if (result)
             logOut();
         return result;
-    }
-
-    private boolean login() {
-        String attemptedLoginUsername = userController.userLogin();
-        if (attemptedLoginUsername != null){
-            this.currentUser = attemptedLoginUsername;
-            runMainMenu();
-        }
-        return true;
     }
 
     private boolean exit() {
