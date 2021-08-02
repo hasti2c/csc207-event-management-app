@@ -12,9 +12,7 @@ import presenter.Presenter;
 import usecases.*;
 import static utility.AppConstant.*;
 import static controllers.Command.*;
-import static controllers.EventController.ViewType.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -78,29 +76,37 @@ public class SystemController {
     /**
      * Run the menu that the trial users interact with
      */
-    private boolean runTrialMenu(){
+    private void runTrialMenu(){
         createTrialUser();
         runMenu("Trial Menu");
-        deleteCurrentUser();
-        return true;
+        try {
+            deleteAccount();
+        } catch (ExitException ignored) {}
     }
 
     /**
      * Run the menu that allows the User to interact with their account
      * @return false if the user has been deleted, true if not
      */
-    private boolean runAccountMenu(){
+    private void runAccountMenu() throws ExitException {
         runMenu("Account Menu");
-        return currentUser != null;
+        if (currentUser == null)
+            throw new ExitException();
     }
 
     // == menu helpers ==
     private void runMenu(String menuName) {
-        boolean isRunning = true;
-        while (isRunning) {
+        while (true) {
             Command userInput = getUserCommand(menuName);
-            if (userInput != null)
-                isRunning = runUserCommand(userInput);
+            if (userInput == null) {
+                continue;
+            }
+
+            try {
+            runUserCommand(userInput);
+            } catch (ExitException e) {
+                return;
+            }
         }
     }
 
@@ -120,34 +126,121 @@ public class SystemController {
         }
     }
 
-    private boolean runUserCommand(Command command) {
-        try {
-            return (boolean) command.getMethod().invoke(this);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return true;
-        }
-    }
-
     private void invalidInput() {
         presenter.printText("You did not enter a valid option, try again");
     }
 
+    private void runUserCommand(Command command) throws ExitException {
+        switch (command) {
+            case SIGN_UP:
+                signUp();
+                break;
+            case LOGIN:
+                login();
+                break;
+            case TRIAL:
+                runTrialMenu();
+                break;
+            case EXIT:
+                exit();
+                break;
+            case CREATE_EVENT:
+                eventController.createNewEvent(retrieveTemplateName(), currentUser);
+                break;
+            case VIEW_ATTENDED:
+            case VIEW_UNATTENDED:
+            case VIEW_OWNED:
+            case VIEW_PUBLISHED:
+                eventController.browseEvents(currentUser, command.getViewType());
+                break;
+            case EDIT_TEMPLATE:
+                editTemplate();
+                break;
+            case ACCOUNT_MENU:
+                runAccountMenu();
+                break;
+            case SAVE:
+                saveAll();
+                break;
+            case LOG_OUT:
+                logOut();
+                break;
+            case CHANGE_USERNAME:
+                changeUsername();
+                break;
+            case CHANGE_PASSWORD:
+                userController.changePassword(currentUser);
+                break;
+            case CHANGE_EMAIL:
+                userController.changeEmail(currentUser);
+                break;
+            case CHANGE_TO_ADMIN:
+                userController.changeToAdmin(currentUser);
+                break;
+            case DELETE_ACCOUNT:
+                deleteAccount();
+                break;
+            case GO_BACK:
+                throw new ExitException();
+        }
+    }
+
     // == commands ==
-    private boolean signUp() {
+    private void signUp() {
         if (userController.userSignUp()){
             saveAll();
         }
-        return true;
     }
 
-    private boolean login() {
+    private void login() {
         String attemptedLoginUsername = userController.userLogin();
         if (attemptedLoginUsername != null){
             this.currentUser = attemptedLoginUsername;
             runMainMenu();
         }
-        return true;
+    }
+
+    private void exit() throws ExitException {
+        saveAll();
+        presenter.printText("Exiting...");
+        throw new ExitException();
+    }
+
+    private void editTemplate() {
+        if (userManager.retrieveUserType(currentUser) == User.UserType.A){
+            editTemplateName(retrieveTemplateName());
+        } else {
+            presenter.printText("Sorry you do not have permission to edit the templates.");
+        }
+    }
+
+    private void saveAll() {
+        userManager.saveAllUsers();
+        eventManager.saveAllEvents();
+        templateManager.saveAllTemplates();
+        presenter.printText("Everything has been successfully saved.");
+    }
+
+    private void logOut() throws ExitException {
+        saveAll();
+        userManager.logOut(currentUser);
+        currentUser = null;
+        throw new ExitException();
+    }
+
+    private void changeUsername() {
+        String newUsername = userController.changeUsername(currentUser);
+        if (newUsername != null) {
+            currentUser = newUsername;
+        }
+    }
+
+    private void deleteAccount() throws ExitException {
+        boolean result = userController.deleteUser(currentUser);
+        if (result) {
+            logOut();
+            presenter.printText("Your account has been deleted.");
+        }
     }
 
     private void createTrialUser(){
@@ -155,105 +248,7 @@ public class SystemController {
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
     }
 
-    private boolean deleteCurrentUser() {
-        boolean result = userController.deleteUser(currentUser);
-        if (result)
-            logOut();
-        return result;
-    }
-
-    private boolean exit() {
-        saveAll();
-        presenter.printText("Exiting...");
-        return false;
-    }
-
-    private boolean createEvent() {
-        eventController.createNewEvent(retrieveTemplateName(), currentUser);
-        return true;
-    }
-
-    private boolean viewAttended() {
-        eventController.browseEvents(currentUser, ATTENDING);
-        return true;
-    }
-
-    private boolean viewUnattended() {
-        eventController.browseEvents(currentUser, NOT_ATTENDING);
-        return true;
-    }
-
-    private boolean viewOwned() {
-        eventController.browseEvents(currentUser, OWNED);
-        return true;
-    }
-
-    private boolean viewPublished() {
-        eventController.browseEvents(currentUser, PUBLISHED);
-        return true;
-    }
-
-    private boolean editTemplate() {
-        if (userManager.retrieveUserType(currentUser) == User.UserType.A){
-            editTemplateName(retrieveTemplateName());
-        }
-        else {
-            presenter.printText("Sorry you do not have permission to edit the templates.");
-        }
-        return true;
-    }
-
-    private boolean saveAll() {
-        userManager.saveAllUsers();
-        eventManager.saveAllEvents();
-        templateManager.saveAllTemplates();
-        presenter.printText("Everything has been successfully saved.");
-        return true;
-    }
-
-    private boolean logOut() {
-        saveAll();
-        userManager.logOut(currentUser);
-        currentUser = null;
-        return false;
-    }
-
-    private boolean changeUsername() {
-        String newUsername = userController.changeUsername(currentUser);
-        if (newUsername != null) {
-            currentUser = newUsername;
-        }
-        return true;
-    }
-
-    private boolean changePassword() {
-        userController.changePassword(currentUser);
-        return true;
-    }
-
-    private boolean changeEmail() {
-        userController.changeEmail(currentUser);
-        return true;
-    }
-
-    private boolean changeToAdmin() {
-        userController.changeToAdmin(currentUser);
-        return true;
-    }
-
-    private boolean deleteAccount() {
-        boolean result = deleteCurrentUser();
-        if (result) {
-            presenter.printText("Your account has been deleted.");
-        }
-        return !result;
-    }
-
-    private boolean goBack() {
-        return false;
-    }
-
-    // == templates == TODO clean up
+    // == templates == TODO refactor from here
 
     // TODO change templateVersionNumber
     private void editTemplateName(String templateName) {
