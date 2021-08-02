@@ -12,6 +12,7 @@ import presenter.Presenter;
 import usecases.*;
 import static utility.AppConstant.*;
 import static controllers.Command.*;
+import static controllers.EventController.ViewType.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -173,26 +174,22 @@ public class SystemController {
     }
 
     private boolean viewAttended() {
-        List<String> eventIDList1 = userManager.getAttendingEvents(currentUser);
-        eventController.browseEvents(currentUser, eventIDList1, true);
+        eventController.browseEvents(currentUser, ATTENDING);
         return true;
     }
 
     private boolean viewUnattended() {
-        List<String> publishedEvents = eventManager.returnPublishedEvents();
-        publishedEvents.removeAll(userManager.getAttendingEvents(currentUser));
-        eventController.browseEvents(currentUser, publishedEvents, false);
+        eventController.browseEvents(currentUser, NOT_ATTENDING);
         return true;
     }
 
     private boolean viewOwned() {
-        eventController.manageEvents(currentUser);
+        eventController.browseEvents(currentUser, OWNED);
         return true;
     }
 
     private boolean viewPublished() {
-        List<String> publishedEvents = eventManager.returnPublishedEvents();
-        eventController.browseEvents(currentUser, publishedEvents, false);
+        eventController.browseEvents(currentUser, PUBLISHED);
         return true;
     }
 

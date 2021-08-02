@@ -22,6 +22,12 @@ public class EventController {
     private final TemplateManager templateManager;
     private final Presenter presenter;
     private final InputParser inputParser;
+    public enum ViewType {
+        OWNED,
+        ATTENDING,
+        NOT_ATTENDING,
+        PUBLISHED
+    }
 
     public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager) {
         this.userManager = userManager;
@@ -29,6 +35,110 @@ public class EventController {
         this.templateManager = templateManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
+    }
+
+    // == Viewing ==
+    /**
+     * Displays a list of events that the user can look through, see details for and register/unregister for.
+     * @param username the username of the user
+     * @param viewType the type of menu that should be shown
+     */
+    public void browseEvents(String username, ViewType viewType) {
+        while (true) {
+            List<String> eventIDList = getEventIdList(viewType, username);
+            List<String> eventNameList = eventManager.returnEventNamesListFromIdList(eventIDList);
+
+            int eventIndex = getEventChoice(eventNameList);
+            if (eventIndex == eventNameList.size()) {
+                break;
+            }
+            String eventID = eventIDList.get(eventIndex);
+            viewEvent(viewType, username, eventID);
+        }
+    }
+
+    // TODO add to command enum
+    private void viewEvent(ViewType viewType, String username, String eventID) {
+        List<String> menu = getEventMenu(viewType);
+        if (viewType == ViewType.OWNED)
+            viewEventMetaDetails(eventID);
+        viewEventDetails(eventID);
+        boolean isRunning = true;
+        while (isRunning) {
+            presenter.printMenu("Viewing Selected Event", menu);
+            int userInput = getChoice(1, menu.size());
+            switch (menu.get(userInput - 1)) {
+                case "Attend Event":
+                    isRunning = !attendEvent(username, eventID);
+                    break;
+                case "Un-Attend Event":
+                    isRunning = !unattendEvent(username, eventID);
+                    break;
+                case "Delete Event":
+                    deleteEvent(username, eventID);
+                    return;
+                case "Edit Event":
+                    editEvent(username, eventID);
+                    break;
+                case "Change Published Status":
+                    changePublishStatus(eventID);
+                    break;
+                case "Go Back":
+                    return;
+            }
+        }
+    }
+
+    // == ViewType ==
+    private List<String> getEventIdList(ViewType viewType, String username) {
+        switch (viewType) {
+            case OWNED:
+                return userManager.getCreatedEvents(username);
+            case ATTENDING:
+                return userManager.getAttendingEvents(username);
+            case NOT_ATTENDING:
+                List<String> published = eventManager.returnPublishedEvents();
+                published.removeAll(userManager.getAttendingEvents(username));
+                return published;
+            case PUBLISHED:
+                return eventManager.returnPublishedEvents();
+            default:
+                return new ArrayList<>();
+        }
+    }
+
+    private List<String> getEventMenu(ViewType viewType) {
+        switch (viewType) {
+            case OWNED:
+                return Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
+            case ATTENDING:
+                return Arrays.asList("Un-Attend Event", "Go Back");
+            case NOT_ATTENDING:
+                return Arrays.asList("Attend Event", "Go Back");
+            case PUBLISHED:
+                return Collections.singletonList("Go Back");
+            default:
+                return new ArrayList<>();
+        }
+    }
+
+    // === Viewing Single Event ===
+    /**
+     * Prints details of a single event.
+     *
+     * @param eventID - ID of the event
+     */
+    private void viewEventDetails(String eventID) {
+        this.presenter.printEntity(eventManager.returnEventDetails(eventID));
+    }
+
+    /**
+     * Prints the "meta data" of a single event.
+     *
+     * @param eventID ID of the event
+     */
+    private void viewEventMetaDetails(String eventID) {
+        this.presenter.printEntity(eventManager.returnEventAsMap(eventID));
     }
 
     // == Creating & Deleting ==
@@ -101,7 +211,7 @@ public class EventController {
 
     // == Editing ===
     // TODO need to implement edit for phase 2
-    public void editEvent (String eventID, String username) {
+    public void editEvent (String username, String eventID) {
         presenter.printText("You cannot edit your event at this time.");
     }
 
@@ -133,8 +243,12 @@ public class EventController {
      */
     private boolean attendEvent(String username, String eventID) {
         boolean result = eventManager.attendEvent(eventID);
-        if (result)
+        if (result) {
             userManager.attendEvent(username, eventID);
+            presenter.printText("You have successfully registered for the event.");
+        } else {
+            presenter.printText("Sorry this event is full.");
+        }
         return result;
     }
 
@@ -145,143 +259,30 @@ public class EventController {
      * @param eventID unique identifier for event
      * @return true if the user has successfully unregistered for the event
      */
-    private boolean leaveEvent(String username, String eventID) {
+    private boolean unattendEvent(String username, String eventID) {
         boolean result = userManager.unAttendEvent(username, eventID);
-        if (result)
+        if (result) {
             eventManager.unAttendEvent(eventID);
+            presenter.printText("You have successfully unregistered for the event.");
+        } else {
+            presenter.printText("You could not leave this event.");
+        }
         return result;
     }
 
     // TODO refactor from here
-    // === Viewing List of Event Names ===
-    /**
-     * Entire menu for managing a users events.
-     * @param username used to id user
-     */
-    public void manageEvents(String username) {
-        List<String> myEvents = userManager.getCreatedEvents(username);
-        // TODO add to command enum
-        List<String> myEventsMenu = Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
-        boolean exitMenu = false;
-        while (!exitMenu) {
-            int eventChoice = generateEventList(eventManager.returnEventNamesListFromIdList(userManager.getCreatedEvents(username)));
-            if (eventChoice == myEvents.size()) {
-                exitMenu = true;
-            } else {
-                String eventID = myEvents.get(eventChoice);
-                viewEventDetails(eventID);
-                viewEventMetaDetails(eventID);
-                boolean stopLoop = false;
-                while (!stopLoop) {
-                    presenter.printMenu("Viewing Event Details", myEventsMenu);
-                    int userInput = getChoice(1, myEventsMenu.size());
-
-                    switch (myEventsMenu.get(userInput - 1)) {
-                        case "Delete Event":
-                            deleteEvent(username, eventID);
-                            stopLoop = true;
-                            break;
-                        case "Edit Event":
-                            editEvent(eventID, username);
-                            break;
-                        case "Change Published Status":
-                            changePublishStatus(eventID);
-                            break;
-                        case "Go Back":
-                            stopLoop = true;
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
+    // TODO presenter?
     /**
      * Prints a list of all public events created by all users.
      */
-    private int generateEventList(List<String> eventNameList) {
+    private int getEventChoice(List<String> eventNameList) {
         List<String> temp = new ArrayList<>(eventNameList);
         temp.add(MENU_EXIT_OPTION);
         presenter.printMenu("Event List", temp);
         return getChoice(1, temp.size()) - 1;
     }
 
-    /**
-     * Displays a list of events that the user can look through, see details for and register/unregister for.
-     * @param username the username of the user
-     * @param eventIDList a list of event IDs that either the user has registered for or has not registered for
-     * @param isAttending if true, it means the eventIDList contains a list of events the user has registered for. If false, the user is not registered for the events in the list.
-     */
-    public void browseEvents(String username, List<String> eventIDList, boolean isAttending) {
-        // Creates a new menu map to print based on input of the method
-        Map<String, List<String>> menuMap = new HashMap<>();
-        menuMap.put("IsAttending", new ArrayList<>(Arrays.asList("Un-Attend Event", "Go Back")));
-        menuMap.put("IsNotAttending", new ArrayList<>(Arrays.asList("Attend Event", "Go Back")));
-        menuMap.put("Trial", new ArrayList<>(Collections.singletonList("Go Back")));
-
-        while (true) {
-            // Changes the list of event IDs into a list of event names
-            List<String> eventNameList = eventManager.returnEventNamesListFromIdList(eventIDList);
-            // Displays all of the events in the list as well as an option to go back to the previous menu. The returned
-            // int is the value that the user selected from the list of options.
-            int eventIndex = generateEventList(eventNameList);
-            // Comes here if the user chooses "go back"
-            if (eventIndex == eventNameList.size()) {
-                break;
-            }
-            String eventID = eventIDList.get(eventIndex);
-            // Internal variable to determine which menu to display in from the menu map.
-            String menuMapChoice;
-            // If the user doesn't choose to go back and instead chooses an event to view one of the following three things happens
-            if (userManager.retrieveUserType(username) == User.UserType.T && !isAttending) {
-                menuMapChoice = "Trial";
-            }
-            else if (isAttending) {
-                menuMapChoice = "IsAttending";
-            }
-            else {
-                menuMapChoice = "IsNotAttending";
-            }
-
-            // Then they get shown the correct menu along with the details of the event they chose.
-            viewEventDetails(eventID);
-            presenter.printMenu("Viewing Selected Event", menuMap.get(menuMapChoice));
-            int menuChoice = getChoice(1, menuMap.get(menuMapChoice).size());
-            boolean exitMenu = false;
-            while (!exitMenu) {
-                // If the user isn't attending the event, and they choose to attend the event
-                if (menuMap.get(menuMapChoice).get(menuChoice - 1).equals("Attend Event")) {
-                    // check to make sure there's still room in the event
-                    if(attendEvent(username, eventID)){
-                        presenter.printText("You have successfully registered for the event.");
-                        eventIDList.remove(eventID);
-                    }
-                    else{
-                        presenter.printText("Sorry this event is full.");
-                    }
-                    exitMenu = true;
-                // If the user is attending the event and they choose to leave the event
-                } else if (menuMap.get(menuMapChoice).get(menuChoice - 1).equals("Un-Attend Event")) {
-                    if(leaveEvent(username, eventID)){
-                        presenter.printText("You have successfully unregistered for the event.");
-                        eventIDList.remove(eventID);
-                    }
-                    else{
-                        presenter.printText("You could not leave this event. Choose 2) to go back to the list of events.");
-                    }
-                    exitMenu = true;
-                // If the user chooses to go back
-                } else if (menuMap.get(menuMapChoice).get(menuChoice - 1).equals("Go Back")) {
-                    exitMenu = true;
-                // If the entry is invalid
-                }
-            }
-        }
-    }
-
-    // === Manipulating Events ===
-
-    // TODO put in presenter
+    // TODO presenter?
     /**
      * Forces user to type either "Y" or "N"
      *
@@ -294,26 +295,6 @@ public class EventController {
             userInput = inputParser.readLine();
         }
         return userInput.equalsIgnoreCase("Y");
-    }
-
-
-    // === Viewing Single Event ===
-    /**
-     * Prints details of a single event.
-     *
-     * @param eventID - ID of the event
-     */
-    private void viewEventDetails(String eventID) {
-        this.presenter.printEntity(eventManager.returnEventDetails(eventID));
-    }
-
-    /**
-     * Prints the "meta data" of a single event.
-     *
-     * @param eventID ID of the event
-     */
-    private void viewEventMetaDetails(String eventID) {
-        this.presenter.printEntity(eventManager.returnEventAsMap(eventID));
     }
 
     // === Helpers ===
