@@ -185,7 +185,7 @@ public class SystemController {
     }
 
     private boolean viewOwned() {
-        eventController.viewAndEditMyEvents(currentUser);
+        eventController.manageEvents(currentUser);
         return true;
     }
 

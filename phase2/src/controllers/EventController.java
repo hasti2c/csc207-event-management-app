@@ -132,7 +132,7 @@ public class EventController {
      * @return true if the user has successfully registered for the event
      */
     private boolean attendEvent(String username, String eventID) {
-        boolean result = eventManager.attendEvent(eventID));
+        boolean result = eventManager.attendEvent(eventID);
         if (result)
             userManager.attendEvent(username, eventID);
         return result;
