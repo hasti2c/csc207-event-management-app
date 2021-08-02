@@ -44,25 +44,18 @@ public class UserController {
      * @return boolean If the signup was successful
      */
     public boolean userSignUp(){
-        String email = readEmail();
-        if (email == null)
+        try {
+            String email = readEmail();
+            UserType userType = readUserType();
+            String username = readNewUsername();
+            String password = readNewPassword();
+            userManager.createUser(username, password, email, userType);
+            presenter.printText("Account has been created Successfully. You may now login.");
+            return true;
+        } catch (ExitException e) {
+            presenter.printText(EXITING_TEXT);
             return false;
-
-        UserType userType = readUserType();
-        if (userType == null)
-            return false;
-
-        String username = readNewUsername();
-        if (username == null)
-            return false;
-
-        String password = readNewPassword();
-        if (password == null)
-            return false;
-
-        userManager.createUser(username, password, email, userType);
-        presenter.printText("Account has been created Successfully. You may now login.");
-        return true;
+        }
     }
 
     /**
@@ -70,14 +63,14 @@ public class UserController {
      * @return String The User's username. If the username is null, the login was not successful.
      */
     public String userLogin(){
-        String username = readExistingUsername();
-        if (username == null)
-            return null;
-
-        if (validatePassword(username))
+        try {
+            String username = readExistingUsername();
+            validatePassword(username);
             return username;
-        else
+        } catch (ExitException e) {
+            presenter.printText(EXITING_TEXT);
             return null;
+        }
     }
 
     /**
@@ -85,12 +78,14 @@ public class UserController {
      * @param username The username of the User who is attempting to update their username
      */
     public String changeUsername(String username){
-        String newUsername = getChangedUsername();
-        if (newUsername == null)
+        try {
+            String newUsername = getChangedUsername();
+            userManager.updateUsername(username, newUsername);
+            eventManager.updateUsername(username, newUsername);
+            return newUsername;
+        } catch (ExitException e) {
             return null;
-        userManager.updateUsername(username, newUsername);
-        eventManager.updateUsername(username, newUsername);
-        return newUsername;
+        }
     }
 
     /**
@@ -98,10 +93,10 @@ public class UserController {
      * @param username The username of the User who is attempting to update their password
      */
     public void changePassword(String username){
-        String newPassword = getChangedPassword();
-        if (newPassword == null)
-            return;
-        userManager.updatePassword(username, newPassword);
+        try {
+            String newPassword = getChangedPassword();
+            userManager.updatePassword(username, newPassword);
+        } catch (ExitException ignored) {}
     }
 
     /**
@@ -109,10 +104,10 @@ public class UserController {
      * @param username The username of the User who is attempting to update their email
      */
     public void changeEmail(String username){
-        String newEmail = getChangedEmail();
-        if (newEmail == null)
-            return;
-        userManager.updateEmail(username, newEmail);
+        try {
+            String newEmail = getChangedEmail();
+            userManager.updateEmail(username, newEmail);
+        } catch (ExitException ignored) {}
     }
 
     /**
@@ -174,13 +169,12 @@ public class UserController {
     }
 
     // == Inputting ==
-    private String readEmail() {
+    private String readEmail() throws ExitException {
         presenter.printText("Enter an Email " + TEXT_EXIT_OPTION + ": ");
         while (true) {
             String email = inputParser.readLine();
             if (email.equalsIgnoreCase(EXIT_TEXT)) {
-                presenter.printText(EXITING_TEXT);
-                return null;
+                throw new ExitException();
             } else if (userManager.emailIsUnique(email) && isValidEmail(email)){ // needs to be implemented
                 return email;
             } else {
@@ -189,14 +183,13 @@ public class UserController {
         }
     }
 
-    private UserType readUserType() {
+    private UserType readUserType() throws ExitException {
         presenter.printText("Please choose an account type: ");
         presenter.printText("1) Regular 2) Admin");
         while (true){
             String type = inputParser.readLine();
             if (type.equalsIgnoreCase(EXIT_TEXT)) {
-                presenter.printText(EXITING_TEXT);
-                return null;
+                throw new ExitException();
             } else if (type.equals("1")) {
                 return UserType.R;
             } else if (type.equals("2")) {
@@ -207,13 +200,12 @@ public class UserController {
         }
     }
 
-    private String readNewUsername() {
+    private String readNewUsername() throws ExitException {
         presenter.printText("Enter a Username " + TEXT_EXIT_OPTION + ": ");
         while (true){
             String username = inputParser.readLine();
             if (username.equalsIgnoreCase(EXIT_TEXT)) {
-                presenter.printText(EXITING_TEXT);
-                return null;
+                throw new ExitException();
             } else if (userManager.usernameIsUnique(username) && isValidUsername(username)){
                 return username;
             } else {
@@ -222,18 +214,17 @@ public class UserController {
         }
     }
 
-    private String readNewPassword() {
+    private String readNewPassword() throws ExitException {
         presenter.printText("Enter a Password" + TEXT_EXIT_OPTION + ": ");
         String password = inputParser.readLine();
         if (password.equalsIgnoreCase(EXIT_TEXT)) {
-            presenter.printText(EXITING_TEXT);
-            return null;
+            throw new ExitException();
         } else {
             return password;
         }
     }
 
-    private String readExistingUsername() {
+    private String readExistingUsername() throws ExitException {
         presenter.printText("Enter your username " + TEXT_EXIT_OPTION + ": ");
         while (true) {
             String username = inputParser.readLine();
@@ -241,7 +232,7 @@ public class UserController {
                 return username;
             }
             else if (username.equalsIgnoreCase(EXIT_TEXT)){
-                return null;
+                throw new ExitException();
             } else {
                 presenter.printText("Please enter an existing username.");
             }
@@ -249,16 +240,16 @@ public class UserController {
     }
 
     // TODO maybe remove the login from validation?
-    private boolean validatePassword(String username) {
+    private void validatePassword(String username) throws ExitException {
         while (true) {
             presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
             String password = inputParser.readLine();
             if (userManager.logIn(username, password)){
                 presenter.printText(username + ", you have been logged in");
-                return true;
+                return;
             }
             else if (password.equalsIgnoreCase(EXIT_TEXT)){
-                return false;
+                throw new ExitException();
             }
             else {
                 presenter.printText("That password is incorrect");
@@ -266,13 +257,12 @@ public class UserController {
         }
     }
 
-    private String getChangedUsername() {
+    private String getChangedUsername() throws ExitException {
         presenter.printText("Enter your NEW username " + TEXT_EXIT_OPTION + ": ");
         while (true) {
             String username = inputParser.readLine();
             if (username.equalsIgnoreCase(EXIT_TEXT)) {
-                presenter.printText(EXITING_TEXT);
-                return null;
+                throw new ExitException();
             } else if (userManager.usernameIsUnique(username) && isValidUsername(username)) {
                 presenter.printText("Your username has been updated!");
                 return username;
@@ -282,26 +272,23 @@ public class UserController {
         }
     }
 
-    private String getChangedPassword() {
+    private String getChangedPassword() throws ExitException {
         presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
         String newPassword = inputParser.readLine();
         if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
-            presenter.printText(EXITING_TEXT);
-            return null;
-        }
-        else {
+            throw new ExitException();
+        } else {
             presenter.printText("Your password has been updated!");
             return newPassword;
         }
     }
 
-    private String getChangedEmail() {
+    private String getChangedEmail() throws ExitException {
         presenter.printText("Enter your NEW email " + TEXT_EXIT_OPTION + ": ");
         while (true) {
             String email = inputParser.readLine();
             if (email.equalsIgnoreCase(EXIT_TEXT)) {
-                presenter.printText(EXITING_TEXT);
-                return null;
+                throw new ExitException();
             } else if (userManager.emailIsUnique(email) && isValidEmail(email)) {
                 presenter.printText("Your email has been updated!");
                 return email;

@@ -83,12 +83,19 @@ public class EventManager {
         return true;
     }
 
+    public boolean togglePublish(String eventId) {
+        if (retrieveEventById(eventId).isPublished())
+            return unPublishEvent(eventId);
+        else
+            return publishEvent(eventId);
+    }
+
     /**
      * Publishes the event so it is visible by the public
      * @param eventID ID of the event being published
      * @return returns true if the event has been successfully published
      */
-    public boolean publishEvent(String eventID) {
+    private boolean publishEvent(String eventID) {
         retrieveEventById(eventID).setPublished(true);
         return retrieveEventById(eventID).isPublished();
     }
@@ -98,7 +105,7 @@ public class EventManager {
      * @param eventID ID of the event being unpublished
      * @return returns true if the event has been successfully unpublished
      */
-    public boolean unPublishEvent(String eventID) {
+    private boolean unPublishEvent(String eventID) {
         if (retrieveEventById(eventID).getNumAttendees() == 0) {
             retrieveEventById(eventID).setPublished(false);
         }
@@ -106,7 +113,7 @@ public class EventManager {
     }
 
     // === Retrieving information ===
-    public boolean returnIsPublished(String eventID) {
+    public boolean isPublished(String eventID) {
         return retrieveEventById(eventID).isPublished();
     }
 

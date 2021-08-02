@@ -31,23 +31,143 @@ public class EventController {
         this.inputParser = new InputParser();
     }
 
-    // === Viewing List of Event Names ===
+    // == Creating & Deleting ==
+    /**
+     * Creates a new event based on chosen template and adds to User's owned events.
+     *
+     * @param templateName name of the template
+     * @param username username of the currently logged in user
+     */
+    public void createNewEvent(String templateName, String username) {
+        if (templateName == null || templateName.isEmpty() || username == null || username.isEmpty()) {
+            return;
+        }
+
+        String newEventID = eventManager.createEvent(templateName, username);
+        userManager.createEvent(username, newEventID);
+        populateFieldValues(newEventID, username);
+
+        presenter.printText("Your event has been successfully created.");
+        if (userManager.retrieveUserType(username) == User.UserType.T){
+            presenter.printText("Since you are a trial user, your event will not be saved once you leave the system. " +
+                    "You may choose to publish the event to view it while you are currently using the program.");
+        }
+        changePublishStatus(newEventID);
+    }
+
+    private void populateFieldValues(String eventId, String username) {
+        Map<String, Pair<Class<?>, Boolean>> fieldMap = eventManager.returnFieldNameAndFieldSpecs(eventId);
+        for (Map.Entry<String, Pair<Class<?>, Boolean>> entry : fieldMap.entrySet()) {
+            try {
+                Object value = readFieldValue(eventId, entry.getKey(), entry.getValue().getFirst().getSimpleName(),
+                        entry.getValue().getSecond());
+                eventManager.enterFieldValue(eventId, entry.getKey(), value);
+            } catch (ExitException e) {
+                deleteEvent(username, eventId);
+                presenter.printText(EXITING_TEXT);
+                return;
+            }
+        }
+    }
+
+    private Object readFieldValue(String eventId, String fieldName, String dataType, boolean required) throws ExitException {
+        presenter.printText("Enter " + fieldName + " (" + (required? "Required" : "Not Required") + "):");
+        while (true) {
+            String userInput = inputParser.readLine();
+            if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
+                throw new ExitException();
+            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput)) {
+                return eventManager.convertToCorrectDataType(eventId, fieldName, userInput);
+            } else {
+                presenter.printText("Please try again. Enter " + fieldName + " (" + dataType + "):");
+            }
+        }
+    }
 
     /**
-     * Entire menu for managing a users events.
+     * Completely deletes specified event from system.
      *
+     * @param username username of the currently logged in user
+     * @param eventID  unique identifier for event
+     */
+    private void deleteEvent(String username, String eventID) {
+        presenter.printText("Are you sure you wish to delete your event? This action cannot be undone. (Y/N)");
+        if (getYesNo()) {
+            this.userManager.deleteEvent(username, eventID);
+            this.eventManager.deleteEvent(eventID);
+            presenter.printText("Event was deleted.");
+        }
+    }
+
+    // == Editing ===
+    // TODO need to implement edit for phase 2
+    public void editEvent (String eventID, String username) {
+        presenter.printText("You cannot edit your event at this time.");
+    }
+
+    /**
+     * If published change to unpublished and vice versa
+     *
+     * @param eventID unique identifier for an event
+     */
+    private void changePublishStatus (String eventID) {
+        boolean published = eventManager.isPublished(eventID);
+        String current = (published ? "" : "un") + "publish";
+        String opposite = (published ? "un" : "") + "publish";
+        presenter.printText("Your event is currently " + current + "ed, would you like to " + opposite + "? (Y/N)");
+        if (getYesNo()) {
+            if (eventManager.togglePublish(eventID)){
+                presenter.printText("Your event has been successfully " + opposite + "ed.");
+            } else {
+                presenter.printText("Your event could not be " + opposite + "ed.");
+            }
+        }
+    }
+
+    // == Attending & Unattending ==
+    /**
+     * Adds selected event to the User's list of events they are attending.
+     * @param username username of the currently logged in user
+     * @param eventID  unique identifier for event
+     * @return true if the user has successfully registered for the event
+     */
+    private boolean attendEvent(String username, String eventID) {
+        boolean result = eventManager.attendEvent(eventID));
+        if (result)
+            userManager.attendEvent(username, eventID);
+        return result;
+    }
+
+    /**
+     * Removes selected event to the User's list of events they are attending.
+     *
+     * @param username username of the currently logged in user
+     * @param eventID unique identifier for event
+     * @return true if the user has successfully unregistered for the event
+     */
+    private boolean leaveEvent(String username, String eventID) {
+        boolean result = userManager.unAttendEvent(username, eventID);
+        if (result)
+            eventManager.unAttendEvent(eventID);
+        return result;
+    }
+
+    // TODO refactor from here
+    // === Viewing List of Event Names ===
+    /**
+     * Entire menu for managing a users events.
      * @param username used to id user
      */
-    public void viewAndEditMyEvents(String username) {
+    public void manageEvents(String username) {
         List<String> myEvents = userManager.getCreatedEvents(username);
+        // TODO add to command enum
         List<String> myEventsMenu = Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
         boolean exitMenu = false;
         while (!exitMenu) {
             int eventChoice = generateEventList(eventManager.returnEventNamesListFromIdList(userManager.getCreatedEvents(username)));
             if (eventChoice == myEvents.size()) {
                 exitMenu = true;
-            }
-            else{
+            } else {
                 String eventID = myEvents.get(eventChoice);
                 viewEventDetails(eventID);
                 viewEventMetaDetails(eventID);
@@ -161,64 +281,7 @@ public class EventController {
 
     // === Manipulating Events ===
 
-    /**
-     * Creates a new event based on chosen template and adds to User's owned events.
-     *
-     * @param templateName name of the template
-     * @param username username of the currently logged in user
-     */
-    public void createNewEvent(String templateName, String username) {
-        if(templateName == null || templateName.isEmpty()) {
-            return;
-        }
-        if(username == null || username.isEmpty()) {
-            return;
-        }
-
-        String newEventID = this.eventManager.createEvent(templateName, username);
-
-        userManager.createEvent(username, newEventID);
-
-        Map<String, Pair<Class<?>, Boolean>> fieldMap = this.eventManager.returnFieldNameAndFieldSpecs(newEventID);
-        // A map to help display whether or not a field is required.
-        Map<Boolean, String> requiredMap = new HashMap<>();
-        requiredMap.put(true, " (Required)");
-        requiredMap.put(false, " (Not Required)");
-        for (Map.Entry<String, Pair<Class<?>, Boolean>> entry : fieldMap.entrySet()) {
-            presenter.printText("Enter " + entry.getKey() + requiredMap.get(entry.getValue().getSecond()) + ":");
-            String userInput = inputParser.readLine();
-            boolean accepted = false;
-            while (!accepted) {
-                if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
-                    deleteEvent(username, newEventID);
-                    return;
-                }
-                else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput) && userInput.isEmpty()){
-                    accepted = true;
-                }
-                else if (eventManager.checkDataValidation(newEventID, entry.getKey(), userInput)) {
-                    Object value = eventManager.convertToCorrectDataType(newEventID, entry.getKey(), userInput);
-                    eventManager.enterFieldValue(newEventID, entry.getKey(), value);
-                    accepted = true;
-                } else {
-                    presenter.printText("Please try again. Enter " + entry.getKey() + " (" + entry.getValue().getFirst().getSimpleName() + "):");
-                    userInput = inputParser.readLine();
-                }
-            }
-        }
-        presenter.printText("Your event has been successfully created.");
-        if (userManager.retrieveUserType(username) == User.UserType.T){
-            presenter.printText("Since you are a trial user, your event will not be saved once you leave the system. " +
-                    "You may choose to publish the event to view it while you are currently using the program.");
-        }
-        changePublishStatus(newEventID);
-    }
-
-    // TODO need to implement edit for phase 2
-    public void editEvent (String eventID, String username) {
-        presenter.printText("You cannot edit your event at this time.");
-    }
-
+    // TODO put in presenter
     /**
      * Forces user to type either "Y" or "N"
      *
@@ -233,73 +296,6 @@ public class EventController {
         return userInput.equalsIgnoreCase("Y");
     }
 
-    /**
-     * If published change to unpublished and vice versa
-     *
-     * @param eventID unique identifier for an event
-     */
-    private void changePublishStatus (String eventID) {
-        if (eventManager.returnIsPublished(eventID)){
-            presenter.printText("Your event is currently published, would you like to unpublish? (Y/N)");
-            if (getYesNo()) {
-                if (eventManager.unPublishEvent(eventID)){
-                    presenter.printText("Your event has been successfully unpublished.");
-                }
-                else {
-                    presenter.printText("Your event could not be unpublished.");
-                }
-            }
-        }
-        else {
-            presenter.printText("Your event is currently unpublished, would you like to publish? (Y/N)");
-            if (getYesNo()) {
-                eventManager.publishEvent(eventID);
-            }
-        }
-    }
-    /**
-     * Removes selected event to the User's list of events they are attending.
-     *
-     * @param username username of the currently logged in user
-     * @param eventID unique identifier for event
-     * @return true if the user has successfully unregistered for the event
-     */
-    private boolean leaveEvent(String username, String eventID) {
-        if (this.userManager.unAttendEvent(username, eventID)) {
-            this.eventManager.unAttendEvent(eventID);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Adds selected event to the User's list of events they are attending.
-     * @param username username of the currently logged in user
-     * @param eventID  unique identifier for event
-     * @return true if the user has successfully registered for the event
-     */
-    private boolean attendEvent(String username, String eventID) {
-        if (this.eventManager.attendEvent(eventID))
-            this.userManager.attendEvent(username, eventID);
-        return this.eventManager.attendEvent(eventID);
-    }
-
-    /**
-     * Completely deletes specified event from system.
-     *
-     * @param username username of the currently logged in user
-     * @param eventID  unique identifier for event
-     */
-    private void deleteEvent(String username, String eventID) {
-        List<String> optionsList = Arrays.asList("Yes", "Go Back");
-        presenter.printMenu("Are you sure you wish to delete your event? This action cannot be undone.", optionsList);
-        int user_input = getChoice(1, 2);
-        if (optionsList.get(user_input - 1).equals("Yes")){
-            this.userManager.deleteEvent(username, eventID);
-            this.eventManager.deleteEvent(eventID);
-            presenter.printText("Event was deleted.");
-        }
-    }
 
     // === Viewing Single Event ===
     /**
@@ -350,5 +346,4 @@ public class EventController {
         presenter.printMenu("Available Templates", templateList);
         return getChoice(1, templateList.size());
     }
-
 }
