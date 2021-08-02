@@ -77,10 +77,11 @@ public class SystemController {
     /**
      * Run the menu that the trial users interact with
      */
-    private void runTrialMenu(){
+    private boolean runTrialMenu(){
         createTrialUser();
         runMenu("Trial Menu");
         deleteCurrentUser();
+        return true;
     }
 
     /**
