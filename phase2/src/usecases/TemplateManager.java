@@ -64,4 +64,10 @@ public class TemplateManager {
     public void saveAllTemplates() {
         parser.saveAllElements(templateList);
     }
+
+    public void createTemplate(String templateName, String templateId){
+        List<FieldSpecs> emptyFieldSpecs = new ArrayList<>();
+        Template template = new Template(emptyFieldSpecs, templateName)
+    }
+    public void addFieldSpecs
 }

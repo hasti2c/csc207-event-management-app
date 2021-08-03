@@ -14,14 +14,14 @@ public class Template {
     // stores the version number, each time the template is edited the version number increases by one. This way we can
     // store and access previous versions if necessary but only the version number will change. It's a string so that
     // it's easier to concatenate with the file name (not implemented for phase 1)
-    private String fileVersionNumber;
+    private int fileVersionNumber;
 
     // === Methods ===
-    public Template(List<FieldSpecs> fieldDescriptions, String templateName, String templateId, String fileVersionNumber) {
+    public Template(List<FieldSpecs> fieldDescriptions, String templateName) {
         this.fieldDescriptions = fieldDescriptions;
         this.templateName = templateName;
-        this.templateId = templateId;
-        this.fileVersionNumber = fileVersionNumber;
+        this.templateId = UUID.randomUUID().toString();
+        this.fileVersionNumber = 0;
     }
     public Template() {
     }
@@ -32,7 +32,7 @@ public class Template {
      * Gets the version number of the template
      * @return String, the version number as a string.
      */
-    public String getFileVersionNumber() {
+    public int getFileVersionNumber() {
         return fileVersionNumber;
     }
 
