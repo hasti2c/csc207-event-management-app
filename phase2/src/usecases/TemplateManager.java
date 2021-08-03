@@ -69,5 +69,11 @@ public class TemplateManager {
         List<FieldSpecs> emptyFieldSpecs = new ArrayList<>();
         Template template = new Template(emptyFieldSpecs, templateName)
     }
-    public void addFieldSpecs
+    public void addFieldSpecs(String templateid, FieldSpecs fieldSpecs){
+        for (Template template: templateList){
+            if(template.getTemplateId().equals(templateid)){
+                template.addFieldSpecs(fieldSpecs);
+            }
+        }
+    }
 }

@@ -66,6 +66,9 @@ public class Template {
         this.templateName = templateName;
     }
 
+    public void addFieldSpecs(FieldSpecs fieldSpecs){
+        this.fieldDescriptions.add(fieldSpecs);
+    }
 //    // Not for phase 1
 //    public void setFileVersionNumber(String fileVersionNumber) {
 //        this.fileVersionNumber = fileVersionNumber;
