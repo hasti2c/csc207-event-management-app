@@ -4,6 +4,7 @@ import gateways.IGateway;
 import entities.FieldSpecs;
 import entities.Template;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,10 +66,41 @@ public class TemplateManager {
         parser.saveAllElements(templateList);
     }
 
-    public void createTemplate(String templateName, String templateId){
+    public String createTemplate(String templateName){
         List<FieldSpecs> emptyFieldSpecs = new ArrayList<>();
-        Template template = new Template(emptyFieldSpecs, templateName)
+        Template template = new Template(emptyFieldSpecs, templateName);
+        return template.getTemplateId();
     }
+
+    public FieldSpecs createNewFieldSpecs(String inputFieldName, String inputDataType, String inputIsRequired){
+
+        Class<?> convertedDataType = null;
+        boolean convertedIsRequired = false;
+        if (inputDataType.equalsIgnoreCase("string")){
+            convertedDataType = String.class;
+        }
+        else if (inputDataType.equalsIgnoreCase("boolean")){
+            convertedDataType = Boolean.class;
+        }
+        else if (inputDataType.equalsIgnoreCase("int")){
+            convertedDataType = Integer.class;
+        }
+        else if (inputDataType.equalsIgnoreCase("localdatetime")){
+            convertedDataType = LocalDateTime.class;
+        }
+//        else if (inputDataType.equalsIgnoreCase("list<string>")){
+//            Object convertedDataType = List<String>.class;;
+//        }
+
+        if (inputIsRequired.equalsIgnoreCase("yes")){
+            convertedIsRequired = true;
+        }
+
+        FieldSpecs fieldSpecs = new FieldSpecs(inputFieldName, convertedDataType, convertedIsRequired);
+        return fieldSpecs;
+    }
+
+
     public void addFieldSpecs(String templateid, FieldSpecs fieldSpecs){
         for (Template template: templateList){
             if(template.getTemplateId().equals(templateid)){

@@ -23,7 +23,7 @@ public class Template {
         this.templateId = templateId;
         this.fileVersionNumber = fileVersionNumber;
     }
-    public Template() {
+    public Template(List<FieldSpecs> emptyFieldSpecs, String templateName) {
     }
 
     // Getters
