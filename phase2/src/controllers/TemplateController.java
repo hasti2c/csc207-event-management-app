@@ -31,7 +31,7 @@ public class TemplateController {
 //        3. Add these fieldSpecs with addFieldSpecs method
 
 
-        presenter.printText("Enter the field name:");
+        presenter.printText("Enter the ield name:");
         String fieldName = inputParser.readLine();
         presenter.printText("Enter the field data type:");
         String dataType = inputParser.readLine();
