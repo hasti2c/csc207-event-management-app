@@ -27,7 +27,7 @@ public class Event {
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
     private String eventType;
     private String templateId;
-    private String templateVersion;
+    private int templateVersion;
 
     // === Constructors ===
 
@@ -198,7 +198,7 @@ public class Event {
      * Gets the version of the template associated with this event
      * @return String The version number of the template associated with this event
      */
-    public String getTemplateVersion(){
+    public int getTemplateVersion(){
         return templateVersion;
     }
 

@@ -1,9 +1,12 @@
-package controllers;
+package utility;
 
 import static controllers.EventController.*;
 
 public enum Command {
+    START_UP("Start Up Menu"),
+    ADMIN_MENU("Admin Menu"),
     SIGN_UP("Sign Up"),
+    // LOGIN is MAIN_MENU
     LOGIN("Login"),
     TRIAL("Trial"),
     EXIT("Exit"),

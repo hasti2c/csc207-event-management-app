@@ -10,8 +10,10 @@ import gateways.UserParser;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.*;
+import utility.Command;
+
 import static utility.AppConstant.*;
-import static controllers.Command.*;
+import static utility.Command.*;
 
 import java.util.*;
 
@@ -54,10 +56,10 @@ public class SystemController {
         menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
         menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
                 ACCOUNT_MENU, SAVE, LOG_OUT));
+        // TODO Change GO_BACK to EXIT_TRIAL
         menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
         menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
                 DELETE_ACCOUNT, GO_BACK));
-
     }
 
     // == menus ==
@@ -81,7 +83,9 @@ public class SystemController {
         runMenu("Trial Menu");
         try {
             deleteAccount();
-        } catch (ExitException ignored) {}
+        } catch (ExitException ignored) {
+
+        }
     }
 
     /**
@@ -132,6 +136,8 @@ public class SystemController {
 
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
+            case START_UP:
+                runMenu("Start Up Menu");
             case SIGN_UP:
                 signUp();
                 break;

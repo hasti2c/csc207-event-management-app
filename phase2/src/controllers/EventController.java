@@ -54,6 +54,7 @@ public class EventController {
             }
             String eventID = eventIDList.get(eventIndex);
             viewEvent(viewType, username, eventID);
+            // TODO Should separate view event and menu selection
         }
     }
 
