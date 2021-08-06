@@ -66,4 +66,22 @@ public class Message{
     public LocalDateTime getDate() {
         return sentDate;
     }
+
+    /**
+     * Gets a String which states the headline and the sender of the message. This is in the form:
+     * "headline | Sent by: sender"
+     * @return String The info of the message
+     */
+    public String messageInfo(){
+        return messageHeadLine + " | Sent by: " + sender;
+    }
+
+    /**
+     * The string representation of a message
+     * @return String The String representation of a message
+     */
+    @Override
+    public String toString() {
+        return messageHeadLine + " | Sent by: " + sender + "\n \n" + messageBody;
+    }
 }
