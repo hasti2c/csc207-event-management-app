@@ -1,34 +1,31 @@
 package entities;
+// TODO: Add docstring for getters.
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Date;
 
 /**
  * A Message within the messaging system. Extends the Observable java class.
  */
-public class Message extends Observable {
-    private final String messageTitle;
+public class Message{
     private final String messageHeadLine;
     private final String messageBody;
+    private final String sender;
+    private final String recipient;
+    private final Date date;
 
     /**
      * Creates an object of type Message
-     * @param messageTitle The title of the Message
      * @param messageHeadLine The headline of the Message
      * @param messageBody The body of the Message
+     * @param sender The sender of the Message
+     * @param recipient The recipient of the Message
      */
-    public Message(String messageTitle, String messageHeadLine, String messageBody) {
-        this.messageTitle = messageTitle;
+    public Message(String messageHeadLine, String messageBody, String sender, String recipient) {
         this.messageHeadLine = messageHeadLine;
         this.messageBody = messageBody;
-    }
-
-    /**
-     * Gets the Message title
-     * @return String The Message title
-     */
-    public String getMessageTitle() {
-        return messageTitle;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.date = new Date(); // Today's date
     }
 
     /**
@@ -45,5 +42,17 @@ public class Message extends Observable {
      */
     public String getMessageBody() {
         return messageBody;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public Date getDate() {
+        return date;
     }
 }

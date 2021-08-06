@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import static utility.AppConstant.*;
 import static entities.User.UserType;
+// TODO: When a user changes their username, update the mailbox.
 
 /**
  * Manages how the User at the keyboard interacts with their account
@@ -82,6 +83,7 @@ public class UserController {
             String newUsername = getChangedUsername();
             userManager.updateUsername(username, newUsername);
             eventManager.updateUsername(username, newUsername);
+            // mailboxmanager.changeUsername
             return newUsername;
         } catch (ExitException e) {
             return null;
