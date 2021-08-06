@@ -213,7 +213,32 @@ public class EventController {
     // == Editing ===
     // TODO need to implement edit for phase 2
     public void editEvent (String username, String eventID) {
-        presenter.printText("You cannot edit your event at this time.");
+        Map<String, Pair<Class<?>, Boolean>> eventMap = eventManager.returnFieldNameAndFieldSpecs(eventID);
+        List<String> fieldNames = new ArrayList<String>(eventMap.keySet());
+        fieldNames.add(MENU_EXIT_OPTION);
+
+        while (true) {
+            this.presenter.printMenu("Choose field to edit.", fieldNames);
+            int userInput = getChoice(1, fieldNames.size());
+            if (fieldNames.get(userInput).equals(MENU_EXIT_OPTION)) {
+                return;
+            }
+            try {
+                Object value = readFieldValue(
+                        eventID,
+                        fieldNames.get(userInput - 1),
+                        eventMap.get(fieldNames.get(userInput - 1)).getFirst().getSimpleName(),
+                        eventMap.get(fieldNames.get(userInput - 1)).getSecond());
+                eventManager.enterFieldValue(eventID, fieldNames.get(userInput), value);
+            } catch (ExitException e) {
+                presenter.printText(EXITING_TEXT);
+            }
+
+        }
+
+
+
+
     }
 
     /**

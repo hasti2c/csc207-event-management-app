@@ -48,15 +48,18 @@ public class FieldSpecs {
 
 
     // Setters (not needed for phase 1)
-//    public void setFieldName(String fieldName) {
-//        this.fieldName = fieldName;
-//    }
-//
-//    public void setDataType(Class<?> dataType) {
-//        this.dataType = dataType;
-//    }
-//
-//    public void setRequired(boolean required) {
-//        this.required = required;
-//    }
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public void setDataType(Class<?> dataType) {
+        this.dataType = dataType;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 }
+
+
+
