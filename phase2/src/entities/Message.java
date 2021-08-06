@@ -1,7 +1,6 @@
 package entities;
-// TODO: Add docstring for getters.
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * A Message within the messaging system. Extends the Observable java class.
@@ -11,7 +10,7 @@ public class Message{
     private final String messageBody;
     private final String sender;
     private final String recipient;
-    private final Date date;
+    private final LocalDateTime sentDate;
 
     /**
      * Creates an object of type Message
@@ -25,7 +24,7 @@ public class Message{
         this.messageBody = messageBody;
         this.sender = sender;
         this.recipient = recipient;
-        this.date = new Date(); // Today's date
+        this.sentDate = LocalDateTime.now();
     }
 
     /**
@@ -44,15 +43,27 @@ public class Message{
         return messageBody;
     }
 
+    /**
+     * Gets the sender of the Message
+     * @return String The sender of the Message
+     */
     public String getSender() {
         return sender;
     }
 
+    /**
+     * Gets the recipient of the Message
+     * @return String The recipient of the Message
+     */
     public String getRecipient() {
         return recipient;
     }
 
-    public Date getDate() {
-        return date;
+    /**
+     * Gets the date when the Message was sent
+     * @return LocalDateTime The date when the Message was sent
+     */
+    public LocalDateTime getDate() {
+        return sentDate;
     }
 }
