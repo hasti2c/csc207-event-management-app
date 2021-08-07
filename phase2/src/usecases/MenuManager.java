@@ -1,5 +1,6 @@
 package usecases;
 
+import entities.UserType;
 import utility.Command;
 import entities.Menu;
 import entities.UserTypePermissions;
@@ -27,7 +28,7 @@ public class MenuManager {
 
     }
 
-    public List<Command> listCommand(User.UserType userType, Command command) {
+    public List<Command> listCommand(UserType userType, Command command) {
         if (userType == null){
             // Need to get the menu for the command then return the list of subcommands
         }

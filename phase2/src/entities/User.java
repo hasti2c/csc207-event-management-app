@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,10 @@ public class User {
     // List of events that the user will attend. The event can be their own or another user's and must be published.
     private List<String> attendingEvents;
     // needs to be public so that it can be used in the constructor and the UserManager class can access it.
-    public enum UserType {
-        R, A, T
-    }
     private UserType userType;
+    private boolean suspended = false;
+    private LocalDateTime suspensionChangeDate;
+
     // === Representation Invariants ===
     // username.length() > 0
     // password.length() > 0
@@ -113,6 +114,14 @@ public class User {
         // Test
     }
 
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public LocalDateTime getSuspensionChangeDate() {
+        return suspensionChangeDate;
+    }
+
     // === Setters ===
 
     /**
@@ -170,4 +179,11 @@ public class User {
         this.attendingEvents = attendingEvents;
     }
 
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
+
+    public void setSuspensionChangeDate(LocalDateTime suspensionChangeDate) {
+        this.suspensionChangeDate = suspensionChangeDate;
+    }
 }

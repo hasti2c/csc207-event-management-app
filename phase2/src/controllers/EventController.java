@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.EventManager;
@@ -159,7 +160,7 @@ public class EventController {
         populateFieldValues(newEventID, username);
 
         presenter.printText("Your event has been successfully created.");
-        if (userManager.retrieveUserType(username) == User.UserType.T){
+        if (userManager.retrieveUserType(username) == UserType.TRIAL) {
             presenter.printText("Since you are a trial user, your event will not be saved once you leave the system. " +
                     "You may choose to publish the event to view it while you are currently using the program.");
         }

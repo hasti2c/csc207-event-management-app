@@ -3,6 +3,7 @@ package controllers;
 import entities.Event;
 import entities.Template;
 import entities.User;
+import entities.UserType;
 import gateways.EventParser;
 import gateways.IGateway;
 import gateways.TemplateParser;
@@ -14,6 +15,7 @@ import utility.Command;
 
 import static utility.AppConstant.*;
 import static utility.Command.*;
+import static entities.UserType.*;
 
 import java.util.*;
 
@@ -53,7 +55,7 @@ public class SystemController {
     }
 
     private void initMenuMap() {
-        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
+        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, Command.TRIAL, EXIT));
         menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
                 ACCOUNT_MENU, SAVE, LOG_OUT));
         // TODO Change GO_BACK to EXIT_TRIAL
@@ -213,7 +215,7 @@ public class SystemController {
     }
 
     private void editTemplate() {
-        if (userManager.retrieveUserType(currentUser) == User.UserType.A){
+        if (userManager.retrieveUserType(currentUser) == ADMIN){
             editTemplateName(retrieveTemplateName());
         } else {
             presenter.printText("Sorry you do not have permission to edit the templates.");
@@ -251,7 +253,7 @@ public class SystemController {
 
     private void createTrialUser(){
         currentUser = TRIAL_USERNAME;
-        userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
+        userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, UserType.TRIAL);
     }
 
     // == templates == TODO refactor from here

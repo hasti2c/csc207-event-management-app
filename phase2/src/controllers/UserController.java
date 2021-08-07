@@ -1,4 +1,5 @@
 package controllers;
+import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.EventManager;
@@ -10,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static utility.AppConstant.*;
-import static entities.User.UserType;
+import static entities.UserType.*;
 
 /**
  * Manages how the User at the keyboard interacts with their account
@@ -124,7 +125,7 @@ public class UserController {
      * @param username The username of the User who is attempting to update their account type
      */
     public void changeToAdmin(String username){
-        if (userManager.retrieveUserType(username) == User.UserType.A) {
+        if (userManager.retrieveUserType(username) == ADMIN) {
             presenter.printText("You are already an admin.");
         }
         presenter.printText("Updating type to Admin");
@@ -191,9 +192,9 @@ public class UserController {
             if (type.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
             } else if (type.equals("1")) {
-                return UserType.R;
+                return REGULAR;
             } else if (type.equals("2")) {
-                return UserType.A;
+                return ADMIN;
             } else {
                 presenter.printText("Please enter either 1 or 2" + TEXT_EXIT_OPTION + ": ");
             }
@@ -299,7 +300,7 @@ public class UserController {
     }
 
     private boolean verifyDeletion(String username) {
-        if (userManager.retrieveUser(username).getUserType() == User.UserType.T)
+        if (userManager.retrieveUser(username).getUserType() == TRIAL)
             return true;
         presenter.printText("Are you sure you wish to delete your account?");
         presenter.printText("1) Yes 2) Go Back");

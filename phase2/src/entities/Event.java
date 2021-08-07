@@ -28,6 +28,7 @@ public class Event {
     private String eventType;
     private String templateId;
     private int templateVersion;
+    private boolean suspended;
 
     // === Constructors ===
 
@@ -161,6 +162,10 @@ public class Event {
         return published;
     }
 
+    public boolean isSuspended() {
+        return suspended;
+    }
+
     /**
      * Gets the owner of this event
      * @return String The owner of this event
@@ -234,4 +239,7 @@ public class Event {
         this.published = published;
     }
 
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
 }

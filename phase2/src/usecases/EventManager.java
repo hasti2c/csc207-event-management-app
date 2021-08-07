@@ -1,5 +1,4 @@
 package usecases;
-//import com.sun.javaws.exceptions.InvalidArgumentException;
 import gateways.IGateway;
 import entities.Event;
 import utility.Pair;
@@ -49,6 +48,26 @@ public class EventManager {
      */
     public void deleteEvent(String eventId) {
         eventList.removeIf(event -> event.getEventId().equals(eventId));
+    }
+
+    public void suspendEvent(String eventId) {
+        Event event = retrieveEventById(eventId);
+        event.setSuspended(true);
+    }
+
+    public void unsuspendEvent(String eventId) {
+        Event event = retrieveEventById(eventId);
+        event.setSuspended(false);
+    }
+
+    public void suspendAllEvents(ArrayList<String> eventIds) {
+        for (String eventId: eventIds)
+            suspendEvent(eventId);
+    }
+
+    public void unsuspendAllEvents(ArrayList<String> eventIds) {
+        for (String eventId: eventIds)
+            unsuspendEvent(eventId);
     }
 
     /**

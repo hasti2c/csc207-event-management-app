@@ -1,10 +1,15 @@
 package usecases;
 
+import entities.UserType;
 import gateways.IGateway;
 import entities.User;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static entities.UserType.*;
 
 /**
  * Manages the Users in the system
@@ -41,7 +46,7 @@ public class UserManager {
      * @param userEmail the User's email
      * @param type the User's type. (R, A, T)
      */
-    public void createUser(String username, String password, String userEmail, User.UserType type) {
+    public void createUser(String username, String password, String userEmail, UserType type) {
             User newUser = new User(username, password, userEmail, type);
             userList.add(newUser);
             usernamesList.add(username);
@@ -66,6 +71,36 @@ public class UserManager {
         emailList.remove(user.getUserEmail());
     }
 
+    public void suspendUser(String username) {
+        suspendUser(username, null);
+    }
+
+    public void suspendUser(String username, Duration duration) {
+        User user = retrieveUser(username);
+        user.setSuspended(true);
+        setSuspensionChangeDate(user, duration);
+    }
+
+    public void unsuspendUser(String username) {
+        unsuspendUser(username, null);
+    }
+
+    public void unsuspendUser(String username, Duration duration) {
+        User user = retrieveUser(username);
+        user.setSuspended(false);
+        setSuspensionChangeDate(user, duration);
+    }
+
+    public void updateUserSuspension(String username) {
+        User user = retrieveUser(username);
+        LocalDateTime endDate = user.getSuspensionChangeDate();
+        if (LocalDateTime.now().isAfter(endDate)) {
+            boolean suspended = user.isSuspended();
+            user.setSuspended(!suspended);
+            setSuspensionChangeDate(user, null);
+        }
+    }
+
     /**
      * Logs in a user by checking the inputted password against the User's username
      * @param username The username of the user attempting to log in
@@ -86,7 +121,7 @@ public class UserManager {
             userToLogin.setLoggedIn(true);
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -295,7 +330,7 @@ public class UserManager {
      * @param username The username of the User whose type will be retrieved
      * @return User.UserType The type of the User, R.A.T
      */
-    public User.UserType retrieveUserType(String username){
+    public UserType retrieveUserType(String username){
         User user = retrieveUser(username);
         return user.getUserType();
     }
@@ -307,9 +342,7 @@ public class UserManager {
      */
     public boolean changeUserTypeToRegular(String username){
         User user = retrieveUser(username);
-        if (user.getUserType() != User.UserType.R){
-            user.setUserType(User.UserType.R);
-        }
+        user.setUserType(REGULAR);
         return true;
     }
 
@@ -320,13 +353,20 @@ public class UserManager {
      */
     public boolean changeUserTypeToAdmin(String username){
         User user = retrieveUser(username);
-        if (user.getUserType() != User.UserType.A) {
-            user.setUserType(User.UserType.A);
-        }
+        user.setUserType(ADMIN);
         return true;
     }
 
     public void saveAllUsers() {
         parser.saveAllElements(userList);
+    }
+
+    private void setSuspensionChangeDate(User user, Duration duration) {
+        if (duration == null) {
+            user.setSuspensionChangeDate(null);
+        } else {
+            LocalDateTime endDate = LocalDateTime.now().plus(duration);
+            user.setSuspensionChangeDate(endDate);
+        }
     }
 }
