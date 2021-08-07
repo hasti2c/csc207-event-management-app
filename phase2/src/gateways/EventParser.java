@@ -47,6 +47,7 @@ public class EventParser extends EntityParser<Event> {
             json.addProperty("templateId", event.getTemplateId());
             json.addProperty("templateVersion", event.getTemplateVersion());
             json.addProperty("numAttendees", event.getNumAttendees());
+            json.addProperty("suspended", event.isSuspended());
         }
 
         private void addDates(Event event, JsonObject json) {
@@ -98,6 +99,7 @@ public class EventParser extends EntityParser<Event> {
             setField(event, "templateId", json.get("templateId").getAsString());
             setField(event, "templateVersion", json.get("templateVersion").getAsString());
             setField(event, "numAttendees", json.get("numAttendees").getAsInt());
+            setField(event, "suspended", json.get("suspended").getAsBoolean());
         }
 
         private void getDates(JsonObject json, Event event) {

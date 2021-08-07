@@ -23,6 +23,8 @@ public class User {
     private UserType userType;
     private boolean suspended = false;
     private LocalDateTime suspensionChangeDate;
+    private List<String> friends;
+    private List<String> friendRequests;
 
     // === Representation Invariants ===
     // username.length() > 0
@@ -122,6 +124,14 @@ public class User {
         return suspensionChangeDate;
     }
 
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    public List<String> getFriendRequests() {
+        return friendRequests;
+    }
+
     // === Setters ===
 
     /**
@@ -167,7 +177,7 @@ public class User {
      * Set a new list of created events
      * @param createdEvents The new list of created events
      */
-    public void setcreatedEvents(List<String> createdEvents) {
+    public void setCreatedEvents(List<String> createdEvents) {
         this.ownedEvents = createdEvents;
     }
 
@@ -185,5 +195,13 @@ public class User {
 
     public void setSuspensionChangeDate(LocalDateTime suspensionChangeDate) {
         this.suspensionChangeDate = suspensionChangeDate;
+    }
+
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
+    }
+
+    public void setFriendRequests(List<String> friendRequests) {
+        this.friendRequests = friendRequests;
     }
 }

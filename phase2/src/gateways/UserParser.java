@@ -3,6 +3,8 @@ package gateways;
 import com.google.gson.GsonBuilder;
 import entities.User;
 
+// TODO LocalDateTime serializer & deserializer
+
 public class UserParser extends EntityParser<User> {
     public UserParser(String path) {
         super(User.class, path);
