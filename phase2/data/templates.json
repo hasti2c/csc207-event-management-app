@@ -34,7 +34,7 @@
     ],
     "templateName": "Great Concert",
     "templateId": "id100",
-    "fileVersionNumber": "1"
+    "fileVersionNumber": 1
   },
   {
     "fieldDescriptions": [
@@ -76,6 +76,6 @@
     ],
     "templateName": "Wedding",
     "templateId": "id200",
-    "fileVersionNumber": "1"
+    "fileVersionNumber": 1
   }
 ]
