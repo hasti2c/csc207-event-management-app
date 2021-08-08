@@ -3,6 +3,7 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * A user within the program
  */
@@ -13,12 +14,14 @@ public class User {
     private String username;
     private String password;
     private String userEmail;
+    private String tempPass;
     private transient boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
     private List<String> ownedEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be published.
     private List<String> attendingEvents;
     // needs to be public so that it can be used in the constructor and the UserManager class can access it.
+
     public enum UserType {
         R, A, T
     }
@@ -43,11 +46,21 @@ public class User {
         this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
         this.loggedIn = false;
+        this.tempPass = null;
+
     }
     public User() {
     }
+
+
+
     // === Getters ===
 
+    /**
+     * Gets users temporary password
+     * @return String user's temp password
+     */
+    public String getTempPass() {return this.tempPass;}
     /**
      * Gets the User's type, R.A.T
      * @return Enum The User's type, R.A.T
@@ -168,6 +181,14 @@ public class User {
      */
     public void setAttendingEvents(List<String> attendingEvents) {
         this.attendingEvents = attendingEvents;
+    }
+
+    /**
+     * Sets user's temp password
+     * @param pass String for the password
+     */
+    public void setTempPass(String pass){
+        this.tempPass = pass;
     }
 
 }
