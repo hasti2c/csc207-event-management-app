@@ -7,8 +7,9 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 
 public class MessageBox implements Iterable<Message>{
-    private final List<Message> messages;
+    private final ArrayList<Message> messages;
     private String owner;
+    private Integer currentSize;
 
     /**
      * Creates a new MessageBox for the designated owner
@@ -16,6 +17,7 @@ public class MessageBox implements Iterable<Message>{
      */
     public MessageBox(String owner) {
         this.messages = new ArrayList<>();
+        this.currentSize = 0;
         this.owner = owner;
     }
 
@@ -33,7 +35,17 @@ public class MessageBox implements Iterable<Message>{
     }
 
     public void receiveMessage(Message message) {
-        // add this message to the mailbox
+        messages.add(message);
+        currentSize++;
+    }
+
+    public Message findMessage(Message message){
+        for(Message m : messageBox){
+            if(m == message){
+                return m;
+            }
+        }
+        return null;
     }
 
     /**
@@ -43,7 +55,26 @@ public class MessageBox implements Iterable<Message>{
      */
     @Override
     public Iterator<Message> iterator() {
-        return null;
+        Iterator<Message> messageIterator = new Iterator<Message>() {
+
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < currentSize && messages.get(currentIndex) != null;
+            }
+
+            @Override
+            public Message next() {
+                return messages.get(currentIndex++);
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+        return messageIterator;
     }
 
     /**
