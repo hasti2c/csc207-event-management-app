@@ -167,7 +167,7 @@ public class UserController {
      */
     private boolean isValidUsername(String username){
         Matcher matcher = validUsername.matcher(username);
-        return matcher.find() && !username.equals(TRIAL_USERNAME);
+        return matcher.find() && !username.equals(TRIAL_USERNAME) && !username.equalsIgnoreCase("admin");
     }
 
     // == Inputting ==
