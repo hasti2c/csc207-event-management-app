@@ -55,7 +55,7 @@ public class MessageBox implements Iterable<Message>{
      */
     @Override
     public Iterator<Message> iterator() {
-        Iterator<Message> messageIterator = new Iterator<Message>() {
+        Iterator<Message> msgIterator = new Iterator<Message>() {
 
             private int currentIndex = 0;
 
@@ -66,7 +66,8 @@ public class MessageBox implements Iterable<Message>{
 
             @Override
             public Message next() {
-                return messages.get(currentIndex++);
+                currentIndex++;
+                return messages.get(currentIndex);
             }
 
             @Override
@@ -74,7 +75,7 @@ public class MessageBox implements Iterable<Message>{
                 throw new UnsupportedOperationException();
             }
         };
-        return messageIterator;
+        return msgIterator;
     }
 
     /**
