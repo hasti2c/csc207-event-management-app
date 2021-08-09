@@ -19,6 +19,7 @@ public enum Command {
     ACCOUNT_MENU("Account Menu"),
     SAVE("Save"),
     LOG_OUT("Log Out"),
+    EXIT_TRIAL("Exit Trial"),
     CHANGE_USERNAME("Change Username"),
     CHANGE_PASSWORD("Change Password"),
     CHANGE_EMAIL("Change Email"),
