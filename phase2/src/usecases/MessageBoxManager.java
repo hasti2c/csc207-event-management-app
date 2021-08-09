@@ -12,6 +12,8 @@ public class MessageBoxManager {
 
     public MessageBoxManager() {
         messageBoxList = new ArrayList<>();
+        // Create the default admin MessageBox
+        createMessageBox("admin");
     }
 
     /**
@@ -31,39 +33,6 @@ public class MessageBoxManager {
         // If no MessageBox object has owner username, then return empty List
         return new ArrayList<Message>();
     }
-
-    // TODO: WHEN IDRIS PUSHES PUT THIS METHOD IN MESSAGEBOX, THEN JUST HAVE A SIMPLE GET METHOD IN MANAGER
-    /**
-     * Return a list of strings of the Headlines of the desired User's MessageBox
-     * @param username The username of the user whose messages will be viewed
-     * @return List<String> A list of message headlines
-     */
-    public List<String> getHeadlines(String username){
-        List<String> headlineList = new ArrayList<>();
-        MessageBox usersMessageBox = getMessageBoxOfUser(username);
-        for (Message message : usersMessageBox) {
-            headlineList.add(message.getMessageHeadLine());
-        }
-        return headlineList;
-    }
-
-    // TODO: WHEN IDRIS PUSHES PUT THIS METHOD IN MESSAGEBOX, THEN JUST HAVE A SIMPLE GET METHOD IN MANAGER
-    /**
-     * Return a list of Map<String,String> of the details of the desired User's messages
-     * @param username The username of the user whose messages will be viewed
-     * @return List<Map<String, String>>  A list of message details
-     */
-
-    public List<Map<String, String>> getDetailMaps(String username){
-        List<Map<String, String>> detailMapList = new ArrayList<>();
-        MessageBox usersMessageBox = getMessageBoxOfUser(username);
-        for (Message message : usersMessageBox) {
-            detailMapList.add(message.getDetails());
-        }
-        return detailMapList;
-    }
-
-
 
     /**
      * Creates a MessageBox instance for given user.
@@ -91,14 +60,6 @@ public class MessageBoxManager {
      */
     public void sendMail(String username, String headLine, String body, String recipient){
         Message newMessage = new Message(headLine, body, username, recipient);
-
-        // Add it to sender's MessageBox
-        for (MessageBox messageBox : messageBoxList) {
-            String owner = messageBox.getOwner();
-            if (owner.equals(username)) {
-                messageBox.receiveMessage(newMessage);
-            }
-        }
 
         // Add it to recipient's MessageBox
         for (MessageBox messageBox : messageBoxList) {
@@ -137,4 +98,36 @@ public class MessageBoxManager {
         }
         return null;
     }
+
+    /**
+     * Return a list of strings of the Headlines of the desired User's MessageBox. If the user does not exist return
+     * an empty list
+     * @param username The username of the user whose messages will be viewed
+     * @return List<String> A list of message headlines
+     */
+    public List<String> getHeadlines(String username){
+        MessageBox messageBoxOfUser = getMessageBoxOfUser(username);
+        if (messageBoxOfUser != null) {
+            return messageBoxOfUser.getMessageHeadlines();
+        }
+        else {
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Return a list of Map<String,String> of the details of the desired User's messages
+     * @param username The username of the user whose messages will be viewed
+     * @return List<Map<String, String>>  A list of message details
+     */
+    public List<Map<String, String>> getDetailMaps(String username){
+        MessageBox messageBoxOfUser = getMessageBoxOfUser(username);
+        if (messageBoxOfUser != null) {
+            return messageBoxOfUser.getDetailMaps();
+        }
+        else {
+            return new ArrayList<>();
+        }
+    }
+
 }

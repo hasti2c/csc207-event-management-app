@@ -1,9 +1,6 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class MessageBox implements Iterable<Message>{
@@ -19,6 +16,30 @@ public class MessageBox implements Iterable<Message>{
         this.messages = new ArrayList<>();
         this.currentSize = 0;
         this.owner = owner;
+    }
+
+    /**
+     * Get the message headline of every message within the MessageBox
+     * @return List<String> The List of Message headlines within the MessageBox
+     */
+    public List<String> getMessageHeadlines(){
+        List<String> headlineList = new ArrayList<>();
+        for (Message message : messages) {
+            headlineList.add(message.getMessageHeadLine());
+        }
+        return headlineList;
+    }
+
+    /**
+     * Return a list of Map<String,String> of the details of the messages within this MessageBox
+     * @return List<Map<String, String>>  A list of message details
+     */
+    public List<Map<String, String>> getDetailMaps(){
+        List<Map<String, String>> detailMapList = new ArrayList<>();
+        for (Message message : messages) {
+            detailMapList.add(message.getDetails());
+        }
+        return detailMapList;
     }
 
     public void setOwner(String owner) {

@@ -19,6 +19,14 @@ public class MessageController {
     private final InputParser inputParser;
     private final MessageBoxManager messageBoxManager;
 
+    /**
+     * Creates an instance of MessageController
+     * @param userManager The userManager of the system
+     * @param eventManager The eventManager of the system
+     * @param presenter The presenter of the system
+     * @param inputParser The InputParser of the system
+     * @param messageBoxManager The messageBoxManager of the system
+     */
     public MessageController(UserManager userManager, EventManager eventManager, Presenter presenter,
                              InputParser inputParser, MessageBoxManager messageBoxManager) {
         this.userManager = userManager;
@@ -59,6 +67,21 @@ public class MessageController {
     }
 
     /**
+     * Allows an admin to send a message to every User within the system
+     */
+    public void sendAdminAnnouncement(){
+        try{
+            String headline = readHeadline();
+            String body = readBody();
+            for (String username : userManager.getUsernameList()) {
+                messageBoxManager.sendMail("admin", headline, body, username);
+            }
+        } catch (ExitException e){
+            return;
+        }
+    }
+
+    /**
      * Allows a user to view their inbox
      * @param username The user who is viewing their inbox
      */
@@ -78,6 +101,8 @@ public class MessageController {
             }
         }
     }
+
+    // ========== Private helpers ===============
 
     /**
      * Attempts to read who the user wishes to send a message to
