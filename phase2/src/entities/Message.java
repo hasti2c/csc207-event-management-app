@@ -1,6 +1,11 @@
 package entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.Map;
+// TODO: Print time in MessageInfo and toString
+
 
 /**
  * A Message within the messaging system. Extends the Observable java class.
@@ -11,6 +16,10 @@ public class Message{
     private final String sender;
     private final String recipient;
     private final LocalDateTime sentDate;
+
+    // Datetime stuff
+    private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
 
     /**
      * Creates an object of type Message
@@ -73,7 +82,8 @@ public class Message{
      * @return String The info of the message
      */
     public String messageInfo(){
-        return messageHeadLine + " | Sent by: " + sender;
+        String sent_time = sentDate.format(formatter);
+        return messageHeadLine + " | Sent by: " + sender + "at: " + sent_time;
     }
 
     /**
@@ -83,5 +93,17 @@ public class Message{
     @Override
     public String toString() {
         return messageHeadLine + " | Sent by: " + sender + "\n \n" + messageBody;
+    }
+
+    /**
+     * Return a map of the message that can be utilised by a presenter.
+     * @return Map<String, String> A map of the details where the key is the detail title, and the value is the detail.
+     */
+    public Map<String, String> getDetails(){
+        Map<String, String> detailsMap = new LinkedHashMap<>();
+        detailsMap.put("Sender", sender);
+        detailsMap.put("Headline", messageHeadLine);
+        detailsMap.put("Body", messageBody);
+        return detailsMap;
     }
 }
