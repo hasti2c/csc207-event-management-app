@@ -100,8 +100,10 @@ public class Message{
      * @return Map<String, String> A map of the details where the key is the detail title, and the value is the detail.
      */
     public Map<String, String> getDetails(){
+        String sent_time = sentDate.format(formatter);
         Map<String, String> detailsMap = new LinkedHashMap<>();
         detailsMap.put("Sender", sender);
+        detailsMap.put("Sent Time", sent_time);
         detailsMap.put("Headline", messageHeadLine);
         detailsMap.put("Body", messageBody);
         return detailsMap;
