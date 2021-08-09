@@ -23,9 +23,9 @@ public class UserController {
     private final InputParser inputParser;
 
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
-    public static final Pattern validEmail =
+    public final Pattern validEmail =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern validUsername =
+    public final Pattern validUsername =
             Pattern.compile("^[a-zA-Z0-9._%+-]+$", Pattern.CASE_INSENSITIVE);
 
     /**
