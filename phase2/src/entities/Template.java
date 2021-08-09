@@ -69,6 +69,14 @@ public class Template {
     public void addFieldSpecs(FieldSpecs fieldSpecs){
         this.fieldDescriptions.add(fieldSpecs);
     }
+
+    public void deleteFieldSpecs(String fieldName){
+        for (FieldSpecs fieldSpecs: this.fieldDescriptions){
+            if (fieldSpecs.getFieldName().equals(fieldName)){
+                this.getFieldDescriptions().remove(fieldSpecs);
+            }
+        }
+    }
 //    // Not for phase 1
 //    public void setFileVersionNumber(String fileVersionNumber) {
 //        this.fileVersionNumber = fileVersionNumber;
