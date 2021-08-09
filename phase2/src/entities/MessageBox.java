@@ -61,7 +61,7 @@ public class MessageBox implements Iterable<Message>{
     }
     // don't know if this needs to be in this class
     public Message findMessage(Message message){
-        for(Message m : messageBox){
+        for(Message m : messages){
             if(m == message){
                 return m;
             }
