@@ -18,7 +18,7 @@ public class Message{
     private final LocalDateTime sentDate;
 
     // Datetime stuff
-    private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
+    private final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
 
     /**
