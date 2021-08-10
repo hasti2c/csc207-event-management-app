@@ -177,7 +177,7 @@ public class User {
      * Set a new list of created events
      * @param createdEvents The new list of created events
      */
-    public void setCreatedEvents(List<String> createdEvents) {
+    public void setcreatedEvents(List<String> createdEvents) {
         this.ownedEvents = createdEvents;
     }
 

@@ -69,7 +69,7 @@ public class TemplateManager {
     public String createTemplate(String templateName){
         List<FieldSpecs> emptyFieldSpecs = new ArrayList<>();
         Template template = new Template(emptyFieldSpecs, templateName);
-        return template.getTemplateId();
+        return template.getTemplateName();
     }
 
     public FieldSpecs createNewFieldSpecs(String inputFieldName, String inputDataType, String inputIsRequired){
@@ -101,10 +101,29 @@ public class TemplateManager {
     }
 
 
-    public void addFieldSpecs(String templateid, FieldSpecs fieldSpecs){
+    public void addFieldSpecs(String templateName, FieldSpecs fieldSpecs){
         for (Template template: templateList){
-            if(template.getTemplateId().equals(templateid)){
+            if(template.getTemplateName().equals(templateName)){
                 template.addFieldSpecs(fieldSpecs);
+            }
+        }
+    }
+
+    public void deleteTemplate(String templateName){
+        for (Template template: templateList){
+            if(template.getTemplateName().equals(templateName)){
+                templateList.remove(retrieveTemplateByName(templateName));
+            }
+        }
+    }
+    public void deleteFieldSpecs(String templateName, String fieldName){
+        for (Template template: templateList){
+            if(template.getTemplateName().equals(templateName)){
+                for (FieldSpecs fieldSpecs: template.getFieldDescriptions()){
+                    if (fieldSpecs.getFieldName().equals(fieldName)){
+                        template.getFieldDescriptions().remove(fieldSpecs);
+                    }
+                }
             }
         }
     }

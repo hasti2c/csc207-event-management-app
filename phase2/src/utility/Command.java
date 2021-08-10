@@ -7,8 +7,8 @@ public enum Command {
     ADMIN_MENU("Admin Menu"),
     SIGN_UP("Sign Up"),
     // LOGIN is MAIN_MENU
-    LOGIN("Login"),
-    TRIAL("Trial"),
+    LOGIN("Main Menu"),
+    TRIAL_MENU("Trial Menu"),
     EXIT("Exit"),
     CREATE_EVENT("Create Event"),
     VIEW_ATTENDED("View Attended Events"),
@@ -19,6 +19,7 @@ public enum Command {
     ACCOUNT_MENU("Account Menu"),
     SAVE("Save"),
     LOG_OUT("Log Out"),
+    EXIT_TRIAL("Exit Trial"),
     CHANGE_USERNAME("Change Username"),
     CHANGE_PASSWORD("Change Password"),
     CHANGE_EMAIL("Change Email"),

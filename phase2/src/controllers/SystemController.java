@@ -13,8 +13,8 @@ import usecases.*;
 import utility.Command;
 
 import static utility.AppConstant.*;
-import static utility.Command.*;
 import static entities.UserType.*;
+import static utility.Command.*;
 
 import java.util.*;
 
@@ -30,9 +30,11 @@ public class SystemController {
     private final UserManager userManager;
     private final EventManager eventManager;
     private final TemplateManager templateManager;
+    private final MenuManager menuManager;
 
-    private final Map<String, List<Command>> menuMap = new HashMap<>();
+//    private final Map<String, List<Command>> menuMap = new HashMap<>();
     private String currentUser;
+    private UserType currentUserType;
 
     // == initializing ==
     public SystemController() {
@@ -49,19 +51,19 @@ public class SystemController {
 
         eventController = new EventController(userManager, eventManager, templateManager);
         userController = new UserController(userManager, eventManager);
-
-        initMenuMap();
+//
+//        initMenuMap();
     }
 
-    private void initMenuMap() {
-        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, Command.TRIAL, EXIT));
-        menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
-                ACCOUNT_MENU, SAVE, LOG_OUT));
-        // TODO Change GO_BACK to EXIT_TRIAL
-        menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
-        menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
-                DELETE_ACCOUNT, GO_BACK));
-    }
+//    private void initMenuMap() {
+//        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
+//        menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
+//                ACCOUNT_MENU, SAVE, LOG_OUT));
+//        // TODO Change GO_BACK to EXIT_TRIAL
+//        menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
+//        menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
+//                DELETE_ACCOUNT, GO_BACK));
+//    }
 
     // == menus ==
     /**
@@ -69,66 +71,71 @@ public class SystemController {
      */
     public void run(){
         presenter.printText(WELCOME_TEXT);
-        runMenu("Start Up Menu");
+        runMenu(START_UP);
     }
 
-    private void runMainMenu() {
-        runMenu("Main Menu");
-    }
+//    private void runMainMenu() {
+//        runMenu("Main Menu");
+//    }
 
-    /**
-     * Run the menu that the trial users interact with
-     */
-    private void runTrialMenu(){
-        createTrialUser();
-        runMenu("Trial Menu");
-        try {
-            deleteAccount();
-        } catch (ExitException ignored) {
+//    /**
+//     * Run the menu that the trial users interact with
+//     */
+//    private void runTrialMenu(){
+//        createTrialUser();
+//        runMenu("Trial Menu");
+//        try {
+//            deleteAccount();
+//        } catch (ExitException ignored) {
+//
+//        }
+//    }
 
-        }
-    }
-
-    /**
-     * Run the menu that allows the User to interact with their account
-     * @return false if the user has been deleted, true if not
-     */
-    private void runAccountMenu() throws ExitException {
-        runMenu("Account Menu");
-        if (currentUser == null)
-            throw new ExitException();
-    }
+//    /**
+//     * Run the menu that allows the User to interact with their account
+//     * @return false if the user has been deleted, true if not
+//     */
+//    private void runAccountMenu() throws ExitException {
+//        runMenu("Account Menu");
+//        if (currentUser == null)
+//            throw new ExitException();
+//    }
 
     // == menu helpers ==
-    private void runMenu(String menuName) {
+    private void runMenu(Command currentCommand) {
         while (true) {
-            Command userInput = getUserCommand(menuName);
+            Command userInput = getUserMenuChoice(currentCommand);
             if (userInput == null) {
                 continue;
             }
 
             try {
-            runUserCommand(userInput);
+                runUserCommand(userInput);
             } catch (ExitException e) {
                 return;
             }
         }
     }
 
-    private Command getUserCommand(String menuName) {
-        List<Command> commands = menuMap.get(menuName);
-        List<String> commandNames = new ArrayList<>();
-        for (Command command: commands) {
-            commandNames.add(command.getName());
-        }
-        presenter.printMenu(menuName, commandNames);
+    private Command getUserMenuChoice(Command command) {
+        displayMenu(command);
+        List<Command> menuOptions = menuManager.getPermittedSubMenu(currentUserType, command);
         int user_input = inputParser.readInt();
         try {
-            return commands.get(user_input - 1);
+            return menuOptions.get(user_input - 1);
         } catch (IndexOutOfBoundsException e) {
             invalidInput();
             return null;
         }
+    }
+
+    private void displayMenu(Command command) {
+        List<Command> menuOptions = menuManager.getPermittedSubMenu(currentUserType, command);
+        List<String> menuNames = new ArrayList<>();
+        for (Command menuOption: menuOptions) {
+            menuNames.add(menuOption.getName());
+        }
+        presenter.printMenu(command.getName(), menuNames);
     }
 
     private void invalidInput() {
@@ -137,16 +144,16 @@ public class SystemController {
 
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
-            case START_UP:
-                runMenu("Start Up Menu");
+//            case START_UP:
+//                runMenu(START_UP);
             case SIGN_UP:
                 signUp();
                 break;
             case LOGIN:
                 login();
                 break;
-            case TRIAL:
-                runTrialMenu();
+            case TRIAL_MENU:
+                runMenu(Command.TRIAL_MENU);
                 break;
             case EXIT:
                 exit();
@@ -164,7 +171,7 @@ public class SystemController {
                 editTemplate();
                 break;
             case ACCOUNT_MENU:
-                runAccountMenu();
+                runMenu(ACCOUNT_MENU);
                 break;
             case SAVE:
                 saveAll();
@@ -187,6 +194,7 @@ public class SystemController {
             case DELETE_ACCOUNT:
                 deleteAccount();
                 break;
+            case EXIT_TRIAL:
             case GO_BACK:
                 throw new ExitException();
         }
@@ -203,7 +211,8 @@ public class SystemController {
         String attemptedLoginUsername = userController.userLogin();
         if (attemptedLoginUsername != null){
             this.currentUser = attemptedLoginUsername;
-            runMainMenu();
+            this.currentUserType = userManager.retrieveUserType(attemptedLoginUsername);
+            runMenu(LOGIN);
         }
     }
 
