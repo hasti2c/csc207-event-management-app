@@ -3,8 +3,6 @@ package gateways;
 import com.google.gson.*;
 import entities.Template;
 
-import static gateways.GatewayUtility.*;
-
 // TODO* Generics
 
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums, Class<?>
@@ -17,12 +15,7 @@ public class TemplateGateway extends EntityGateway<Template> {
 
     @Override
     protected GsonBuilder getGsonBuilder() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting();
-
-        gsonBuilder.registerTypeAdapter(Class.class, new ClassSerializer());
-        gsonBuilder.registerTypeAdapter(Class.class, new ClassDeserializer());
-        return gsonBuilder;
+        return GatewayUtility.getSimpleGsonBuilder();
     }
 
     @Override
