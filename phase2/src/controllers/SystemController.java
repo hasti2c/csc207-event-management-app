@@ -1,9 +1,6 @@
 package controllers;
 
-import entities.Event;
-import entities.Template;
-import entities.User;
-import entities.UserType;
+import entities.*;
 import gateways.*;
 import gateways.EventGateway;
 import gateways.TemplateGateway;
@@ -41,10 +38,12 @@ public class SystemController {
         IGateway<User> userGateway = new UserGateway("phase2/data/users.json");
         IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
         IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
+        IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
         eventManager = new EventManager(eventGateway, templateManager);
+        menuManager = new MenuManager(menuGateway);
 
         presenter = new Presenter();
         inputParser = new InputParser();
@@ -234,6 +233,7 @@ public class SystemController {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
+        menuManager.saveAllMenus();
         presenter.printText("Everything has been successfully saved.");
     }
 

@@ -28,23 +28,13 @@ public abstract class EntityGateway<T> implements IGateway<T> {
     }
 
     @Override
-    public T getElement(String elementId) {
-        return elements.get(elementId);
-    }
-
-    @Override
     public List<T> getAllElements() {
         return new ArrayList<>(elements.values());
     }
 
     @Override
-    public void saveElement(T element) {
-        String elementId = getElementId(element);
-        if (elements.containsKey(elementId))
-            elements.replace(elementId, element);
-        else
-            elements.put(elementId, element);
-        writeElements();
+    public Map<String, T> getElementMap() {
+        return new HashMap<>(elements);
     }
 
     @Override
@@ -56,13 +46,9 @@ public abstract class EntityGateway<T> implements IGateway<T> {
     }
 
     @Override
-    public void deleteElement(T element) {
-        elements.remove(getElementId(element));
-    }
-
-    @Override
-    public void deleteElement(String elementId) {
-        elements.remove(elementId);
+    public void saveAllElements(Map<String, T> elements) {
+        this.elements = new HashMap<>(elements);
+        writeElements();
     }
 
     private void readElements() {
