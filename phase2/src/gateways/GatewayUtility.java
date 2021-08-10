@@ -6,6 +6,15 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 
 public class GatewayUtility {
+    static GsonBuilder getSimpleGsonBuilder() {
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        gsonBuilder.registerTypeAdapter(Class.class, new ClassSerializer());
+        gsonBuilder.registerTypeAdapter(Class.class, new ClassDeserializer());
+        return gsonBuilder;
+    }
+
     static class LocalDateTimeSerializer implements JsonSerializer<LocalDateTime> {
         @Override
         public JsonElement serialize(LocalDateTime localDateTime, Type type, JsonSerializationContext context) {

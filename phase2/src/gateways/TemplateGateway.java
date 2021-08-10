@@ -15,12 +15,7 @@ public class TemplateGateway extends EntityGateway<Template> {
 
     @Override
     protected GsonBuilder getGsonBuilder() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting();
-
-        gsonBuilder.registerTypeAdapter(Class.class, new GatewayUtility.ClassSerializer());
-        gsonBuilder.registerTypeAdapter(Class.class, new GatewayUtility.ClassDeserializer());
-        return gsonBuilder;
+        return GatewayUtility.getSimpleGsonBuilder();
     }
 
     @Override
