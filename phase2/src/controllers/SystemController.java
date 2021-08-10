@@ -40,7 +40,7 @@ public class SystemController {
         IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
         IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
         IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
-        IGateway<UserTypePermissions> userPermissionsGateway = new UserTypePermissionsGateway("phase2/data/usertype_permissions.json")
+        IGateway<UserTypePermissions> userPermissionsGateway = new UserTypePermissionsGateway("phase2/data/usertype_permissions.json");
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
