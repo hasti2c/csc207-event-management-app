@@ -4,10 +4,9 @@ import entities.Event;
 import entities.Template;
 import entities.User;
 import entities.UserType;
-import gateways.EventParser;
-import gateways.IGateway;
-import gateways.TemplateParser;
-import gateways.UserParser;
+import gateways.*;
+import gateways.EventGateway;
+import gateways.TemplateGateway;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.*;
@@ -37,13 +36,13 @@ public class SystemController {
 
     // == initializing ==
     public SystemController() {
-        IGateway<User> userParser = new UserParser("phase2/data/users.json");
-        IGateway<Event> eventParser = new EventParser("phase2/data/events.json");
-        IGateway<Template> templateParser = new TemplateParser("phase2/data/templates.json");
+        IGateway<User> userGateway = new UserGateway("phase2/data/users.json");
+        IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
+        IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
 
-        userManager = new UserManager(userParser);
-        templateManager = new TemplateManager(templateParser);
-        eventManager = new EventManager(eventParser, templateManager);
+        userManager = new UserManager(userGateway);
+        templateManager = new TemplateManager(templateGateway);
+        eventManager = new EventManager(eventGateway, templateManager);
 
         presenter = new Presenter();
         inputParser = new InputParser();

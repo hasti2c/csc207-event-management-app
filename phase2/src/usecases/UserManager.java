@@ -19,16 +19,16 @@ public class UserManager {
     private List<User> userList;
     private List<String> usernamesList;
     private List<String> emailList;
-    private IGateway<User> parser;
+    private IGateway<User> gateway;
     // === Methods ===
 
     /**
      * Initializes a UserManager object
-     * @param parser A parser object of type IGateway<User> used to load data
+     * @param gateway A gateway object of type IGateway<User> used to load data
      */
-    public UserManager(IGateway<User> parser) {
-        this.parser = parser;
-        userList = parser.getAllElements();
+    public UserManager(IGateway<User> gateway) {
+        this.gateway = gateway;
+        userList = gateway.getAllElements();
         usernamesList = new ArrayList<>();
         emailList = new ArrayList<>();
         for (User user :
@@ -359,7 +359,7 @@ public class UserManager {
     }
 
     public void saveAllUsers() {
-        parser.saveAllElements(userList);
+        gateway.saveAllElements(userList);
     }
 
     public void addFriendRequest(String username, String requester) {
