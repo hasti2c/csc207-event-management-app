@@ -16,12 +16,12 @@ public class EventManager {
     // === Class Variables ===
     private List<Event> eventList;
     private TemplateManager templateManager;
-    private IGateway<Event> parser;
+    private IGateway<Event> gateway;
     private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
 
-    public EventManager(IGateway<Event> parser, TemplateManager templateManager) {
-        this.parser = parser;
-        eventList = parser.getAllElements();
+    public EventManager(IGateway<Event> gateway, TemplateManager templateManager) {
+        this.gateway = gateway;
+        eventList = gateway.getAllElements();
         this.templateManager = templateManager;
     }
 
@@ -351,6 +351,6 @@ public class EventManager {
      * Saves all events
      */
     public void saveAllEvents() {
-        parser.saveAllElements(eventList);
+        gateway.saveAllElements(eventList);
     }
 }

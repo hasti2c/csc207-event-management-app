@@ -14,13 +14,13 @@ import java.util.Map;
 
 // TODO javadocs
 
-public abstract class EntityParser<T> implements IGateway<T> {
+public abstract class EntityGateway<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
     private final Gson gson;
     private Map<String, T> elements;
 
-    public EntityParser(Class<T> dataType, String path) {
+    public EntityGateway(Class<T> dataType, String path) {
         this.dataType = dataType;
         this.path = path;
         gson = getGsonBuilder().create();

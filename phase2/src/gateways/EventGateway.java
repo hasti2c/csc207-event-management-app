@@ -9,8 +9,8 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class EventParser extends EntityParser<Event> {
-    public EventParser(String path) {
+public class EventGateway extends EntityGateway<Event> {
+    public EventGateway(String path) {
         super(Event.class, path);
     }
 
