@@ -3,6 +3,7 @@ package usecases;
 import entities.UserType;
 import gateways.IGateway;
 import entities.User;
+import org.apache.commons.text.RandomStringGenerator;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class UserManager {
     private List<String> usernamesList;
     private List<String> emailList;
     private IGateway<User> parser;
+    private RandomStringGenerator generator;
     // === Methods ===
 
     /**
@@ -27,6 +29,7 @@ public class UserManager {
      * @param parser A parser object of type IGateway<User> used to load data
      */
     public UserManager(IGateway<User> parser) {
+        this.generator = new RandomStringGenerator.Builder().withinRange('A', 'Z').build();
         this.parser = parser;
         userList = parser.getAllElements();
         usernamesList = new ArrayList<>();
@@ -158,6 +161,24 @@ public class UserManager {
         else{
             return false;
         }
+    }
+
+    /**
+     * Generates a random temp password for the user
+     * @param username Username of user who requested temp password
+     */
+    public void generateTempPass(String username) {
+        User user = retrieveUser(username);
+        user.setTempPass(generator.generate(10, 20));
+    }
+
+    /**
+     * Gets user's temp password
+     * @param username Username of user who requested temp password
+     * @return String corresponding to the temp password
+     */
+    public String getTempPass(String username) {
+        return retrieveUser(username).getTempPass();
     }
 
     /**
