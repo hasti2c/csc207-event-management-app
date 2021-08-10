@@ -2,6 +2,7 @@ package usecases;
 
 import entities.Message;
 import entities.MessageBox;
+import gateways.IGateway;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.Map;
 
 public class MessageBoxManager {
     private final List<MessageBox> messageBoxList;
+    private final IGateway<MessageBox> gateway;
 
-    public MessageBoxManager() {
-        messageBoxList = new ArrayList<>();
+    public MessageBoxManager(IGateway<MessageBox> gateway) {
+        this.gateway = gateway;
+        messageBoxList = gateway.getAllElements();
         // Create the default admin MessageBox
         createMessageBox("admin");
     }
@@ -130,4 +133,10 @@ public class MessageBoxManager {
         }
     }
 
+    /**
+     * Saves all message boxes.
+     */
+    public void saveAllMessageBoxes() {
+        gateway.saveAllElements(messageBoxList);
+    }
 }

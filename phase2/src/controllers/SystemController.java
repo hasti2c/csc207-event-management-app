@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Event;
+import entities.MessageBox;
 import entities.Template;
 import entities.User;
 import gateways.*;
@@ -26,6 +27,7 @@ public class SystemController {
     private final UserManager userManager;
     private final EventManager eventManager;
     private final TemplateManager templateManager;
+    private final MessageBoxManager messageBoxManager;
 
     private final Map<String, List<Command>> menuMap = new HashMap<>();
     private String currentUser;
@@ -35,10 +37,12 @@ public class SystemController {
         IGateway<User> userGateway = new UserGateway("phase2/data/users.json");
         IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
         IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
+        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway("phase2/data/messageBoxes.json");
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
         eventManager = new EventManager(eventGateway, templateManager);
+        messageBoxManager = new MessageBoxManager(messageBoxGateway);
 
         presenter = new Presenter();
         inputParser = new InputParser();
@@ -217,6 +221,7 @@ public class SystemController {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
+        messageBoxManager.saveAllMessageBoxes();
         presenter.printText("Everything has been successfully saved.");
     }
 
