@@ -383,50 +383,26 @@ public class UserManager {
         gateway.saveAllElements(userList);
     }
 
-    public void addFriendRequest(String username, String requester) {
-        User user = retrieveUser(username);
-        List<String> friendRequests = user.getFriendRequests();
-        if (!friendRequests.contains(requester)) {
-            friendRequests.add(requester);
-        }
-    }
-
-    public void removeFriendRequest(String username, String requester) {
-        User user = retrieveUser(username);
-        user.getFriendRequests().remove(requester);
-    }
-
-    public void acceptFriendRequest(String username, String requester) {
-        removeFriendRequest(username, requester);
-        removeFriendRequest(requester, username);
-        addFriend(username, requester);
-    }
-
-    public void declineFriendRequest(String username, String requester) {
-        removeFriendRequest(username, requester);
-        removeFriendRequest(requester, username);
-    }
-
     public void addFriend(String first, String second) {
-        User firstUser = retrieveUser(first);
-        List<String> firstFriends = firstUser.getFriends();
-        if (!firstFriends.contains(second))
-            firstFriends.add(second);
-
-        User secondUser = retrieveUser(second);
-        List<String> secondFriends = secondUser.getFriends();
-        if (!secondFriends.contains(first))
-            firstFriends.add(first);
+        addToFriendsList(first, second);
+        addToFriendsList(second, first);
     }
 
     public void removeFriend(String first, String second) {
-        User firstUser = retrieveUser(first);
-        List<String> firstFriends = firstUser.getFriends();
-        firstFriends.remove(second);
+        removeFromFriendsList(first, second);
+        removeFromFriendsList(second, first);
+    }
 
-        User secondUser = retrieveUser(second);
-        List<String> secondFriends = secondUser.getFriends();
-        secondFriends.remove(first);
+    private void addToFriendsList(String username, String friend) {
+        User user = retrieveUser(username);
+        List<String> friends = user.getFriends();
+        if (!friends.contains(friend))
+            friends.add(friend);
+    }
+
+    private void removeFromFriendsList(String username, String friend) {
+        User user = retrieveUser(username);
+        user.getFriends().remove(friend);
     }
 
     private void setSuspensionChangeDate(User user, Duration duration) {
