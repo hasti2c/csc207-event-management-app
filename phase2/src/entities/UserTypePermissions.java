@@ -8,15 +8,15 @@ public class UserTypePermissions {
     private UserType userType;
     private List<Command> permissions;
 
-    public UserTypePermissions(User.UserType userType) {
+    public UserTypePermissions(UserType userType) {
         this.userType = userType;
     }
 
-    public User.UserType getUserType() {
+    public UserType getUserType() {
         return userType;
     }
 
-    public void setUserType(User.UserType userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
 

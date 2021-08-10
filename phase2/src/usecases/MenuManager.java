@@ -4,7 +4,6 @@ import entities.UserType;
 import utility.Command;
 import entities.Menu;
 import entities.UserTypePermissions;
-import entities.User;
 
 import java.util.*;
 
@@ -20,7 +19,7 @@ public class MenuManager {
         // Initialize all Menus
         // Startup Menu
         Menu startUp = new Menu(null, START_UP);
-        startUp.setSubCommands(Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
+        startUp.setSubCommands(Arrays.asList(SIGN_UP, LOGIN, TRIAL_MENU, EXIT));
         allMenus.put(START_UP.getName(), startUp);
         // Main Menu, reaches this menu from LOGIN
         Menu mainLogIn = new Menu(START_UP, LOGIN);
@@ -36,7 +35,7 @@ public class MenuManager {
         allMenus.put(LOGIN.getName(), mainLogIn);
 
         // Trial User Menu
-        Menu trialMenu = new Menu(START_UP, TRIAL);
+        Menu trialMenu = new Menu(START_UP, TRIAL_MENU);
         trialMenu.setSubCommands(mainMenuCommands);
 
         // Account Menu
@@ -46,17 +45,17 @@ public class MenuManager {
         // TODO should we have menus for all the leaves and then just set the subCommands as null?
         // Initialize User Type Permissions
         // Admin
-        UserTypePermissions adminPerms = new UserTypePermissions(User.UserType.A);
+        UserTypePermissions adminPerms = new UserTypePermissions(UserType.ADMIN);
         adminPerms.setPermissions(Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, ACCOUNT_MENU,
                 SAVE, LOG_OUT, ADMIN_MENU, CHANGE_USERNAME, CHANGE_EMAIL, CHANGE_PASSWORD, DELETE_ACCOUNT, GO_BACK));
         allUserPermissions.add(adminPerms);
         // Regular
-        UserTypePermissions regularPerms = new UserTypePermissions(User.UserType.R);
+        UserTypePermissions regularPerms = new UserTypePermissions(UserType.REGULAR);
         regularPerms.setPermissions(Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, ACCOUNT_MENU,
                 SAVE, LOG_OUT, CHANGE_USERNAME, CHANGE_EMAIL, CHANGE_PASSWORD, DELETE_ACCOUNT, GO_BACK));
         allUserPermissions.add(regularPerms);
         // Trial
-        UserTypePermissions trialPerms = new UserTypePermissions(UserType.T);
+        UserTypePermissions trialPerms = new UserTypePermissions(UserType.TRIAL);
         trialPerms.setPermissions(Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, EXIT_TRIAL, GO_BACK));
         allUserPermissions.add(trialPerms);
     }
