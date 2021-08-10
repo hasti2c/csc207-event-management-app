@@ -21,6 +21,7 @@ import java.util.*;
 public class SystemController {
     private final UserController userController;
     private final EventController eventController;
+    private final MenuController menuController;
     private final Presenter presenter;
     private final InputParser inputParser;
 
@@ -29,7 +30,6 @@ public class SystemController {
     private final TemplateManager templateManager;
     private final MenuManager menuManager;
 
-//    private final Map<String, List<Command>> menuMap = new HashMap<>();
     private String currentUser;
     private UserType currentUserType;
 
@@ -52,21 +52,9 @@ public class SystemController {
 
         eventController = new EventController(userManager, eventManager, templateManager);
         userController = new UserController(userManager, eventManager);
-//
-//        initMenuMap();
+        menuController = new MenuController(menuManager);
     }
 
-//    private void initMenuMap() {
-//        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
-//        menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
-//                ACCOUNT_MENU, SAVE, LOG_OUT));
-//        // TODO Change GO_BACK to EXIT_TRIAL
-//        menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
-//        menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
-//                DELETE_ACCOUNT, GO_BACK));
-//    }
-
-    // == menus ==
     /**
      * Run the program, this runs the "StartUp Menu"
      */
@@ -75,41 +63,9 @@ public class SystemController {
         runMenu(START_UP);
     }
 
-//    private void runMainMenu() {
-//        runMenu("Main Menu");
-//    }
-
-//    /**
-//     * Run the menu that the trial users interact with
-//     */
-//    private void runTrialMenu(){
-//        createTrialUser();
-//        runMenu("Trial Menu");
-//        try {
-//            deleteAccount();
-//        } catch (ExitException ignored) {
-//
-//        }
-//    }
-
-//    /**
-//     * Run the menu that allows the User to interact with their account
-//     * @return false if the user has been deleted, true if not
-//     */
-//    private void runAccountMenu() throws ExitException {
-//        runMenu("Account Menu");
-//        if (currentUser == null)
-//            throw new ExitException();
-//    }
-
-    // == menu helpers ==
     private void runMenu(Command currentCommand) {
         while (true) {
-            Command userInput = getUserMenuChoice(currentCommand);
-            if (userInput == null) {
-                continue;
-            }
-
+            Command userInput = menuController.getUserMenuChoice(currentUserType, currentCommand);
             try {
                 runUserCommand(userInput);
             } catch (ExitException e) {
@@ -118,35 +74,10 @@ public class SystemController {
         }
     }
 
-    private Command getUserMenuChoice(Command command) {
-        displayMenu(command);
-        List<Command> menuOptions = menuManager.getPermittedSubMenu(currentUserType, command);
-        int user_input = inputParser.readInt();
-        try {
-            return menuOptions.get(user_input - 1);
-        } catch (IndexOutOfBoundsException e) {
-            invalidInput();
-            return null;
-        }
-    }
-
-    private void displayMenu(Command command) {
-        List<Command> menuOptions = menuManager.getPermittedSubMenu(currentUserType, command);
-        List<String> menuNames = new ArrayList<>();
-        for (Command menuOption: menuOptions) {
-            menuNames.add(menuOption.getName());
-        }
-        presenter.printMenu(command.getName(), menuNames);
-    }
-
-    private void invalidInput() {
-        presenter.printText("You did not enter a valid option, try again");
-    }
-
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
-//            case START_UP:
-//                runMenu(START_UP);
+            case START_UP:
+                runMenu(START_UP);
             case SIGN_UP:
                 signUp();
                 break;
@@ -154,7 +85,7 @@ public class SystemController {
                 login();
                 break;
             case TRIAL_MENU:
-                runMenu(Command.TRIAL_MENU);
+                runTrialMenu();
                 break;
             case EXIT:
                 exit();
@@ -172,7 +103,7 @@ public class SystemController {
                 editTemplate();
                 break;
             case ACCOUNT_MENU:
-                runMenu(ACCOUNT_MENU);
+                runAccountMenu();
                 break;
             case SAVE:
                 saveAll();
@@ -217,6 +148,14 @@ public class SystemController {
         }
     }
 
+    private void runTrialMenu() {
+        createTrialUser();
+        runMenu(TRIAL_MENU);
+        try {
+            deleteAccount();
+        } catch (ExitException ignored) {}
+    }
+
     private void exit() throws ExitException {
         saveAll();
         presenter.printText("Exiting...");
@@ -229,6 +168,12 @@ public class SystemController {
         } else {
             presenter.printText("Sorry you do not have permission to edit the templates.");
         }
+    }
+
+    private void runAccountMenu() throws ExitException {
+        runMenu(ACCOUNT_MENU);
+        if (currentUser == null)
+            throw new ExitException();
     }
 
     private void saveAll() {
@@ -302,7 +247,7 @@ public class SystemController {
     }
 
     private boolean chosenIndexLargerThanTheSize(List<?> list, int chosenIndex) {
-        if(list == null) {
+        if (list == null) {
             return true;
         }
         return chosenIndex > list.size();

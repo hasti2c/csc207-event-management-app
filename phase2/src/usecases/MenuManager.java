@@ -35,7 +35,7 @@ public class MenuManager {
         }
         if (userType == null && command.equals(START_UP)){
             permittedSubMenu = allSubCommands;
-        } else{
+        } else {
             for (Command commandItem: allSubCommands){
                 if (userTypePermissions.contains(commandItem)) {
                     permittedSubMenu.add(commandItem);
