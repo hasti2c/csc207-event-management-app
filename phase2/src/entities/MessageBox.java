@@ -4,9 +4,11 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class MessageBox implements Iterable<Message>{
-    private final ArrayList<Message> messages;
+    private ArrayList<Message> messages;
     private String owner;
     private Integer currentSize;
+
+    public MessageBox() {}
 
     /**
      * Creates a new MessageBox for the designated owner

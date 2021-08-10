@@ -11,15 +11,17 @@ import java.util.Map;
  * A Message within the messaging system. Extends the Observable java class.
  */
 public class Message{
-    private final String messageHeadLine;
-    private final String messageBody;
-    private final String sender;
-    private final String recipient;
-    private final LocalDateTime sentDate;
+    private String messageHeadLine;
+    private String messageBody;
+    private String sender;
+    private String recipient;
+    private LocalDateTime sentDate;
 
     // Datetime stuff
     private final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+
+    public Message() {}
 
     /**
      * Creates an object of type Message
