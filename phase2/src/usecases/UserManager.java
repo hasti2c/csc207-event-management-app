@@ -4,7 +4,9 @@ import gateways.IGateway;
 import entities.User;
 import org.apache.commons.text.RandomStringGenerator;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -127,14 +129,24 @@ public class UserManager {
             return false;
         }
     }
-
+    //TODO this does not work. usermanager should not be the one saving to file maybe put the block in gateway or create new gateway later.
     /**
      * Generates a random temp password for the user
      * @param username Username of user who requested temp password
      */
-    public void generateTempPass(String username) {
+    public void createTempPass(String username) {
         User user = retrieveUser(username);
-        user.setTempPass(generator.generate(10, 20));
+        String tempPass = generator.generate(10, 20);
+        user.setPassword(tempPass);
+        user.setTempPass(true);
+
+        try {
+            Path filepath = Paths.get("phase2/data/temppass/"+ username + ".txt");
+            Files.write(filepath, Collections.singleton(tempPass));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -142,8 +154,8 @@ public class UserManager {
      * @param username Username of user who requested temp password
      * @return String corresponding to the temp password
      */
-    public String getTempPass(String username) {
-        return retrieveUser(username).getTempPass();
+    public boolean tempPassState(String username) {
+        return retrieveUser(username).hasTempPass();
     }
 
     /**
@@ -290,6 +302,21 @@ public class UserManager {
             }
         }
         // If the loop ends and no users with the matching username are found, return null
+        return null;
+    }
+
+    /**
+     * Returns string of users username given an email
+     * Precondition: email in emailList.
+     * @param email String of users email.
+     * @return Returns users username corresponding to given email.
+     */
+    public String getUsernameByEmail(String email) {
+        for (User user : this.userList) {
+            if (user.getUserEmail().equals(email)) {
+                return user.getUsername();
+            }
+        }
         return null;
     }
 

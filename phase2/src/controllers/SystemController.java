@@ -53,7 +53,7 @@ public class SystemController {
     }
 
     private void initMenuMap() {
-        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
+        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, FORGOT_PASSWORD_OPTION, EXIT));
         menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
                 ACCOUNT_MENU, SAVE, LOG_OUT));
         // TODO Change GO_BACK to EXIT_TRIAL
@@ -147,6 +147,9 @@ public class SystemController {
             case TRIAL:
                 runTrialMenu();
                 break;
+            case FORGOT_PASSWORD_OPTION:
+                userController.forgotPassword();
+                break;
             case EXIT:
                 exit();
                 break;
@@ -175,7 +178,7 @@ public class SystemController {
                 changeUsername();
                 break;
             case CHANGE_PASSWORD:
-                userController.changePassword(currentUser);
+                userController.changePassword(currentUser, false);
                 break;
             case CHANGE_EMAIL:
                 userController.changeEmail(currentUser);

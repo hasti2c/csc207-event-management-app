@@ -59,18 +59,36 @@ public class UserController {
     }
 
     /**
-     * Log a User in within the program
+     * Log a User in within the program. If password used was temp password, prompt to change immediately.
      * @return String The User's username. If the username is null, the login was not successful.
      */
     public String userLogin(){
         try {
             String username = readExistingUsername();
             validatePassword(username);
+            if (userManager.tempPassState(username)) {
+                changePassword(username, false);
+            }
             return username;
         } catch (ExitException e) {
             presenter.printText(EXITING_TEXT);
             return null;
         }
+
+
+    }
+
+    public void forgotPassword() {
+        presenter.printText("Enter email: ");
+        String email = inputParser.readLine();
+        boolean existingEmail = !userManager.emailIsUnique(email);
+        while (!existingEmail) {
+            email = inputParser.readLine();
+            existingEmail = !userManager.emailIsUnique(email);
+        }
+        String username = userManager.getUsernameByEmail(email);
+        changePassword(username, true);
+
     }
 
     /**
@@ -91,12 +109,18 @@ public class UserController {
     /**
      * The controller method that allows the User at the keyboard to update their password
      * @param username The username of the User who is attempting to update their password
+     * @param tempPassState
      */
-    public void changePassword(String username){
-        try {
-            String newPassword = getChangedPassword();
-            userManager.updatePassword(username, newPassword);
-        } catch (ExitException ignored) {}
+    public void changePassword(String username, boolean tempPassState){
+        if (!tempPassState) {
+            try {
+                String newPassword = getChangedPassword();
+                userManager.updatePassword(username, newPassword);
+            } catch (ExitException ignored) {
+            }
+        } else {
+            userManager.createTempPass(username);
+        }
     }
 
     /**
