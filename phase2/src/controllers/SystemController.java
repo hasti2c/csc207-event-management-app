@@ -33,17 +33,19 @@ public class SystemController {
     private String currentUser;
     private UserType currentUserType;
 
+    // TODO factory pattern for initializer maybe?
     // == initializing ==
     public SystemController() {
         IGateway<User> userGateway = new UserGateway("phase2/data/users.json");
         IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
         IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
         IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
+        IGateway<UserTypePermissions> userPermissionsGateway = new UserTypePermissionsGateway("phase2/data/usertype_permissions.json")
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
         eventManager = new EventManager(eventGateway, templateManager);
-        menuManager = new MenuManager(menuGateway);
+        menuManager = new MenuManager(menuGateway, userPermissionsGateway);
 
         presenter = new Presenter();
         inputParser = new InputParser();
@@ -233,7 +235,7 @@ public class SystemController {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
-        menuManager.saveAllMenus();
+        menuManager.saveAllMenuInfo();
         presenter.printText("Everything has been successfully saved.");
     }
 

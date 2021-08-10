@@ -11,31 +11,18 @@ import java.util.*;
 import static utility.Command.*;
 
 public class MenuManager {
-    private List<UserTypePermissions> allUserPermissions;
-//    private List<Menu> allMenus;
-    private Map<String, Menu> allMenus;
-    private IGateway<Menu> menuGateway;
+    private final Map<String, Menu> allMenus;
+    private final List<UserTypePermissions> allUserPermissions;
+    private final IGateway<Menu> menuGateway;
+    private final IGateway<UserTypePermissions> userPermissionsGateway;
 
-    public MenuManager(IGateway<Menu> menuGateway) {
+    public MenuManager(IGateway<Menu> menuGateway, IGateway<UserTypePermissions> userPermissionsGateway) {
         this.menuGateway = menuGateway;
         allMenus = menuGateway.getElementMap();
-
         // TODO should we have menus for all the leaves and then just set the subCommands as null?
-        // Initialize User Type Permissions
-        // Admin
-        UserTypePermissions adminPerms = new UserTypePermissions(UserType.ADMIN);
-        adminPerms.setPermissions(Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, ACCOUNT_MENU,
-                SAVE, LOG_OUT, ADMIN_MENU, CHANGE_USERNAME, CHANGE_EMAIL, CHANGE_PASSWORD, DELETE_ACCOUNT, GO_BACK));
-        allUserPermissions.add(adminPerms);
-        // Regular
-        UserTypePermissions regularPerms = new UserTypePermissions(UserType.REGULAR);
-        regularPerms.setPermissions(Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, ACCOUNT_MENU,
-                SAVE, LOG_OUT, CHANGE_USERNAME, CHANGE_EMAIL, CHANGE_PASSWORD, DELETE_ACCOUNT, GO_BACK));
-        allUserPermissions.add(regularPerms);
-        // Trial
-        UserTypePermissions trialPerms = new UserTypePermissions(UserType.TRIAL);
-        trialPerms.setPermissions(Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, EXIT_TRIAL, GO_BACK));
-        allUserPermissions.add(trialPerms);
+
+        this.userPermissionsGateway = userPermissionsGateway;
+        allUserPermissions = userPermissionsGateway.getAllElements();
     }
 
     public List<Command> getPermittedSubMenu(UserType userType, Command command) {
@@ -58,8 +45,9 @@ public class MenuManager {
         return permittedSubMenu;
     }
 
-    public void saveAllMenus() {
+    public void saveAllMenuInfo() {
         menuGateway.saveAllElements(allMenus);
+        userPermissionsGateway.saveAllElements(allUserPermissions);
     }
 
     // Helpers
