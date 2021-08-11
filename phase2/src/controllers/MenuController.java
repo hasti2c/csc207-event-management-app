@@ -21,8 +21,8 @@ public class MenuController {
     }
 
     public Command getUserMenuChoice(UserType userType, Command command) {
-        displayMenu(userType, command);
         List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
+        displayMenu(menuOptions, command);
         int user_input = inputParser.readInt();
         try {
             return menuOptions.get(user_input - 1);
@@ -32,8 +32,7 @@ public class MenuController {
         }
     }
 
-    private void displayMenu(UserType userType, Command command) {
-        List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
+    private void displayMenu(List<Command> menuOptions, Command command) {
         List<String> menuNames = new ArrayList<>();
         for (Command menuOption : menuOptions) {
             menuNames.add(menuOption.getName());

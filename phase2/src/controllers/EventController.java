@@ -8,8 +8,11 @@ import usecases.TemplateManager;
 import entities.User;
 import usecases.UserManager;
 import utility.Pair;
+import view.EventViewController;
+import view.EventViewType;
 
 import static utility.AppConstant.*;
+import static utility.Command.*;
 
 import java.util.*;
 
@@ -23,6 +26,7 @@ public class EventController {
     private final TemplateManager templateManager;
     private final Presenter presenter;
     private final InputParser inputParser;
+    private final EventViewController viewController;
     public enum ViewType {
         OWNED,
         ATTENDING,
@@ -36,6 +40,7 @@ public class EventController {
         this.templateManager = templateManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
+        viewController = new EventViewController();
     }
 
     // == Viewing ==
@@ -56,6 +61,14 @@ public class EventController {
             String eventID = eventIDList.get(eventIndex);
             viewEvent(viewType, username, eventID);
             // TODO Should separate view event and menu selection
+        }
+    }
+
+    public void browseEvents(UserType userType, String username) {
+        while (true) {
+            EventViewType viewType = viewController.getEventViewTypeChoice(userType, BROWSE_EVENTS);
+            String eventId = viewController.getEventChoice(viewType, username);
+
         }
     }
 

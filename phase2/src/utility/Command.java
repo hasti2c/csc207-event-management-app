@@ -2,6 +2,7 @@ package utility;
 
 import static controllers.EventController.*;
 
+// TODO merge LOGIN and MAIN_MENU
 public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
@@ -11,6 +12,7 @@ public enum Command {
     TRIAL_MENU("Trial Menu"),
     EXIT("Exit"),
     CREATE_EVENT("Create Event"),
+    BROWSE_EVENTS("Browse Events"),
     VIEW_ATTENDED("View Attended Events"),
     VIEW_UNATTENDED("View Not Attended Events"),
     VIEW_OWNED("View My Events"),
@@ -25,7 +27,12 @@ public enum Command {
     CHANGE_EMAIL("Change Email"),
     CHANGE_TO_ADMIN("Change User Type to Admin"),
     DELETE_ACCOUNT("Delete My Account"),
-    GO_BACK("Go Back");
+    GO_BACK("Go Back"),
+    ATTEND_EVENT("Attend Event"),
+    UNATTEND_EVENT("Unattend Event"),
+    CHANGE_EVENT_PRIVACY("Change Privacy Status"),
+    EDIT_EVENT("Edit Event"),
+    DELETE_EVENT("Delete Event");
 
     private final String name;
 
