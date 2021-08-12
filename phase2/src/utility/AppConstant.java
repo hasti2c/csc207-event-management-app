@@ -6,6 +6,7 @@ public class AppConstant {
     public static final String EXITING_TEXT = "Returning to previous screen...";
 
     public static final String MENU_EXIT_OPTION = "Go Back";
+    public static final String FORGOT_PASSWORD_OPTION = "Forgot Password.";
 
     public static final String WELCOME_TEXT = "Welcome to our event creation system. You may type 'back' to go back to a menu. " +
             "When on a menu, you will have a choice to return to a previous menu by choosing the correct number. Enjoy!";

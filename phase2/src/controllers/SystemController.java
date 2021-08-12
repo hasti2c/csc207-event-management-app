@@ -23,6 +23,7 @@ import java.util.*;
 public class SystemController {
     private final UserController userController;
     private final EventController eventController;
+    private final TemplateController templateController;
     private final Presenter presenter;
     private final InputParser inputParser;
 
@@ -31,7 +32,7 @@ public class SystemController {
     private final TemplateManager templateManager;
     private final MenuManager menuManager;
 
-//    private final Map<String, List<Command>> menuMap = new HashMap<>();
+    private final Map<String, List<Command>> menuMap = new HashMap<>();
     private String currentUser;
     private User.UserType currentUserType;
 
@@ -44,13 +45,13 @@ public class SystemController {
         userManager = new UserManager(userParser);
         templateManager = new TemplateManager(templateParser);
         eventManager = new EventManager(eventParser, templateManager);
-        menuManager = new MenuManager();
 
         presenter = new Presenter();
         inputParser = new InputParser();
 
         eventController = new EventController(userManager, eventManager, templateManager);
         userController = new UserController(userManager, eventManager);
+        templateController = new TemplateController(templateManager);
 //
 //        initMenuMap();
     }
@@ -150,6 +151,9 @@ public class SystemController {
             case TRIAL:
                 runTrialMenu();
                 break;
+            case FORGOT_PASSWORD_OPTION:
+                userController.forgotPassword();
+                break;
             case EXIT:
                 exit();
                 break;
@@ -178,7 +182,7 @@ public class SystemController {
                 changeUsername();
                 break;
             case CHANGE_PASSWORD:
-                userController.changePassword(currentUser);
+                userController.changePassword(currentUser, false);
                 break;
             case CHANGE_EMAIL:
                 userController.changeEmail(currentUser);
@@ -189,7 +193,6 @@ public class SystemController {
             case DELETE_ACCOUNT:
                 deleteAccount();
                 break;
-            case EXIT_TRIAL:
             case GO_BACK:
                 throw new ExitException();
         }

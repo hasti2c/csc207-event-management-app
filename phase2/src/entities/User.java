@@ -14,7 +14,7 @@ public class User {
     private String username;
     private String password;
     private String userEmail;
-    private String tempPass;
+    private boolean istempPass;
     private transient boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
     private List<String> ownedEvents;
@@ -46,7 +46,7 @@ public class User {
         this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
         this.loggedIn = false;
-        this.tempPass = null;
+        this.istempPass = false;
 
     }
     public User() {
@@ -58,9 +58,10 @@ public class User {
 
     /**
      * Gets users temporary password
-     * @return String user's temp password
+     * @return boolean representing user's temp password state
      */
-    public String getTempPass() {return this.tempPass;}
+    public boolean hasTempPass() {return this.istempPass;}
+
     /**
      * Gets the User's type, R.A.T
      * @return Enum The User's type, R.A.T
@@ -185,10 +186,10 @@ public class User {
 
     /**
      * Sets user's temp password
-     * @param pass String for the password
+     * @param tempPassState bool representing the state isTempPass will be set to
      */
-    public void setTempPass(String pass){
-        this.tempPass = pass;
+    public void setTempPass(boolean tempPassState){
+        this.istempPass = tempPassState;
     }
 
 }
