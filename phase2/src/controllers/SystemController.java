@@ -10,10 +10,10 @@ import gateways.UserParser;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.*;
+import utility.AppConstant;
 import utility.Command;
 
 import static utility.AppConstant.*;
-import static utility.Command.*;
 
 import java.util.*;
 
@@ -45,6 +45,7 @@ public class SystemController {
         userManager = new UserManager(userParser);
         templateManager = new TemplateManager(templateParser);
         eventManager = new EventManager(eventParser, templateManager);
+        menuManager = new MenuManager();
 
         presenter = new Presenter();
         inputParser = new InputParser();
@@ -151,7 +152,7 @@ public class SystemController {
             case TRIAL:
                 runTrialMenu();
                 break;
-            case FORGOT_PASSWORD_OPTION:
+            case FORGOT_PASSWORD:
                 userController.forgotPassword();
                 break;
             case EXIT:

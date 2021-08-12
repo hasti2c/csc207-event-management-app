@@ -9,6 +9,7 @@ public enum Command {
     // LOGIN is MAIN_MENU
     LOGIN("Login"),
     TRIAL("Trial"),
+    FORGOT_PASSWORD("Forgot Password"),
     EXIT("Exit"),
     CREATE_EVENT("Create Event"),
     VIEW_ATTENDED("View Attended Events"),
