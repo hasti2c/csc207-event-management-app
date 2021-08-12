@@ -1,12 +1,14 @@
 package entities;
 
 import utility.Command;
+import view.EventViewType;
 
 import java.util.List;
 
 public class UserTypePermissions {
     private UserType userType;
-    private List<Command> permissions;
+    private List<Command> commandPermissions;
+    private List<EventViewType> eventViewPermissions;
 
     public UserTypePermissions(UserType userType) {
         this.userType = userType;
@@ -20,11 +22,11 @@ public class UserTypePermissions {
         this.userType = userType;
     }
 
-    public List<Command> getPermissions() {
-        return permissions;
+    public List<Command> getCommandPermissions() {
+        return commandPermissions;
     }
 
-    public void setPermissions(List<Command> permissions) {
-        this.permissions = permissions;
+    public List<EventViewType> getEventViewPermissions() {
+        return eventViewPermissions;
     }
 }

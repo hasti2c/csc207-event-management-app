@@ -93,11 +93,8 @@ public class SystemController {
             case CREATE_EVENT:
                 eventController.createNewEvent(retrieveTemplateName(), currentUser);
                 break;
-            case VIEW_ATTENDED:
-            case VIEW_UNATTENDED:
-            case VIEW_OWNED:
-            case VIEW_PUBLISHED:
-                eventController.browseEvents(currentUser, command.getViewType());
+            case BROWSE_EVENTS:
+                eventController.browseEvents(currentUserType, currentUser);
                 break;
             case EDIT_TEMPLATE:
                 editTemplate();

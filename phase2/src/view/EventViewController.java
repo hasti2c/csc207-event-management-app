@@ -1,5 +1,7 @@
 package view;
 
+import controllers.EventController;
+import controllers.ExitException;
 import entities.Event;
 import entities.UserType;
 import presenter.InputParser;
@@ -7,10 +9,12 @@ import presenter.Presenter;
 import usecases.EventManager;
 import usecases.MenuManager;
 import usecases.UserManager;
+import utility.AppConstant;
 import utility.Command;
 
 import java.util.ArrayList;
 import java.util.List;
+import static view.EventViewType.*;
 
 public class EventViewController {
     private EventManager eventManager;
@@ -19,10 +23,15 @@ public class EventViewController {
     private Presenter presenter;
     private InputParser inputParser;
 
-    public EventViewType getEventViewTypeChoice(UserType userType, Command command) {
-        List<EventViewType> viewTypes = menuManager.getPermittedViewTypes(userType, command);
+    // ==  Getting View Type ==
+    public EventViewType getEventViewTypeChoice(UserType userType, Command command) throws ExitException {
+        List<EventViewType> viewTypes = menuManager.getPermissions(userType).getEventViewPermissions();
         displayViewTypeMenu(viewTypes, command);
+
         int user_input = inputParser.readInt();
+        if (user_input == viewTypes.size()) {
+            throw new ExitException();
+        }
         try {
             return viewTypes.get(user_input - 1);
         } catch (IndexOutOfBoundsException e) {
@@ -31,10 +40,24 @@ public class EventViewController {
         }
     }
 
-    public String getEventChoice(EventViewType viewType, String username) {
+    private void displayViewTypeMenu(List<EventViewType> viewTypes, Command command) {
+        List<String> viewTypeNames = new ArrayList<>();
+        for (EventViewType viewType : viewTypes) {
+            viewTypeNames.add(viewType.getName());
+        }
+        viewTypeNames.add(AppConstant.MENU_EXIT_OPTION);
+        presenter.printMenu(command.getName(), viewTypeNames);
+    }
+
+    // == Getting Event Choice ==
+    public String getEventChoice(EventViewType viewType, String username) throws ExitException {
         List<String> events = getEventList(viewType, username);
         displayEventList(events, viewType);
+
         int user_input = inputParser.readInt();
+        if (user_input == events.size()) {
+            throw new ExitException();
+        }
         try {
             return events.get(user_input - 1);
         } catch (IndexOutOfBoundsException e) {
@@ -43,19 +66,6 @@ public class EventViewController {
         }
     }
 
-    private void displayViewTypeMenu(List<EventViewType> viewTypes, Command command) {
-        List<String> viewTypeNames = new ArrayList<>();
-        for (EventViewType viewType : viewTypes) {
-            viewTypeNames.add(viewType.getName());
-        }
-        presenter.printMenu(command.getName(), viewTypeNames);
-    }
-
-    private void displayEventList(List<String> eventList, EventViewType viewType) {
-        presenter.printMenu(viewType.getName(), eventList);
-    }
-
-    // TODO work with Event insted of EventID maybe?
     private List<String> getEventList(EventViewType viewType, String username) {
         switch (viewType) {
             case OWNED:
@@ -71,6 +81,63 @@ public class EventViewController {
             default:
                 return new ArrayList<>();
         }
+    }
+
+    private void displayEventList(List<String> eventList, EventViewType viewType) {
+        ArrayList<String> menuList = new ArrayList<>(eventList);
+        menuList.add(AppConstant.MENU_EXIT_OPTION);
+        presenter.printMenu(viewType.getName(), menuList);
+    }
+
+    // == Getting Event Command Choice ==
+    public Command getEventMenuChoice(UserType userType, String username, Command command, String eventID) {
+        List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
+        menuOptions.removeIf(c -> !verifyPermission(c, username, eventID));
+        displayEventMenu(menuOptions, command);
+        int user_input = inputParser.readInt();
+        // TODO generalize this part
+        try {
+            return menuOptions.get(user_input - 1);
+        } catch (IndexOutOfBoundsException e) {
+            invalidInput();
+            return getEventMenuChoice(userType, username, command, eventID);
+        }
+    }
+
+
+    private boolean verifyPermission(Command command, String username, String eventID) {
+        boolean attending = userManager.getAttendingEvents(username).contains(eventID);
+        boolean owned = userManager.getAttendingEvents(username).contains(eventID);
+        // TODO add deleted && suspended
+        boolean deleted = false;
+        boolean suspended = false;
+        switch (command) {
+            case ATTEND_EVENT:
+                return !attending;
+            case UNATTEND_EVENT:
+                return attending;
+            case CHANGE_EVENT_PRIVACY:
+            case EDIT_EVENT:
+                return owned;
+            case DELETE_EVENT:
+                return owned && !deleted;
+            case UNDELETE_EVENT:
+                return owned && deleted;
+            case SUSPEND_EVENT:
+                return !suspended;
+            case UNSUSPEND_EVENT:
+                return suspended;
+            default:
+                return true;
+        }
+    }
+
+    private void displayEventMenu(List<Command> menuOptions, Command command) {
+        List<String> menuNames = new ArrayList<>();
+        for (Command menuOption : menuOptions) {
+            menuNames.add(menuOption.getName());
+        }
+        presenter.printMenu(command.getName(), menuNames);
     }
 
     private void invalidInput() {

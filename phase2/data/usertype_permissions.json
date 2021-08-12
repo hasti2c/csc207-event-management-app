@@ -1,16 +1,19 @@
 [
   {
     "userType": "TRIAL",
-    "permissions": [
+    "commandPermissions": [
       "CREATE_EVENT",
       "VIEW_PUBLISHED",
       "EXIT_TRIAL",
+      "GO_BACK"
+    ],
+    "eventViewPermissions": [
       "GO_BACK"
     ]
   },
   {
     "userType": "REGULAR",
-    "permissions": [
+    "commandPermissions": [
       "CREATE_EVENT",
       "VIEW_ATTENDED",
       "VIEW_UNATTENDED",
@@ -23,11 +26,19 @@
       "CHANGE_PASSWORD",
       "DELETE_ACCOUNT",
       "GO_BACK"
+    ],
+    "eventViewPermissions": [
+      "ATTEND_EVENT",
+      "UNATTEND_EVENT",
+      "CHANGE_EVENT_PRIVACY",
+      "EDIT_EVENT",
+      "DELETE_EVENT",
+      "UNDELETE_EVENT"
     ]
   },
   {
     "userType": "ADMIN",
-    "permissions": [
+    "commandPermissions": [
       "CREATE_EVENT",
       "VIEW_ATTENDED",
       "VIEW_UNATTENDED",
@@ -41,6 +52,16 @@
       "CHANGE_PASSWORD",
       "DELETE_ACCOUNT",
       "GO_BACK"
+    ],
+    "eventViewPermissions": [
+      "ATTEND_EVENT",
+      "UNATTEND_EVENT",
+      "CHANGE_EVENT_PRIVACY",
+      "EDIT_EVENT",
+      "DELETE_EVENT",
+      "UNDELETE_EVENT",
+      "SUSPEND_EVENT",
+      "UNSUSPEND_EVENT"
     ]
   }
 ]

@@ -1,8 +1,6 @@
 package utility;
 
-import static controllers.EventController.*;
-
-// TODO merge LOGIN and MAIN_MENU
+// TODO merge LOGIN and TRIAL_MENU
 public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
@@ -13,10 +11,6 @@ public enum Command {
     EXIT("Exit"),
     CREATE_EVENT("Create Event"),
     BROWSE_EVENTS("Browse Events"),
-    VIEW_ATTENDED("View Attended Events"),
-    VIEW_UNATTENDED("View Not Attended Events"),
-    VIEW_OWNED("View My Events"),
-    VIEW_PUBLISHED("View Published Events"),
     EDIT_TEMPLATE("Edit Template"),
     ACCOUNT_MENU("Account Menu"),
     SAVE("Save"),
@@ -32,7 +26,10 @@ public enum Command {
     UNATTEND_EVENT("Unattend Event"),
     CHANGE_EVENT_PRIVACY("Change Privacy Status"),
     EDIT_EVENT("Edit Event"),
-    DELETE_EVENT("Delete Event");
+    DELETE_EVENT("Delete Event"),
+    UNDELETE_EVENT("Undelete Event"),
+    SUSPEND_EVENT ("Suspend Event"),
+    UNSUSPEND_EVENT("Unsuspend Event");
 
     private final String name;
 
@@ -42,20 +39,5 @@ public enum Command {
 
     public String getName() {
         return name;
-    }
-
-    public ViewType getViewType() {
-        switch (this) {
-            case VIEW_ATTENDED:
-                return ViewType.ATTENDING;
-            case VIEW_UNATTENDED:
-                return ViewType.NOT_ATTENDING;
-            case VIEW_OWNED:
-                return ViewType.OWNED;
-            case VIEW_PUBLISHED:
-                return ViewType.PUBLISHED;
-            default:
-                return null;
-        }
     }
 }

@@ -12,6 +12,7 @@ import static utility.Command.*;
 
 public class MenuManager {
     private final Map<String, Menu> allMenus;
+    // TODO map instead of list?
     private final List<UserTypePermissions> allUserPermissions;
     private final IGateway<Menu> menuGateway;
     private final IGateway<UserTypePermissions> userPermissionsGateway;
@@ -28,7 +29,7 @@ public class MenuManager {
     public List<Command> getPermittedSubMenu(UserType userType, Command command) {
         List<Command> permittedSubMenu = new ArrayList<>();
         List<Command> allSubCommands = allMenus.get(command.getName()).getSubCommands();
-        List<Command> userTypePermissions = getPermissions(userType);
+        List<Command> userTypePermissions = getPermissions(userType).getCommandPermissions();
         // If the system first starts, there's no user so no user type.
         if(userTypePermissions == null) {
             return permittedSubMenu;
@@ -57,10 +58,10 @@ public class MenuManager {
      * @param userType
      * @return
      */
-    private List<Command> getPermissions(UserType userType) {
+    public UserTypePermissions getPermissions(UserType userType) {
         for(UserTypePermissions perms: allUserPermissions) {
-            if(perms.getUserType() == userType) {
-                return perms.getPermissions();
+            if (perms.getUserType() == userType) {
+                return perms;
             }
         }
         return null;

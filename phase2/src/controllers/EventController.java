@@ -7,6 +7,7 @@ import usecases.EventManager;
 import usecases.TemplateManager;
 import entities.User;
 import usecases.UserManager;
+import utility.Command;
 import utility.Pair;
 import view.EventViewController;
 import view.EventViewType;
@@ -27,12 +28,6 @@ public class EventController {
     private final Presenter presenter;
     private final InputParser inputParser;
     private final EventViewController viewController;
-    public enum ViewType {
-        OWNED,
-        ATTENDING,
-        NOT_ATTENDING,
-        PUBLISHED
-    }
 
     public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager) {
         this.userManager = userManager;
@@ -44,96 +39,58 @@ public class EventController {
     }
 
     // == Viewing ==
-    /**
-     * Displays a list of events that the user can look through, see details for and register/unregister for.
-     * @param username the username of the user
-     * @param viewType the type of menu that should be shown
-     */
-    public void browseEvents(String username, ViewType viewType) {
-        while (true) {
-            List<String> eventIDList = getEventIdList(viewType, username);
-            List<String> eventNameList = eventManager.returnEventNamesListFromIdList(eventIDList);
-
-            int eventIndex = getEventChoice(eventNameList);
-            if (eventIndex == eventNameList.size()) {
-                break;
-            }
-            String eventID = eventIDList.get(eventIndex);
-            viewEvent(viewType, username, eventID);
-            // TODO Should separate view event and menu selection
-        }
-    }
-
     public void browseEvents(UserType userType, String username) {
         while (true) {
-            EventViewType viewType = viewController.getEventViewTypeChoice(userType, BROWSE_EVENTS);
-            String eventId = viewController.getEventChoice(viewType, username);
-
-        }
-    }
-
-    // TODO add to command enum
-    private void viewEvent(ViewType viewType, String username, String eventID) {
-        List<String> menu = getEventMenu(viewType);
-        if (viewType == ViewType.OWNED)
-            viewEventMetaDetails(eventID);
-        viewEventDetails(eventID);
-        boolean isRunning = true;
-        while (isRunning) {
-            presenter.printMenu("Viewing Selected Event", menu);
-            int userInput = getChoice(1, menu.size());
-            switch (menu.get(userInput - 1)) {
-                case "Attend Event":
-                    isRunning = !attendEvent(username, eventID);
-                    break;
-                case "Un-Attend Event":
-                    isRunning = !unattendEvent(username, eventID);
-                    break;
-                case "Delete Event":
-                    deleteEvent(username, eventID);
-                    return;
-                case "Edit Event":
-                    editEvent(username, eventID);
-                    break;
-                case "Change Published Status":
-                    changePublishStatus(eventID);
-                    break;
-                case "Go Back":
-                    return;
+            try {
+                EventViewType viewType = viewController.getEventViewTypeChoice(userType, BROWSE_EVENTS);
+                String eventID = viewController.getEventChoice(viewType, username);
+                viewEvent(viewType, userType, username, eventID);
+            } catch (ExitException e) {
+                return;
             }
         }
     }
 
-    // == ViewType ==
-    private List<String> getEventIdList(ViewType viewType, String username) {
-        switch (viewType) {
-            case OWNED:
-                return userManager.getCreatedEvents(username);
-            case ATTENDING:
-                return userManager.getAttendingEvents(username);
-            case NOT_ATTENDING:
-                List<String> published = eventManager.returnPublishedEvents();
-                published.removeAll(userManager.getAttendingEvents(username));
-                return published;
-            case PUBLISHED:
-                return eventManager.returnPublishedEvents();
-            default:
-                return new ArrayList<>();
+    private void viewEvent(EventViewType viewType, UserType userType, String username, String eventID) throws ExitException {
+        if (viewType == EventViewType.OWNED)
+            viewEventMetaDetails(eventID);
+        viewEventDetails(eventID);
+        while (true) {
+            Command userInput = viewController.getEventMenuChoice(userType, username, BROWSE_EVENTS, eventID);
+            runUserCommand(userInput, username, eventID);
         }
     }
 
-    private List<String> getEventMenu(ViewType viewType) {
-        switch (viewType) {
-            case OWNED:
-                return Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
-            case ATTENDING:
-                return Arrays.asList("Un-Attend Event", "Go Back");
-            case NOT_ATTENDING:
-                return Arrays.asList("Attend Event", "Go Back");
-            case PUBLISHED:
-                return Collections.singletonList("Go Back");
-            default:
-                return new ArrayList<>();
+    private void runUserCommand(Command command, String username, String eventId) throws ExitException {
+        // TODO do we want ExitException anywhere?
+        switch (command) {
+            case ATTEND_EVENT:
+                attendEvent(username, eventId);
+                return;
+            case UNATTEND_EVENT:
+                unattendEvent(username, eventId);
+                return;
+            case CHANGE_EVENT_PRIVACY:
+                // TODO add other privacy types
+                changePublishStatus(eventId);
+                return;
+            case EDIT_EVENT:
+                editEvent(username, eventId);
+                return;
+            case DELETE_EVENT:
+                deleteEvent(username, eventId);
+                return;
+            case UNDELETE_EVENT:
+                // TODO
+                return;
+            case SUSPEND_EVENT:
+                // TODO
+                return;
+            case UNSUSPEND_EVENT:
+                // TODO
+                return;
+            case GO_BACK:
+                throw new ExitException();
         }
     }
 
