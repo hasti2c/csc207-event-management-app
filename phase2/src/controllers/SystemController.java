@@ -23,6 +23,7 @@ import java.util.*;
 public class SystemController {
     private final UserController userController;
     private final EventController eventController;
+    private final TemplateController templateController;
     private final Presenter presenter;
     private final InputParser inputParser;
 
@@ -48,7 +49,7 @@ public class SystemController {
 
         eventController = new EventController(userManager, eventManager, templateManager);
         userController = new UserController(userManager, eventManager);
-
+        templateController = new TemplateController(templateManager);
         initMenuMap();
     }
 
