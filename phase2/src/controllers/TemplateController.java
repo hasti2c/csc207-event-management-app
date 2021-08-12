@@ -6,6 +6,9 @@ import usecases.EventManager;
 import usecases.TemplateManager;
 import usecases.UserManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TemplateController {
     private final TemplateManager templateManager;
     private final Presenter presenter;
@@ -57,8 +60,7 @@ public class TemplateController {
         presenter.printText("Enter the field name:");
         String fieldName = inputParser.readLine();
 
-        presenter.printText("Enter the field data type:");
-        String dataType = inputParser.readLine();
+        String dataType = typeMenu();
 
         presenter.printText("Do you need this field?:");
         String isRequired = inputParser.readLine();
@@ -76,6 +78,23 @@ public class TemplateController {
         return response.toUpperCase();
     }
 
+    public String typeMenu(){
+        Map<String, String> menuMap = new HashMap<>();
+        menuMap.put("1", "string");
+        menuMap.put("2", "boolean");
+        menuMap.put("3", "int");
+        menuMap.put("4", "localdatetime");
+
+        presenter.printEntity(menuMap);
+
+        presenter.printText("Enter the number that corresponds to the data type you want:");
+        String response = inputParser.readLine();
+        while (!menuMap.containsKey(response)){
+            presenter.printText("This is not valid. Please enter again:");
+            response = inputParser.readLine();
+        }
+        return menuMap.get(response);
+    }
 
 //    public void createNewTemplate() {
 //        presenter.printText("Enter the type of the event:");
