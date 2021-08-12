@@ -14,14 +14,21 @@ import utility.Command;
 
 import java.util.ArrayList;
 import java.util.List;
-import static view.EventViewType.*;
 
 public class EventViewController {
-    private EventManager eventManager;
-    private UserManager userManager;
-    private MenuManager menuManager;
-    private Presenter presenter;
-    private InputParser inputParser;
+    private final MenuManager menuManager;
+    private final EventManager eventManager;
+    private final UserManager userManager;
+    private final Presenter presenter;
+    private final InputParser inputParser;
+
+    public EventViewController(MenuManager menuManager, EventManager eventManager, UserManager userManager) {
+        this.menuManager = menuManager;
+        this.eventManager = eventManager;
+        this.userManager = userManager;
+        this.presenter = new Presenter();
+        this.inputParser = new InputParser();
+    }
 
     // ==  Getting View Type ==
     public EventViewType getEventViewTypeChoice(UserType userType, Command command) throws ExitException {

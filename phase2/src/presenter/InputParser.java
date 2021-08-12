@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 // Inspired by https://codeforces.com/blog/entry/6834?#comment-124539
 
+// TODO singleton pattern?
 public class InputParser {
     private BufferedReader bufferedReader;
     private StringTokenizer currentToken;

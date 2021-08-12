@@ -50,7 +50,7 @@ public class SystemController {
         presenter = new Presenter();
         inputParser = new InputParser();
 
-        eventController = new EventController(userManager, eventManager, templateManager);
+        eventController = new EventController(userManager, eventManager, templateManager, menuManager);
         userController = new UserController(userManager, eventManager);
         menuController = new MenuController(menuManager);
     }

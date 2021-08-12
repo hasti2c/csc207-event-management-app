@@ -4,6 +4,7 @@ import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.EventManager;
+import usecases.MenuManager;
 import usecases.TemplateManager;
 import entities.User;
 import usecases.UserManager;
@@ -29,13 +30,13 @@ public class EventController {
     private final InputParser inputParser;
     private final EventViewController viewController;
 
-    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager) {
+    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager, MenuManager menuManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.templateManager = templateManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
-        viewController = new EventViewController();
+        this.viewController = new EventViewController(menuManager, eventManager, userManager);
     }
 
     // == Viewing ==
