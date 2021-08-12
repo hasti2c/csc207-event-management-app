@@ -383,6 +383,11 @@ public class UserManager {
         gateway.saveAllElements(userList);
     }
 
+    public List<String> getFriends(String username) {
+        User user = retrieveUser(username);
+        return user.getFriends();
+    }
+
     public void addFriend(String first, String second) {
         addToFriendsList(first, second);
         addToFriendsList(second, first);

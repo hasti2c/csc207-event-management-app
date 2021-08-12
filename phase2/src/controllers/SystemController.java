@@ -52,7 +52,7 @@ public class SystemController {
         inputParser = new InputParser();
 
         eventController = new EventController(userManager, eventManager, templateManager, menuManager);
-        userController = new UserController(userManager, eventManager);
+        userController = new UserController(userManager, eventManager, menuManager);
         menuController = new CommandMenuController(menuManager);
     }
 

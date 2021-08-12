@@ -1,5 +1,7 @@
 package controllers;
 
+import controllers.menus.EntityMenuController;
+import entities.Event;
 import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
@@ -11,6 +13,7 @@ import utility.Command;
 import utility.Pair;
 import controllers.menus.EventMenuController;
 import utility.EventViewType;
+import utility.ViewType;
 
 import static utility.AppConstant.*;
 import static utility.Command.*;
@@ -27,7 +30,7 @@ public class EventController {
     private final TemplateManager templateManager;
     private final Presenter presenter;
     private final InputParser inputParser;
-    private final EventMenuController menuController;
+    private final EntityMenuController<Event> menuController;
 
     public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager, MenuManager menuManager) {
         this.userManager = userManager;
@@ -35,15 +38,15 @@ public class EventController {
         this.templateManager = templateManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
-        this.menuController = new EventMenuController(menuManager, eventManager, userManager);
+        this.menuController = new EventMenuController(menuManager, userManager, eventManager);
     }
 
     // == Viewing ==
     public void browseEvents(UserType userType, String username) {
         while (true) {
             try {
-                EventViewType viewType = menuController.getEventViewTypeChoice(userType, BROWSE_EVENTS);
-                String eventID = menuController.getEventChoice(viewType, username);
+                ViewType<Event> viewType = menuController.getViewTypeChoice(userType, BROWSE_EVENTS);
+                String eventID = menuController.getEntityChoice(viewType, username);
                 viewEvent(viewType, userType, username, eventID);
             } catch (ExitException e) {
                 return;
@@ -51,12 +54,12 @@ public class EventController {
         }
     }
 
-    private void viewEvent(EventViewType viewType, UserType userType, String username, String eventID) throws ExitException {
+    private void viewEvent(ViewType<Event> viewType, UserType userType, String username, String eventID) throws ExitException {
         if (viewType == EventViewType.OWNED)
             viewEventMetaDetails(eventID);
         viewEventDetails(eventID);
         while (true) {
-            Command userInput = menuController.getEventMenuChoice(userType, username, BROWSE_EVENTS, eventID);
+            Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_EVENTS, eventID);
             runUserCommand(userInput, username, eventID);
         }
     }

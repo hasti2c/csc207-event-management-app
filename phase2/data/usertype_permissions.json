@@ -8,7 +8,10 @@
       "GO_BACK"
     ],
     "eventViewPermissions": [
-      "GO_BACK"
+      "PUBLISHED"
+    ],
+    "userViewPermissions": [
+      "ALL"
     ]
   },
   {
@@ -25,15 +28,25 @@
       "CHANGE_EMAIL",
       "CHANGE_PASSWORD",
       "DELETE_ACCOUNT",
-      "GO_BACK"
-    ],
-    "eventViewPermissions": [
+      "GO_BACK",
       "ATTEND_EVENT",
       "UNATTEND_EVENT",
       "CHANGE_EVENT_PRIVACY",
       "EDIT_EVENT",
       "DELETE_EVENT",
-      "UNDELETE_EVENT"
+      "UNDELETE_EVENT",
+      "FRIEND_USER",
+      "UNFRIEND_SUER"
+    ],
+    "eventViewPermissions": [
+      "OWNED",
+      "ATTENDING",
+      "NOT_ATTENDING",
+      "PUBLISHED"
+    ],
+    "userViewPermissions": [
+      "ALL",
+      "FRIENDS"
     ]
   },
   {
@@ -51,9 +64,7 @@
       "CHANGE_EMAIL",
       "CHANGE_PASSWORD",
       "DELETE_ACCOUNT",
-      "GO_BACK"
-    ],
-    "eventViewPermissions": [
+      "GO_BACK",
       "ATTEND_EVENT",
       "UNATTEND_EVENT",
       "CHANGE_EVENT_PRIVACY",
@@ -61,7 +72,22 @@
       "DELETE_EVENT",
       "UNDELETE_EVENT",
       "SUSPEND_EVENT",
-      "UNSUSPEND_EVENT"
+      "UNSUSPEND_EVENT",
+      "FRIEND_USER",
+      "UNFRIEND_USER",
+      "SUSPEND_USER",
+      "UNSUSPEND_USER"
+    ],
+    "eventViewPermissions": [
+      "OWNED",
+      "ATTENDING",
+      "NOT_ATTENDING",
+      "PUBLISHED"
+    ],
+    "userViewPermissions": [
+      "ALL",
+      "FRIENDS",
+      "SUSPENDED"
     ]
   }
 ]

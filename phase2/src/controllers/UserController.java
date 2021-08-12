@@ -1,9 +1,12 @@
 package controllers;
+import controllers.menus.EntityMenuController;
+import controllers.menus.UserMenuController;
 import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.EventManager;
 import entities.User;
+import usecases.MenuManager;
 import usecases.UserManager;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class UserController {
     private final EventManager eventManager;
     private final Presenter presenter;
     private final InputParser inputParser;
+    private final EntityMenuController<User> menuController;
 
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
     public static final Pattern validEmail =
@@ -33,11 +37,12 @@ public class UserController {
      * @param userManager The UserManager of which the UserController interacts with
      * @param eventManager The EventManager of which the UserController interacts with
      */
-    public UserController(UserManager userManager, EventManager eventManager) {
+    public UserController(UserManager userManager, EventManager eventManager, MenuManager menuManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
+        this.menuController = new UserMenuController(menuManager, userManager, eventManager);
     }
 
     /**

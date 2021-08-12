@@ -29,7 +29,12 @@ public enum Command {
     DELETE_EVENT("Delete Event"),
     UNDELETE_EVENT("Undelete Event"),
     SUSPEND_EVENT ("Suspend Event"),
-    UNSUSPEND_EVENT("Unsuspend Event");
+    UNSUSPEND_EVENT("Unsuspend Event"),
+    FRIEND_USER("Friend User"),
+    UNFRIEND_USER("Unfriend User"),
+    SUSPEND_USER("Suspend User"),
+    UNSUSPEND_USER("Unsuspend User");
+    // TODO ability to go from event to user or vice versa
 
     private final String name;
 

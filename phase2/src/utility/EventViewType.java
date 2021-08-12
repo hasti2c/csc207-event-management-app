@@ -1,12 +1,14 @@
 package utility;
 
-public enum EventViewType {
+import entities.Event;
+
+public enum EventViewType implements ViewType<Event> {
     OWNED ("My Events"),
     ATTENDING ("Attending Events"),
     NOT_ATTENDING ("Not Attending Events"),
     PUBLISHED ("Published Events");
 
-    private String name;
+    private final String name;
 
     EventViewType(String name) {
         this.name = name;
