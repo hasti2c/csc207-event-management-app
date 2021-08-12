@@ -22,6 +22,7 @@ public class EventMenuController extends EntityMenuController<Event> {
         return new ArrayList<>(menuManager.getPermissions(userType).getEventViewPermissions());
     }
 
+    // TODO do names instead of ids
     @Override
     protected List<String> getEntityList(ViewType<Event> viewType, String username) {
         assert viewType instanceof EventViewType; // TODO don't do this

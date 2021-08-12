@@ -15,6 +15,23 @@ import utility.ViewType;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+1. view type: -> user type
+    published
+    attending
+    not attending
+    owned
+
+2. event list -> user
+
+3. event commands -> user type & user
+    attend/unattend
+    suspend/unsuspend
+    delete/undelete
+    edit
+    change privacy status
+ */
+
 public abstract class EntityMenuController <T> extends MenuController {
     protected final UserManager userManager;
     protected final EventManager eventManager;

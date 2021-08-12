@@ -42,6 +42,7 @@ public class EventController {
     }
 
     // == Viewing ==
+    // TODO make go back not go all the way back
     public void browseEvents(UserType userType, String username) {
         while (true) {
             try {
@@ -55,6 +56,7 @@ public class EventController {
     }
 
     private void viewEvent(ViewType<Event> viewType, UserType userType, String username, String eventID) throws ExitException {
+        // TODO change when to show meta data maybe?
         if (viewType == EventViewType.OWNED)
             viewEventMetaDetails(eventID);
         viewEventDetails(eventID);

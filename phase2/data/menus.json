@@ -13,9 +13,7 @@
     "command": "LOGIN",
     "subCommands": [
       "CREATE_EVENT",
-      "VIEW_ATTENDED",
-      "VIEW_UNATTENDED",
-      "VIEW_OWNED",
+      "BROWSE_EVENTS",
       "ACCOUNT_MENU",
       "SAVE",
       "LOG_OUT",
