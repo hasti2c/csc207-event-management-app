@@ -3,15 +3,16 @@ package entities;
 import utility.Command;
 import utility.EventViewType;
 import utility.UserViewType;
+import utility.ViewType;
 
 import java.util.List;
 
-// TODO use ViewType interface
+// TODO generalize view permissions
 public class UserTypePermissions {
     private UserType userType;
     private List<Command> commandPermissions;
-    private List<EventViewType> eventViewPermissions;
-    private List<UserViewType> userViewPermissions;
+    private List<ViewType<Event>> eventViewPermissions;
+    private List<ViewType<User>> userViewPermissions;
 
     public UserTypePermissions(UserType userType) {
         this.userType = userType;
@@ -29,11 +30,11 @@ public class UserTypePermissions {
         return commandPermissions;
     }
 
-    public List<EventViewType> getEventViewPermissions() {
+    public List<ViewType<Event>> getEventViewPermissions() {
         return eventViewPermissions;
     }
 
-    public List<UserViewType> getUserViewPermissions() {
+    public List<ViewType<User>> getUserViewPermissions() {
         return userViewPermissions;
     }
 }

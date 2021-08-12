@@ -1,8 +1,6 @@
 package controllers.menus;
 
 import entities.UserType;
-import presenter.InputParser;
-import presenter.Presenter;
 import usecases.MenuManager;
 import utility.Command;
 

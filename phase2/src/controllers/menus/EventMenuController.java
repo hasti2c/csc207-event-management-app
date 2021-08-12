@@ -5,15 +5,12 @@ import entities.UserType;
 import usecases.EventManager;
 import usecases.MenuManager;
 import usecases.UserManager;
-import utility.AppConstant;
 import utility.Command;
 import utility.EventViewType;
 import utility.ViewType;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static utility.EventViewType.*;
 
 public class EventMenuController extends EntityMenuController<Event> {
     public EventMenuController(MenuManager menuManager, UserManager userManager, EventManager eventManager) {

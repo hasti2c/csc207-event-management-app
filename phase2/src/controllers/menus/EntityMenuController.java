@@ -41,7 +41,6 @@ public abstract class EntityMenuController <T> extends MenuController {
         presenter.printMenu(command.getName(), viewTypeNames);
     }
 
-    // TODO remove
     protected abstract List<ViewType<T>> getViewTypePermissions(UserType userType);
 
     // == Getting Entity Choice ==

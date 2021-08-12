@@ -65,7 +65,6 @@ public class EventController {
     }
 
     private void runUserCommand(Command command, String username, String eventId) throws ExitException {
-        // TODO do we want ExitException anywhere?
         switch (command) {
             case ATTEND_EVENT:
                 attendEvent(username, eventId);
@@ -269,17 +268,6 @@ public class EventController {
     }
 
     // TODO refactor from here
-    // TODO presenter?
-    /**
-     * Prints a list of all public events created by all users.
-     */
-    private int getEventChoice(List<String> eventNameList) {
-        List<String> temp = new ArrayList<>(eventNameList);
-        temp.add(MENU_EXIT_OPTION);
-        presenter.printMenu("Event List", temp);
-        return getChoice(1, temp.size()) - 1;
-    }
-
     // TODO presenter?
     /**
      * Forces user to type either "Y" or "N"
