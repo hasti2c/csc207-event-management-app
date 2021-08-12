@@ -15,36 +15,21 @@ import utility.ViewType;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class EntityMenuController <T> {
-    protected final MenuManager menuManager;
+public abstract class EntityMenuController <T> extends MenuController {
     protected final UserManager userManager;
     protected final EventManager eventManager;
-    private final Presenter presenter;
-    private final InputParser inputParser;
 
     public EntityMenuController(MenuManager menuManager, UserManager userManager, EventManager eventManager) {
-        this.menuManager = menuManager;
+        super(menuManager);
         this.userManager = userManager;
         this.eventManager = eventManager;
-        this.presenter = new Presenter();
-        this.inputParser = new InputParser();
     }
 
     // == Getting View Type ==
     public ViewType<T> getViewTypeChoice(UserType userType, Command command) throws ExitException {
         List<ViewType<T>> viewTypes = getViewTypePermissions(userType);
         displayViewTypeMenu(viewTypes, command);
-
-        int user_input = inputParser.readInt();
-        if (user_input == viewTypes.size()) {
-            throw new ExitException();
-        }
-        try {
-            return viewTypes.get(user_input - 1);
-        } catch (IndexOutOfBoundsException e) {
-            invalidInput();
-            return getViewTypeChoice(userType, command);
-        }
+        return getMenuChoice(viewTypes, true);
     }
 
     private void displayViewTypeMenu(List<ViewType<T>> viewTypes, Command command) {
@@ -63,27 +48,13 @@ public abstract class EntityMenuController <T> {
     public String getEntityChoice(ViewType<T> viewType, String username) throws ExitException {
         List<String> entities = getEntityList(viewType, username);
         displayEntityList(entities, viewType);
-
-        int user_input = inputParser.readInt();
-        if (user_input == entities.size()) {
-            throw new ExitException();
-        }
-        try {
-            return entities.get(user_input - 1);
-        } catch (IndexOutOfBoundsException e) {
-            invalidInput();
-            return getEntityChoice(viewType, username);
-        }
+        return getMenuChoice(entities, true);
     }
 
     private void displayEntityList(List<String> entities, ViewType<T> viewType) {
         ArrayList<String> menuList = new ArrayList<>(entities);
         menuList.add(AppConstant.MENU_EXIT_OPTION);
         presenter.printMenu(viewType.getName(), menuList);
-    }
-
-    private void invalidInput() {
-        presenter.printText("You did not enter a valid option, try again");
     }
 
     protected abstract List<String> getEntityList(ViewType<T> viewType, String username);
@@ -93,15 +64,7 @@ public abstract class EntityMenuController <T> {
         List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
         menuOptions.removeIf(c -> !verifyPermission(c, username, selectedEntity));
         displayEntityMenu(menuOptions, command);
-
-        // TODO generalize this part
-        int user_input = inputParser.readInt();
-        try {
-            return menuOptions.get(user_input - 1);
-        } catch (IndexOutOfBoundsException e) {
-            invalidInput();
-            return getEntityMenuChoice(userType, username, command, selectedEntity);
-        }
+        return getMenuChoice(menuOptions);
     }
 
     private void displayEntityMenu(List<Command> menuOptions, Command command) {
