@@ -237,8 +237,6 @@ public class EventController {
         }
 
 
-
-
     }
 
     /**

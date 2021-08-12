@@ -30,9 +30,11 @@ public class SystemController {
     private final UserManager userManager;
     private final EventManager eventManager;
     private final TemplateManager templateManager;
+    private final MenuManager menuManager;
 
     private final Map<String, List<Command>> menuMap = new HashMap<>();
     private String currentUser;
+    private User.UserType currentUserType;
 
     // == initializing ==
     public SystemController() {
@@ -50,18 +52,19 @@ public class SystemController {
         eventController = new EventController(userManager, eventManager, templateManager);
         userController = new UserController(userManager, eventManager);
         templateController = new TemplateController(templateManager);
-        initMenuMap();
+//
+//        initMenuMap();
     }
 
-    private void initMenuMap() {
-        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, FORGOT_PASSWORD_OPTION, EXIT));
-        menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
-                ACCOUNT_MENU, SAVE, LOG_OUT));
-        // TODO Change GO_BACK to EXIT_TRIAL
-        menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
-        menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
-                DELETE_ACCOUNT, GO_BACK));
-    }
+//    private void initMenuMap() {
+//        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
+//        menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
+//                ACCOUNT_MENU, SAVE, LOG_OUT));
+//        // TODO Change GO_BACK to EXIT_TRIAL
+//        menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
+//        menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
+//                DELETE_ACCOUNT, GO_BACK));
+//    }
 
     // == menus ==
     /**

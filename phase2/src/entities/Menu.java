@@ -9,6 +9,15 @@ public class Menu {
     private Command command;
     private List<Command> subCommands;
 
+    public Menu(Command superCommand, Command command) {
+        this.superCommand = superCommand;
+        this.command = command;
+    }
+
+    public Menu(){
+
+    }
+
     public Command getSuperCommand() {
         return superCommand;
     }
