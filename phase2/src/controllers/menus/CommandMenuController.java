@@ -1,4 +1,4 @@
-package controllers;
+package controllers.menus;
 
 import entities.UserType;
 import presenter.InputParser;
@@ -9,12 +9,12 @@ import utility.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuController {
+public class CommandMenuController {
     private final MenuManager menuManager;
     private final Presenter presenter;
     private final InputParser inputParser;
 
-    public MenuController(MenuManager menuManager) {
+    public CommandMenuController(MenuManager menuManager) {
         this.menuManager = menuManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();

@@ -1,7 +1,7 @@
 package entities;
 
 import utility.Command;
-import view.EventViewType;
+import utility.EventViewType;
 
 import java.util.List;
 

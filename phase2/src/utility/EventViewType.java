@@ -1,4 +1,4 @@
-package view;
+package utility;
 
 public enum EventViewType {
     OWNED ("My Events"),

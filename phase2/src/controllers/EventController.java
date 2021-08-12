@@ -6,12 +6,11 @@ import presenter.Presenter;
 import usecases.EventManager;
 import usecases.MenuManager;
 import usecases.TemplateManager;
-import entities.User;
 import usecases.UserManager;
 import utility.Command;
 import utility.Pair;
-import view.EventViewController;
-import view.EventViewType;
+import controllers.menus.EventMenuController;
+import utility.EventViewType;
 
 import static utility.AppConstant.*;
 import static utility.Command.*;
@@ -28,7 +27,7 @@ public class EventController {
     private final TemplateManager templateManager;
     private final Presenter presenter;
     private final InputParser inputParser;
-    private final EventViewController viewController;
+    private final EventMenuController menuController;
 
     public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager, MenuManager menuManager) {
         this.userManager = userManager;
@@ -36,15 +35,15 @@ public class EventController {
         this.templateManager = templateManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
-        this.viewController = new EventViewController(menuManager, eventManager, userManager);
+        this.menuController = new EventMenuController(menuManager, eventManager, userManager);
     }
 
     // == Viewing ==
     public void browseEvents(UserType userType, String username) {
         while (true) {
             try {
-                EventViewType viewType = viewController.getEventViewTypeChoice(userType, BROWSE_EVENTS);
-                String eventID = viewController.getEventChoice(viewType, username);
+                EventViewType viewType = menuController.getEventViewTypeChoice(userType, BROWSE_EVENTS);
+                String eventID = menuController.getEventChoice(viewType, username);
                 viewEvent(viewType, userType, username, eventID);
             } catch (ExitException e) {
                 return;
@@ -57,7 +56,7 @@ public class EventController {
             viewEventMetaDetails(eventID);
         viewEventDetails(eventID);
         while (true) {
-            Command userInput = viewController.getEventMenuChoice(userType, username, BROWSE_EVENTS, eventID);
+            Command userInput = menuController.getEventMenuChoice(userType, username, BROWSE_EVENTS, eventID);
             runUserCommand(userInput, username, eventID);
         }
     }

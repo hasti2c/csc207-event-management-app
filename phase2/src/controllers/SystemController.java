@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.menus.CommandMenuController;
 import entities.*;
 import gateways.*;
 import gateways.EventGateway;
@@ -21,7 +22,7 @@ import java.util.*;
 public class SystemController {
     private final UserController userController;
     private final EventController eventController;
-    private final MenuController menuController;
+    private final CommandMenuController menuController;
     private final Presenter presenter;
     private final InputParser inputParser;
 
@@ -52,7 +53,7 @@ public class SystemController {
 
         eventController = new EventController(userManager, eventManager, templateManager, menuManager);
         userController = new UserController(userManager, eventManager);
-        menuController = new MenuController(menuManager);
+        menuController = new CommandMenuController(menuManager);
     }
 
     /**

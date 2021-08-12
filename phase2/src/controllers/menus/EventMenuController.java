@@ -1,8 +1,6 @@
-package view;
+package controllers.menus;
 
-import controllers.EventController;
 import controllers.ExitException;
-import entities.Event;
 import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
@@ -11,18 +9,19 @@ import usecases.MenuManager;
 import usecases.UserManager;
 import utility.AppConstant;
 import utility.Command;
+import utility.EventViewType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventViewController {
+public class EventMenuController {
     private final MenuManager menuManager;
     private final EventManager eventManager;
     private final UserManager userManager;
     private final Presenter presenter;
     private final InputParser inputParser;
 
-    public EventViewController(MenuManager menuManager, EventManager eventManager, UserManager userManager) {
+    public EventMenuController(MenuManager menuManager, EventManager eventManager, UserManager userManager) {
         this.menuManager = menuManager;
         this.eventManager = eventManager;
         this.userManager = userManager;
