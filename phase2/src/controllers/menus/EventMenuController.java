@@ -54,7 +54,6 @@ public class EventMenuController extends EntityMenuController<Event> {
         boolean attending = userManager.getAttendingEvents(username).contains(eventID);
         boolean owned = userManager.getAttendingEvents(username).contains(eventID);
         // TODO add deleted && suspended
-        boolean deleted = false;
         boolean suspended = false;
         switch (command) {
             case ATTEND_EVENT:
@@ -63,11 +62,8 @@ public class EventMenuController extends EntityMenuController<Event> {
                 return attending;
             case CHANGE_EVENT_PRIVACY:
             case EDIT_EVENT:
-                return owned;
             case DELETE_EVENT:
-                return owned && !deleted;
-            case UNDELETE_EVENT:
-                return owned && deleted;
+                return owned;
             case SUSPEND_EVENT:
                 return !suspended;
             case UNSUSPEND_EVENT:

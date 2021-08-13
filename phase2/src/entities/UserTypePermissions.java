@@ -1,8 +1,6 @@
 package entities;
 
 import utility.Command;
-import utility.EventViewType;
-import utility.UserViewType;
 import utility.ViewType;
 
 import java.util.List;

@@ -36,7 +36,7 @@ public abstract class MenuController {
      * @param <S> Data type of menuOptions.
      * @return Menu option chosen by user.
      */
-    protected <S> S getMenuChoice(List<S> menuOptions) {
+    public <S> S getMenuChoice(List<S> menuOptions) {
         try {
             return getMenuChoice(menuOptions, false);
         } catch (ExitException e) {
@@ -54,7 +54,7 @@ public abstract class MenuController {
      * @return Menu option chosen by user.
      * @throws ExitException If user chooses exit option & checkExit is true (exit has to be manually checked here).
      */
-    protected <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
+    public <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
         int user_input = inputParser.readInt();
         if (checkExit && user_input == menuOptions.size()) {
             throw new ExitException();

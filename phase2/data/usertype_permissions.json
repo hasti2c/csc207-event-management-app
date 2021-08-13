@@ -34,7 +34,6 @@
       "CHANGE_EVENT_PRIVACY",
       "EDIT_EVENT",
       "DELETE_EVENT",
-      "UNDELETE_EVENT",
       "FRIEND_USER",
       "UNFRIEND_SUER"
     ],
@@ -70,7 +69,6 @@
       "CHANGE_EVENT_PRIVACY",
       "EDIT_EVENT",
       "DELETE_EVENT",
-      "UNDELETE_EVENT",
       "SUSPEND_EVENT",
       "UNSUSPEND_EVENT",
       "FRIEND_USER",

@@ -27,7 +27,6 @@ public enum Command {
     CHANGE_EVENT_PRIVACY("Change Privacy Status"),
     EDIT_EVENT("Edit Event"),
     DELETE_EVENT("Delete Event"),
-    UNDELETE_EVENT("Undelete Event"),
     SUSPEND_EVENT ("Suspend Event"),
     UNSUSPEND_EVENT("Unsuspend Event"),
     FRIEND_USER("Friend User"),

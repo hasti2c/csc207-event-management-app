@@ -2,6 +2,7 @@ package controllers;
 
 import controllers.menus.EntityMenuController;
 import entities.Event;
+import entities.EventPrivacyType;
 import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
@@ -9,11 +10,8 @@ import usecases.EventManager;
 import usecases.MenuManager;
 import usecases.TemplateManager;
 import usecases.UserManager;
-import utility.Command;
-import utility.Pair;
+import utility.*;
 import controllers.menus.EventMenuController;
-import utility.EventViewType;
-import utility.ViewType;
 
 import static utility.AppConstant.*;
 import static utility.Command.*;
@@ -74,17 +72,13 @@ public class EventController {
                 unattendEvent(username, eventId);
                 return;
             case CHANGE_EVENT_PRIVACY:
-                // TODO add other privacy types
-                changePublishStatus(eventId);
+                changeEventPrivacy(eventId);
                 return;
             case EDIT_EVENT:
                 editEvent(username, eventId);
                 return;
             case DELETE_EVENT:
                 deleteEvent(username, eventId);
-                return;
-            case UNDELETE_EVENT:
-                // TODO
                 return;
             case SUSPEND_EVENT:
                 // TODO
@@ -137,7 +131,7 @@ public class EventController {
             presenter.printText("Since you are a trial user, your event will not be saved once you leave the system. " +
                     "You may choose to publish the event to view it while you are currently using the program.");
         }
-        changePublishStatus(newEventID);
+        changeEventPrivacy(newEventID);
     }
 
     private void populateFieldValues(String eventId, String username) {
@@ -185,10 +179,10 @@ public class EventController {
     }
 
     // == Editing ===
-    // TODO need to implement edit for phase 2
+    // TODO refactor
     public void editEvent (String username, String eventID) {
         Map<String, Pair<Class<?>, Boolean>> eventMap = eventManager.returnFieldNameAndFieldSpecs(eventID);
-        List<String> fieldNames = new ArrayList<String>(eventMap.keySet());
+        List<String> fieldNames = new ArrayList<>(eventMap.keySet());
         fieldNames.add(MENU_EXIT_OPTION);
 
         while (true) {
@@ -213,22 +207,20 @@ public class EventController {
 
     }
 
-    /**
-     * If published change to unpublished and vice versa
-     *
-     * @param eventID unique identifier for an event
-     */
-    private void changePublishStatus (String eventID) {
-        boolean published = eventManager.isPublished(eventID);
-        String current = (published ? "" : "un") + "publish";
-        String opposite = (published ? "un" : "") + "publish";
-        presenter.printText("Your event is currently " + current + "ed, would you like to " + opposite + "? (Y/N)");
-        if (getYesNo()) {
-            if (eventManager.togglePublish(eventID)){
-                presenter.printText("Your event has been successfully " + opposite + "ed.");
-            } else {
-                presenter.printText("Your event could not be " + opposite + "ed.");
-            }
+    private void changeEventPrivacy(String eventID) {
+        String currentPrivacy = eventManager.getPrivacyType(eventID);
+        List<String> validPrivacyTypes = eventManager.getValidPrivacyTypes(eventID);
+        presenter.printText("The current privacy type is " + currentPrivacy + ". Choose one of the following options:");
+
+        ArrayList<String> menuOptions = new ArrayList<>(validPrivacyTypes);
+        menuOptions.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Event Privacy Types", menuOptions);
+        try {
+            String newPrivacyName = menuController.getMenuChoice(menuOptions, true);
+            eventManager.setPrivacyType(eventID, newPrivacyName);
+            presenter.printText("The privacy type was changed to " + newPrivacyName);
+        } catch (ExitException e) {
+            presenter.printText("The privacy type was not changed.");
         }
     }
 

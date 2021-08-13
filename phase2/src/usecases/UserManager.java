@@ -158,7 +158,7 @@ public class UserManager {
             user.setPassword(newPassword);
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -228,15 +228,13 @@ public class UserManager {
      */
     public boolean deleteEvent(String username, String eventID){
         User user = retrieveUser(username);
-        if (user.getOwnedEvents().contains(eventID)) {
-            user.getOwnedEvents().remove(eventID);
-            // remove this event's eventID from any user's attendingEvents list
-            for (User attendee : userList) {
-                unAttendEvent(attendee.getUsername(), eventID);
-            }
-            return true;
+        if (!user.getOwnedEvents().contains(eventID))
+            return false;
+        user.getOwnedEvents().remove(eventID);
+        for (User attendee : userList) {
+            unAttendEvent(attendee.getUsername(), eventID);
         }
-        return false;
+        return true;
     }
 
     /**
