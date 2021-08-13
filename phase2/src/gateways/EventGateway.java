@@ -12,6 +12,10 @@ import java.util.*;
 // TODO make more general
 
 public class EventGateway extends EntityGateway<Event> {
+    /**
+     * Constructs an EventGateway Element.
+     * @param path Path of relevant json file.
+     */
     public EventGateway(String path) {
         super(Event.class, path);
     }
@@ -30,7 +34,12 @@ public class EventGateway extends EntityGateway<Event> {
         return event.getEventId();
     }
 
+    // TODO do I need class javadocs?
     // source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
+    /**
+     * Serializes Event objects into json.
+     * Implementation of JsonSerializer.
+     */
     private static class EventSerializer implements JsonSerializer<Event> {
         @Override
         public JsonElement serialize(Event event, Type type, JsonSerializationContext context) {
@@ -82,6 +91,10 @@ public class EventGateway extends EntityGateway<Event> {
     }
 
     // source https://futurestud.io/tutorials/gson-advanced-custom-deserialization-basics
+    /**
+     * Deserializes Event objects from json.
+     * Implementation of JsonDeserializer.
+     */
     private static class EventDeserializer implements JsonDeserializer<Event> {
         @Override
         public Event deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {

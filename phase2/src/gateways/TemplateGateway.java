@@ -9,6 +9,10 @@ import entities.Template;
 // TODO javadocs: specify input for getter as precondition
 
 public class TemplateGateway extends EntityGateway<Template> {
+    /**
+     * Constructs an TemplateGateway Element.
+     * @param path Path of relevant json file.
+     */
     public TemplateGateway(String path) {
         super(Template.class, path);
     }

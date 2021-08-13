@@ -73,7 +73,6 @@ public class TemplateManager {
     }
 
     public FieldSpecs createNewFieldSpecs(String inputFieldName, String inputDataType, String inputIsRequired){
-
         Class<?> convertedDataType = null;
         boolean convertedIsRequired = false;
         if (inputDataType.equalsIgnoreCase("string")){

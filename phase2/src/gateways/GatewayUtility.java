@@ -6,7 +6,11 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 
 public class GatewayUtility {
+    /**
+     * @return Simple GsonBuilder with custom serializer & deserializer for LocalDateTime & Class.
+     */
     static GsonBuilder getSimpleGsonBuilder() {
+        // TODO singleton instead of static maybe?
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
@@ -15,6 +19,10 @@ public class GatewayUtility {
         return gsonBuilder;
     }
 
+    /**
+     * Serializes LocalDateTime objects into json.
+     * Implementation of JsonSerializer.
+     */
     static class LocalDateTimeSerializer implements JsonSerializer<LocalDateTime> {
         @Override
         public JsonElement serialize(LocalDateTime localDateTime, Type type, JsonSerializationContext context) {
@@ -22,6 +30,10 @@ public class GatewayUtility {
         }
     }
 
+    /**
+     * Deserializes LocalDateTime objects from json.
+     * Implementation of JsonDeserializer.
+     */
     static class LocalDateTimeDeserializer implements JsonDeserializer<LocalDateTime> {
         @Override
         public LocalDateTime deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
@@ -30,6 +42,10 @@ public class GatewayUtility {
         }
     }
 
+    /**
+     * Serializes Class objects into json.
+     * Implementation of JsonSerializer.
+     */
     static class ClassSerializer implements JsonSerializer<Class<?>> {
         @Override
         public JsonElement serialize(Class aClass, Type type, JsonSerializationContext context) {
@@ -37,6 +53,10 @@ public class GatewayUtility {
         }
     }
 
+    /**
+     * Deserializes LocalDateTime objects from json.
+     * Implementation of JsonDeserializer.
+     */
     static class ClassDeserializer implements JsonDeserializer<Class<?>> {
         @Override
         public Class<?> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
