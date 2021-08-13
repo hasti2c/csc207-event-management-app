@@ -23,7 +23,6 @@ import java.util.*;
 /**
  * Controller handling all event related requests.
  */
-
 public class EventController {
     private final UserManager userManager;
     private final EventManager eventManager;

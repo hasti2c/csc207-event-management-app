@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserMenuController extends EntityMenuController<User> {
+    /**
+     * Constructs a UserMenuController.
+     * @param menuManager A menuManager.
+     * @param userManager A userManager.
+     * @param eventManager An eventManager.
+     */
     public UserMenuController(MenuManager menuManager, UserManager userManager, EventManager eventManager) {
         super(menuManager, userManager, eventManager);
     }
