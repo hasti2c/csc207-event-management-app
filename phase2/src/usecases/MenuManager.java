@@ -29,14 +29,11 @@ public class MenuManager {
     public List<Command> getPermittedSubMenu(UserType userType, Command command) {
         List<Command> permittedSubMenu = new ArrayList<>();
         List<Command> allSubCommands = allMenus.get(command.getName()).getSubCommands();
-        List<Command> userTypePermissions = getPermissions(userType).getCommandPermissions();
         // If the system first starts, there's no user so no user type.
-        if(userTypePermissions == null) {
-            return permittedSubMenu;
-        }
         if (userType == null && command.equals(START_UP)){
             permittedSubMenu = allSubCommands;
         } else {
+            List<Command> userTypePermissions = getPermissions(userType).getCommandPermissions();
             for (Command commandItem: allSubCommands){
                 if (userTypePermissions.contains(commandItem)) {
                     permittedSubMenu.add(commandItem);

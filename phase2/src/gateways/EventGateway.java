@@ -111,7 +111,7 @@ public class EventGateway extends EntityGateway<Event> {
             setField(event, "eventOwner", json.get("eventOwner").getAsString());
             setField(event, "eventType", json.get("eventType").getAsString());
             setField(event, "templateId", json.get("templateId").getAsString());
-            setField(event, "templateVersion", json.get("templateVersion").getAsString());
+            setField(event, "templateVersion", json.get("templateVersion").getAsInt());
             setField(event, "numAttendees", json.get("numAttendees").getAsInt());
             setField(event, "suspended", json.get("suspended").getAsBoolean());
 

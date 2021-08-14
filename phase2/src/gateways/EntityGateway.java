@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 // TODO javadocs
+// TODO add different interfaces for entities based on these kind of usages (also view type)
 
 public abstract class EntityGateway<T> implements IGateway<T> {
     private final Class<T> dataType;
