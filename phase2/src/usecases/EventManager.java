@@ -186,7 +186,7 @@ public class EventManager {
     public List<String> returnPublishedEvents() {
         List<String> holderList = new ArrayList<>();
         for (Event event : eventList) {
-            if (event.isPublished()) {
+            if (event.getPrivacyType() == EventPrivacyType.PUBLIC) {
                 holderList.add(event.getEventId());
             }
         }
