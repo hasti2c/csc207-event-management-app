@@ -1,6 +1,7 @@
 package controllers;
 import controllers.menus.EntityMenuController;
 import controllers.menus.UserMenuController;
+import usecases.MessageBoxManager;
 import utility.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
@@ -28,6 +29,7 @@ public class UserController {
     private final EventManager eventManager;
     private final Presenter presenter;
     private final InputParser inputParser;
+    private final MessageBoxManager messageBoxManager;
     private final EntityMenuController<User> menuController;
 
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
@@ -41,12 +43,14 @@ public class UserController {
      * @param userManager The UserManager of which the UserController interacts with
      * @param eventManager The EventManager of which the UserController interacts with
      */
-    public UserController(UserManager userManager, EventManager eventManager, MenuManager menuManager) {
+    public UserController(UserManager userManager, EventManager eventManager, MenuManager menuManager,
+                          MessageBoxManager messageBoxManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
         this.menuController = new UserMenuController(menuManager, userManager, eventManager);
+        this.messageBoxManager = messageBoxManager;
     }
 
     // == Creating User ==
@@ -62,6 +66,7 @@ public class UserController {
             String username = readNewUsername();
             String password = readNewPassword();
             userManager.createUser(username, password, email, userType);
+            messageBoxManager.createMessageBox(username);
             presenter.printText("Account has been created Successfully. You may now login.");
             return true;
         } catch (ExitException e) {
@@ -165,7 +170,7 @@ public class UserController {
             String newUsername = getChangedUsername();
             userManager.updateUsername(username, newUsername);
             eventManager.updateUsername(username, newUsername);
-            // mailboxmanager.changeUsername
+            messageBoxManager.updateMailBoxUsername(username, newUsername);
             return newUsername;
         } catch (ExitException e) {
             return null;
