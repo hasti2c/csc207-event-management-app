@@ -16,6 +16,9 @@
       "BROWSE_EVENTS",
       "ACCOUNT_MENU",
       "ADMIN_MENU",
+      "SEND_MESSAGE",
+      "VIEW_MESSAGES",
+      "VIEW_ADMIN_MESSAGES",
       "SAVE",
       "LOG_OUT",
       "EXIT_TRIAL"
