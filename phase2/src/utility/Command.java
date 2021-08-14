@@ -34,8 +34,11 @@ public enum Command {
     FRIEND_USER("Friend User"),
     UNFRIEND_USER("Unfriend User"),
     SUSPEND_USER("Suspend User"),
-    UNSUSPEND_USER("Unsuspend User");
+    UNSUSPEND_USER("Unsuspend User"),
     // TODO ability to go from event to user or vice versa
+    VIEW_MESSAGES("View Messages"),
+    VIEW_ADMIN_MESSAGES("View Admin Messages"),
+    SEND_MESSAGE("Send Message");
 
     private final String name;
 
