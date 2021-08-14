@@ -27,6 +27,11 @@ public class UserMenuController extends EntityMenuController<User> {
     }
 
     @Override
+    protected String getMenuTitle() {
+        return "User List";
+    }
+
+    @Override
     protected List<String> getEntityList(ViewType<User> viewType, String username) {
         assert viewType instanceof UserViewType; // TODO don't do this
         UserViewType userViewType = (UserViewType) viewType;

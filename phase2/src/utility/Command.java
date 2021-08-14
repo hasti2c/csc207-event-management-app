@@ -12,6 +12,7 @@ public enum Command {
     CREATE_EVENT("Create Event"),
     BROWSE_EVENTS("Browse Events"),
     EDIT_TEMPLATE("Edit Template"),
+    BROWSE_USERS("User List"),
     ACCOUNT_MENU("Account Menu"),
     SAVE("Save"),
     LOG_OUT("Log Out"),

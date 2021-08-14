@@ -43,7 +43,7 @@ public class EventController {
     public void browseEvents(UserType userType, String username) {
         while (true) {
             try {
-                ViewType<Event> viewType = menuController.getViewTypeChoice(userType, BROWSE_EVENTS);
+                ViewType<Event> viewType = menuController.getViewTypeChoice(userType);
                 String eventID = menuController.getEntityChoice(viewType, username);
                 viewEvent(viewType, userType, username, eventID);
             } catch (ExitException e) {

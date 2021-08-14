@@ -38,19 +38,19 @@ public abstract class EntityMenuController <T> extends MenuController {
      * @return ViewType chosen by user.
      * @throws ExitException If user chooses exit option instead of a command.
      */
-    public ViewType<T> getViewTypeChoice(UserType userType, Command command) throws ExitException {
+    public ViewType<T> getViewTypeChoice(UserType userType) throws ExitException {
         List<ViewType<T>> viewTypes = getViewTypePermissions(userType);
-        displayViewTypeMenu(viewTypes, command);
+        displayViewTypeMenu(viewTypes);
         return getMenuChoice(viewTypes, true);
     }
 
-    private void displayViewTypeMenu(List<ViewType<T>> viewTypes, Command command) {
+    private void displayViewTypeMenu(List<ViewType<T>> viewTypes) {
         List<String> viewTypeNames = new ArrayList<>();
         for (ViewType<T> viewType: viewTypes) {
             viewTypeNames.add(viewType.getName());
         }
         viewTypeNames.add(AppConstant.MENU_EXIT_OPTION);
-        presenter.printMenu(command.getName(), viewTypeNames);
+        presenter.printMenu(getMenuTitle(), viewTypeNames);
     }
 
     /**
@@ -59,6 +59,8 @@ public abstract class EntityMenuController <T> extends MenuController {
      * view types a user of this userType has access to.
      */
     protected abstract List<ViewType<T>> getViewTypePermissions(UserType userType);
+
+    protected abstract String getMenuTitle();
 
     // == Getting Entity Choice ==
 

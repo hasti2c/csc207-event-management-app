@@ -28,6 +28,11 @@ public class EventMenuController extends EntityMenuController<Event> {
         return new ArrayList<>(menuManager.getPermissions(userType).getEventViewPermissions());
     }
 
+    @Override
+    protected String getMenuTitle() {
+        return "Event List";
+    }
+
     // TODO do names instead of ids
     @Override
     protected List<String> getEntityList(ViewType<Event> viewType, String username) {
@@ -53,8 +58,7 @@ public class EventMenuController extends EntityMenuController<Event> {
     protected boolean verifyPermission(Command command, String username, String eventID) {
         boolean attending = userManager.getAttendingEvents(username).contains(eventID);
         boolean owned = userManager.getAttendingEvents(username).contains(eventID);
-        // TODO add deleted && suspended
-        boolean suspended = false;
+        boolean suspended = eventManager.isSuspended(eventID);
         switch (command) {
             case ATTEND_EVENT:
                 return !attending;

@@ -75,6 +75,7 @@ public class SystemController {
         }
     }
 
+    // TODO maybe move account menu stuff to UserController
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
             case START_UP:
@@ -101,6 +102,8 @@ public class SystemController {
             case EDIT_TEMPLATE:
                 editTemplate();
                 break;
+            case BROWSE_USERS:
+                userController.browseUsers(currentUserType, currentUser);
             case ACCOUNT_MENU:
                 runAccountMenu();
                 break;

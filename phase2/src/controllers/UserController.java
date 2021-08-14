@@ -1,6 +1,7 @@
 package controllers;
 import controllers.menus.EntityMenuController;
 import controllers.menus.UserMenuController;
+import entities.Event;
 import entities.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
@@ -8,6 +9,9 @@ import usecases.EventManager;
 import entities.User;
 import usecases.MenuManager;
 import usecases.UserManager;
+import utility.Command;
+import utility.EventViewType;
+import utility.ViewType;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -15,6 +19,8 @@ import java.util.regex.Pattern;
 
 import static utility.AppConstant.*;
 import static entities.UserType.*;
+import static utility.Command.BROWSE_EVENTS;
+import static utility.Command.BROWSE_USERS;
 
 /**
  * Manages how the User at the keyboard interacts with their account
@@ -44,6 +50,8 @@ public class UserController {
         this.inputParser = new InputParser();
         this.menuController = new UserMenuController(menuManager, userManager, eventManager);
     }
+
+    // == Creating User ==
 
     /**
      * Signs a User up within the program.
@@ -78,6 +86,60 @@ public class UserController {
             return null;
         }
     }
+
+    // == Viewing User List ==
+
+    public void browseUsers(UserType userType, String username) {
+        while (true) {
+            try {
+                ViewType<User> viewType = menuController.getViewTypeChoice(userType);
+                String selectedUser = menuController.getEntityChoice(viewType, username);
+                viewUser(userType, username, selectedUser);
+            } catch (ExitException e) {
+                return;
+            }
+        }
+    }
+
+    private void viewUser(UserType userType, String username, String selectedUser) throws ExitException {
+        viewUserDetails(selectedUser);
+        while (true) {
+            Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_USERS, selectedUser);
+            runUserCommand(userInput, username, selectedUser);
+        }
+    }
+
+    private void runUserCommand(Command command, String username, String selectedUser) throws ExitException {
+        switch (command) {
+            case FRIEND_USER:
+                addFriend(username, selectedUser);
+                return;
+            case UNFRIEND_USER:
+                removeFriend(username, selectedUser);
+                return;
+            case SUSPEND_USER:
+                // TODO
+                return;
+            case UNSUSPEND_USER:
+                // TODO
+                return;
+            case GO_BACK:
+                throw new ExitException();
+        }
+    }
+
+    // == Interacting with Other Users ==
+    private void addFriend(String username, String selectedUser) {
+        userManager.addFriend(username, selectedUser);
+        presenter.printText("You have added " + selectedUser + " to your friends list.");
+    }
+
+    private void removeFriend(String username, String selectedUser) {
+        userManager.removeFriend(username, selectedUser);
+        presenter.printText("You have removed " + selectedUser + " from your friend list.");
+    }
+
+    // == Changing User Info ==
 
     /**
      * The controller method that allows the User at the keyboard to update their username
