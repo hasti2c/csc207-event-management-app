@@ -6,10 +6,10 @@
     "templateId": "id100",
     "templateVersion": 1,
     "numAttendees": 1,
+    "suspended": false,
+    "privacyType": "PUBLIC",
     "createdTime": "2021-07-26T11:10:59.566",
     "editTime": "2021-07-26T11:10:59.566",
-    "privacyType": "PUBLIC",
-    "suspended": false,
     "fields": {
       "Max Attendees": [
         "java.lang.Integer",

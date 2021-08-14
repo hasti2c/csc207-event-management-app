@@ -3,7 +3,7 @@
     "userType": "TRIAL",
     "commandPermissions": [
       "CREATE_EVENT",
-      "VIEW_PUBLISHED",
+      "BROWSE_EVENTS",
       "EXIT_TRIAL",
       "GO_BACK"
     ],
@@ -18,9 +18,7 @@
     "userType": "REGULAR",
     "commandPermissions": [
       "CREATE_EVENT",
-      "VIEW_ATTENDED",
-      "VIEW_UNATTENDED",
-      "VIEW_OWNED",
+      "BROWSE_EVENTS",
       "ACCOUNT_MENU",
       "SAVE",
       "LOG_OUT",
@@ -52,9 +50,7 @@
     "userType": "ADMIN",
     "commandPermissions": [
       "CREATE_EVENT",
-      "VIEW_ATTENDED",
-      "VIEW_UNATTENDED",
-      "VIEW_OWNED",
+      "BROWSE_EVENTS",
       "ACCOUNT_MENU",
       "SAVE",
       "LOG_OUT",

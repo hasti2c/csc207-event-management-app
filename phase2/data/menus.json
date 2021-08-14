@@ -15,10 +15,9 @@
       "CREATE_EVENT",
       "BROWSE_EVENTS",
       "ACCOUNT_MENU",
+      "ADMIN_MENU",
       "SAVE",
       "LOG_OUT",
-      "ADMIN_MENU",
-      "VIEW_PUBLISHED",
       "EXIT_TRIAL"
     ]
   },
