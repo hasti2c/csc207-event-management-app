@@ -1,4 +1,4 @@
-package entities;
+package utility;
 
 public enum EventPrivacyType {
     PUBLIC ("Public"),

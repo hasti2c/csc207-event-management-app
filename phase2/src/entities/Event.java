@@ -1,11 +1,12 @@
 package entities;
 
+import utility.EventPrivacyType;
 import utility.Pair;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static entities.EventPrivacyType.*;
+import static utility.EventPrivacyType.*;
 
 /**
  * Events of the system

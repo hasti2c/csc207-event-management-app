@@ -1,5 +1,5 @@
 package usecases;
-import entities.EventPrivacyType;
+import utility.EventPrivacyType;
 import gateways.IGateway;
 import entities.Event;
 import utility.Pair;

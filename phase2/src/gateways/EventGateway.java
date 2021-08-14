@@ -1,7 +1,7 @@
 package gateways;
 
 import com.google.gson.*;
-import entities.EventPrivacyType;
+import utility.EventPrivacyType;
 import utility.Pair;
 import entities.Event;
 
