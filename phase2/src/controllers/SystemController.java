@@ -23,6 +23,7 @@ public class SystemController {
     private final EventController eventController;
     private final TemplateController templateController;
     private final CommandMenuController menuController;
+    private final MessageController messageBoxController;
     private final Presenter presenter;
     private final InputParser inputParser;
 
@@ -58,6 +59,7 @@ public class SystemController {
         userController = new UserController(userManager, eventManager, menuManager, messageBoxManager);
         menuController = new CommandMenuController(menuManager);
         templateController = new TemplateController(templateManager);
+        messageBoxController = new MessageController(userManager, presenter, inputParser, messageBoxManager);
     }
 
     /**
@@ -133,6 +135,15 @@ public class SystemController {
                 deleteAccount();
                 break;
             case EXIT_TRIAL:
+            case VIEW_MESSAGES:
+                messageBoxController.viewInbox(currentUser);
+                break;
+            case VIEW_ADMIN_MESSAGES:
+                messageBoxController.viewInbox(ADMIN_USERNAME);
+                break;
+            case SEND_MESSAGE:
+                messageBoxController.sendMessage(ADMIN_USERNAME);
+                break;
             case GO_BACK:
                 throw new ExitException();
         }
