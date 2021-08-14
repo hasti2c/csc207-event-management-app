@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utility.AppConstant.ADMIN_USERNAME;
+
 public class MessageBoxManager {
     private final List<MessageBox> messageBoxList;
     private final IGateway<MessageBox> gateway;
@@ -16,7 +18,7 @@ public class MessageBoxManager {
         this.gateway = gateway;
         messageBoxList = gateway.getAllElements();
         // Create the default admin MessageBox
-        createMessageBox("admin");
+        createMessageBox(ADMIN_USERNAME);
     }
 
     /**
@@ -34,7 +36,7 @@ public class MessageBoxManager {
         }
 
         // If no MessageBox object has owner username, then return empty List
-        return new ArrayList<Message>();
+        return new ArrayList<>();
     }
 
     /**

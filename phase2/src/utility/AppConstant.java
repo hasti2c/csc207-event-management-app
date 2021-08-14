@@ -13,4 +13,6 @@ public class AppConstant {
     public static final String TRIAL_USERNAME = "TRIAL_USER";
     public static final String TRIAL_PASSWORD = "TRIAL_PASS";
     public static final String TRIAL_EMAIL = "TRIAL@EMAIL.COM";
+
+    public static final String ADMIN_USERNAME = "ADMIN";
 }
