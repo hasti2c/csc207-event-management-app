@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import static utility.AppConstant.*;
 import static utility.UserType.*;
 import static utility.Command.BROWSE_USERS;
+// TODO: When a user changes their username, update the mailbox.
 
 /**
  * Manages how the User at the keyboard interacts with their account
@@ -30,9 +31,9 @@ public class UserController {
     private final EntityMenuController<User> menuController;
 
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
-    public static final Pattern validEmail =
+    public final Pattern validEmail =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern validUsername =
+    public final Pattern validUsername =
             Pattern.compile("^[a-zA-Z0-9._%+-]+$", Pattern.CASE_INSENSITIVE);
 
     /**
@@ -85,8 +86,6 @@ public class UserController {
             presenter.printText(EXITING_TEXT);
             return null;
         }
-
-
     }
 
     public void forgotPassword() {
@@ -166,6 +165,7 @@ public class UserController {
             String newUsername = getChangedUsername();
             userManager.updateUsername(username, newUsername);
             eventManager.updateUsername(username, newUsername);
+            // mailboxmanager.changeUsername
             return newUsername;
         } catch (ExitException e) {
             return null;
@@ -268,7 +268,7 @@ public class UserController {
      */
     private boolean isValidUsername(String username){
         Matcher matcher = validUsername.matcher(username);
-        return matcher.find() && !username.equals(TRIAL_USERNAME);
+        return matcher.find() && !username.equals(TRIAL_USERNAME) && !username.equalsIgnoreCase("admin");
     }
 
     // == Inputting ==

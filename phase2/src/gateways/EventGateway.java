@@ -11,12 +11,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 // TODO make more general
-
+/**
+ * Constructs an EventGateway Element.
+ * @param path Path of relevant json file.
+ */
 public class EventGateway extends EntityGateway<Event> {
-    /**
-     * Constructs an EventGateway Element.
-     * @param path Path of relevant json file.
-     */
     public EventGateway(String path) {
         super(Event.class, path);
     }

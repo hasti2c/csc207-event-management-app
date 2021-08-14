@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// TODO javadocs
+
 public abstract class EntityGateway<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;

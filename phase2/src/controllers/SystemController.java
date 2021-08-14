@@ -30,6 +30,7 @@ public class SystemController {
     private final EventManager eventManager;
     private final TemplateManager templateManager;
     private final MenuManager menuManager;
+    private final MessageBoxManager messageBoxManager;
 
     private String currentUser;
     private UserType currentUserType;
@@ -42,11 +43,13 @@ public class SystemController {
         IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
         IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
         IGateway<UserTypePermissions> userPermissionsGateway = new UserTypePermissionsGateway("phase2/data/usertype_permissions.json");
+        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway("phase2/data/messageBoxes.json");
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
         eventManager = new EventManager(eventGateway, templateManager);
         menuManager = new MenuManager(menuGateway, userPermissionsGateway);
+        messageBoxManager = new MessageBoxManager(messageBoxGateway);
 
         presenter = new Presenter();
         inputParser = new InputParser();
@@ -184,6 +187,7 @@ public class SystemController {
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
         menuManager.saveAllMenuInfo();
+        messageBoxManager.saveAllMessageBoxes();
         presenter.printText("Everything has been successfully saved.");
     }
 
