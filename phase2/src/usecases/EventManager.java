@@ -14,9 +14,9 @@ public class EventManager {
      * Manages the Events in the system
      */
     // === Class Variables ===
-    private List<Event> eventList;
-    private TemplateManager templateManager;
-    private IGateway<Event> gateway;
+    private final List<Event> eventList;
+    private final TemplateManager templateManager;
+    private final IGateway<Event> gateway;
     private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
 
     public EventManager(IGateway<Event> gateway, TemplateManager templateManager) {
@@ -51,24 +51,9 @@ public class EventManager {
         eventList.removeIf(event -> event.getEventId().equals(eventId));
     }
 
-    public void suspendEvent(String eventId) {
-        Event event = retrieveEventById(eventId);
-        event.setSuspended(true);
-    }
-
-    public void unsuspendEvent(String eventId) {
-        Event event = retrieveEventById(eventId);
-        event.setSuspended(false);
-    }
-
-    public void suspendAllEvents(ArrayList<String> eventIds) {
-        for (String eventId: eventIds)
-            suspendEvent(eventId);
-    }
-
-    public void unsuspendAllEvents(ArrayList<String> eventIds) {
-        for (String eventId: eventIds)
-            unsuspendEvent(eventId);
+    public void toggleEventSuspension(String eventID) {
+        Event event = retrieveEventById(eventID);
+        event.setSuspended(!event.isSuspended());
     }
 
     /**
@@ -121,6 +106,10 @@ public class EventManager {
      */
     public String getPrivacyType(String eventID) {
         return retrieveEventById(eventID).getPrivacyType().getName();
+    }
+
+    public boolean isSuspended(String eventID) {
+        return retrieveEventById(eventID).isSuspended();
     }
 
     /**

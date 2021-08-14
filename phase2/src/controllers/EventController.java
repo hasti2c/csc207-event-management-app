@@ -81,10 +81,8 @@ public class EventController {
                 deleteEvent(username, eventId);
                 return;
             case SUSPEND_EVENT:
-                // TODO
-                return;
             case UNSUSPEND_EVENT:
-                // TODO
+                changeSuspensionStatus(eventId);
                 return;
             case GO_BACK:
                 throw new ExitException();
@@ -203,8 +201,6 @@ public class EventController {
             }
 
         }
-
-
     }
 
     private void changeEventPrivacy(String eventID) {
@@ -221,6 +217,17 @@ public class EventController {
             presenter.printText("The privacy type was changed to " + newPrivacyName);
         } catch (ExitException e) {
             presenter.printText("The privacy type was not changed.");
+        }
+    }
+
+    private void changeSuspensionStatus(String eventID) {
+        boolean suspended = eventManager.isSuspended(eventID);
+        String current = (suspended ? "" : "not") + "suspended";
+        String action = (suspended ? "un" : "") + "suspend";
+        presenter.printText("This event is currently " + current + ". Do you want to " + action + " it? (Y/N)");
+        if (getYesNo()) {
+            eventManager.toggleEventSuspension(eventID);
+            presenter.printText("The event was " + action + "ed.");
         }
     }
 

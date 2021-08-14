@@ -17,11 +17,11 @@ import static entities.UserType.*;
  */
 public class UserManager {
     // === Instance Variables ===
-    private List<User> userList;
-    private List<String> usernamesList;
-    private List<String> emailList;
-    private IGateway<User> gateway;
-    private RandomStringGenerator generator;
+    private final List<User> userList;
+    private final List<String> usernamesList;
+    private final List<String> emailList;
+    private final IGateway<User> gateway;
+    private final RandomStringGenerator generator;
     // === Methods ===
 
     /**

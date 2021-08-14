@@ -79,6 +79,7 @@ public class SystemController {
         switch (command) {
             case START_UP:
                 runMenu(START_UP);
+                break;
             case SIGN_UP:
                 signUp();
                 break;
