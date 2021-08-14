@@ -3,14 +3,18 @@ package gateways;
 import com.google.gson.GsonBuilder;
 import entities.User;
 
-public class UserParser extends EntityParser<User> {
-    public UserParser(String path) {
+public class UserGateway extends EntityGateway<User> {
+    /**
+     * Constructs an UserGateway Element.
+     * @param path Path of relevant json file.
+     */
+    public UserGateway(String path) {
         super(User.class, path);
     }
 
     @Override
     protected GsonBuilder getGsonBuilder() {
-        return new GsonBuilder().setPrettyPrinting();
+        return GatewayUtility.getSimpleGsonBuilder();
     }
 
     @Override

@@ -1,8 +1,10 @@
 package entities;
 
+import utility.UserType;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * A user within the program
@@ -14,18 +16,18 @@ public class User {
     private String username;
     private String password;
     private String userEmail;
-    private boolean istempPass;
+    private boolean isTempPass;
     private transient boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
     private List<String> ownedEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be published.
     private List<String> attendingEvents;
     // needs to be public so that it can be used in the constructor and the UserManager class can access it.
-
-    public enum UserType {
-        R, A, T
-    }
     private UserType userType;
+    private boolean suspended = false;
+    private LocalDateTime suspensionChangeDate;
+    private List<String> friends;
+
     // === Representation Invariants ===
     // username.length() > 0
     // password.length() > 0
@@ -46,21 +48,18 @@ public class User {
         this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
         this.loggedIn = false;
-        this.istempPass = false;
+        this.isTempPass = false;
 
     }
     public User() {
     }
-
-
-
     // === Getters ===
 
     /**
      * Gets users temporary password
      * @return boolean representing user's temp password state
      */
-    public boolean hasTempPass() {return this.istempPass;}
+    public boolean hasTempPass() {return this.isTempPass;}
 
     /**
      * Gets the User's type, R.A.T
@@ -127,6 +126,18 @@ public class User {
         // Test
     }
 
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public LocalDateTime getSuspensionChangeDate() {
+        return suspensionChangeDate;
+    }
+
+    public List<String> getFriends() {
+        return friends;
+    }
+
     // === Setters ===
 
     /**
@@ -172,7 +183,7 @@ public class User {
      * Set a new list of created events
      * @param createdEvents The new list of created events
      */
-    public void setcreatedEvents(List<String> createdEvents) {
+    public void setCreatedEvents(List<String> createdEvents) {
         this.ownedEvents = createdEvents;
     }
 
@@ -184,12 +195,24 @@ public class User {
         this.attendingEvents = attendingEvents;
     }
 
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
+
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
+    }
+
+    public void setSuspensionChangeDate(LocalDateTime suspensionChangeDate) {
+        this.suspensionChangeDate = suspensionChangeDate;
+    }
+
     /**
      * Sets user's temp password
      * @param tempPassState bool representing the state isTempPass will be set to
      */
     public void setTempPass(boolean tempPassState){
-        this.istempPass = tempPassState;
+        this.isTempPass = tempPassState;
     }
 
 }

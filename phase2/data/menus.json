@@ -1,0 +1,36 @@
+[
+  {
+    "command": "START_UP",
+    "subCommands": [
+      "SIGN_UP",
+      "LOGIN",
+      "TRIAL_MENU",
+      "EXIT"
+    ]
+  },
+  {
+    "superCommand": "START_UP",
+    "command": "LOGIN",
+    "subCommands": [
+      "CREATE_EVENT",
+      "BROWSE_EVENTS",
+      "ACCOUNT_MENU",
+      "SAVE",
+      "LOG_OUT",
+      "ADMIN_MENU",
+      "VIEW_PUBLISHED",
+      "EXIT_TRIAL"
+    ]
+  },
+  {
+    "superCommand": "LOGIN",
+    "command": "ACCOUNT_MENU",
+    "subCommands": [
+      "CHANGE_USERNAME",
+      "CHANGE_EMAIL",
+      "CHANGE_PASSWORD",
+      "DELETE_ACCOUNT",
+      "GO_BACK"
+    ]
+  }
+]

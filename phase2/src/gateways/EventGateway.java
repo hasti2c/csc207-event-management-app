@@ -1,6 +1,7 @@
 package gateways;
 
 import com.google.gson.*;
+import entities.EventPrivacyType;
 import utility.Pair;
 import entities.Event;
 
@@ -9,8 +10,14 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class EventParser extends EntityParser<Event> {
-    public EventParser(String path) {
+// TODO make more general
+
+public class EventGateway extends EntityGateway<Event> {
+    /**
+     * Constructs an EventGateway Element.
+     * @param path Path of relevant json file.
+     */
+    public EventGateway(String path) {
         super(Event.class, path);
     }
 
@@ -28,7 +35,12 @@ public class EventParser extends EntityParser<Event> {
         return event.getEventId();
     }
 
+    // TODO do I need class javadocs?
     // source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
+    /**
+     * Serializes Event objects into json.
+     * Implementation of JsonSerializer.
+     */
     private static class EventSerializer implements JsonSerializer<Event> {
         @Override
         public JsonElement serialize(Event event, Type type, JsonSerializationContext context) {
@@ -41,12 +53,13 @@ public class EventParser extends EntityParser<Event> {
 
         private void addPrimitives(Event event, JsonObject json) {
             json.addProperty("eventId", event.getEventId());
-            json.addProperty("published", event.isPublished());
             json.addProperty("eventOwner", event.getEventOwner());
             json.addProperty("eventType", event.getEventType());
             json.addProperty("templateId", event.getTemplateId());
             json.addProperty("templateVersion", event.getTemplateVersion());
             json.addProperty("numAttendees", event.getNumAttendees());
+            json.addProperty("suspended", event.isSuspended());
+            json.addProperty("privacyType", event.getPrivacyType().toString());
         }
 
         private void addDates(Event event, JsonObject json) {
@@ -79,6 +92,10 @@ public class EventParser extends EntityParser<Event> {
     }
 
     // source https://futurestud.io/tutorials/gson-advanced-custom-deserialization-basics
+    /**
+     * Deserializes Event objects from json.
+     * Implementation of JsonDeserializer.
+     */
     private static class EventDeserializer implements JsonDeserializer<Event> {
         @Override
         public Event deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
@@ -92,12 +109,15 @@ public class EventParser extends EntityParser<Event> {
 
         private void getPrimitives(JsonObject json, Event event) {
             setField(event, "eventId", json.get("eventId").getAsString());
-            setField(event, "published", json.get("published").getAsBoolean());
             setField(event, "eventOwner", json.get("eventOwner").getAsString());
             setField(event, "eventType", json.get("eventType").getAsString());
             setField(event, "templateId", json.get("templateId").getAsString());
             setField(event, "templateVersion", json.get("templateVersion").getAsString());
             setField(event, "numAttendees", json.get("numAttendees").getAsInt());
+            setField(event, "suspended", json.get("suspended").getAsBoolean());
+
+            String privacyTypeName = json.get("privacyType").getAsString();
+            setField(event, "privacyType", EventPrivacyType.valueOf(privacyTypeName));
         }
 
         private void getDates(JsonObject json, Event event) {

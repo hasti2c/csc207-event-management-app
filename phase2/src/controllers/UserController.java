@@ -1,16 +1,23 @@
 package controllers;
+import controllers.menus.EntityMenuController;
+import controllers.menus.UserMenuController;
+import utility.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.EventManager;
 import entities.User;
+import usecases.MenuManager;
 import usecases.UserManager;
+import utility.Command;
+import utility.ViewType;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static utility.AppConstant.*;
-import static entities.User.UserType;
+import static utility.UserType.*;
+import static utility.Command.BROWSE_USERS;
 
 /**
  * Manages how the User at the keyboard interacts with their account
@@ -20,6 +27,7 @@ public class UserController {
     private final EventManager eventManager;
     private final Presenter presenter;
     private final InputParser inputParser;
+    private final EntityMenuController<User> menuController;
 
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
     public static final Pattern validEmail =
@@ -32,12 +40,15 @@ public class UserController {
      * @param userManager The UserManager of which the UserController interacts with
      * @param eventManager The EventManager of which the UserController interacts with
      */
-    public UserController(UserManager userManager, EventManager eventManager) {
+    public UserController(UserManager userManager, EventManager eventManager, MenuManager menuManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
+        this.menuController = new UserMenuController(menuManager, userManager, eventManager);
     }
+
+    // == Creating User ==
 
     /**
      * Signs a User up within the program.
@@ -91,6 +102,61 @@ public class UserController {
 
     }
 
+    // == Viewing User List ==
+
+    public void browseUsers(UserType userType, String username) {
+        while (true) {
+            try {
+                ViewType<User> viewType = menuController.getViewTypeChoice(userType);
+                String selectedUser = menuController.getEntityChoice(viewType, username);
+                viewUser(userType, username, selectedUser);
+            } catch (ExitException e) {
+                return;
+            }
+        }
+    }
+
+    private void viewUser(UserType userType, String username, String selectedUser) throws ExitException {
+        // TODO figure out what viewUserDetails is supposed to be
+//        viewUserDetails(selectedUser);
+        while (true) {
+            Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_USERS, selectedUser);
+            runUserCommand(userInput, username, selectedUser);
+        }
+    }
+
+    private void runUserCommand(Command command, String username, String selectedUser) throws ExitException {
+        switch (command) {
+            case FRIEND_USER:
+                addFriend(username, selectedUser);
+                return;
+            case UNFRIEND_USER:
+                removeFriend(username, selectedUser);
+                return;
+            case SUSPEND_USER:
+                // TODO
+                return;
+            case UNSUSPEND_USER:
+                // TODO
+                return;
+            case GO_BACK:
+                throw new ExitException();
+        }
+    }
+
+    // == Interacting with Other Users ==
+    private void addFriend(String username, String selectedUser) {
+        userManager.addFriend(username, selectedUser);
+        presenter.printText("You have added " + selectedUser + " to your friends list.");
+    }
+
+    private void removeFriend(String username, String selectedUser) {
+        userManager.removeFriend(username, selectedUser);
+        presenter.printText("You have removed " + selectedUser + " from your friend list.");
+    }
+
+    // == Changing User Info ==
+
     /**
      * The controller method that allows the User at the keyboard to update their username
      * @param username The username of the User who is attempting to update their username
@@ -112,6 +178,19 @@ public class UserController {
      * @param tempPassState
      */
     public void changePassword(String username, boolean tempPassState){
+        if (!tempPassState) {
+            try {
+                String newPassword = getChangedPassword();
+                userManager.updatePassword(username, newPassword);
+            } catch (ExitException ignored) {
+            }
+        } else {
+            userManager.createTempPass(username);
+        }
+    }
+
+    public void changePassword(String username){
+        boolean tempPassState = userManager.tempPassState(username);
         if (!tempPassState) {
             try {
                 String newPassword = getChangedPassword();
@@ -148,7 +227,7 @@ public class UserController {
      * @param username The username of the User who is attempting to update their account type
      */
     public void changeToAdmin(String username){
-        if (userManager.retrieveUserType(username) == User.UserType.A) {
+        if (userManager.retrieveUserType(username) == ADMIN) {
             presenter.printText("You are already an admin.");
         }
         presenter.printText("Updating type to Admin");
@@ -215,9 +294,9 @@ public class UserController {
             if (type.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
             } else if (type.equals("1")) {
-                return UserType.R;
+                return REGULAR;
             } else if (type.equals("2")) {
-                return UserType.A;
+                return ADMIN;
             } else {
                 presenter.printText("Please enter either 1 or 2" + TEXT_EXIT_OPTION + ": ");
             }
@@ -323,7 +402,7 @@ public class UserController {
     }
 
     private boolean verifyDeletion(String username) {
-        if (userManager.retrieveUser(username).getUserType() == User.UserType.T)
+        if (userManager.retrieveUser(username).getUserType() == TRIAL)
             return true;
         presenter.printText("Are you sure you wish to delete your account?");
         presenter.printText("1) Yes 2) Go Back");

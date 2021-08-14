@@ -3,32 +3,37 @@ package usecases;
 import gateways.IGateway;
 import entities.User;
 import org.apache.commons.text.RandomStringGenerator;
+import utility.UserType;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static utility.UserType.*;
 
 /**
  * Manages the Users in the system
  */
 public class UserManager {
     // === Instance Variables ===
-    private List<User> userList;
-    private List<String> usernamesList;
-    private List<String> emailList;
-    private IGateway<User> parser;
-    private RandomStringGenerator generator;
+    private final List<User> userList;
+    private final List<String> usernamesList;
+    private final List<String> emailList;
+    private final IGateway<User> gateway;
+    private final RandomStringGenerator generator;
     // === Methods ===
 
     /**
      * Initializes a UserManager object
-     * @param parser A parser object of type IGateway<User> used to load data
+     * @param gateway A gateway object of type IGateway<User> used to load data
      */
-    public UserManager(IGateway<User> parser) {
+    public UserManager(IGateway<User> gateway) {
         this.generator = new RandomStringGenerator.Builder().withinRange('A', 'Z').build();
-        this.parser = parser;
-        userList = parser.getAllElements();
+        this.gateway = gateway;
+        userList = gateway.getAllElements();
         usernamesList = new ArrayList<>();
         emailList = new ArrayList<>();
         for (User user :
@@ -46,7 +51,7 @@ public class UserManager {
      * @param userEmail the User's email
      * @param type the User's type. (R, A, T)
      */
-    public void createUser(String username, String password, String userEmail, User.UserType type) {
+    public void createUser(String username, String password, String userEmail, UserType type) {
             User newUser = new User(username, password, userEmail, type);
             userList.add(newUser);
             usernamesList.add(username);
@@ -71,6 +76,36 @@ public class UserManager {
         emailList.remove(user.getUserEmail());
     }
 
+    public void suspendUser(String username) {
+        suspendUser(username, null);
+    }
+
+    public void suspendUser(String username, Duration duration) {
+        User user = retrieveUser(username);
+        user.setSuspended(true);
+        setSuspensionChangeDate(user, duration);
+    }
+
+    public void unsuspendUser(String username) {
+        unsuspendUser(username, null);
+    }
+
+    public void unsuspendUser(String username, Duration duration) {
+        User user = retrieveUser(username);
+        user.setSuspended(false);
+        setSuspensionChangeDate(user, duration);
+    }
+
+    public void updateUserSuspension(String username) {
+        User user = retrieveUser(username);
+        LocalDateTime endDate = user.getSuspensionChangeDate();
+        if (LocalDateTime.now().isAfter(endDate)) {
+            boolean suspended = user.isSuspended();
+            user.setSuspended(!suspended);
+            setSuspensionChangeDate(user, null);
+        }
+    }
+
     /**
      * Logs in a user by checking the inputted password against the User's username
      * @param username The username of the user attempting to log in
@@ -91,7 +126,7 @@ public class UserManager {
             userToLogin.setLoggedIn(true);
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -125,10 +160,11 @@ public class UserManager {
             user.setPassword(newPassword);
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
+
     //TODO this does not work. usermanager should not be the one saving to file maybe put the block in gateway or create new gateway later.
     /**
      * Generates a random temp password for the user
@@ -139,7 +175,6 @@ public class UserManager {
         String tempPass = generator.generate(10, 20);
         user.setPassword(tempPass);
         user.setTempPass(true);
-
         try {
             Path filepath = Paths.get("phase2/data/temppass/"+ username + ".txt");
             Files.write(filepath, Collections.singleton(tempPass));
@@ -150,9 +185,9 @@ public class UserManager {
     }
 
     /**
-     * Gets user's temp password
-     * @param username Username of user who requested temp password
-     * @return String corresponding to the temp password
+     * Gets whether the user has a temporary password.
+     * @param username Username of user
+     * @return true if the user has requested/has a temporary password, false if they don't.
      */
     public boolean tempPassState(String username) {
         return retrieveUser(username).hasTempPass();
@@ -170,6 +205,7 @@ public class UserManager {
             usernamesList.remove(user.getUsername()); // Remove old usernamesList
             usernamesList.add(newUsername); // Add new usernamesList
             user.setUsername(newUsername); // Set new username
+            // TODO update friends list
             return true;
         }
         else {
@@ -204,15 +240,13 @@ public class UserManager {
      */
     public boolean deleteEvent(String username, String eventID){
         User user = retrieveUser(username);
-        if (user.getOwnedEvents().contains(eventID)) {
-            user.getOwnedEvents().remove(eventID);
-            // remove this event's eventID from any user's attendingEvents list
-            for (User attendee : userList) {
-                unAttendEvent(attendee.getUsername(), eventID);
-            }
-            return true;
+        if (!user.getOwnedEvents().contains(eventID))
+            return false;
+        user.getOwnedEvents().remove(eventID);
+        for (User attendee : userList) {
+            unAttendEvent(attendee.getUsername(), eventID);
         }
-        return false;
+        return true;
     }
 
     /**
@@ -343,7 +377,7 @@ public class UserManager {
      * @param username The username of the User whose type will be retrieved
      * @return User.UserType The type of the User, R.A.T
      */
-    public User.UserType retrieveUserType(String username){
+    public UserType retrieveUserType(String username){
         User user = retrieveUser(username);
         return user.getUserType();
     }
@@ -355,9 +389,7 @@ public class UserManager {
      */
     public boolean changeUserTypeToRegular(String username){
         User user = retrieveUser(username);
-        if (user.getUserType() != User.UserType.R){
-            user.setUserType(User.UserType.R);
-        }
+        user.setUserType(REGULAR);
         return true;
     }
 
@@ -368,13 +400,47 @@ public class UserManager {
      */
     public boolean changeUserTypeToAdmin(String username){
         User user = retrieveUser(username);
-        if (user.getUserType() != User.UserType.A) {
-            user.setUserType(User.UserType.A);
-        }
+        user.setUserType(ADMIN);
         return true;
     }
 
     public void saveAllUsers() {
-        parser.saveAllElements(userList);
+        gateway.saveAllElements(userList);
+    }
+
+    public List<String> getFriends(String username) {
+        User user = retrieveUser(username);
+        return user.getFriends();
+    }
+
+    public void addFriend(String first, String second) {
+        addToFriendsList(first, second);
+        addToFriendsList(second, first);
+    }
+
+    public void removeFriend(String first, String second) {
+        removeFromFriendsList(first, second);
+        removeFromFriendsList(second, first);
+    }
+
+    private void addToFriendsList(String username, String friend) {
+        User user = retrieveUser(username);
+        List<String> friends = user.getFriends();
+        if (!friends.contains(friend))
+            friends.add(friend);
+    }
+
+    private void removeFromFriendsList(String username, String friend) {
+        User user = retrieveUser(username);
+        user.getFriends().remove(friend);
+    }
+
+    private void setSuspensionChangeDate(User user, Duration duration) {
+        if (duration == null) {
+            user.setSuspensionChangeDate(null);
+        } else {
+            LocalDateTime endDate = LocalDateTime.now().plus(duration);
+            user.setSuspensionChangeDate(endDate);
+        }
     }
 }

@@ -1,0 +1,91 @@
+[
+  {
+    "userType": "TRIAL",
+    "commandPermissions": [
+      "CREATE_EVENT",
+      "VIEW_PUBLISHED",
+      "EXIT_TRIAL",
+      "GO_BACK"
+    ],
+    "eventViewPermissions": [
+      "PUBLISHED"
+    ],
+    "userViewPermissions": [
+      "ALL"
+    ]
+  },
+  {
+    "userType": "REGULAR",
+    "commandPermissions": [
+      "CREATE_EVENT",
+      "VIEW_ATTENDED",
+      "VIEW_UNATTENDED",
+      "VIEW_OWNED",
+      "ACCOUNT_MENU",
+      "SAVE",
+      "LOG_OUT",
+      "CHANGE_USERNAME",
+      "CHANGE_EMAIL",
+      "CHANGE_PASSWORD",
+      "DELETE_ACCOUNT",
+      "GO_BACK",
+      "ATTEND_EVENT",
+      "UNATTEND_EVENT",
+      "CHANGE_EVENT_PRIVACY",
+      "EDIT_EVENT",
+      "DELETE_EVENT",
+      "FRIEND_USER",
+      "UNFRIEND_SUER"
+    ],
+    "eventViewPermissions": [
+      "OWNED",
+      "ATTENDING",
+      "NOT_ATTENDING",
+      "PUBLISHED"
+    ],
+    "userViewPermissions": [
+      "ALL",
+      "FRIENDS"
+    ]
+  },
+  {
+    "userType": "ADMIN",
+    "commandPermissions": [
+      "CREATE_EVENT",
+      "VIEW_ATTENDED",
+      "VIEW_UNATTENDED",
+      "VIEW_OWNED",
+      "ACCOUNT_MENU",
+      "SAVE",
+      "LOG_OUT",
+      "ADMIN_MENU",
+      "CHANGE_USERNAME",
+      "CHANGE_EMAIL",
+      "CHANGE_PASSWORD",
+      "DELETE_ACCOUNT",
+      "GO_BACK",
+      "ATTEND_EVENT",
+      "UNATTEND_EVENT",
+      "CHANGE_EVENT_PRIVACY",
+      "EDIT_EVENT",
+      "DELETE_EVENT",
+      "SUSPEND_EVENT",
+      "UNSUSPEND_EVENT",
+      "FRIEND_USER",
+      "UNFRIEND_USER",
+      "SUSPEND_USER",
+      "UNSUSPEND_USER"
+    ],
+    "eventViewPermissions": [
+      "OWNED",
+      "ATTENDING",
+      "NOT_ATTENDING",
+      "PUBLISHED"
+    ],
+    "userViewPermissions": [
+      "ALL",
+      "FRIENDS",
+      "SUSPENDED"
+    ]
+  }
+]

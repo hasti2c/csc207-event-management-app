@@ -1,5 +1,5 @@
 package usecases;
-//import com.sun.javaws.exceptions.InvalidArgumentException;
+import entities.EventPrivacyType;
 import gateways.IGateway;
 import entities.Event;
 import utility.Pair;
@@ -14,14 +14,14 @@ public class EventManager {
      * Manages the Events in the system
      */
     // === Class Variables ===
-    private List<Event> eventList;
-    private TemplateManager templateManager;
-    private IGateway<Event> parser;
+    private final List<Event> eventList;
+    private final TemplateManager templateManager;
+    private final IGateway<Event> gateway;
     private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
 
-    public EventManager(IGateway<Event> parser, TemplateManager templateManager) {
-        this.parser = parser;
-        eventList = parser.getAllElements();
+    public EventManager(IGateway<Event> gateway, TemplateManager templateManager) {
+        this.gateway = gateway;
+        eventList = gateway.getAllElements();
         this.templateManager = templateManager;
     }
 
@@ -49,6 +49,11 @@ public class EventManager {
      */
     public void deleteEvent(String eventId) {
         eventList.removeIf(event -> event.getEventId().equals(eventId));
+    }
+
+    public void toggleEventSuspension(String eventID) {
+        Event event = retrieveEventById(eventID);
+        event.setSuspended(!event.isSuspended());
     }
 
     /**
@@ -83,38 +88,45 @@ public class EventManager {
         return true;
     }
 
-    public boolean togglePublish(String eventId) {
-        if (retrieveEventById(eventId).isPublished())
-            return unPublishEvent(eventId);
-        else
-            return publishEvent(eventId);
-    }
-
     /**
-     * Publishes the event so it is visible by the public
-     * @param eventID ID of the event being published
-     * @return returns true if the event has been successfully published
+     * Changes the privacy type of the event with the given eventID.
+     * @param eventID ID of the event.
+     * @param privacyTypeName The name of the new privacy type.
      */
-    private boolean publishEvent(String eventID) {
-        retrieveEventById(eventID).setPublished(true);
-        return retrieveEventById(eventID).isPublished();
-    }
-
-    /**
-     * Unpublishes the event so it is not visible by the public
-     * @param eventID ID of the event being unpublished
-     * @return returns true if the event has been successfully unpublished
-     */
-    private boolean unPublishEvent(String eventID) {
-        if (retrieveEventById(eventID).getNumAttendees() == 0) {
-            retrieveEventById(eventID).setPublished(false);
-        }
-        return !(retrieveEventById(eventID).isPublished());
+    public void setPrivacyType(String eventID, String privacyTypeName) {
+        EventPrivacyType privacyType = EventPrivacyType.byName(privacyTypeName);
+        retrieveEventById(eventID).setPrivacyType(privacyType);
     }
 
     // === Retrieving information ===
-    public boolean isPublished(String eventID) {
-        return retrieveEventById(eventID).isPublished();
+    /**
+     * Returns the name of the privacy type of the event with the given eventID.
+     * @param eventID ID of the event.
+     * @return The name of the privacy type of that event.
+     */
+    public String getPrivacyType(String eventID) {
+        return retrieveEventById(eventID).getPrivacyType().getName();
+    }
+
+    public boolean isSuspended(String eventID) {
+        return retrieveEventById(eventID).isSuspended();
+    }
+
+    /**
+     * Returns the name of the privacy types that this event's privacy type can be changed to (not including the current
+     * type).
+     * @param eventID ID of the event.
+     * @return List of names of the privacy types valid for this event.
+     */
+    public List<String> getValidPrivacyTypes(String eventID) {
+        Event event = retrieveEventById(eventID);
+        List<EventPrivacyType> privacyTypes = Arrays.asList(EventPrivacyType.values());
+        privacyTypes.remove(event.getPrivacyType());
+
+        List<String> privacyTypeNames = new ArrayList<>();
+        for (EventPrivacyType privacyType: privacyTypes)
+            privacyTypeNames.add(privacyType.getName());
+        return privacyTypeNames;
     }
 
     /**
@@ -351,6 +363,6 @@ public class EventManager {
      * Saves all events
      */
     public void saveAllEvents() {
-        parser.saveAllElements(eventList);
+        gateway.saveAllElements(eventList);
     }
 }

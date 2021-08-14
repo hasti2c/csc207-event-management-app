@@ -12,24 +12,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO javadocs
-
-public abstract class EntityParser<T> implements IGateway<T> {
+public abstract class EntityGateway<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
     private final Gson gson;
     private Map<String, T> elements;
 
-    public EntityParser(Class<T> dataType, String path) {
+    /**
+     * Constructs an EntityGateway Element.
+     * @param dataType The class object of data type T.
+     * @param path Path of relevant json file.
+     */
+    public EntityGateway(Class<T> dataType, String path) {
         this.dataType = dataType;
         this.path = path;
         gson = getGsonBuilder().create();
         readElements();
-    }
-
-    @Override
-    public T getElement(String elementId) {
-        return elements.get(elementId);
     }
 
     @Override
@@ -38,13 +36,8 @@ public abstract class EntityParser<T> implements IGateway<T> {
     }
 
     @Override
-    public void saveElement(T element) {
-        String elementId = getElementId(element);
-        if (elements.containsKey(elementId))
-            elements.replace(elementId, element);
-        else
-            elements.put(elementId, element);
-        writeElements();
+    public Map<String, T> getElementMap() {
+        return new HashMap<>(elements);
     }
 
     @Override
@@ -56,15 +49,14 @@ public abstract class EntityParser<T> implements IGateway<T> {
     }
 
     @Override
-    public void deleteElement(T element) {
-        elements.remove(getElementId(element));
+    public void saveAllElements(Map<String, T> elements) {
+        this.elements = new HashMap<>(elements);
+        writeElements();
     }
 
-    @Override
-    public void deleteElement(String elementId) {
-        elements.remove(elementId);
-    }
-
+    /**
+     * Reads all elements from file and saves in gateway.
+     */
     private void readElements() {
         try {
             FileReader fileReader = new FileReader(path);
@@ -80,6 +72,9 @@ public abstract class EntityParser<T> implements IGateway<T> {
         }
     }
 
+    /**
+     * Writes all elements saved in gateway into file.
+     */
     private void writeElements() {
         try {
             T[] emptyArray = (T[]) Array.newInstance(dataType, 0);
@@ -94,7 +89,14 @@ public abstract class EntityParser<T> implements IGateway<T> {
         }
     }
 
+    /**
+     * @return GsonBuilder object that serializes & deserializes elements into & from json.
+     */
     protected abstract GsonBuilder getGsonBuilder();
 
+    /**
+     * @param element An element.
+     * @return The id of element (based on type T).
+     */
     protected abstract String getElementId(T element);
 }

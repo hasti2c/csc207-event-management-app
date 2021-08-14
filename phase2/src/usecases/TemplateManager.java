@@ -14,12 +14,12 @@ public class TemplateManager {
      */
     // === Class Variables ===
     private List<Template> templateList;
-    private IGateway<Template> parser;
+    private IGateway<Template> gateway;
 
     // === Methods ===
-    public TemplateManager(IGateway<Template> parser) {
-        this.parser = parser;
-        templateList = parser.getAllElements();
+    public TemplateManager(IGateway<Template> gateway) {
+        this.gateway = gateway;
+        templateList = gateway.getAllElements();
     }
 
     public boolean editTemplateName(String templateName, String newName){
@@ -63,7 +63,7 @@ public class TemplateManager {
     }
 
     public void saveAllTemplates() {
-        parser.saveAllElements(templateList);
+        gateway.saveAllElements(templateList);
     }
 
     public String createTemplate(String templateName){
@@ -72,7 +72,7 @@ public class TemplateManager {
         return template.getTemplateName();
     }
 
-    public FieldSpecs createNewFieldSpecs(String inputFieldName, String inputDataType, String inputIsRequired){
+    public FieldSpecs createNewFieldSpecs(String inputFieldName, String inputDataType, String inputIsRequired) {
         Class<?> convertedDataType = null;
         boolean convertedIsRequired = false;
         if (inputDataType.equalsIgnoreCase("string")){

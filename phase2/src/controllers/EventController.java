@@ -1,125 +1,90 @@
 package controllers;
 
+import controllers.menus.EntityMenuController;
+import entities.Event;
+import utility.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.EventManager;
+import usecases.MenuManager;
 import usecases.TemplateManager;
-import entities.User;
 import usecases.UserManager;
-import utility.Pair;
+import utility.*;
+import controllers.menus.EventMenuController;
 
 import static utility.AppConstant.*;
+import static utility.Command.*;
 
 import java.util.*;
 
 /**
  * Controller handling all event related requests.
  */
-
 public class EventController {
     private final UserManager userManager;
     private final EventManager eventManager;
     private final TemplateManager templateManager;
     private final Presenter presenter;
     private final InputParser inputParser;
-    public enum ViewType {
-        OWNED,
-        ATTENDING,
-        NOT_ATTENDING,
-        PUBLISHED
-    }
+    private final EntityMenuController<Event> menuController;
 
-    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager) {
+    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager, MenuManager menuManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.templateManager = templateManager;
         this.presenter = new Presenter();
         this.inputParser = new InputParser();
+        this.menuController = new EventMenuController(menuManager, userManager, eventManager);
     }
 
     // == Viewing ==
-    /**
-     * Displays a list of events that the user can look through, see details for and register/unregister for.
-     * @param username the username of the user
-     * @param viewType the type of menu that should be shown
-     */
-    public void browseEvents(String username, ViewType viewType) {
+    // TODO make go back not go all the way back
+    public void browseEvents(UserType userType, String username) {
         while (true) {
-            List<String> eventIDList = getEventIdList(viewType, username);
-            List<String> eventNameList = eventManager.returnEventNamesListFromIdList(eventIDList);
-
-            int eventIndex = getEventChoice(eventNameList);
-            if (eventIndex == eventNameList.size()) {
-                break;
+            try {
+                ViewType<Event> viewType = menuController.getViewTypeChoice(userType);
+                String eventID = menuController.getEntityChoice(viewType, username);
+                viewEvent(viewType, userType, username, eventID);
+            } catch (ExitException e) {
+                return;
             }
-            String eventID = eventIDList.get(eventIndex);
-            viewEvent(viewType, username, eventID);
-            // TODO Should separate view event and menu selection
         }
     }
 
-    // TODO add to command enum
-    private void viewEvent(ViewType viewType, String username, String eventID) {
-        List<String> menu = getEventMenu(viewType);
-        if (viewType == ViewType.OWNED)
+    private void viewEvent(ViewType<Event> viewType, UserType userType, String username, String eventID) throws ExitException {
+        // TODO change when to show meta data maybe?
+        if (viewType == EventViewType.OWNED)
             viewEventMetaDetails(eventID);
         viewEventDetails(eventID);
-        boolean isRunning = true;
-        while (isRunning) {
-            presenter.printMenu("Viewing Selected Event", menu);
-            int userInput = getChoice(1, menu.size());
-            switch (menu.get(userInput - 1)) {
-                case "Attend Event":
-                    isRunning = !attendEvent(username, eventID);
-                    break;
-                case "Un-Attend Event":
-                    isRunning = !unattendEvent(username, eventID);
-                    break;
-                case "Delete Event":
-                    deleteEvent(username, eventID);
-                    return;
-                case "Edit Event":
-                    editEvent(username, eventID);
-                    break;
-                case "Change Published Status":
-                    changePublishStatus(eventID);
-                    break;
-                case "Go Back":
-                    return;
-            }
+        while (true) {
+            Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_EVENTS, eventID);
+            runUserCommand(userInput, username, eventID);
         }
     }
 
-    // == ViewType ==
-    private List<String> getEventIdList(ViewType viewType, String username) {
-        switch (viewType) {
-            case OWNED:
-                return userManager.getCreatedEvents(username);
-            case ATTENDING:
-                return userManager.getAttendingEvents(username);
-            case NOT_ATTENDING:
-                List<String> published = eventManager.returnPublishedEvents();
-                published.removeAll(userManager.getAttendingEvents(username));
-                return published;
-            case PUBLISHED:
-                return eventManager.returnPublishedEvents();
-            default:
-                return new ArrayList<>();
-        }
-    }
-
-    private List<String> getEventMenu(ViewType viewType) {
-        switch (viewType) {
-            case OWNED:
-                return Arrays.asList("Delete Event", "Edit Event", "Change Published Status", "Go Back");
-            case ATTENDING:
-                return Arrays.asList("Un-Attend Event", "Go Back");
-            case NOT_ATTENDING:
-                return Arrays.asList("Attend Event", "Go Back");
-            case PUBLISHED:
-                return Collections.singletonList("Go Back");
-            default:
-                return new ArrayList<>();
+    private void runUserCommand(Command command, String username, String eventId) throws ExitException {
+        switch (command) {
+            case ATTEND_EVENT:
+                attendEvent(username, eventId);
+                return;
+            case UNATTEND_EVENT:
+                unattendEvent(username, eventId);
+                return;
+            case CHANGE_EVENT_PRIVACY:
+                changeEventPrivacy(eventId);
+                return;
+            case EDIT_EVENT:
+                editEvent(username, eventId);
+                return;
+            case DELETE_EVENT:
+                deleteEvent(username, eventId);
+                return;
+            case SUSPEND_EVENT:
+            case UNSUSPEND_EVENT:
+                changeSuspensionStatus(eventId);
+                return;
+            case GO_BACK:
+                throw new ExitException();
         }
     }
 
@@ -159,11 +124,11 @@ public class EventController {
         populateFieldValues(newEventID, username);
 
         presenter.printText("Your event has been successfully created.");
-        if (userManager.retrieveUserType(username) == User.UserType.T){
+        if (userManager.retrieveUserType(username) == UserType.TRIAL) {
             presenter.printText("Since you are a trial user, your event will not be saved once you leave the system. " +
                     "You may choose to publish the event to view it while you are currently using the program.");
         }
-        changePublishStatus(newEventID);
+        changeEventPrivacy(newEventID);
     }
 
     private void populateFieldValues(String eventId, String username) {
@@ -211,10 +176,10 @@ public class EventController {
     }
 
     // == Editing ===
-    // TODO need to implement edit for phase 2
+    // TODO refactor
     public void editEvent (String username, String eventID) {
         Map<String, Pair<Class<?>, Boolean>> eventMap = eventManager.returnFieldNameAndFieldSpecs(eventID);
-        List<String> fieldNames = new ArrayList<String>(eventMap.keySet());
+        List<String> fieldNames = new ArrayList<>(eventMap.keySet());
         fieldNames.add(MENU_EXIT_OPTION);
 
         while (true) {
@@ -235,26 +200,33 @@ public class EventController {
             }
 
         }
-
-
     }
 
-    /**
-     * If published change to unpublished and vice versa
-     *
-     * @param eventID unique identifier for an event
-     */
-    private void changePublishStatus (String eventID) {
-        boolean published = eventManager.isPublished(eventID);
-        String current = (published ? "" : "un") + "publish";
-        String opposite = (published ? "un" : "") + "publish";
-        presenter.printText("Your event is currently " + current + "ed, would you like to " + opposite + "? (Y/N)");
+    private void changeEventPrivacy(String eventID) {
+        String currentPrivacy = eventManager.getPrivacyType(eventID);
+        List<String> validPrivacyTypes = eventManager.getValidPrivacyTypes(eventID);
+        presenter.printText("The current privacy type is " + currentPrivacy + ". Choose one of the following options:");
+
+        ArrayList<String> menuOptions = new ArrayList<>(validPrivacyTypes);
+        menuOptions.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Event Privacy Types", menuOptions);
+        try {
+            String newPrivacyName = menuController.getMenuChoice(menuOptions, true);
+            eventManager.setPrivacyType(eventID, newPrivacyName);
+            presenter.printText("The privacy type was changed to " + newPrivacyName);
+        } catch (ExitException e) {
+            presenter.printText("The privacy type was not changed.");
+        }
+    }
+
+    private void changeSuspensionStatus(String eventID) {
+        boolean suspended = eventManager.isSuspended(eventID);
+        String current = (suspended ? "" : "not") + "suspended";
+        String action = (suspended ? "un" : "") + "suspend";
+        presenter.printText("This event is currently " + current + ". Do you want to " + action + " it? (Y/N)");
         if (getYesNo()) {
-            if (eventManager.togglePublish(eventID)){
-                presenter.printText("Your event has been successfully " + opposite + "ed.");
-            } else {
-                presenter.printText("Your event could not be " + opposite + "ed.");
-            }
+            eventManager.toggleEventSuspension(eventID);
+            presenter.printText("The event was " + action + "ed.");
         }
     }
 
@@ -295,17 +267,6 @@ public class EventController {
     }
 
     // TODO refactor from here
-    // TODO presenter?
-    /**
-     * Prints a list of all public events created by all users.
-     */
-    private int getEventChoice(List<String> eventNameList) {
-        List<String> temp = new ArrayList<>(eventNameList);
-        temp.add(MENU_EXIT_OPTION);
-        presenter.printMenu("Event List", temp);
-        return getChoice(1, temp.size()) - 1;
-    }
-
     // TODO presenter?
     /**
      * Forces user to type either "Y" or "N"

@@ -1,30 +1,40 @@
 package entities;
 
 import utility.Command;
+import utility.UserType;
+import utility.ViewType;
 
 import java.util.List;
 
+// TODO generalize view permissions
+// TODO rename to permissions?
 public class UserTypePermissions {
-    private User.UserType userType;
-    private List<Command> permissions;
+    private UserType userType;
+    private List<Command> commandPermissions;
+    private List<ViewType<Event>> eventViewPermissions;
+    private List<ViewType<User>> userViewPermissions;
 
-    public UserTypePermissions(User.UserType userType) {
+    public UserTypePermissions(UserType userType) {
         this.userType = userType;
     }
 
-    public User.UserType getUserType() {
+    public UserType getUserType() {
         return userType;
     }
 
-    public void setUserType(User.UserType userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
 
-    public List<Command> getPermissions() {
-        return permissions;
+    public List<Command> getCommandPermissions() {
+        return commandPermissions;
     }
 
-    public void setPermissions(List<Command> permissions) {
-        this.permissions = permissions;
+    public List<ViewType<Event>> getEventViewPermissions() {
+        return eventViewPermissions;
+    }
+
+    public List<ViewType<User>> getUserViewPermissions() {
+        return userViewPermissions;
     }
 }

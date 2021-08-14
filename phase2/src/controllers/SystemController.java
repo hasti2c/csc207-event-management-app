@@ -1,19 +1,17 @@
 package controllers;
 
-import entities.Event;
-import entities.Template;
-import entities.User;
-import gateways.EventParser;
-import gateways.IGateway;
-import gateways.TemplateParser;
-import gateways.UserParser;
+import controllers.menus.CommandMenuController;
+import entities.*;
+import gateways.*;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.*;
-import utility.AppConstant;
 import utility.Command;
+import utility.UserType;
 
 import static utility.AppConstant.*;
+import static utility.UserType.*;
+import static utility.Command.*;
 
 import java.util.*;
 
@@ -24,6 +22,7 @@ public class SystemController {
     private final UserController userController;
     private final EventController eventController;
     private final TemplateController templateController;
+    private final CommandMenuController menuController;
     private final Presenter presenter;
     private final InputParser inputParser;
 
@@ -32,128 +31,65 @@ public class SystemController {
     private final TemplateManager templateManager;
     private final MenuManager menuManager;
 
-    private final Map<String, List<Command>> menuMap = new HashMap<>();
     private String currentUser;
-    private User.UserType currentUserType;
+    private UserType currentUserType;
 
+    // TODO factory pattern for initializer maybe?
     // == initializing ==
     public SystemController() {
-        IGateway<User> userParser = new UserParser("phase2/data/users.json");
-        IGateway<Event> eventParser = new EventParser("phase2/data/events.json");
-        IGateway<Template> templateParser = new TemplateParser("phase2/data/templates.json");
+        IGateway<User> userGateway = new UserGateway("phase2/data/users.json");
+        IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
+        IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
+        IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
+        IGateway<UserTypePermissions> userPermissionsGateway = new UserTypePermissionsGateway("phase2/data/usertype_permissions.json");
 
-        userManager = new UserManager(userParser);
-        templateManager = new TemplateManager(templateParser);
-        eventManager = new EventManager(eventParser, templateManager);
-        menuManager = new MenuManager();
+        userManager = new UserManager(userGateway);
+        templateManager = new TemplateManager(templateGateway);
+        eventManager = new EventManager(eventGateway, templateManager);
+        menuManager = new MenuManager(menuGateway, userPermissionsGateway);
 
         presenter = new Presenter();
         inputParser = new InputParser();
 
-        eventController = new EventController(userManager, eventManager, templateManager);
-        userController = new UserController(userManager, eventManager);
+        eventController = new EventController(userManager, eventManager, templateManager, menuManager);
+        userController = new UserController(userManager, eventManager, menuManager);
+        menuController = new CommandMenuController(menuManager);
         templateController = new TemplateController(templateManager);
-//
-//        initMenuMap();
     }
 
-//    private void initMenuMap() {
-//        menuMap.put("Start Up Menu", Arrays.asList(SIGN_UP, LOGIN, TRIAL, EXIT));
-//        menuMap.put("Main Menu", Arrays.asList(CREATE_EVENT, VIEW_ATTENDED, VIEW_UNATTENDED, VIEW_OWNED, EDIT_TEMPLATE,
-//                ACCOUNT_MENU, SAVE, LOG_OUT));
-//        // TODO Change GO_BACK to EXIT_TRIAL
-//        menuMap.put("Trial Menu", Arrays.asList(CREATE_EVENT, VIEW_PUBLISHED, GO_BACK));
-//        menuMap.put("Account Menu", Arrays.asList(CHANGE_USERNAME, CHANGE_PASSWORD, CHANGE_EMAIL, CHANGE_TO_ADMIN,
-//                DELETE_ACCOUNT, GO_BACK));
-//    }
-
-    // == menus ==
     /**
      * Run the program, this runs the "StartUp Menu"
      */
     public void run(){
         presenter.printText(WELCOME_TEXT);
-        runMenu("Start Up Menu");
+        runMenu(START_UP);
     }
 
-    private void runMainMenu() {
-        runMenu("Main Menu");
-    }
-
-    /**
-     * Run the menu that the trial users interact with
-     */
-    private void runTrialMenu(){
-        createTrialUser();
-        runMenu("Trial Menu");
-        try {
-            deleteAccount();
-        } catch (ExitException ignored) {
-
-        }
-    }
-
-    /**
-     * Run the menu that allows the User to interact with their account
-     * @return false if the user has been deleted, true if not
-     */
-    private void runAccountMenu() throws ExitException {
-        runMenu("Account Menu");
-        if (currentUser == null)
-            throw new ExitException();
-    }
-
-    // == menu helpers ==
-    private void runMenu(String menuName) {
+    private void runMenu(Command currentCommand) {
         while (true) {
-            Command userInput = getUserCommand(menuName);
-            if (userInput == null) {
-                continue;
-            }
-
+            Command userInput = menuController.getUserMenuChoice(currentUserType, currentCommand);
             try {
-            runUserCommand(userInput);
+                runUserCommand(userInput);
             } catch (ExitException e) {
                 return;
             }
         }
     }
 
-    private Command getUserCommand(String menuName) {
-        List<Command> commands = menuMap.get(menuName);
-        List<String> commandNames = new ArrayList<>();
-        for (Command command: commands) {
-            commandNames.add(command.getName());
-        }
-        presenter.printMenu(menuName, commandNames);
-        int user_input = inputParser.readInt();
-        try {
-            return commands.get(user_input - 1);
-        } catch (IndexOutOfBoundsException e) {
-            invalidInput();
-            return null;
-        }
-    }
-
-    private void invalidInput() {
-        presenter.printText("You did not enter a valid option, try again");
-    }
-
+    // TODO maybe move account menu stuff to UserController
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
             case START_UP:
-                runMenu("Start Up Menu");
+                runMenu(START_UP);
+                break;
             case SIGN_UP:
                 signUp();
                 break;
             case LOGIN:
                 login();
                 break;
-            case TRIAL:
+            case TRIAL_MENU:
                 runTrialMenu();
-                break;
-            case FORGOT_PASSWORD:
-                userController.forgotPassword();
                 break;
             case EXIT:
                 exit();
@@ -161,15 +97,14 @@ public class SystemController {
             case CREATE_EVENT:
                 eventController.createNewEvent(retrieveTemplateName(), currentUser);
                 break;
-            case VIEW_ATTENDED:
-            case VIEW_UNATTENDED:
-            case VIEW_OWNED:
-            case VIEW_PUBLISHED:
-                eventController.browseEvents(currentUser, command.getViewType());
+            case BROWSE_EVENTS:
+                eventController.browseEvents(currentUserType, currentUser);
                 break;
             case EDIT_TEMPLATE:
                 editTemplate();
                 break;
+            case BROWSE_USERS:
+                userController.browseUsers(currentUserType, currentUser);
             case ACCOUNT_MENU:
                 runAccountMenu();
                 break;
@@ -183,7 +118,7 @@ public class SystemController {
                 changeUsername();
                 break;
             case CHANGE_PASSWORD:
-                userController.changePassword(currentUser, false);
+                userController.changePassword(currentUser);
                 break;
             case CHANGE_EMAIL:
                 userController.changeEmail(currentUser);
@@ -194,6 +129,7 @@ public class SystemController {
             case DELETE_ACCOUNT:
                 deleteAccount();
                 break;
+            case EXIT_TRIAL:
             case GO_BACK:
                 throw new ExitException();
         }
@@ -210,8 +146,17 @@ public class SystemController {
         String attemptedLoginUsername = userController.userLogin();
         if (attemptedLoginUsername != null){
             this.currentUser = attemptedLoginUsername;
-            runMainMenu();
+            this.currentUserType = userManager.retrieveUserType(attemptedLoginUsername);
+            runMenu(LOGIN);
         }
+    }
+
+    private void runTrialMenu() {
+        createTrialUser();
+        runMenu(TRIAL_MENU);
+        try {
+            deleteAccount();
+        } catch (ExitException ignored) {}
     }
 
     private void exit() throws ExitException {
@@ -221,17 +166,24 @@ public class SystemController {
     }
 
     private void editTemplate() {
-        if (userManager.retrieveUserType(currentUser) == User.UserType.A){
+        if (userManager.retrieveUserType(currentUser) == ADMIN){
             editTemplateName(retrieveTemplateName());
         } else {
             presenter.printText("Sorry you do not have permission to edit the templates.");
         }
     }
 
+    private void runAccountMenu() throws ExitException {
+        runMenu(ACCOUNT_MENU);
+        if (currentUser == null)
+            throw new ExitException();
+    }
+
     private void saveAll() {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
+        menuManager.saveAllMenuInfo();
         presenter.printText("Everything has been successfully saved.");
     }
 
@@ -259,7 +211,7 @@ public class SystemController {
 
     private void createTrialUser(){
         currentUser = TRIAL_USERNAME;
-        userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, User.UserType.T);
+        userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, TRIAL);
     }
 
     // == templates == TODO refactor from here
@@ -298,7 +250,7 @@ public class SystemController {
     }
 
     private boolean chosenIndexLargerThanTheSize(List<?> list, int chosenIndex) {
-        if(list == null) {
+        if (list == null) {
             return true;
         }
         return chosenIndex > list.size();

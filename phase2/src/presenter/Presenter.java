@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
+// TODO singleton pattern?
 public class Presenter {
     public void printText(String text) {
         System.out.println(text);

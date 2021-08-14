@@ -5,16 +5,17 @@ import utility.Pair;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static entities.EventPrivacyType.*;
+
 /**
  * Events of the system
  */
 public class Event {
-
     // === Class Variables ===
     // === Instance Variables ===
     // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
     private String eventId;
-    private boolean published;
+    private EventPrivacyType privacyType;
     private LocalDateTime createdTime;
     private LocalDateTime editTime;
     private String eventOwner;
@@ -28,6 +29,7 @@ public class Event {
     private String eventType;
     private String templateId;
     private int templateVersion;
+    private boolean suspended;
 
     // === Constructors ===
 
@@ -39,7 +41,7 @@ public class Event {
     public Event(Template template, String eventOwner){
         eventId = UUID.randomUUID().toString();
         // need user to explicitly change to published
-        published = false;
+        privacyType = PRIVATE;
         createdTime = LocalDateTime.now();
         editTime = createdTime;
         this.templateId = template.getTemplateId();
@@ -154,11 +156,14 @@ public class Event {
     }
 
     /**
-     * Gets the event's published status
-     * @return boolean Whether the event is published
+     * @return The event's privacy type.
      */
-    public boolean isPublished() {
-        return published;
+    public EventPrivacyType getPrivacyType() {
+        return privacyType;
+    }
+
+    public boolean isSuspended() {
+        return suspended;
     }
 
     /**
@@ -227,11 +232,14 @@ public class Event {
     }
 
     /**
-     * Sets a new published status for this event
-     * @param published The new published status
+     * Sets the privacy type of this event.
+     * @param privacyType The new privacy type.
      */
-    public void setPublished(boolean published) {
-        this.published = published;
+    public void setPrivacyType(EventPrivacyType privacyType) {
+        this.privacyType = privacyType;
     }
 
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
 }
