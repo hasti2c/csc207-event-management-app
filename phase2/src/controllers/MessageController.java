@@ -2,7 +2,6 @@ package controllers;
 
 import presenter.InputParser;
 import presenter.Presenter;
-import usecases.EventManager;
 import usecases.MessageBoxManager;
 import usecases.UserManager;
 

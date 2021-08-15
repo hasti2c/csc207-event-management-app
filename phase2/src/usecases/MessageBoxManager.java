@@ -14,6 +14,10 @@ public class MessageBoxManager {
     private final List<MessageBox> messageBoxList;
     private final IGateway<MessageBox> gateway;
 
+    /**
+     * Create an instance of MessageBoxManager
+     * @param gateway The gateway that loads the MessageBoxes for the system
+     */
     public MessageBoxManager(IGateway<MessageBox> gateway) {
         this.gateway = gateway;
         messageBoxList = gateway.getAllElements();
