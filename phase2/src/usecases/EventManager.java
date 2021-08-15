@@ -242,8 +242,8 @@ public class EventManager {
 
     /**
      * Returns a list of event names from a list of event ids
-     * @param eventIdList
-     * @return
+     * @param eventIdList A list of event IDs
+     * @return List of strings of event names
      */
     public List <String> returnEventNamesListFromIdList(List <String> eventIdList) {
         List<String> eventNames = new ArrayList<>();
@@ -304,10 +304,6 @@ public class EventManager {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
                     returnFieldValue = LocalDateTime.parse(fieldValue, formatter);
                 }
-                // For phase 2
-//                else if (fieldSpecEntry.getValue().get(0).equals("List<String>")){
-//
-//                }
             }
         }
         return returnFieldValue;
