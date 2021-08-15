@@ -260,7 +260,7 @@ public class UserController {
      * @return True or false depending on whether the password is accepted by the regex
      */
     private boolean isValidPassword(String password) {
-        Matcher matcher = validUsername.matcher(password);
+        Matcher matcher = validPassword.matcher(password);
         return matcher.find();
     }
 
