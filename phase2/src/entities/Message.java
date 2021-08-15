@@ -85,7 +85,7 @@ public class Message{
      */
     public String messageInfo(){
         String sent_time = sentDate.format(formatter);
-        return messageHeadLine + " | Sent by: " + sender + " at: " + sent_time;
+        return messageHeadLine + " | Sent by: " + sender + ", at: " + sent_time;
     }
 
     /**

@@ -7,15 +7,30 @@
         "sender": "ADMIN",
         "recipient": "AustinA",
         "sentDate": "2021-08-14T20:26:54.298"
+      },
+      {
+        "messageHeadLine": "Admin Announcement ",
+        "messageBody": "Testing!!!!",
+        "sender": "ADMIN",
+        "recipient": "AustinA",
+        "sentDate": "2021-08-14T20:38:43.475"
       }
     ],
     "owner": "AustinA",
-    "currentSize": 1
+    "currentSize": 2
   },
   {
-    "messages": [],
+    "messages": [
+      {
+        "messageHeadLine": "Admin Announcement ",
+        "messageBody": "Testing!!!!",
+        "sender": "ADMIN",
+        "recipient": "haze",
+        "sentDate": "2021-08-14T20:38:43.477"
+      }
+    ],
     "owner": "haze",
-    "currentSize": 0
+    "currentSize": 1
   },
   {
     "messages": [],
@@ -23,8 +38,16 @@
     "currentSize": 0
   },
   {
-    "messages": [],
+    "messages": [
+      {
+        "messageHeadLine": "Admin Announcement ",
+        "messageBody": "Testing!!!!",
+        "sender": "ADMIN",
+        "recipient": "AustinR",
+        "sentDate": "2021-08-14T20:38:43.477"
+      }
+    ],
     "owner": "AustinR",
-    "currentSize": 0
+    "currentSize": 1
   }
 ]
