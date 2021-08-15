@@ -32,8 +32,8 @@ public class EventController {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.templateManager = templateManager;
-        this.presenter = new Presenter();
-        this.inputParser = new InputParser();
+        this.presenter = Presenter.getInstance();
+        this.inputParser = InputParser.getInstance();
         this.menuController = new EventMenuController(menuManager, userManager, eventManager);
     }
 

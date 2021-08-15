@@ -48,8 +48,8 @@ public class UserController {
                           MessageBoxManager messageBoxManager) {
         this.userManager = userManager;
         this.eventManager = eventManager;
-        this.presenter = new Presenter();
-        this.inputParser = new InputParser();
+        this.presenter = Presenter.getInstance();
+        this.inputParser = InputParser.getInstance();
         this.menuController = new UserMenuController(menuManager, userManager, eventManager);
         this.messageBoxManager = messageBoxManager;
     }

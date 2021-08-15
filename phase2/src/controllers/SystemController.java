@@ -52,8 +52,8 @@ public class SystemController {
         menuManager = new MenuManager(menuGateway, userPermissionsGateway);
         messageBoxManager = new MessageBoxManager(messageBoxGateway);
 
-        presenter = new Presenter();
-        inputParser = new InputParser();
+        presenter = Presenter.getInstance();
+        inputParser = InputParser.getInstance();
 
         eventController = new EventController(userManager, eventManager, templateManager, menuManager);
         userController = new UserController(userManager, eventManager, menuManager, messageBoxManager);

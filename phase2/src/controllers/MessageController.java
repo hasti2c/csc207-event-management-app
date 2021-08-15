@@ -12,23 +12,21 @@ import static utility.AppConstant.*;
 
 public class MessageController {
     private final UserManager userManager;
+    private final MessageBoxManager messageBoxManager;
     private final Presenter presenter;
     private final InputParser inputParser;
-    private final MessageBoxManager messageBoxManager;
 
     /**
      * Creates an instance of MessageController
      * @param userManager The userManager of the system
-     * @param presenter The presenter of the system
-     * @param inputParser The InputParser of the system
      * @param messageBoxManager The messageBoxManager of the system
      */
-    public MessageController(UserManager userManager, Presenter presenter,
-                             InputParser inputParser, MessageBoxManager messageBoxManager) {
+    public MessageController(UserManager userManager, MessageBoxManager messageBoxManager) {
         this.userManager = userManager;
-        this.presenter = presenter;
-        this.inputParser = inputParser;
         this.messageBoxManager = messageBoxManager;
+
+        this.presenter = Presenter.getInstance();
+        this.inputParser = InputParser.getInstance();
     }
 
     /**
@@ -36,7 +34,7 @@ public class MessageController {
      * @param username The user who is sending the message
      */
     public void sendMessage(String username){
-        try{
+        try {
             String recipient = readRecipient();
             String headline = readHeadline();
             String body = readBody();

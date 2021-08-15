@@ -2,9 +2,7 @@ package controllers;
 
 import presenter.InputParser;
 import presenter.Presenter;
-import usecases.EventManager;
 import usecases.TemplateManager;
-import usecases.UserManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +14,8 @@ public class TemplateController {
 
     public TemplateController(TemplateManager templateManager) {
         this.templateManager = templateManager;
-        this.presenter = new Presenter();
-        this.inputParser = new InputParser();
+        this.presenter = Presenter.getInstance();
+        this.inputParser = InputParser.getInstance();
     }
 
     public void createNewTemplate() {

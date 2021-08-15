@@ -9,15 +9,23 @@ import java.util.StringTokenizer;
 
 // TODO singleton pattern?
 public class InputParser {
+    private static InputParser instance;
+
     private BufferedReader bufferedReader;
     private StringTokenizer currentToken;
-    Presenter presenter = new Presenter();
+    Presenter presenter = Presenter.getInstance();
 
     private int defaultIntegerValue = -99999999;
 
-    public InputParser() {
+    private InputParser() {
         InputStreamReader inputStreamReader = new InputStreamReader(System.in);
         bufferedReader = new BufferedReader(inputStreamReader);
+    }
+
+    public static InputParser getInstance() {
+        if (instance == null)
+            instance = new InputParser();
+        return instance;
     }
 
     /**

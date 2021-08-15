@@ -33,8 +33,6 @@ public abstract class EntityMenuController <T> extends MenuController {
     /**
      * Displays the appropriate ViewType options to user, gets user choice & returns it.
      * @param userType The userType of the current user.
-     * @param command The most recently called command, the view types for which should be shown. This is assumed to be
-     *                a view type that needs view type list to be shown.
      * @return ViewType chosen by user.
      * @throws ExitException If user chooses exit option instead of a command.
      */

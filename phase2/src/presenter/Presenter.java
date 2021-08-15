@@ -6,6 +6,16 @@ import java.util.Map;
 
 // TODO singleton pattern?
 public class Presenter {
+    private static Presenter instance;
+
+    private Presenter() {}
+
+    public static Presenter getInstance() {
+        if (instance == null)
+            instance = new Presenter();
+        return instance;
+    }
+
     public void printText(String text) {
         System.out.println(text);
     }

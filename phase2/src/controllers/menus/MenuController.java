@@ -18,8 +18,8 @@ public abstract class MenuController {
      */
     public MenuController(MenuManager menuManager) {
         this.menuManager = menuManager;
-        this.presenter = new Presenter();
-        this.inputParser = new InputParser();
+        this.presenter = Presenter.getInstance();
+        this.inputParser = InputParser.getInstance();
     }
 
     /**
