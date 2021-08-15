@@ -14,7 +14,6 @@ import static utility.AppConstant.TEXT_EXIT_OPTION;
 
 public class MessageController {
     private final UserManager userManager;
-    private final EventManager eventManager;
     private final Presenter presenter;
     private final InputParser inputParser;
     private final MessageBoxManager messageBoxManager;
@@ -22,15 +21,13 @@ public class MessageController {
     /**
      * Creates an instance of MessageController
      * @param userManager The userManager of the system
-     * @param eventManager The eventManager of the system
      * @param presenter The presenter of the system
      * @param inputParser The InputParser of the system
      * @param messageBoxManager The messageBoxManager of the system
      */
-    public MessageController(UserManager userManager, EventManager eventManager, Presenter presenter,
+    public MessageController(UserManager userManager, Presenter presenter,
                              InputParser inputParser, MessageBoxManager messageBoxManager) {
         this.userManager = userManager;
-        this.eventManager = eventManager;
         this.presenter = presenter;
         this.inputParser = inputParser;
         this.messageBoxManager = messageBoxManager;
@@ -46,6 +43,7 @@ public class MessageController {
             String headline = readHeadline();
             String body = readBody();
             messageBoxManager.sendMail(username, headline, body, recipient);
+            presenter.printText("Message Sent");
         } catch (ExitException e){
             return;
         }
@@ -61,6 +59,7 @@ public class MessageController {
             String headline = readHeadline();
             String body = readBody();
             messageBoxManager.sendMail(username, headline, body, recipient);
+            presenter.printText("Message Sent");
         } catch (ExitException e){
             return;
         }
@@ -76,6 +75,7 @@ public class MessageController {
             for (String username : userManager.getUsernameList()) {
                 messageBoxManager.sendMail("admin", headline, body, username);
             }
+            presenter.printText("Announcement Sent");
         } catch (ExitException e){
             return;
         }

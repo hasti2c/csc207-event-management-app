@@ -5,6 +5,8 @@
       "CREATE_EVENT",
       "BROWSE_EVENTS",
       "EXIT_TRIAL",
+      "SEND_MESSAGE",
+      "VIEW_MESSAGES",
       "GO_BACK"
     ],
     "eventViewPermissions": [
@@ -33,7 +35,9 @@
       "EDIT_EVENT",
       "DELETE_EVENT",
       "FRIEND_USER",
-      "UNFRIEND_USER"
+      "UNFRIEND_USER",
+      "SEND_MESSAGE",
+      "VIEW_MESSAGES"
     ],
     "eventViewPermissions": [
       "OWNED",
@@ -70,7 +74,11 @@
       "FRIEND_USER",
       "UNFRIEND_USER",
       "SUSPEND_USER",
-      "UNSUSPEND_USER"
+      "UNSUSPEND_USER",
+      "SEND_MESSAGE",
+      "VIEW_MESSAGES",
+      "VIEW_ADMIN_MESSAGES",
+      "SEND_ADMIN_ANNOUNCEMENT"
     ],
     "eventViewPermissions": [
       "OWNED",
