@@ -210,6 +210,7 @@ public class UserController {
         } catch (ExitException ignored) {}
     }
 
+    // TODO: Not used, maybe remove
     /**
      * The controller method that allows the User at the keyboard to update their account to the Regular type
      * @param username The username of the User who is attempting to update their account type
