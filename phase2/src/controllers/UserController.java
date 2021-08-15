@@ -94,11 +94,15 @@ public class UserController {
         }
     }
 
-    public void forgotPassword() {
+    public void forgotPassword() throws ExitException {
         presenter.printText("Enter email: ");
         String email = inputParser.readLine();
         boolean existingEmail = !userManager.emailIsUnique(email);
         while (!existingEmail) {
+            if (email.equals(EXIT_TEXT)) {
+                throw new ExitException();
+            }
+            presenter.printText("Must be at least 8 characters with an upper case, lower case, number. Try again: ");
             email = inputParser.readLine();
             existingEmail = !userManager.emailIsUnique(email);
         }
