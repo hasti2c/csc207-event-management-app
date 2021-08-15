@@ -37,6 +37,8 @@ public class UserController {
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public final Pattern validUsername =
             Pattern.compile("^[a-zA-Z0-9._%+-]+$", Pattern.CASE_INSENSITIVE);
+    // https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation
+    public final Pattern validPassword = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
 
     /**
      * Create a UserController object
@@ -84,7 +86,7 @@ public class UserController {
             String username = readExistingUsername();
             validatePassword(username);
             if (userManager.tempPassState(username)) {
-                changePassword(username, false);
+                changePassword(username);
             }
             return username;
         } catch (ExitException e) {
@@ -102,7 +104,7 @@ public class UserController {
             existingEmail = !userManager.emailIsUnique(email);
         }
         String username = userManager.getUsernameByEmail(email);
-        changePassword(username, true);
+        changePassword(username);
 
     }
 
@@ -180,20 +182,7 @@ public class UserController {
     /**
      * The controller method that allows the User at the keyboard to update their password
      * @param username The username of the User who is attempting to update their password
-     * @param tempPassState
-     */
-    public void changePassword(String username, boolean tempPassState){
-        if (!tempPassState) {
-            try {
-                String newPassword = getChangedPassword();
-                userManager.updatePassword(username, newPassword);
-            } catch (ExitException ignored) {
-            }
-        } else {
-            userManager.createTempPass(username);
-        }
-    }
-
+    */
     public void changePassword(String username){
         boolean tempPassState = userManager.tempPassState(username);
         if (!tempPassState) {
@@ -262,6 +251,16 @@ public class UserController {
      */
     private boolean isValidEmail(String email){
         Matcher matcher = validEmail.matcher(email);
+        return matcher.find();
+    }
+
+    /**
+     * Checks if password matches regex
+     * @param password String to check
+     * @return True or false depending on whether the password is accepted by the regex
+     */
+    private boolean isValidPassword(String password) {
+        Matcher matcher = validUsername.matcher(password);
         return matcher.find();
     }
 
@@ -380,14 +379,26 @@ public class UserController {
         }
     }
 
+    /**
+     * Prompts user to enter a password and returns it if valid
+     * @return String of new password
+     * @throws ExitException If user decides to go back
+     */
     private String getChangedPassword() throws ExitException {
         presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
         String newPassword = inputParser.readLine();
-        if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
-            throw new ExitException();
-        } else {
-            presenter.printText("Your password has been updated!");
-            return newPassword;
+        while (true) {
+            if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
+                throw new ExitException();
+            } else if (!isValidPassword(newPassword)) {
+                presenter.printText("Must be at least 8 characters with an upper case, lower case, number");
+                presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
+                newPassword = inputParser.readLine();
+
+            }else {
+                presenter.printText("Your password has been updated!");
+                return newPassword;
+            }
         }
     }
 
