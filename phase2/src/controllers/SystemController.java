@@ -142,7 +142,7 @@ public class SystemController {
                 messageBoxController.viewInbox(ADMIN_USERNAME);
                 break;
             case SEND_MESSAGE:
-                messageBoxController.sendMessage(ADMIN_USERNAME);
+                messageBoxController.sendMessage(currentUser);
                 break;
             case SEND_ADMIN_ANNOUNCEMENT:
                 messageBoxController.sendAdminAnnouncement();

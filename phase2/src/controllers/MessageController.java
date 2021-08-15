@@ -9,8 +9,7 @@ import usecases.UserManager;
 import java.util.List;
 import java.util.Map;
 
-import static utility.AppConstant.EXIT_TEXT;
-import static utility.AppConstant.TEXT_EXIT_OPTION;
+import static utility.AppConstant.*;
 
 public class MessageController {
     private final UserManager userManager;
@@ -73,7 +72,7 @@ public class MessageController {
             String headline = readHeadline();
             String body = readBody();
             for (String username : userManager.getUsernameList()) {
-                messageBoxManager.sendMail("admin", headline, body, username);
+                messageBoxManager.sendMail(ADMIN_USERNAME, headline, body, username);
             }
             presenter.printText("Announcement Sent");
         } catch (ExitException e){
@@ -94,7 +93,7 @@ public class MessageController {
                 presenter.printText((i + 1) + ". " + headlines.get(i));
             }
             try{
-                presenter.printText("Select a message to view");
+                presenter.printText("Select a message to view" + TEXT_EXIT_OPTION + ": ");
                 int option = chooseIntegerOption(headlines.size()) - 1;
                 presenter.printEntity(detailMaps.get(option));
             } catch (ExitException e) {
@@ -117,7 +116,7 @@ public class MessageController {
             String recipient = inputParser.readLine();
             if (recipient.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
-            } else if (!userManager.usernameIsUnique(recipient) || recipient.equalsIgnoreCase("admin")){
+            } else if (!userManager.usernameIsUnique(recipient) || recipient.equalsIgnoreCase(ADMIN_USERNAME)){
                 return recipient;
             } else {
                 presenter.printText("That user does not exist, Enter another username: ");
