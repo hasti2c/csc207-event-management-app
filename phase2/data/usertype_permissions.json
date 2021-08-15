@@ -33,7 +33,7 @@
       "EDIT_EVENT",
       "DELETE_EVENT",
       "FRIEND_USER",
-      "UNFRIEND_SUER"
+      "UNFRIEND_USER"
     ],
     "eventViewPermissions": [
       "OWNED",

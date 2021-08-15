@@ -28,9 +28,11 @@ public class UserTypePermissionsGateway extends EntityGateway<UserTypePermission
         GsonBuilder gsonBuilder = GatewayUtility.getSimpleGsonBuilder();
 
         Type eventViewTypeClass = new TypeToken<ViewType<Event>>(){}.getType();
+        gsonBuilder.registerTypeAdapter(eventViewTypeClass, new ViewTypeSerializer<>());
         gsonBuilder.registerTypeAdapter(eventViewTypeClass, new ViewTypeDeserializer<>(EventViewType.class));
 
         Type userViewTypeClass = new TypeToken<ViewType<User>>(){}.getType();
+        gsonBuilder.registerTypeAdapter(userViewTypeClass, new ViewTypeSerializer<>());
         gsonBuilder.registerTypeAdapter(userViewTypeClass, new ViewTypeDeserializer<>(UserViewType.class));
 
         return gsonBuilder;
@@ -39,6 +41,14 @@ public class UserTypePermissionsGateway extends EntityGateway<UserTypePermission
     @Override
     protected String getElementId(UserTypePermissions userTypePermissions) {
         return userTypePermissions.getUserType().toString();
+    }
+
+
+    private static class ViewTypeSerializer<T> implements JsonSerializer<ViewType<T>> {
+        @Override
+        public JsonElement serialize(ViewType<T> src, Type type, JsonSerializationContext context) {
+            return new JsonPrimitive(src.toString());
+        }
     }
 
     private static class ViewTypeDeserializer<T> implements JsonDeserializer<ViewType<T>> {
@@ -50,8 +60,8 @@ public class UserTypePermissionsGateway extends EntityGateway<UserTypePermission
 
         @Override
         public ViewType<T> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            String viewTypename = jsonElement.getAsString();
-            return getEnumValue(viewTypename);
+            String viewTypeName = jsonElement.getAsString();
+            return getEnumValue(viewTypeName);
         }
 
         private ViewType<T> getEnumValue(String name) {
