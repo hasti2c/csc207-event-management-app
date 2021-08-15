@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 import static utility.AppConstant.*;
 import static utility.UserType.*;
 import static utility.Command.BROWSE_USERS;
-// TODO: When a user changes their username, update the mailbox.
 
 /**
  * Manages how the User at the keyboard interacts with their account
