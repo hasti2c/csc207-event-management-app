@@ -144,6 +144,9 @@ public class SystemController {
             case SEND_MESSAGE:
                 messageBoxController.sendMessage(ADMIN_USERNAME);
                 break;
+            case SEND_ADMIN_ANNOUNCEMENT:
+                messageBoxController.sendAdminAnnouncement();
+                break;
             case GO_BACK:
                 throw new ExitException();
         }

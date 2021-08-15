@@ -77,7 +77,8 @@
       "UNSUSPEND_USER",
       "SEND_MESSAGE",
       "VIEW_MESSAGES",
-      "VIEW_ADMIN_MESSAGES"
+      "VIEW_ADMIN_MESSAGES",
+      "SEND_ADMIN_ANNOUNCEMENT"
     ],
     "eventViewPermissions": [
       "OWNED",

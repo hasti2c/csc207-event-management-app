@@ -38,7 +38,8 @@ public enum Command {
     // TODO ability to go from event to user or vice versa
     VIEW_MESSAGES("View Messages"),
     VIEW_ADMIN_MESSAGES("View Admin Messages"),
-    SEND_MESSAGE("Send Message");
+    SEND_MESSAGE("Send Message"),
+    SEND_ADMIN_ANNOUNCEMENT("Send Admin Announcement");
 
     private final String name;
 

@@ -19,6 +19,7 @@
       "SEND_MESSAGE",
       "VIEW_MESSAGES",
       "VIEW_ADMIN_MESSAGES",
+      "SEND_ADMIN_ANNOUNCEMENT",
       "SAVE",
       "LOG_OUT",
       "EXIT_TRIAL"
