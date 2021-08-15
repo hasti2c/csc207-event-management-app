@@ -21,13 +21,25 @@ public class MessageBox implements Iterable<Message>{
     }
 
     /**
-     * Get the message headline of every message within the MessageBox
+     * Gets the message headline of every message within the MessageBox
      * @return List<String> The List of Message headlines within the MessageBox
      */
     public List<String> getMessageHeadlines(){
         List<String> headlineList = new ArrayList<>();
         for (Message message : messages) {
             headlineList.add(message.getMessageHeadLine());
+        }
+        return headlineList;
+    }
+
+    /**
+     * Gets the message headline with details used for printing of every message within the MessageBox
+     * @return List<String> The List of Message headlines with info within the MessageBox
+     */
+    public List<String> getMessageInfo(){
+        List<String> headlineList = new ArrayList<>();
+        for (Message message : messages) {
+            headlineList.add(message.messageInfo());
         }
         return headlineList;
     }

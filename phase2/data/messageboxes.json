@@ -1,5 +1,18 @@
 [
   {
+    "messages": [
+      {
+        "messageHeadLine": "test",
+        "messageBody": "testing!",
+        "sender": "ADMIN",
+        "recipient": "AustinA",
+        "sentDate": "2021-08-14T20:26:54.298"
+      }
+    ],
+    "owner": "AustinA",
+    "currentSize": 1
+  },
+  {
     "messages": [],
     "owner": "haze",
     "currentSize": 0
@@ -7,6 +20,11 @@
   {
     "messages": [],
     "owner": "ADMIN",
+    "currentSize": 0
+  },
+  {
+    "messages": [],
+    "owner": "AustinR",
     "currentSize": 0
   }
 ]

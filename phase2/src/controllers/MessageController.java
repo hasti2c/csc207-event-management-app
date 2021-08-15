@@ -86,7 +86,7 @@ public class MessageController {
      * @param username The user who is viewing their inbox
      */
     public void viewInbox(String username){
-        List<String> headlines = messageBoxManager.getHeadlines(username);
+        List<String> headlines = messageBoxManager.getMessageInfo(username);
         List<Map<String, String>> detailMaps = messageBoxManager.getDetailMaps(username);
         if (headlines.size() == 0) presenter.printText("Your inbox is empty");
         else{
@@ -94,6 +94,7 @@ public class MessageController {
                 presenter.printText((i + 1) + ". " + headlines.get(i));
             }
             try{
+                presenter.printText("Select a message to view");
                 int option = chooseIntegerOption(headlines.size()) - 1;
                 presenter.printEntity(detailMaps.get(option));
             } catch (ExitException e) {

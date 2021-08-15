@@ -121,6 +121,22 @@ public class MessageBoxManager {
     }
 
     /**
+     * Return a list of strings of the Headlines with info of the desired User's MessageBox. If the user does not exist
+     * return an empty list
+     * @param username The username of the user whose messages will be viewed
+     * @return List<String> A list of message headlines with info
+     */
+    public List<String> getMessageInfo(String username){
+        MessageBox messageBoxOfUser = getMessageBoxOfUser(username);
+        if (messageBoxOfUser != null) {
+            return messageBoxOfUser.getMessageInfo();
+        }
+        else {
+            return new ArrayList<>();
+        }
+    }
+
+    /**
      * Return a list of Map<String,String> of the details of the desired User's messages
      * @param username The username of the user whose messages will be viewed
      * @return List<Map<String, String>>  A list of message details

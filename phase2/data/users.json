@@ -1,5 +1,15 @@
 [
   {
+    "username": "AustinA",
+    "password": "a",
+    "userEmail": "a@ab.com",
+    "isTempPass": false,
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "ADMIN",
+    "suspended": false
+  },
+  {
     "username": "haze",
     "password": "ugh",
     "userEmail": "hasti@toossi.info",
@@ -20,6 +30,16 @@
     "attendingEvents": [
       "d9d9427d-9e66-4a53-8eee-a4f2219b54b9"
     ],
+    "suspended": false
+  },
+  {
+    "username": "AustinR",
+    "password": "a",
+    "userEmail": "a@a.com",
+    "isTempPass": false,
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "REGULAR",
     "suspended": false
   }
 ]
