@@ -14,10 +14,17 @@
         "sender": "ADMIN",
         "recipient": "AustinA",
         "sentDate": "2021-08-14T20:38:43.475"
+      },
+      {
+        "messageHeadLine": "Very cool stuff",
+        "messageBody": "Message body",
+        "sender": "AustinR",
+        "recipient": "AustinA",
+        "sentDate": "2021-08-14T20:42:10.395"
       }
     ],
     "owner": "AustinA",
-    "currentSize": 2
+    "currentSize": 3
   },
   {
     "messages": [
@@ -33,8 +40,21 @@
     "currentSize": 1
   },
   {
-    "messages": [],
+    "messages": [
+      {
+        "messageHeadLine": "Admin Message Test!",
+        "messageBody": "testing",
+        "sender": "AustinR",
+        "recipient": "ADMIN",
+        "sentDate": "2021-08-14T20:46:40.511"
+      }
+    ],
     "owner": "ADMIN",
+    "currentSize": 1
+  },
+  {
+    "messages": [],
+    "owner": "AustinA2",
     "currentSize": 0
   },
   {

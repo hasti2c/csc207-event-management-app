@@ -33,6 +33,16 @@
     "suspended": false
   },
   {
+    "username": "AustinA2",
+    "password": "a",
+    "userEmail": "as@gmail.com",
+    "isTempPass": false,
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "ADMIN",
+    "suspended": false
+  },
+  {
     "username": "AustinR",
     "password": "a",
     "userEmail": "a@a.com",

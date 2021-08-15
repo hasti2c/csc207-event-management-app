@@ -116,7 +116,10 @@ public class MessageController {
             String recipient = inputParser.readLine();
             if (recipient.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
-            } else if (!userManager.usernameIsUnique(recipient) || recipient.equalsIgnoreCase(ADMIN_USERNAME)){
+            } else if (recipient.equalsIgnoreCase(ADMIN_USERNAME)){
+                return ADMIN_USERNAME;
+            }
+            else if (!userManager.usernameIsUnique(recipient)){
                 return recipient;
             } else {
                 presenter.printText("That user does not exist, Enter another username: ");
