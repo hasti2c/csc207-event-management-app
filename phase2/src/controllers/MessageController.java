@@ -43,6 +43,7 @@ public class MessageController {
             String headline = readHeadline();
             String body = readBody();
             messageBoxManager.sendMail(username, headline, body, recipient);
+            presenter.printText("Message Sent");
         } catch (ExitException e){
             return;
         }
@@ -58,6 +59,7 @@ public class MessageController {
             String headline = readHeadline();
             String body = readBody();
             messageBoxManager.sendMail(username, headline, body, recipient);
+            presenter.printText("Message Sent");
         } catch (ExitException e){
             return;
         }
@@ -73,6 +75,7 @@ public class MessageController {
             for (String username : userManager.getUsernameList()) {
                 messageBoxManager.sendMail("admin", headline, body, username);
             }
+            presenter.printText("Announcement Sent");
         } catch (ExitException e){
             return;
         }
