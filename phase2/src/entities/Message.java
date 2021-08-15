@@ -19,7 +19,7 @@ public class Message{
 
     // Datetime stuff
     private final transient String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
 
     public Message() {}
 
