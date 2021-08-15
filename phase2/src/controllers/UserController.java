@@ -12,6 +12,7 @@ import usecases.UserManager;
 import utility.Command;
 import utility.ViewType;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -125,12 +126,16 @@ public class UserController {
         }
     }
 
-    private void viewUser(UserType userType, String username, String selectedUser) throws ExitException {
+    private void viewUser(UserType userType, String username, String selectedUser) {
         // TODO figure out what viewUserDetails is supposed to be
 //        viewUserDetails(selectedUser);
         while (true) {
             Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_USERS, selectedUser);
-            runUserCommand(userInput, username, selectedUser);
+            try {
+                runUserCommand(userInput, username, selectedUser);
+            } catch (ExitException e) {
+                return;
+            }
         }
     }
 
@@ -143,10 +148,10 @@ public class UserController {
                 removeFriend(username, selectedUser);
                 return;
             case SUSPEND_USER:
-                // TODO
+                suspendUser(selectedUser);
                 return;
             case UNSUSPEND_USER:
-                // TODO
+                unsuspendUser(selectedUser);
                 return;
             case GO_BACK:
                 throw new ExitException();
@@ -162,6 +167,36 @@ public class UserController {
     private void removeFriend(String username, String selectedUser) {
         userManager.removeFriend(username, selectedUser);
         presenter.printText("You have removed " + selectedUser + " from your friend list.");
+    }
+
+    // TODO ban login for suspended users
+    private void suspendUser(String selectedUser) {
+        presenter.printText("You are suspending " + selectedUser + ". Do you want to suspend this user permanently? (Y/N)");
+        if (getYesNo()) {
+            userManager.suspendUser(selectedUser);
+            presenter.printText(selectedUser + " has been suspended permanently.");
+        } else {
+            presenter.printText("For how many days do you want to suspend this user?");
+            int dayCount = getDayCount();
+            userManager.suspendUser(selectedUser, Duration.ofDays(dayCount));
+            presenter.printText(selectedUser + " has been suspended for " + dayCount + " days.");
+        }
+    }
+
+    // TODO do we want to allow temporary un-suspension?
+    private void unsuspendUser(String selectedUser) {
+        userManager.unsuspendUser(selectedUser);
+        presenter.printText(selectedUser + " was unsuspended.");
+    }
+
+    // TODO implement back?
+    private int getDayCount() {
+        int dayCount = inputParser.readInt();
+        while (dayCount <= 0) {
+            presenter.printText("Please enter a positive number.");
+            dayCount = inputParser.readInt();
+        }
+        return dayCount;
     }
 
     // == Changing User Info ==
@@ -436,5 +471,15 @@ public class UserController {
                 presenter.printText("You did not enter a valid option, try again");
             }
         }
+    }
+
+    // TODO move to presenter
+    private boolean getYesNo() {
+        String userInput = inputParser.readLine();
+        while (!userInput.equalsIgnoreCase("Y") && !userInput.equalsIgnoreCase("N")) {
+            presenter.printText("Type Y or N");
+            userInput = inputParser.readLine();
+        }
+        return userInput.equalsIgnoreCase("Y");
     }
 }
