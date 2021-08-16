@@ -304,7 +304,7 @@ public class UserManager {
     public List<String> getCreatedEvents(String username) {
         // return the events the user has created
         User user = retrieveUser(username);
-        return user.getOwnedEvents();
+        return new ArrayList<>(user.getOwnedEvents());
     }
 
     /**
@@ -315,7 +315,7 @@ public class UserManager {
     public List<String> getAttendingEvents(String username) {
         // return the events the user is attending
         User user = retrieveUser(username);
-        return user.getAttendingEvents();
+        return new ArrayList<>(user.getAttendingEvents());
     }
 
     /**
@@ -323,9 +323,21 @@ public class UserManager {
      * @return a list of all usernames of every User in UserManager's userList
      */
     public List<String> getUsernameList() {
-        return usernamesList;
+        return new ArrayList<>(usernamesList);
     }
 
+    /**
+     * Retrieve all usernames of suspended users.
+     * @return a list of all usernames of suspended users;
+     */
+    public List<String> getSuspendedList() {
+        List<String> ret = new ArrayList<>();
+        for (String username : usernamesList) {
+            if (isSuspended(username))
+                ret.add(username);
+        }
+        return ret;
+    }
 
     /**
      * Get the user with the matching username
@@ -414,7 +426,13 @@ public class UserManager {
 
     public List<String> getFriends(String username) {
         User user = retrieveUser(username);
-        return user.getFriends();
+        return new ArrayList<>(user.getFriends());
+    }
+
+    public boolean areFriends(String first, String second) {
+        User firstUser = retrieveUser(first);
+        User secondUser = retrieveUser(second);
+        return firstUser.getFriends().contains(second) && secondUser.getFriends().contains(first);
     }
 
     public void addFriend(String first, String second) {
@@ -437,6 +455,11 @@ public class UserManager {
     private void removeFromFriendsList(String username, String friend) {
         User user = retrieveUser(username);
         user.getFriends().remove(friend);
+    }
+
+    public boolean isSuspended(String username) {
+        User user = retrieveUser(username);
+        return user.isSuspended();
     }
 
     private void setSuspensionChangeDate(User user, Duration duration) {

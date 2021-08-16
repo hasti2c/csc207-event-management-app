@@ -43,7 +43,7 @@ public class SystemController {
         IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
         IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
         IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
-        IGateway<UserTypePermissions> userPermissionsGateway = new UserTypePermissionsGateway("phase2/data/usertype_permissions.json");
+        IGateway<Permissions> userPermissionsGateway = new PermissionsGateway("phase2/data/permissions.json");
         IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway("phase2/data/messageBoxes.json");
 
         userManager = new UserManager(userGateway);
@@ -59,7 +59,7 @@ public class SystemController {
         userController = new UserController(userManager, eventManager, menuManager, messageBoxManager);
         menuController = new CommandMenuController(menuManager);
         templateController = new TemplateController(templateManager);
-        messageBoxController = new MessageController(userManager, presenter, inputParser, messageBoxManager);
+        messageBoxController = new MessageController(userManager, messageBoxManager);
     }
 
     /**

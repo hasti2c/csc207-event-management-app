@@ -4,7 +4,7 @@ import utility.UserType;
 import gateways.IGateway;
 import utility.Command;
 import entities.Menu;
-import entities.UserTypePermissions;
+import entities.Permissions;
 
 import java.util.*;
 
@@ -13,17 +13,17 @@ import static utility.Command.*;
 public class MenuManager {
     private final Map<String, Menu> allMenus;
     // TODO map instead of list?
-    private final List<UserTypePermissions> allUserPermissions;
+    private final List<Permissions> allPermissions;
     private final IGateway<Menu> menuGateway;
-    private final IGateway<UserTypePermissions> userPermissionsGateway;
+    private final IGateway<Permissions> userPermissionsGateway;
 
-    public MenuManager(IGateway<Menu> menuGateway, IGateway<UserTypePermissions> userPermissionsGateway) {
+    public MenuManager(IGateway<Menu> menuGateway, IGateway<Permissions> permissionsGateway) {
         this.menuGateway = menuGateway;
         allMenus = menuGateway.getElementMap();
         // TODO should we have menus for all the leaves and then just set the subCommands as null?
 
-        this.userPermissionsGateway = userPermissionsGateway;
-        allUserPermissions = userPermissionsGateway.getAllElements();
+        this.userPermissionsGateway = permissionsGateway;
+        allPermissions = permissionsGateway.getAllElements();
     }
 
     public List<Command> getPermittedSubMenu(UserType userType, Command command) {
@@ -33,9 +33,9 @@ public class MenuManager {
         if (userType == null && command.equals(START_UP)){
             permittedSubMenu = allSubCommands;
         } else {
-            List<Command> userTypePermissions = getPermissions(userType).getCommandPermissions();
+            List<Command> permissions = getPermissions(userType).getCommandPermissions();
             for (Command commandItem: allSubCommands){
-                if (userTypePermissions.contains(commandItem)) {
+                if (permissions.contains(commandItem)) {
                     permittedSubMenu.add(commandItem);
                 }
             }
@@ -45,7 +45,7 @@ public class MenuManager {
 
     public void saveAllMenuInfo() {
         menuGateway.saveAllElements(allMenus);
-        userPermissionsGateway.saveAllElements(allUserPermissions);
+        userPermissionsGateway.saveAllElements(allPermissions);
     }
 
     // Helpers
@@ -55,8 +55,8 @@ public class MenuManager {
      * @param userType
      * @return
      */
-    public UserTypePermissions getPermissions(UserType userType) {
-        for(UserTypePermissions perms: allUserPermissions) {
+    public Permissions getPermissions(UserType userType) {
+        for(Permissions perms: allPermissions) {
             if (perms.getUserType() == userType) {
                 return perms;
             }

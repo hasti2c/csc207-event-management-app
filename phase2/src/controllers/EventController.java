@@ -203,8 +203,8 @@ public class EventController {
     }
 
     private void changeEventPrivacy(String eventID) {
-        String currentPrivacy = eventManager.getPrivacyType(eventID);
-        List<String> validPrivacyTypes = eventManager.getValidPrivacyTypes(eventID);
+        String currentPrivacy = eventManager.getPrivacyTypeName(eventID);
+        List<String> validPrivacyTypes = eventManager.getValidPrivacyTypeNames(eventID);
         presenter.printText("The current privacy type is " + currentPrivacy + ". Choose one of the following options:");
 
         ArrayList<String> menuOptions = new ArrayList<>(validPrivacyTypes);

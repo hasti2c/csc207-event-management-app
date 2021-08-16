@@ -99,12 +99,20 @@ public class EventManager {
     }
 
     // === Retrieving information ===
+    public String getOwner(String eventID) {
+        return retrieveEventById(eventID).getEventOwner();
+    }
+
+    public EventPrivacyType getPrivacyType(String eventID) {
+        return retrieveEventById(eventID).getPrivacyType();
+    }
+
     /**
      * Returns the name of the privacy type of the event with the given eventID.
      * @param eventID ID of the event.
      * @return The name of the privacy type of that event.
      */
-    public String getPrivacyType(String eventID) {
+    public String getPrivacyTypeName(String eventID) {
         return retrieveEventById(eventID).getPrivacyType().getName();
     }
 
@@ -118,7 +126,7 @@ public class EventManager {
      * @param eventID ID of the event.
      * @return List of names of the privacy types valid for this event.
      */
-    public List<String> getValidPrivacyTypes(String eventID) {
+    public List<String> getValidPrivacyTypeNames(String eventID) {
         Event event = retrieveEventById(eventID);
         List<EventPrivacyType> privacyTypes = Arrays.asList(EventPrivacyType.values());
         privacyTypes.remove(event.getPrivacyType());
@@ -180,20 +188,6 @@ public class EventManager {
     }
 
     /**
-     * Returns a List of the IDs of all the published events from eventList, a list of events
-     * @return Arraylist of all the published events from eventList, a list of events
-     */
-    public List<String> returnPublishedEvents() {
-        List<String> holderList = new ArrayList<>();
-        for (Event event : eventList) {
-            if (event.getPrivacyType() == EventPrivacyType.PUBLIC) {
-                holderList.add(event.getEventId());
-            }
-        }
-        return holderList;
-    }
-
-    /**
      * Returns an event that has the matching Id from eventList, a list of events
      * @param eventId The Id of the event that is to be returned
      * @return The event that the event Id
@@ -216,6 +210,59 @@ public class EventManager {
     public String retrieveEventNameById(String eventId) {
         Event event = retrieveEventById(eventId);
         return event.returnEventName();
+    }
+
+    /**
+     * Returns a List of the IDs of all events from eventList, a list of events
+     * @return Arraylist of all events from eventList, a list of events
+     */
+    public List<String> getAllEvents() {
+        List<String> ret = new ArrayList<>();
+        for (Event event : eventList) {
+            ret.add(event.getEventId());
+        }
+        return ret;
+    }
+
+    /**
+     * Returns a List of the IDs of all public events from eventList, a list of events
+     * @return Arraylist of all public events from eventList, a list of events
+     */
+    public List<String> getPublicEvents() {
+        List<String> ret = new ArrayList<>();
+        for (Event event : eventList) {
+            if (event.getPrivacyType() == EventPrivacyType.PUBLIC) {
+                ret.add(event.getEventId());
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Returns a List of the IDs of all friends only events from eventList, a list of events
+     * @return Arraylist of all friends only events from eventList, a list of events
+     */
+    public List<String> getFriendsOnlyEvents() {
+        List<String> ret = new ArrayList<>();
+        for (Event event : eventList) {
+            if (event.getPrivacyType() == EventPrivacyType.FRIENDS_ONLY) {
+                ret.add(event.getEventId());
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Returns a List of the IDs of all suspended events from eventList, a list of events
+     * @return Arraylist of all suspended events from eventList, a list of events
+     */
+    public List<String> getSuspendedEvents() {
+        List<String> ret = new ArrayList<>();
+        for (Event event : eventList) {
+            if (event.isSuspended())
+                ret.add(event.getEventId());
+        }
+        return ret;
     }
 
     // === Helpers for Converting to Different Types ===

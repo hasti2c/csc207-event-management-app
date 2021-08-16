@@ -1,13 +1,10 @@
 package controllers.menus;
 
 import entities.Event;
-import utility.UserType;
+import utility.*;
 import usecases.EventManager;
 import usecases.MenuManager;
 import usecases.UserManager;
-import utility.Command;
-import utility.EventViewType;
-import utility.ViewType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +35,58 @@ public class EventMenuController extends EntityMenuController<Event> {
     protected List<String> getEntityList(ViewType<Event> viewType, String username) {
         assert viewType instanceof EventViewType; // TODO don't do this
         EventViewType eventViewType = (EventViewType) viewType;
+
+        List<String> eventList;
+        boolean suspensionCheck = true, accessibilityCheck = true;
         switch (eventViewType) {
             case OWNED:
-                return userManager.getCreatedEvents(username);
+                eventList = userManager.getCreatedEvents(username);
+                break;
             case ATTENDING:
-                return userManager.getAttendingEvents(username);
+                eventList = userManager.getAttendingEvents(username);
+                break;
             case NOT_ATTENDING:
-                List<String> published = eventManager.returnPublishedEvents();
-                published.removeAll(userManager.getAttendingEvents(username));
-                return published;
-            case PUBLISHED:
-                return eventManager.returnPublishedEvents();
+                eventList = eventManager.getAllEvents();
+                eventList.removeAll(userManager.getAttendingEvents(username));
+                break;
+            case PUBLIC:
+                eventList = eventManager.getPublicEvents();
+                break;
+            case FRIENDS_ONLY:
+                eventList = eventManager.getFriendsOnlyEvents();
+                break;
+            case ALL:
+                eventList = eventManager.getAllEvents();
+                accessibilityCheck = false; // 'All' should list all events regardless of privacy.
+                break;
+            case SUSPENDED:
+                eventList = eventManager.getSuspendedEvents();
+                accessibilityCheck = false; // 'Suspended' should list all events regardless of privacy.
+                suspensionCheck = false; // We don't want suspended events to be removed.
+                break;
             default:
-                return new ArrayList<>();
+                eventList = new ArrayList<>();
+        }
+
+        eventList = new ArrayList<>(eventList); // This is done so that original list isn't mutated.
+        if (accessibilityCheck)
+            eventList.removeIf(eventID -> !isAccessible(eventID, username));
+        if (suspensionCheck)
+            eventList.removeIf(eventManager::isSuspended);
+        return eventList;
+    }
+
+    private boolean isAccessible(String eventId, String username) {
+        EventPrivacyType privacyType = eventManager.getPrivacyType(eventId);
+        String owner = eventManager.getOwner(eventId);
+        switch (privacyType) {
+            case FRIENDS_ONLY:
+                return userManager.areFriends(username, owner);
+            case PRIVATE:
+                return username.equals(owner);
+            case PUBLIC:
+            default:
+                return true;
         }
     }
 

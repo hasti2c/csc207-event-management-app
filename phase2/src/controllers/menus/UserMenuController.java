@@ -35,23 +35,34 @@ public class UserMenuController extends EntityMenuController<User> {
     protected List<String> getEntityList(ViewType<User> viewType, String username) {
         assert viewType instanceof UserViewType; // TODO don't do this
         UserViewType userViewType = (UserViewType) viewType;
+
+        List<String> userList;
+        boolean suspensionCheck = true;
         switch (userViewType) {
             case ALL:
-                return userManager.getUsernameList();
+                userList = userManager.getUsernameList();
+                break;
             case FRIENDS:
-                return userManager.getFriends(username);
+                userList = userManager.getFriends(username);
+                break;
             case SUSPENDED:
-                // TODO add getSuspendedUsers to UserManager (and make other methods not return suspended)
-                return new ArrayList<>();
+                userList = userManager.getSuspendedList();
+                suspensionCheck = false; // We want suspended users to be included.
+                break;
             default:
                 return new ArrayList<>();
         }
+
+        userList = new ArrayList<>(userList); // This is done so that original list isn't mutated.
+        if (suspensionCheck)
+            userList.removeIf(userManager::isSuspended);
+        return userList;
     }
 
     @Override
     protected boolean verifyPermission(Command command, String username, String selectedUser) {
         boolean friend = userManager.getFriends(username).contains(selectedUser);
-        boolean suspended = false; // TODO add suspended
+        boolean suspended = userManager.isSuspended(username);
         switch (command) {
             case FRIEND_USER:
                 return !friend;

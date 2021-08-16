@@ -10,7 +10,7 @@
       "GO_BACK"
     ],
     "eventViewPermissions": [
-      "PUBLISHED"
+      "PUBLIC"
     ],
     "userViewPermissions": [
       "ALL"
@@ -43,7 +43,8 @@
       "OWNED",
       "ATTENDING",
       "NOT_ATTENDING",
-      "PUBLISHED"
+      "PUBLIC",
+      "FRIENDS_ONLY"
     ],
     "userViewPermissions": [
       "ALL",
@@ -84,7 +85,10 @@
       "OWNED",
       "ATTENDING",
       "NOT_ATTENDING",
-      "PUBLISHED"
+      "PUBLIC",
+      "FRIENDS_ONLY",
+      "ALL",
+      "SUSPENDED"
     ],
     "userViewPermissions": [
       "ALL",
