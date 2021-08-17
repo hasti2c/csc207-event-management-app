@@ -24,6 +24,6 @@ public class TemplateGateway extends EntityGateway<Template> {
 
     @Override
     protected String getElementId(Template template) {
-        return template.getTemplateId() + "-" + template.getFileVersionNumber();
+        return template.getTemplateId();
     }
 }

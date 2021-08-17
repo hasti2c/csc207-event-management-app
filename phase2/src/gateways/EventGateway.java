@@ -54,8 +54,6 @@ public class EventGateway extends EntityGateway<Event> {
             json.addProperty("eventId", event.getEventId());
             json.addProperty("eventOwner", event.getEventOwner());
             json.addProperty("eventType", event.getEventType());
-            json.addProperty("templateId", event.getTemplateId());
-            json.addProperty("templateVersion", event.getTemplateVersion());
             json.addProperty("numAttendees", event.getNumAttendees());
             json.addProperty("suspended", event.isSuspended());
             json.addProperty("privacyType", event.getPrivacyType().toString());
@@ -110,8 +108,6 @@ public class EventGateway extends EntityGateway<Event> {
             setField(event, "eventId", json.get("eventId").getAsString());
             setField(event, "eventOwner", json.get("eventOwner").getAsString());
             setField(event, "eventType", json.get("eventType").getAsString());
-            setField(event, "templateId", json.get("templateId").getAsString());
-            setField(event, "templateVersion", json.get("templateVersion").getAsInt());
             setField(event, "numAttendees", json.get("numAttendees").getAsInt());
             setField(event, "suspended", json.get("suspended").getAsBoolean());
 
