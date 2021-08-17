@@ -87,9 +87,6 @@ public class TemplateManager {
         else if (inputDataType.equalsIgnoreCase("localdatetime")){
             convertedDataType = LocalDateTime.class;
         }
-//        else if (inputDataType.equalsIgnoreCase("list<string>")){
-//            Object convertedDataType = List<String>.class;;
-//        }
 
         if (inputIsRequired.equalsIgnoreCase("yes")){
             convertedIsRequired = true;

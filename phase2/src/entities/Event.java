@@ -28,8 +28,6 @@ public class Event {
     private int numAttendees;
     // Will essentially be the name of the template e.g. BBQ, concert, wedding
     private String eventType;
-    private String templateId;
-    private int templateVersion;
     private boolean suspended;
 
     // === Constructors ===
@@ -45,8 +43,6 @@ public class Event {
         privacyType = PRIVATE;
         createdTime = LocalDateTime.now();
         editTime = createdTime;
-        this.templateId = template.getTemplateId();
-        this.templateVersion = template.getFileVersionNumber();
         this.eventDetails = new HashMap<>();
         this.fieldNameAndFieldSpecs = new HashMap<>();
         this.eventOwner = eventOwner;
@@ -190,22 +186,6 @@ public class Event {
      */
     public Map<String, Pair<Class<?>, Boolean>> getFieldNameAndFieldSpecsMap() {
         return fieldNameAndFieldSpecs;
-    }
-
-    /**
-     * Gets the Id of the template associated with this event
-     * @return String The Id of the template associated with this event
-     */
-    public String getTemplateId(){
-        return templateId;
-    }
-
-    /**
-     * Gets the version of the template associated with this event
-     * @return String The version number of the template associated with this event
-     */
-    public int getTemplateVersion(){
-        return templateVersion;
     }
 
     /**
