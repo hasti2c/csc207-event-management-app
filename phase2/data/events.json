@@ -3,8 +3,6 @@
     "eventId": "d9d9427d-9e66-4a53-8eee-a4f2219b54b9",
     "eventOwner": "hasti2c",
     "eventType": "Concert",
-    "templateId": "id100",
-    "templateVersion": 1,
     "numAttendees": 1,
     "suspended": false,
     "privacyType": "PUBLIC",
