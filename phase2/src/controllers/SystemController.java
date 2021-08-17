@@ -90,7 +90,7 @@ public class SystemController {
             case SIGN_UP:
                 signUp();
                 break;
-            case LOGIN:
+            case MAIN_MENU:
                 login();
                 break;
             case TRIAL_MENU:
@@ -137,13 +137,13 @@ public class SystemController {
             case VIEW_MESSAGES:
                 messageBoxController.viewInbox(currentUser);
                 break;
-            case VIEW_ADMIN_MESSAGES:
+            case VIEW_ADMIN_INBOX:
                 messageBoxController.viewInbox(ADMIN_USERNAME);
                 break;
             case SEND_MESSAGE:
                 messageBoxController.sendMessage(currentUser);
                 break;
-            case SEND_ADMIN_ANNOUNCEMENT:
+            case SEND_ANNOUNCEMENT:
                 messageBoxController.sendAdminAnnouncement();
                 break;
             case EXIT_TRIAL:
@@ -164,7 +164,7 @@ public class SystemController {
         if (attemptedLoginUsername != null){
             this.currentUser = attemptedLoginUsername;
             this.currentUserType = userManager.retrieveUserType(attemptedLoginUsername);
-            runMenu(LOGIN);
+            runMenu(MAIN_MENU);
         }
     }
 

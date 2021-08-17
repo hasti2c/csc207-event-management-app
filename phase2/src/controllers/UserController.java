@@ -63,7 +63,7 @@ public class UserController {
      */
     public boolean userSignUp(){
         try {
-            String email = readEmail();
+            String email = readNewEmail();
             UserType userType = readUserType();
             String username = readNewUsername();
             String password = readNewPassword();
@@ -315,7 +315,7 @@ public class UserController {
     }
 
     // == Inputting ==
-    private String readEmail() throws ExitException {
+    private String readNewEmail() throws ExitException {
         presenter.printText("Enter an Email " + TEXT_EXIT_OPTION + ": ");
         while (true) {
             String email = inputParser.readLine();

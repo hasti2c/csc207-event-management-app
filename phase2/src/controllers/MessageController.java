@@ -160,6 +160,7 @@ public class MessageController {
             } else if (!body.matches("^[ ]+$")){ // Body is not all spaces
                 return body;
             } else {
+                // TODO this is not correct
                 presenter.printText("That headline is too long (larger than 100 characters). Enter another headline: ");
             }
         }

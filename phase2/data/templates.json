@@ -30,9 +30,14 @@
         "fieldName": "Performer(s)",
         "dataType": "java.lang.String",
         "required": false
+      },
+      {
+        "fieldName": "Serving Alcohol",
+        "dataType": "java.lang.Boolean",
+        "required": true
       }
     ],
-    "templateName": "Great Concert",
+    "templateName": "Concert",
     "templateId": "id100",
     "fileVersionNumber": 1
   },
@@ -76,6 +81,48 @@
     ],
     "templateName": "Wedding",
     "templateId": "id200",
+    "fileVersionNumber": 1
+  },
+  {
+    "fieldDescriptions": [
+      {
+        "fieldName": "Max Attendees",
+        "dataType": "java.lang.Integer",
+        "required": false
+      },
+      {
+        "fieldName": "Location",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Time (yyyy-MM-dd HH:mm)",
+        "dataType": "java.time.LocalDateTime",
+        "required": true
+      },
+      {
+        "fieldName": "Event Name",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Is Gift Required",
+        "dataType": "java.lang.Boolean",
+        "required": false
+      },
+      {
+        "fieldName": "Wedding Couple",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Dress Code",
+        "dataType": "java.lang.String",
+        "required": false
+      }
+    ],
+    "templateName": "Birthday Party",
+    "templateId": "id300",
     "fileVersionNumber": 1
   }
 ]

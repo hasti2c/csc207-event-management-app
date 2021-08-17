@@ -5,14 +5,13 @@ public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
     SIGN_UP("Sign Up"),
-    // LOGIN is MAIN_MENU
-    LOGIN("Main Menu"),
+    MAIN_MENU("Main Menu"),
     TRIAL_MENU("Trial Menu"),
     FORGOT_PASSWORD("Forgot Password"),
     EXIT("Exit"),
     CREATE_EVENT("Create Event"),
     BROWSE_EVENTS("Browse Events"),
-    EDIT_TEMPLATE("Edit Template"),
+    MESSAGING_MENU("Messaging Menu"),
     BROWSE_USERS("User List"),
     ACCOUNT_MENU("Account Menu"),
     SAVE("Save"),
@@ -31,15 +30,21 @@ public enum Command {
     DELETE_EVENT("Delete Event"),
     SUSPEND_EVENT ("Suspend Event"),
     UNSUSPEND_EVENT("Unsuspend Event"),
+    VIEW_CREATOR("View Event Creator"),
     FRIEND_USER("Friend User"),
     UNFRIEND_USER("Unfriend User"),
     SUSPEND_USER("Suspend User"),
     UNSUSPEND_USER("Unsuspend User"),
-    // TODO ability to go from event to user or vice versa
+    VIEW_CREATIONS("View User's Events"),
+    MAKE_ADMIN("Promote User to Admin"),
     VIEW_MESSAGES("View Messages"),
-    VIEW_ADMIN_MESSAGES("View Admin Messages"),
+    VIEW_ANNOUNCEMENTS("View Announcements"),
+    MESSAGE_ADMINS("Message Admins"),
+    CREATE_TEMPLATE("Create Template"),
+    EDIT_TEMPLATE("Edit Template"),
+    VIEW_ADMIN_INBOX("View Admin Inbox"),
     SEND_MESSAGE("Send Message"),
-    SEND_ADMIN_ANNOUNCEMENT("Send Admin Announcement");
+    SEND_ANNOUNCEMENT("Send Announcement");
 
     private final String name;
 

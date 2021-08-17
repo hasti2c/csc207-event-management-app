@@ -178,7 +178,7 @@ public class UserManager {
         User user = retrieveUser(username);
         String tempPass = generator.generate(10, 20);
         user.setPassword(tempPass);
-        user.setTempPass(true);
+        user.setHasTempPass(true);
         try {
             Path filepath = Paths.get("phase2/data/temppass/"+ username + ".txt");
             Files.write(filepath, Collections.singleton(tempPass));

@@ -3,36 +3,85 @@
     "command": "START_UP",
     "subCommands": [
       "SIGN_UP",
-      "LOGIN",
+      "MAIN_MENU",
       "TRIAL_MENU",
+      "FORGOT_PASSWORD",
       "EXIT"
     ]
   },
   {
     "superCommand": "START_UP",
-    "command": "LOGIN",
+    "command": "MAIN_MENU",
     "subCommands": [
       "CREATE_EVENT",
       "BROWSE_EVENTS",
+      "BROWSE_USERS",
       "ACCOUNT_MENU",
       "ADMIN_MENU",
-      "SEND_MESSAGE",
-      "VIEW_MESSAGES",
-      "VIEW_ADMIN_MESSAGES",
-      "SEND_ADMIN_ANNOUNCEMENT",
+      "MESSAGING_MENU",
       "SAVE",
       "LOG_OUT",
       "EXIT_TRIAL"
     ]
   },
   {
-    "superCommand": "LOGIN",
+    "superCommand": "MAIN_MENU",
+    "command": "BROWSE_EVENTS",
+    "subCommands": [
+      "ATTEND_EVENT",
+      "UNATTEND_EVENT",
+      "SUSPEND_EVENT",
+      "UNSUSPEND_EVENT",
+      "VIEW_CREATOR",
+      "EDIT_EVENT",
+      "CHANGE_EVENT_PRIVACY",
+      "DELETE_EVENT",
+      "GO_BACK"
+    ]
+  },
+  {
+    "superCommand": "MAIN_MENU",
+    "command": "BROWSE_USERS",
+    "subCommands": [
+      "SEND_MESSAGE",
+      "FRIEND_USER",
+      "UNFRIEND_USER",
+      "SUSPEND_USER",
+      "UNSUSPEND_USER",
+      "VIEW_CREATIONS",
+      "MAKE_ADMIN",
+      "GO_BACK"
+    ]
+  },
+  {
+    "superCommand": "MAIN_MENU",
     "command": "ACCOUNT_MENU",
     "subCommands": [
       "CHANGE_USERNAME",
       "CHANGE_EMAIL",
       "CHANGE_PASSWORD",
       "DELETE_ACCOUNT",
+      "GO_BACK"
+    ]
+  },
+  {
+    "superCommand": "MAIN_MENU",
+    "command": "ADMIN_MENU",
+    "subCommands": [
+      "VIEW_ADMIN_INBOX",
+      "SEND_ANNOUNCEMENT",
+      "CREATE_TEMPLATE",
+      "EDIT_TEMPLATE",
+      "GO_BACK"
+    ]
+  },
+  {
+    "superCommand": "MAIN_MENU",
+    "command": "MESSAGING_MENU",
+    "subCommands": [
+      "VIEW_MESSAGES",
+      "VIEW_ANNOUNCEMENTS",
+      "MESSAGE_ADMINS",
       "GO_BACK"
     ]
   }

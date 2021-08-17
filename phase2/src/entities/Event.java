@@ -39,7 +39,7 @@ public class Event {
      */
     public Event(Template template, String eventOwner){
         eventId = UUID.randomUUID().toString();
-        // need user to explicitly change to published
+        // need user to explicitly change to public
         privacyType = PRIVATE;
         createdTime = LocalDateTime.now();
         editTime = createdTime;

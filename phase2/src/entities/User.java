@@ -16,11 +16,11 @@ public class User {
     private String username;
     private String password;
     private String userEmail;
-    private boolean isTempPass;
+    private boolean hasTempPass;
     private transient boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
     private List<String> ownedEvents;
-    // List of events that the user will attend. The event can be their own or another user's and must be published.
+    // List of events that the user will attend. The event can be their own or another user's and must be public.
     private List<String> attendingEvents;
     // needs to be public so that it can be used in the constructor and the UserManager class can access it.
     private UserType userType;
@@ -38,7 +38,7 @@ public class User {
      * @param username The username of the User
      * @param password The password of the User
      * @param userEmail The email of the User
-     * @param type The type of the User R.A.T
+     * @param type The type of the User Regular, Admin, Trial, Temporary
      */
     public User(String username, String password, String userEmail, UserType type) {
         this.userType = type;
@@ -48,8 +48,7 @@ public class User {
         this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
         this.loggedIn = false;
-        this.isTempPass = false;
-
+        this.hasTempPass = false;
     }
     public User() {
     }
@@ -59,7 +58,7 @@ public class User {
      * Gets users temporary password
      * @return boolean representing user's temp password state
      */
-    public boolean hasTempPass() {return this.isTempPass;}
+    public boolean hasTempPass() {return this.hasTempPass;}
 
     /**
      * Gets the User's type, R.A.T
@@ -211,8 +210,8 @@ public class User {
      * Sets user's temp password
      * @param tempPassState bool representing the state isTempPass will be set to
      */
-    public void setTempPass(boolean tempPassState){
-        this.isTempPass = tempPassState;
+    public void setHasTempPass(boolean tempPassState){
+        this.hasTempPass = tempPassState;
     }
 
 }
