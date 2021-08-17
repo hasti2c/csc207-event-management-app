@@ -134,7 +134,6 @@ public class SystemController {
             case DELETE_ACCOUNT:
                 deleteAccount();
                 break;
-            case EXIT_TRIAL:
             case VIEW_MESSAGES:
                 messageBoxController.viewInbox(currentUser);
                 break;
@@ -147,6 +146,7 @@ public class SystemController {
             case SEND_ADMIN_ANNOUNCEMENT:
                 messageBoxController.sendAdminAnnouncement();
                 break;
+            case EXIT_TRIAL:
             case GO_BACK:
                 throw new ExitException();
         }
