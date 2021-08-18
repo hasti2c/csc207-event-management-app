@@ -5,6 +5,9 @@
       "CREATE_EVENT",
       "BROWSE_EVENTS",
       "EXIT_TRIAL",
+      "MESSAGING_MENU",
+      "VIEW_ANNOUNCEMENTS",
+      "SEND_MESSAGE_TO_ADMIN",
       "SEND_MESSAGE",
       "VIEW_MESSAGES",
       "GO_BACK"
@@ -36,6 +39,9 @@
       "DELETE_EVENT",
       "FRIEND_USER",
       "UNFRIEND_USER",
+      "MESSAGING_MENU",
+      "VIEW_ANNOUNCEMENTS",
+      "SEND_MESSAGE_TO_ADMIN",
       "SEND_MESSAGE",
       "VIEW_MESSAGES"
     ],
@@ -76,8 +82,11 @@
       "UNFRIEND_USER",
       "SUSPEND_USER",
       "UNSUSPEND_USER",
+      "MESSAGING_MENU",
       "SEND_MESSAGE",
       "VIEW_MESSAGES",
+      "VIEW_ANNOUNCEMENTS",
+      "SEND_MESSAGE_TO_ADMIN",
       "VIEW_ADMIN_MESSAGES",
       "SEND_ADMIN_ANNOUNCEMENT"
     ],

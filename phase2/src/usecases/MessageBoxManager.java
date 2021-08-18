@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import static utility.AppConstant.ADMIN_USERNAME;
+import static utility.AppConstant.ANNOUNCEMENT_INBOX;
 
 public class MessageBoxManager {
     private final List<MessageBox> messageBoxList;
@@ -23,6 +24,7 @@ public class MessageBoxManager {
         messageBoxList = gateway.getAllElements();
         // Create the default admin MessageBox
         createMessageBox(ADMIN_USERNAME);
+        createMessageBox(ANNOUNCEMENT_INBOX);
     }
 
     // TODO: Not used, can remove when finished.

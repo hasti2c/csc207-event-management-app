@@ -15,4 +15,5 @@ public class AppConstant {
     public static final String TRIAL_EMAIL = "TRIAL@EMAIL.COM";
 
     public static final String ADMIN_USERNAME = "ADMIN";
+    public static final String ANNOUNCEMENT_INBOX = "ANNOUNCEMENT";
 }

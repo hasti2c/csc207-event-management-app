@@ -36,9 +36,12 @@ public enum Command {
     SUSPEND_USER("Suspend User"),
     UNSUSPEND_USER("Unsuspend User"),
     // TODO ability to go from event to user or vice versa
+    MESSAGING_MENU("Messaging"),
     VIEW_MESSAGES("View Messages"),
+    VIEW_ANNOUNCEMENTS("View Announcements"),
     VIEW_ADMIN_MESSAGES("View Admin Messages"),
     SEND_MESSAGE("Send Message"),
+    SEND_MESSAGE_TO_ADMIN("Send a Message to an Admin"),
     SEND_ADMIN_ANNOUNCEMENT("Send Admin Announcement");
 
     private final String name;

@@ -311,7 +311,8 @@ public class UserController {
      */
     private boolean isValidUsername(String username){
         Matcher matcher = validUsername.matcher(username);
-        return matcher.find() && !username.equals(TRIAL_USERNAME) && !username.equalsIgnoreCase(ADMIN_USERNAME);
+        return matcher.find() && !username.equals(TRIAL_USERNAME) && !username.equalsIgnoreCase(ADMIN_USERNAME)
+                && !username.equalsIgnoreCase(ANNOUNCEMENT_INBOX);
     }
 
     // == Inputting ==

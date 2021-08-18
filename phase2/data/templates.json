@@ -4,42 +4,6 @@
       {
         "fieldName": "Max Attendees",
         "dataType": "java.lang.Integer",
-        "required": true
-      },
-      {
-        "fieldName": "Venue",
-        "dataType": "java.lang.String",
-        "required": true
-      },
-      {
-        "fieldName": "Time (yyyy-MM-dd HH:mm)",
-        "dataType": "java.time.LocalDateTime",
-        "required": true
-      },
-      {
-        "fieldName": "Event Name",
-        "dataType": "java.lang.String",
-        "required": true
-      },
-      {
-        "fieldName": "Concert Genre",
-        "dataType": "java.lang.String",
-        "required": false
-      },
-      {
-        "fieldName": "Performer(s)",
-        "dataType": "java.lang.String",
-        "required": false
-      }
-    ],
-    "templateName": "Great Concert",
-    "templateId": "id100"
-  },
-  {
-    "fieldDescriptions": [
-      {
-        "fieldName": "Max Attendees",
-        "dataType": "java.lang.Integer",
         "required": false
       },
       {
@@ -75,5 +39,41 @@
     ],
     "templateName": "Wedding",
     "templateId": "id200"
+  },
+  {
+    "fieldDescriptions": [
+      {
+        "fieldName": "Max Attendees",
+        "dataType": "java.lang.Integer",
+        "required": true
+      },
+      {
+        "fieldName": "Venue",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Time (yyyy-MM-dd HH:mm)",
+        "dataType": "java.time.LocalDateTime",
+        "required": true
+      },
+      {
+        "fieldName": "Event Name",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Concert Genre",
+        "dataType": "java.lang.String",
+        "required": false
+      },
+      {
+        "fieldName": "Performer(s)",
+        "dataType": "java.lang.String",
+        "required": false
+      }
+    ],
+    "templateName": "Great Concert",
+    "templateId": "id100"
   }
 ]
