@@ -88,6 +88,7 @@ public class UserController {
             if (userManager.tempPassState(username)) {
                 changePassword(username);
             }
+            userManager.updateAllUserSuspension();
             return username;
         } catch (ExitException e) {
             presenter.printText(EXITING_TEXT);

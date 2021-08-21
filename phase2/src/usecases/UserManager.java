@@ -124,14 +124,26 @@ public class UserManager {
         setSuspensionChangeDate(user, duration);
     }
 
+    /**
+     * Updates the Suspension status of all users in the system
+     */
+    public void updateAllUserSuspension(){
+        for (User user: userList){
+            updateUserSuspension(user);
+        }
+    }
 
     /**
      * Checks if it is past the time to change the Suspension status of a user.
      * If the user is already suspended, unsuspend them. If the user is not suspended, suspend them.
      * @param username the username of the user being checked.
      */
-    public void updateUserSuspension(String username) {
+    private void updateUserSuspension(String username) {
         User user = retrieveUser(username);
+        updateUserSuspension(user);
+    }
+
+    private void updateUserSuspension(User user) {
         LocalDateTime endDate = user.getSuspensionChangeDate();
         if (LocalDateTime.now().isAfter(endDate)) {
             boolean suspended = user.isSuspended();
