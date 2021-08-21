@@ -18,7 +18,7 @@
     ]
   },
   {
-    "userType": "TEMPORARY",
+    "userType": "REGULAR",
     "commandPermissions": [
       "CREATE_EVENT",
       "BROWSE_EVENTS",
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "userType": "REGULAR",
+    "userType": "TEMPORARY",
     "commandPermissions": [
       "CREATE_EVENT",
       "BROWSE_EVENTS",

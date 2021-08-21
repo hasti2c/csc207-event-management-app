@@ -1,15 +1,5 @@
 [
   {
-    "superCommand": "LOGIN",
-    "command": "MESSAGING_MENU",
-    "subCommands": [
-      "VIEW_MESSAGES",
-      "VIEW_ANNOUNCEMENTS",
-      "SEND_MESSAGE_TO_ADMIN",
-      "GO_BACK"
-    ]
-  },
-  {
     "command": "START_UP",
     "subCommands": [
       "SIGN_UP",
@@ -65,12 +55,11 @@
   },
   {
     "superCommand": "MAIN_MENU",
-    "command": "ACCOUNT_MENU",
+    "command": "MESSAGING_MENU",
     "subCommands": [
-      "CHANGE_USERNAME",
-      "CHANGE_EMAIL",
-      "CHANGE_PASSWORD",
-      "DELETE_ACCOUNT",
+      "VIEW_MESSAGES",
+      "VIEW_ANNOUNCEMENTS",
+      "MESSAGE_ADMINS",
       "GO_BACK"
     ]
   },
@@ -87,11 +76,12 @@
   },
   {
     "superCommand": "MAIN_MENU",
-    "command": "MESSAGING_MENU",
+    "command": "ACCOUNT_MENU",
     "subCommands": [
-      "VIEW_MESSAGES",
-      "VIEW_ANNOUNCEMENTS",
-      "MESSAGE_ADMINS",
+      "CHANGE_USERNAME",
+      "CHANGE_EMAIL",
+      "CHANGE_PASSWORD",
+      "DELETE_ACCOUNT",
       "GO_BACK"
     ]
   }

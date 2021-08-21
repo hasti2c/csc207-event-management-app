@@ -44,7 +44,7 @@ public class SystemController {
         IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
         IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
         IGateway<Permissions> userPermissionsGateway = new PermissionsGateway("phase2/data/permissions.json");
-        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway("phase2/data/messageBoxes.json");
+        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway("phase2/data/messageboxes.json");
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
@@ -152,7 +152,7 @@ public class SystemController {
             case VIEW_ANNOUNCEMENTS:
                 messageBoxController.viewInbox(ANNOUNCEMENT_INBOX);
                 break;
-            case SEND_MESSAGE_TO_ADMIN:
+            case MESSAGE_ADMINS:
                 messageBoxController.sendMessage(currentUser, ADMIN_USERNAME);
                 break;
             case EXIT_TRIAL:
