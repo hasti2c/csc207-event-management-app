@@ -101,6 +101,7 @@ public class Event {
     public String returnEventName() {
         Map<String, Object> eventDetailsMap = getEventDetails();
         String eventName;
+        // TODO decide if we want to make event name a variable. Or somehow force template creation to always have "Event Name"
         if (eventDetailsMap.get("Event Name") == null) {
             eventName = "Untitled";
         }
