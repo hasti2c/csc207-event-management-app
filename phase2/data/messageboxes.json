@@ -2,6 +2,19 @@
   {
     "messages": [
       {
+        "messageHeadLine": "Testing!",
+        "messageBody": "......",
+        "sender": "ADMIN",
+        "recipient": "ANNOUNCEMENT",
+        "sentDate": "2021-08-18T09:43:22.460"
+      }
+    ],
+    "owner": "ANNOUNCEMENT",
+    "currentSize": 1
+  },
+  {
+    "messages": [
+      {
         "messageHeadLine": "test",
         "messageBody": "testing!",
         "sender": "ADMIN",
@@ -47,10 +60,17 @@
         "sender": "AustinR",
         "recipient": "ADMIN",
         "sentDate": "2021-08-14T20:46:40.511"
+      },
+      {
+        "messageHeadLine": "Testing",
+        "messageBody": "Testing Body",
+        "sender": "AustinA",
+        "recipient": "ADMIN",
+        "sentDate": "2021-08-18T09:34:50.857"
       }
     ],
     "owner": "ADMIN",
-    "currentSize": 1
+    "currentSize": 2
   },
   {
     "messages": [],

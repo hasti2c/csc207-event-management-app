@@ -1,5 +1,15 @@
 [
   {
+    "superCommand": "LOGIN",
+    "command": "MESSAGING_MENU",
+    "subCommands": [
+      "VIEW_MESSAGES",
+      "VIEW_ANNOUNCEMENTS",
+      "SEND_MESSAGE_TO_ADMIN",
+      "GO_BACK"
+    ]
+  },
+  {
     "command": "START_UP",
     "subCommands": [
       "SIGN_UP",

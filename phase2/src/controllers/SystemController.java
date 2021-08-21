@@ -134,6 +134,9 @@ public class SystemController {
             case DELETE_ACCOUNT:
                 deleteAccount();
                 break;
+            case MESSAGING_MENU:
+                runMenu(MESSAGING_MENU);
+                break;
             case VIEW_MESSAGES:
                 messageBoxController.viewInbox(currentUser);
                 break;
@@ -145,6 +148,12 @@ public class SystemController {
                 break;
             case SEND_ANNOUNCEMENT:
                 messageBoxController.sendAdminAnnouncement();
+                break;
+            case VIEW_ANNOUNCEMENTS:
+                messageBoxController.viewInbox(ANNOUNCEMENT_INBOX);
+                break;
+            case SEND_MESSAGE_TO_ADMIN:
+                messageBoxController.sendMessage(currentUser, ADMIN_USERNAME);
                 break;
             case EXIT_TRIAL:
             case GO_BACK:

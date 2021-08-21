@@ -69,9 +69,7 @@ public class MessageController {
         try{
             String headline = readHeadline();
             String body = readBody();
-            for (String username : userManager.getUsernameList()) {
-                messageBoxManager.sendMail(ADMIN_USERNAME, headline, body, username);
-            }
+            messageBoxManager.sendMail(ADMIN_USERNAME, headline, body, ANNOUNCEMENT_INBOX);
             presenter.printText("Announcement Sent");
         } catch (ExitException e){
             return;
@@ -91,7 +89,7 @@ public class MessageController {
                 presenter.printText((i + 1) + ". " + headlines.get(i));
             }
             try{
-                presenter.printText("Select a message to view" + TEXT_EXIT_OPTION + ": ");
+                presenter.printText("Select a message to view " + TEXT_EXIT_OPTION + ": ");
                 int option = chooseIntegerOption(headlines.size()) - 1;
                 presenter.printEntity(detailMaps.get(option));
             } catch (ExitException e) {
@@ -116,6 +114,9 @@ public class MessageController {
                 throw new ExitException();
             } else if (recipient.equalsIgnoreCase(ADMIN_USERNAME)){
                 return ADMIN_USERNAME;
+            }
+            else if (recipient.equalsIgnoreCase(ANNOUNCEMENT_INBOX)){
+                presenter.printText("You cannot message that inbox. It must be done through the ADMIN menu.");
             }
             else if (!userManager.usernameIsUnique(recipient)){
                 return recipient;
