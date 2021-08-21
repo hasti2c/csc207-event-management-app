@@ -53,14 +53,28 @@ public class UserManager {
      * @param username the User's username
      * @param password the User's password
      * @param userEmail the User's email
-     * @param type the User's type. (R, A, T)
+     * @param type the User's type. Regular, Admin, Temporary, Trial
      */
     public void createUser(String username, String password, String userEmail, UserType type) {
             User newUser = new User(username, password, userEmail, type);
             userList.add(newUser);
             usernamesList.add(username);
             emailList.add(userEmail);
+            // If the user is temporary, we only give access for 30 days
+            if (type == TEMPORARY){
+                createTemporaryUserHelper(newUser, 30);
+            }
     }
+
+    /**
+     * Helper to create a new temporary user that will get suspended after a set number of days.
+     * @param temporaryUser the temporary User
+     * @param days the number of days the user gets to use the system for
+     */
+    private void createTemporaryUserHelper(User temporaryUser, int days){
+        temporaryUser.setSuspensionChangeDate(LocalDateTime.now().plusDays(days));
+    }
+
 
     /**
      * Deletes a user from the program
@@ -80,10 +94,20 @@ public class UserManager {
         emailList.remove(user.getUserEmail());
     }
 
+
+    /**
+     * Suspend the given user for an indefinite amount of time
+     * @param username the User's username
+     */
     public void suspendUser(String username) {
         suspendUser(username, null);
     }
 
+    /**
+     * Suspend a given user for the specified amount of time
+     * @param username username of the User being suspended
+     * @param duration number of days the user will be suspended for
+     */
     public void suspendUser(String username, Duration duration) {
         User user = retrieveUser(username);
         user.setSuspended(true);
@@ -100,6 +124,12 @@ public class UserManager {
         setSuspensionChangeDate(user, duration);
     }
 
+
+    /**
+     * Checks if it is past the time to change the Suspension status of a user.
+     * If the user is already suspended, unsuspend them. If the user is not suspended, suspend them.
+     * @param username the username of the user being checked.
+     */
     public void updateUserSuspension(String username) {
         User user = retrieveUser(username);
         LocalDateTime endDate = user.getSuspensionChangeDate();

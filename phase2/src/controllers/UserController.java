@@ -332,7 +332,7 @@ public class UserController {
 
     private UserType readUserType() throws ExitException {
         presenter.printText("Please choose an account type: ");
-        presenter.printText("1) Regular 2) Admin");
+        presenter.printText("1) Regular 2) Temporary (Lasts for 30 days)");
         while (true){
             String type = inputParser.readLine();
             if (type.equalsIgnoreCase(EXIT_TEXT)) {
@@ -340,7 +340,7 @@ public class UserController {
             } else if (type.equals("1")) {
                 return REGULAR;
             } else if (type.equals("2")) {
-                return ADMIN;
+                return TEMPORARY;
             } else {
                 presenter.printText("Please enter either 1 or 2" + TEXT_EXIT_OPTION + ": ");
             }
