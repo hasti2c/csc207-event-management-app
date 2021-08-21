@@ -43,6 +43,11 @@
   {
     "fieldDescriptions": [
       {
+        "fieldName": "Event Name",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
         "fieldName": "Max Attendees",
         "dataType": "java.lang.Integer",
         "required": false
@@ -55,11 +60,6 @@
       {
         "fieldName": "Time (yyyy-MM-dd HH:mm)",
         "dataType": "java.time.LocalDateTime",
-        "required": true
-      },
-      {
-        "fieldName": "Event Name",
-        "dataType": "java.lang.String",
         "required": true
       },
       {
@@ -84,12 +84,7 @@
   {
     "fieldDescriptions": [
       {
-        "fieldName": "Max Attendees",
-        "dataType": "java.lang.Integer",
-        "required": false
-      },
-      {
-        "fieldName": "Location",
+        "fieldName": "Event Name",
         "dataType": "java.lang.String",
         "required": true
       },
@@ -99,7 +94,12 @@
         "required": true
       },
       {
-        "fieldName": "Event Name",
+        "fieldName": "Max Attendees",
+        "dataType": "java.lang.Integer",
+        "required": false
+      },
+      {
+        "fieldName": "Place",
         "dataType": "java.lang.String",
         "required": true
       },
@@ -109,7 +109,7 @@
         "required": false
       },
       {
-        "fieldName": "Wedding Couple",
+        "fieldName": "Food Options",
         "dataType": "java.lang.String",
         "required": true
       },
