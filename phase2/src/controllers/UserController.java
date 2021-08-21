@@ -89,6 +89,10 @@ public class UserController {
                 changePassword(username);
             }
             userManager.updateAllUserSuspension();
+            if (userManager.isSuspended(username)) {
+                // TODO error message
+                return null;
+            }
             return username;
         } catch (ExitException e) {
             presenter.printText(EXITING_TEXT);
@@ -173,15 +177,32 @@ public class UserController {
     // TODO ban login for suspended users
     private void suspendUser(String selectedUser) {
         presenter.printText("You are suspending " + selectedUser + ". Do you want to suspend this user permanently? (Y/N)");
-        if (getYesNo()) {
-            userManager.suspendUser(selectedUser);
-            presenter.printText(selectedUser + " has been suspended permanently.");
-        } else {
-            presenter.printText("For how many days do you want to suspend this user?");
-            int dayCount = getDayCount();
-            userManager.suspendUser(selectedUser, Duration.ofDays(dayCount));
-            presenter.printText(selectedUser + " has been suspended for " + dayCount + " days.");
-        }
+        if (getYesNo())
+            suspendPermanently(selectedUser);
+        else
+            suspendTemporarily(selectedUser);
+    }
+
+    private void suspendPermanently(String selectedUser) {
+        userManager.suspendUser(selectedUser);
+        privateUserEvents(selectedUser);
+        presenter.printText(selectedUser + " has been suspended permanently.");
+    }
+
+    private void suspendTemporarily(String selectedUser) {
+        presenter.printText("For how many days do you want to suspend this user?");
+        int dayCount = getDayCount();
+        Duration duration = Duration.ofDays(dayCount);
+
+        userManager.suspendUser(selectedUser, duration);
+        privateUserEvents(selectedUser);
+        presenter.printText(selectedUser + " has been suspended for " + dayCount + " days.");
+    }
+
+    private void privateUserEvents(String selectedUser) {
+        List<String> events = userManager.getCreatedEvents(selectedUser);
+        for (String eventID : events)
+            eventManager.setPrivacyType(eventID, "Private");
     }
 
     // TODO do we want to allow temporary un-suspension?
