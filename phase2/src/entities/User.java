@@ -10,14 +10,12 @@ import java.util.List;
  * A user within the program
  */
 public class User {
-    ///
-
     // === Instance Variables ===
     private String username;
     private String password;
     private String userEmail;
     private boolean hasTempPass;
-    private transient boolean loggedIn;
+    private transient boolean loggedIn; // TODO do we need this?
     // Events the user has created. I'm pretty sure it's fine to be private
     private List<String> ownedEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be public.

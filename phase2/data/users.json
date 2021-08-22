@@ -7,7 +7,9 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "ADMIN",
-    "suspended": false
+    "suspended": false,
+    "suspensionChangeDate": null,
+    "friends": []
   },
   {
     "username": "haze",
@@ -17,7 +19,9 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "REGULAR",
-    "suspended": false
+    "suspended": false,
+    "suspensionChangeDate": null,
+    "friends": []
   },
   {
     "username": "hasti2c",
@@ -30,7 +34,10 @@
     "attendingEvents": [
       "d9d9427d-9e66-4a53-8eee-a4f2219b54b9"
     ],
-    "suspended": false
+    "userType": "ADMIN",
+    "suspended": false,
+    "suspensionChangeDate": null,
+    "friends": []
   },
   {
     "username": "AustinA2",
@@ -40,7 +47,9 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "ADMIN",
-    "suspended": false
+    "suspended": false,
+    "suspensionChangeDate": null,
+    "friends": []
   },
   {
     "username": "AustinR",
@@ -50,6 +59,8 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "REGULAR",
-    "suspended": false
+    "suspended": false,
+    "suspensionChangeDate": null,
+    "friends": []
   }
 ]
