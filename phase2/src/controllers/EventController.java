@@ -297,16 +297,4 @@ public class EventController {
         return choice;
     }
 
-    /**
-     * Prints a list of templates and returns the user's choice. If the choice is longer than the list of templates,
-     * it means the user chose to go back.
-     * @param username username of the user choosing a template
-     * @return returns the index of the chosen template + 1 (starts at 1 instead of 0)
-     */
-    public int chooseTemplate(String username) {
-        List<String> templateList = templateManager.returnTemplateNames();
-        templateList.add(MENU_EXIT_OPTION);
-        presenter.printMenu("Available Templates", templateList);
-        return getChoice(1, templateList.size());
-    }
 }

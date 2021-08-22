@@ -66,33 +66,37 @@ public class TemplateManager {
         gateway.saveAllElements(templateList);
     }
 
-    public String createTemplate(String templateName){
+    public void createTemplate(String templateName){
         List<FieldSpecs> emptyFieldSpecs = new ArrayList<>();
         Template template = new Template(emptyFieldSpecs, templateName);
-        return template.getTemplateName();
     }
 
-    public FieldSpecs createNewFieldSpecs(String inputFieldName, String inputDataType, String inputIsRequired) {
+    public void addNewFieldSpecs(String templateName, String fieldName, String dataType, String isRequired) {
+        FieldSpecs fieldSpecs = createNewFieldSpecs(fieldName, dataType, isRequired);
+        addFieldSpecs(templateName, fieldSpecs);
+    }
+
+    private FieldSpecs createNewFieldSpecs(String fieldName, String dataType, String isRequired) {
         Class<?> convertedDataType = null;
         boolean convertedIsRequired = false;
-        if (inputDataType.equalsIgnoreCase("string")){
+        if (dataType.equalsIgnoreCase("string")){
             convertedDataType = String.class;
         }
-        else if (inputDataType.equalsIgnoreCase("boolean")){
+        else if (dataType.equalsIgnoreCase("boolean")){
             convertedDataType = Boolean.class;
         }
-        else if (inputDataType.equalsIgnoreCase("int")){
+        else if (dataType.equalsIgnoreCase("int")){
             convertedDataType = Integer.class;
         }
-        else if (inputDataType.equalsIgnoreCase("localdatetime")){
+        else if (dataType.equalsIgnoreCase("localdatetime")){
             convertedDataType = LocalDateTime.class;
         }
 
-        if (inputIsRequired.equalsIgnoreCase("yes")){
+        if (isRequired.equalsIgnoreCase("yes")){
             convertedIsRequired = true;
         }
 
-        return new FieldSpecs(inputFieldName, convertedDataType, convertedIsRequired);
+        return new FieldSpecs(fieldName, convertedDataType, convertedIsRequired);
     }
 
 
