@@ -32,7 +32,6 @@ public class UserController {
     private final InputParser inputParser;
     private final MessageBoxManager messageBoxManager;
     private final EntityMenuController<User> menuController;
-    private final PasswordGateway passwordGateway;
 
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
     public final Pattern validEmail =
@@ -55,7 +54,6 @@ public class UserController {
         this.inputParser = InputParser.getInstance();
         this.menuController = new UserMenuController(menuManager, userManager, eventManager);
         this.messageBoxManager = messageBoxManager;
-        this.passwordGateway = new PasswordGateway("phase2/data/temp_pass");
     }
 
     // == Creating User ==
@@ -254,7 +252,6 @@ public class UserController {
             }
         } else {
             String tempPass = userManager.createTempPass(username);
-            passwordGateway.writeTempPass(username, tempPass);
         }
     }
 
