@@ -254,16 +254,14 @@ public class UserController {
      * @param username The username of the User who is attempting to update their password
     */
     public void changePassword(String username){
-        boolean tempPassState = userManager.tempPassState(username);
-        if (!tempPassState) {
+
             try {
                 String newPassword = getChangedPassword();
                 userManager.updatePassword(username, newPassword);
             } catch (ExitException ignored) {
             }
-        } else {
-            String tempPass = userManager.createTempPass(username);
-        }
+            userManager.setTempPassState(username, false);
+
     }
 
     /**

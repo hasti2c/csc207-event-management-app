@@ -214,6 +214,10 @@ public class UserManager {
         }
     }
 
+    public void setTempPassState(String username, boolean state) {
+        retrieveUser(username).setHasTempPass(state);
+    }
+
     /**
      * Generates a random temp password for the user
      * @param username Username of user who requested temp password
