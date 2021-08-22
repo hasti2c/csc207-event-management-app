@@ -40,7 +40,6 @@ public class EventController {
     }
 
     // == Viewing ==
-    // TODO make go back not go all the way back
     public void viewEventTypesList(UserType userType, String username) {
         while (true) {
             try {
@@ -51,7 +50,6 @@ public class EventController {
             }
         }
     }
-
 
     private void browseEvent(ViewType<Event> viewType, UserType userType, String username){
         while (true) {
@@ -111,7 +109,7 @@ public class EventController {
     }
 
     /**
-     * Prints the "meta data" of a single event.
+     * Prints the "metadata" of a single event.
      *
      * @param eventID ID of the event
      */
