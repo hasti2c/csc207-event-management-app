@@ -1,11 +1,13 @@
 package entities;
 
+import utility.Savable;
+
 import java.util.List;
 import java.util.*;
 /**
  * Templates for the system
  */
-public class Template {
+public class Template implements Savable {
     // === Instance Variables ===
     private List<FieldSpecs> fieldDescriptions;
     // The type of template eg concert, fundraiser, garage sale...
@@ -66,6 +68,11 @@ public class Template {
                 this.getFieldDescriptions().remove(fieldSpecs);
             }
         }
+    }
+
+    @Override
+    public String getID() {
+        return templateId;
     }
 
     // No setter for the list of field specs

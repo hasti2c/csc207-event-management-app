@@ -1,6 +1,8 @@
 package entities;
 
+import utility.Savable;
 import utility.UserType;
+import utility.Viewable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.List;
 /**
  * A user within the program
  */
-public class User {
+public class User implements Savable, Viewable {
     // === Instance Variables ===
     private String username;
     private String password;
@@ -195,4 +197,8 @@ public class User {
         this.hasTempPass = tempPassState;
     }
 
+    @Override
+    public String getID() {
+        return username;
+    }
 }

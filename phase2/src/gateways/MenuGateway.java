@@ -19,9 +19,4 @@ public class MenuGateway extends EntityGateway<Menu> {
     protected GsonBuilder getGsonBuilder() {
         return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
-
-    @Override
-    protected String getElementId(Menu menu) {
-        return menu.getCommand().getName();
-    }
 }

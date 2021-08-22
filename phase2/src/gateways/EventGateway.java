@@ -33,11 +33,6 @@ public class EventGateway extends EntityGateway<Event> {
         return gsonBuilder;
     }
 
-    @Override
-    protected String getElementId(Event event) {
-        return event.getEventId();
-    }
-
     // source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
     /**
      * Serializes Event objects into json.

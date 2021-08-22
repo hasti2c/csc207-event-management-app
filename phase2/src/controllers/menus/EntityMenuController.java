@@ -1,13 +1,10 @@
 package controllers.menus;
 
 import controllers.ExitException;
-import utility.UserType;
+import utility.*;
 import usecases.EventManager;
 import usecases.MenuManager;
 import usecases.UserManager;
-import utility.AppConstant;
-import utility.Command;
-import utility.ViewType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +13,7 @@ import java.util.List;
  * MenuController that handles tasks related to menus that have to do with entity lists.
  * @param <T> Entity type.
  */
-public abstract class EntityMenuController <T> extends MenuController {
+public abstract class EntityMenuController <T extends Viewable> extends MenuController {
     protected final UserManager userManager;
     protected final EventManager eventManager;
 

@@ -40,11 +40,6 @@ public class PermissionsGateway extends EntityGateway<Permissions> {
         return gsonBuilder;
     }
 
-    @Override
-    protected String getElementId(Permissions permissions) {
-        return permissions.getUserType().toString();
-    }
-
     /**
      * Serializes ViewType objects into json.
      * Implementation of JsonSerializer.

@@ -1,9 +1,11 @@
 package entities;
 
+import utility.Savable;
+
 import java.util.*;
 import java.util.function.Consumer;
 
-public class MessageBox implements Iterable<Message>{
+public class MessageBox implements Iterable<Message>, Savable {
     private ArrayList<Message> messages;
     private String owner;
     private Integer currentSize;
@@ -154,5 +156,10 @@ public class MessageBox implements Iterable<Message>{
     @Override
     public Spliterator<Message> spliterator() {
         return Iterable.super.spliterator();
+    }
+
+    @Override
+    public String getID() {
+        return owner;
     }
 }

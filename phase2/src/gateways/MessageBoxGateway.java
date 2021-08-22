@@ -12,9 +12,4 @@ public class MessageBoxGateway extends EntityGateway<MessageBox> {
     protected GsonBuilder getGsonBuilder() {
         return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
-
-    @Override
-    protected String getElementId(MessageBox messageBox) {
-        return messageBox.getOwner();
-    }
 }

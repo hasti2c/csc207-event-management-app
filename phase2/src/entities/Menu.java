@@ -1,10 +1,11 @@
 package entities;
 
 import utility.Command;
+import utility.Savable;
 
 import java.util.List;
 
-public class Menu {
+public class Menu implements Savable {
     private Command superCommand;
     private Command command;
     private List<Command> subCommands;
@@ -40,5 +41,10 @@ public class Menu {
 
     public void setSubCommands(List<Command> subCommands) {
         this.subCommands = subCommands;
+    }
+
+    @Override
+    public String getID() {
+        return command.getName();
     }
 }

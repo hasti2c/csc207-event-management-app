@@ -19,10 +19,5 @@ public class UserGateway extends EntityGateway<User> {
     protected GsonBuilder getGsonBuilder() {
         return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
-
-    @Override
-    protected String getElementId(User user) {
-        return user.getUsername();
-    }
 }
 

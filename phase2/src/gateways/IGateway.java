@@ -1,5 +1,7 @@
 package gateways;
 
+import utility.Savable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +9,7 @@ import java.util.Map;
  * Gateway that saves & reads elements to & from files.
  * @param <T> Element type.
  */
-public interface IGateway <T> {
+public interface IGateway <T extends Savable> {
     /**
      * @return Returns the elements (read from json) in a list.
      */

@@ -21,9 +21,4 @@ public class TemplateGateway extends EntityGateway<Template> {
     protected GsonBuilder getGsonBuilder() {
         return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
-
-    @Override
-    protected String getElementId(Template template) {
-        return template.getTemplateId();
-    }
 }
