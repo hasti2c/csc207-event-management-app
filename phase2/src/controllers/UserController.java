@@ -101,6 +101,9 @@ public class UserController {
         }
     }
 
+    /**
+     * Prompt for User's email. If email is valid (some User has that email), create temporary passowrd in text file.
+     */
     public void forgotPassword() throws ExitException {
         presenter.printText("Enter email: ");
         String email = inputParser.readLine();
@@ -119,7 +122,15 @@ public class UserController {
     }
 
     // == Viewing User List ==
-
+    
+    /**
+     * Displays the appropriate ViewType options to user, prompts user for choice.
+     * Then displays Users to user, prompts user for choice.
+     * Finally, calls viewUser on selected User.
+     * 
+     * @param userType The userType of the current user.
+     * @param username The username of the current user
+     */
     public void viewUserTypesList(UserType userType, String username) {
         while (true) {
             try {
