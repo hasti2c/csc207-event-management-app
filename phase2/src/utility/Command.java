@@ -1,5 +1,6 @@
 package utility;
 
+import controllers.ExitException;
 import controllers.SystemController;
 import utility.executor.ExecutorBuilder;
 
@@ -58,7 +59,7 @@ public enum Command {
         this.name = name;
         this.commandExecutor = executor;
     }
-    public void execute() {
+    public void execute() throws ExitException {
         commandExecutor.execute();
     }
     public String getName() {

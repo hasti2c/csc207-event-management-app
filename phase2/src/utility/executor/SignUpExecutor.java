@@ -20,18 +20,7 @@ public class SignUpExecutor implements CommandExecutor {
 
     @Override
     public void execute() {
-        if (userController.userSignUp()){
-            saveAll();
-        }
-    }
-
-    private void saveAll() {
-        userManager.saveAllUsers();
-        eventManager.saveAllEvents();
-        templateManager.saveAllTemplates();
-        menuManager.saveAllMenuInfo();
-        messageBoxManager.saveAllMessageBoxes();
-        presenter.printText("Everything has been successfully saved.");
+        userController.userSignUp();
     }
 
     public void setUserManager(UserManager userManager) {

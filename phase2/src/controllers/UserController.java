@@ -108,13 +108,13 @@ public class UserController {
             if (email.equals(EXIT_TEXT)) {
                 throw new ExitException();
             }
-            presenter.printText("Must be at least 8 characters with an upper case, lower case, number. Try again: ");
+            presenter.printText("Email does not exist in the system. Try again: ");
             email = inputParser.readLine();
             existingEmail = !userManager.emailIsUnique(email);
         }
         String username = userManager.getUsernameByEmail(email);
-        changePassword(username);
-
+        userManager.createTempPass(username);
+        presenter.printText("A temporary password has been created, please log in with the temporary password.");
     }
 
     // == Viewing User List ==
@@ -242,7 +242,7 @@ public class UserController {
     /**
      * The controller method that allows the User at the keyboard to update their password
      * @param username The username of the User who is attempting to update their password
-    */
+     */
     public void changePassword(String username){
         boolean tempPassState = userManager.tempPassState(username);
         if (!tempPassState) {

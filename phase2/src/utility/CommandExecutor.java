@@ -1,5 +1,7 @@
 package utility;
 
+import controllers.ExitException;
+
 public interface CommandExecutor {
-    void execute();
+    void execute() throws ExitException;
 }
