@@ -148,7 +148,7 @@ public class UserManager {
 
     private void updateUserSuspension(User user) {
         LocalDateTime endDate = user.getSuspensionChangeDate();
-        if (LocalDateTime.now().isAfter(endDate)) {
+        if (endDate != null && LocalDateTime.now().isAfter(endDate)) {
             boolean suspended = user.isSuspended();
             user.setSuspended(!suspended);
             setSuspensionChangeDate(user, null);
