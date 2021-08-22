@@ -4,8 +4,19 @@ package utility;
  * Enum of PrivacyTypes of Events.
  */
 public enum EventPrivacyType {
+    /**
+     * Every user has access to these events.
+     */
     PUBLIC ("Public"),
+
+    /**
+     * Only friends of the owner have access to these events.
+     */
     FRIENDS_ONLY ("Friends Only"),
+
+    /**
+     * Only owner of event has access to these events.
+     */
     PRIVATE ("Private");
 
     private final String name;

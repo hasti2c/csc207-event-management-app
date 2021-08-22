@@ -6,8 +6,21 @@ import entities.User;
  * Enum of ViewTypes for Users.
  */
 public enum UserViewType implements ViewType<User> {
+    /**
+     * Shows all users.
+     * Doesn't show suspended users.
+     */
     ALL ("All Users"),
+
+    /**
+     * Shows all friends of the current user.
+     * Doesn't show suspended users.
+     */
     FRIENDS ("Friends"),
+
+    /**
+     * Shows all suspended users.
+     */
     SUSPENDED ("Suspended Users");
 
     private final String name;
