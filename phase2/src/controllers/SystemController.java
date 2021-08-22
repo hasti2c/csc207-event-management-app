@@ -94,6 +94,7 @@ public class SystemController {
                 break;
             case SIGN_UP:
                 signUp();
+                runUserCommand(SAVE);
                 break;
             case MAIN_MENU:
                 login();
