@@ -85,7 +85,7 @@ public class UserController {
      * Log a User in within the program. If password used was temp password, prompt to change immediately.
      * @return String The User's username. If the username is null, the login was not successful.
      */
-    public String userLogin(){
+    public String userLogin() {
         try {
             String username = readExistingUsername();
             validatePassword(username);
@@ -94,7 +94,7 @@ public class UserController {
             }
             userManager.updateAllUserSuspension();
             if (userManager.isSuspended(username)) {
-                // TODO error message
+                printSuspensionError(username);
                 return null;
             }
             return username;
@@ -122,6 +122,12 @@ public class UserController {
         String username = userManager.getUsernameByEmail(email);
         userManager.createTempPass(username);
         presenter.printText("A temporary password has been created, please log in with the temporary password.");
+    }
+
+    private void printSuspensionError(String username) {
+        presenter.printText("You can't login. Your account is suspended.");
+        if (userManager.retrieveUserType(username) == TEMPORARY)
+            presenter.printText("This might because of your temporary account being closed.");
     }
 
     // == Viewing User List ==
@@ -238,7 +244,6 @@ public class UserController {
         presenter.printText(selectedUser + " was unsuspended.");
     }
 
-    // TODO implement back?
     private int getDayCount() {
         int dayCount = inputParser.readInt();
         while (dayCount <= 0) {
@@ -327,7 +332,6 @@ public class UserController {
         return true;
     }
 
-    // TODO put in manager?
     /**
      * Check if the inputted email is valid according to the validEmail regex. This regex was retrieved from
      * https://stackoverflow.com/questions/8204680/java-regex-email
@@ -349,7 +353,6 @@ public class UserController {
         return matcher.find();
     }
 
-    // TODO put in manager?
     /**
      * Check if the inputted username is valid according to the validUsername regex. This regex was retrieved from
      * @param username The email to validate

@@ -171,13 +171,7 @@ public class UserManager {
             return false;
         }
         // If the password and username match
-        if (userToLogin.getPassword().equals(password)){
-            userToLogin.setLoggedIn(true);
-            return true;
-        }
-        else {
-            return false;
-        }
+        return userToLogin.getPassword().equals(password);
     }
 
     /**
@@ -187,31 +181,17 @@ public class UserManager {
      */
     public boolean logOut(String username){
         User userToLogout = retrieveUser(username);
-        // If the user doesn't exist
-        if (userToLogout == null){
-            return false;
-        }
-        else {
-            userToLogout.setLoggedIn(false);
-            return true;
-        }
+        return userToLogout != null;
     }
 
     /**
      * Update a users password to the newPassword
      * @param username The username of the User whose password is to be updated
      * @param newPassword The users new password
-     * @return Whether the password was updated successfully
      */
-    public boolean updatePassword(String username, String newPassword){
+    public void updatePassword(String username, String newPassword){
         User user = retrieveUser(username);
-        if (user.isLoggedIn()){
-            user.setPassword(newPassword);
-            return true;
-        }
-        else {
-            return false;
-        }
+        user.setPassword(newPassword);
     }
 
     public void setTempPassState(String username, boolean state) {
@@ -219,16 +199,15 @@ public class UserManager {
     }
 
     /**
-     * Generates a random temp password for the user
+     * Generates a random temp password for the user and saves it to the file.
      * @param username Username of user who requested temp password
      */
-    public String createTempPass(String username) {
+    public void createTempPass(String username) {
         User user = retrieveUser(username);
         String tempPass = generator.generate(10, 20);
         user.setPassword(tempPass);
         user.setHasTempPass(true);
         passwordGateway.writeTempPass(username, tempPass);
-        return tempPass;
     }
 
     /**
@@ -244,39 +223,33 @@ public class UserManager {
      * Update a users username to the newUsername
      * @param username The username of the User whose username is to be updated
      * @param newUsername The users new username
-     * @return Whether the username was updated successfully
      */
-    public boolean updateUsername(String username, String newUsername) {
+    public void updateUsername(String username, String newUsername) {
         User user = retrieveUser(username);
-        if (user.isLoggedIn()){
-            usernamesList.remove(user.getUsername()); // Remove old usernamesList
-            usernamesList.add(newUsername); // Add new usernamesList
-            user.setUsername(newUsername); // Set new username
-            // TODO update friends list
-            return true;
-        }
-        else {
-            return false;
-        }
+        usernamesList.remove(user.getUsername()); // Remove old usernamesList
+        usernamesList.add(newUsername); // Add new usernamesList
+        user.setUsername(newUsername); // Set new username
+        updateFriendUsername(username, newUsername);
+    }
+
+    private void updateFriendUsername(String username, String newUsername) {
+        for (User user : userList)
+            if (user.getFriends().contains(username)) {
+                user.getFriends().remove(username);
+                user.getFriends().add(newUsername);
+            }
     }
 
     /**
      * Updates a users email to the newEmail
      * @param username The username of the User whose email is to be updated
      * @param newEmail The users new email
-     * @return Whether the email was updated successfully
      */
-    public boolean updateEmail(String username, String newEmail){
+    public void updateEmail(String username, String newEmail){
         User user = retrieveUser(username);
-        if (user.isLoggedIn()){
-            emailList.remove(user.getUserEmail()); // remove old email from emailList
-            emailList.add(newEmail); // Add new email to emailList
-            user.setUserEmail(newEmail);
-            return true;
-        }
-        else {
-            return false;
-        }
+        emailList.remove(user.getUserEmail()); // remove old email from emailList
+        emailList.add(newEmail); // Add new email to emailList
+        user.setUserEmail(newEmail);
     }
 
     /**

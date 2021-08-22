@@ -36,7 +36,6 @@ public class SystemController {
     private String currentUser;
     private UserType currentUserType;
 
-    // TODO builder pattern for initializer maybe?
     // == initializing ==
     public SystemController() {
         IGateway<User> userGateway = new UserGateway("phase2/data/users.json");

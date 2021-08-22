@@ -34,7 +34,6 @@ public class UserMenuController extends EntityMenuController<User> {
         return "User List";
     }
 
-    // TODO do we show them themselves?
     @Override
     protected List<String> getEntityList(ViewType<User> viewType, String username) {
         assert viewType instanceof UserViewType;
@@ -58,6 +57,7 @@ public class UserMenuController extends EntityMenuController<User> {
         }
 
         userList = new ArrayList<>(userList); // This is done so that original list isn't mutated.
+        userList.remove(username);
         if (suspensionCheck)
             userList.removeIf(userManager::isSuspended);
         return userList;

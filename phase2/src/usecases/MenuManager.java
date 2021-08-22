@@ -12,7 +12,6 @@ import static utility.Command.*;
 
 public class MenuManager {
     private final Map<String, Menu> allMenus;
-    // TODO map instead of list?
     private final List<Permissions> allPermissions;
     private final IGateway<Menu> menuGateway;
     private final IGateway<Permissions> userPermissionsGateway;

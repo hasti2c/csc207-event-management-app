@@ -15,7 +15,6 @@ public class User {
     private String password;
     private String userEmail;
     private boolean hasTempPass;
-    private transient boolean loggedIn; // TODO do we need this?
     // Events the user has created. I'm pretty sure it's fine to be private
     private List<String> ownedEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be public.
@@ -45,7 +44,6 @@ public class User {
         this.userEmail = userEmail;
         this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
-        this.loggedIn = false;
         this.hasTempPass = false;
     }
     public User() {
@@ -86,13 +84,6 @@ public class User {
      */
     public String getUserEmail() {
         return this.userEmail;
-    }
-    /**
-     * Get the user's logged in status
-     * @return boolean The user's logged in status
-     */
-    public boolean isLoggedIn() {
-        return this.loggedIn;
     }
     /**
      * Get the user's created events
@@ -166,14 +157,6 @@ public class User {
      */
     public void setUserType(UserType userType) {
         this.userType = userType;
-    }
-
-    /**
-     * Set a new logged in status for the user
-     * @param loggedIn The new logged in status
-     */
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
     }
 
     /**
