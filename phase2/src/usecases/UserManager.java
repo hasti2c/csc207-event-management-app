@@ -2,6 +2,7 @@ package usecases;
 
 import gateways.IGateway;
 import entities.User;
+import gateways.PasswordGateway;
 import org.apache.commons.text.RandomStringGenerator;
 import utility.UserType;
 
@@ -27,6 +28,7 @@ public class UserManager {
     private List<String> emailList;
     private IGateway<User> gateway;
     private final RandomStringGenerator generator;
+    private final PasswordGateway passwordGateway;
 
     // === Methods ===
 
@@ -40,6 +42,7 @@ public class UserManager {
         userList = gateway.getAllElements();
         usernamesList = new ArrayList<>();
         emailList = new ArrayList<>();
+        this.passwordGateway = new PasswordGateway("phase2/data/temp_pass");
         for (User user :
                 userList) {
             usernamesList.add(user.getUsername());
@@ -220,6 +223,7 @@ public class UserManager {
         String tempPass = generator.generate(10, 20);
         user.setPassword(tempPass);
         user.setHasTempPass(true);
+        passwordGateway.writeTempPass(username, tempPass);
         return tempPass;
     }
 
