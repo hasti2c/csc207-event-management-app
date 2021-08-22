@@ -76,13 +76,13 @@ public class InputParser {
     public boolean readBoolean() {
         String line = readLine();
         List<String> trueStrings = Arrays.asList("y", "yes", "true");
-        List<String> falseStrings = Arrays.asList("n", "no", "false");
-        if (trueStrings.contains(line)) {
+        List<String> falseStrings = Arrays.asList("y", "no", "false");
+        if (trueStrings.contains(line.toLowerCase())) {
             return true;
         } else if (falseStrings.contains(line)) {
             return false;
         } else {
-            presenter.printText("Please right Y or N.");
+            presenter.printText("Please type Y or N.");
             return readBoolean();
         }
     }

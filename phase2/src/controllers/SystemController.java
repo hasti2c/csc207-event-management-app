@@ -106,13 +106,14 @@ public class SystemController {
                 eventController.createNewEvent(retrieveTemplateName(), currentUser);
                 break;
             case BROWSE_EVENTS:
-                eventController.browseEvents(currentUserType, currentUser);
+                eventController.viewEventTypesList(currentUserType, currentUser);
                 break;
             case EDIT_TEMPLATE:
                 editTemplate();
                 break;
             case BROWSE_USERS:
-                userController.browseUsers(currentUserType, currentUser);
+                userController.viewUserTypesList(currentUserType, currentUser);
+                break;
             case ACCOUNT_MENU:
                 runAccountMenu();
                 break;

@@ -2,6 +2,7 @@ package controllers;
 
 import controllers.menus.EntityMenuController;
 import entities.Event;
+import entities.User;
 import utility.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
@@ -40,12 +41,23 @@ public class EventController {
 
     // == Viewing ==
     // TODO make go back not go all the way back
-    public void browseEvents(UserType userType, String username) {
+    public void viewEventTypesList(UserType userType, String username) {
         while (true) {
             try {
                 ViewType<Event> viewType = menuController.getViewTypeChoice(userType);
-                String eventID = menuController.getEntityChoice(viewType, username);
-                viewEvent(userType, username, eventID);
+                browseEvent(viewType, userType, username);
+            } catch (ExitException e) {
+                return;
+            }
+        }
+    }
+
+
+    private void browseEvent(ViewType<Event> viewType, UserType userType, String username){
+        while (true) {
+            try {
+                String selectedUser = menuController.getEntityChoice(viewType, username);
+                viewEvent(userType, username, selectedUser);
             } catch (ExitException e) {
                 return;
             }

@@ -8,7 +8,6 @@
     "attendingEvents": [],
     "userType": "ADMIN",
     "suspended": false,
-    "suspensionChangeDate": null,
     "friends": []
   },
   {
@@ -20,7 +19,6 @@
     "attendingEvents": [],
     "userType": "REGULAR",
     "suspended": false,
-    "suspensionChangeDate": null,
     "friends": []
   },
   {
@@ -36,7 +34,6 @@
     ],
     "userType": "ADMIN",
     "suspended": false,
-    "suspensionChangeDate": null,
     "friends": []
   },
   {
@@ -48,7 +45,6 @@
     "attendingEvents": [],
     "userType": "ADMIN",
     "suspended": false,
-    "suspensionChangeDate": null,
     "friends": []
   },
   {
@@ -60,7 +56,6 @@
     "attendingEvents": [],
     "userType": "REGULAR",
     "suspended": false,
-    "suspensionChangeDate": null,
     "friends": []
   }
 ]

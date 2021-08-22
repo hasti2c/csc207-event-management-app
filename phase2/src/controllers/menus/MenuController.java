@@ -59,7 +59,7 @@ public abstract class MenuController {
      */
     public <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
         int user_input = inputParser.readInt();
-        if (checkExit && user_input == menuOptions.size()) {
+        if (checkExit && (user_input - 1) == menuOptions.size()) {
             throw new ExitException();
         }
         try {
