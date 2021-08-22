@@ -143,20 +143,17 @@ public class EventManager {
      * @return Map The event details of map for the event with the given event id
      */
     public Map<String, String> returnEventDetails(String eventId) {
+        Event event = retrieveEventById(eventId);
         Map<String, String> eventDetailsMap = new HashMap<>();
-        for (Event event : eventList) {
-            if (event.getEventId().equals(eventId)) {
-                for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
-                    if (eventDetailsEntry.getValue() == null) {
-                        eventDetailsMap.put(eventDetailsEntry.getKey(), "N/A");
-                    } else if (eventDetailsEntry.getValue() instanceof LocalDateTime) {
-                        LocalDateTime time = (LocalDateTime) eventDetailsEntry.getValue();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
-                        eventDetailsMap.put(eventDetailsEntry.getKey(), formatter.format(time));
-                    } else {
-                        eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
-                    }
-                }
+        for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
+            if (eventDetailsEntry.getValue() == null) {
+                eventDetailsMap.put(eventDetailsEntry.getKey(), "N/A");
+            } else if (eventDetailsEntry.getValue() instanceof LocalDateTime) {
+                LocalDateTime time = (LocalDateTime) eventDetailsEntry.getValue();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+                eventDetailsMap.put(eventDetailsEntry.getKey(), formatter.format(time));
+            } else {
+                eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
             }
         }
         return eventDetailsMap;
@@ -284,6 +281,7 @@ public class EventManager {
         eventMap.put("Event Owner", event.getEventOwner());
         eventMap.put("Type of Event", event.getEventType());
         eventMap.put("Number of Attendees", Integer.toString(event.getNumAttendees()));
+        eventMap.put("Suspended", event.isSuspended() ? "Yes" : "No");
         return eventMap;
     }
 

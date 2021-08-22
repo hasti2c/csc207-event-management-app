@@ -44,6 +44,7 @@ public class EventMenuController extends EntityMenuController<Event> {
         switch (eventViewType) {
             case OWNED:
                 eventList = userManager.getCreatedEvents(username);
+                suspensionCheck = false; // We want owner to see their suspended events.
                 break;
             case ATTENDING:
                 eventList = userManager.getAttendingEvents(username);
@@ -100,13 +101,13 @@ public class EventMenuController extends EntityMenuController<Event> {
         boolean suspended = eventManager.isSuspended(eventID);
         switch (command) {
             case ATTEND_EVENT:
-                return !attending;
+                return !attending && !suspended;
             case UNATTEND_EVENT:
-                return attending;
+                return attending && !suspended;
             case CHANGE_EVENT_PRIVACY:
             case EDIT_EVENT:
             case DELETE_EVENT:
-                return owned;
+                return owned && !suspended;
             case SUSPEND_EVENT:
                 return !suspended;
             case UNSUSPEND_EVENT:

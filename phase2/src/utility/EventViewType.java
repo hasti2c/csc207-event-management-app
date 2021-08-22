@@ -8,7 +8,7 @@ import entities.Event;
 public enum EventViewType implements ViewType<Event> {
     /**
      * Shows events owned by user.
-     * Doesn't show suspended events.
+     * Shows suspended events.
      */
     OWNED ("My Events"),
 
