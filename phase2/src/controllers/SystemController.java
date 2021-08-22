@@ -96,6 +96,9 @@ public class SystemController {
             case TRIAL_MENU:
                 runTrialMenu();
                 break;
+            case FORGOT_PASSWORD:
+                userController.forgotPassword();
+                break;
             case EXIT:
                 exit();
                 break;
