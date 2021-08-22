@@ -243,6 +243,7 @@ public class SystemController {
 
     private void createTrialUser(){
         currentUser = TRIAL_USERNAME;
+        currentUserType = TRIAL;
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, TRIAL);
     }
 

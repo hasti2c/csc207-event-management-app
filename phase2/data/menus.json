@@ -25,6 +25,21 @@
     ]
   },
   {
+    "superCommand": "START_UP",
+    "command": "TRIAL_MENU",
+    "subCommands": [
+      "CREATE_EVENT",
+      "BROWSE_EVENTS",
+      "BROWSE_USERS",
+      "ACCOUNT_MENU",
+      "ADMIN_MENU",
+      "MESSAGING_MENU",
+      "SAVE",
+      "LOG_OUT",
+      "EXIT_TRIAL"
+    ]
+  },
+  {
     "superCommand": "MAIN_MENU",
     "command": "BROWSE_EVENTS",
     "subCommands": [

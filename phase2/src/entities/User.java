@@ -47,6 +47,7 @@ public class User implements Savable, Viewable {
         this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
         this.hasTempPass = false;
+        this.friends = new ArrayList<>();
     }
     public User() {
     }
