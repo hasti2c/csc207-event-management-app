@@ -100,7 +100,7 @@ public class SystemController {
                 exit();
                 break;
             case CREATE_EVENT:
-                eventController.createNewEvent(retrieveTemplateName(), currentUser);
+                eventController.createNewEvent(templateController.chooseTemplate(), currentUser);
                 break;
             case BROWSE_EVENTS:
                 eventController.viewEventTypesList(currentUserType, currentUser);
@@ -109,7 +109,7 @@ public class SystemController {
                 templateController.createNewTemplate();
                 break;
             case EDIT_TEMPLATE:
-                editTemplate();
+                templateController.editTemplate();
                 break;
             case BROWSE_USERS:
                 userController.viewUserTypesList(currentUserType, currentUser);
@@ -198,10 +198,6 @@ public class SystemController {
         throw new ExitException();
     }
 
-    private void editTemplate() {
-        editTemplateName(retrieveTemplateName());
-    }
-
     private void runAccountMenu() throws ExitException {
         runMenu(ACCOUNT_MENU);
         if (currentUser == null)
@@ -265,26 +261,6 @@ public class SystemController {
         else {
             presenter.printText("This name is already taken by another template.");
         }
-    }
-
-    private String retrieveTemplateName() {
-        int templateChoice = eventController.chooseTemplate(currentUser);
-        List<String> templateNames = templateManager.returnTemplateNames();
-        return retrieveName(templateNames, templateChoice);
-    }
-
-    private String retrieveName(List<String> nameList, int chosenIndex) {
-        if(chosenIndexLargerThanTheSize(nameList, chosenIndex)) {
-            return null;
-        }
-        return nameList.get(chosenIndex - 1);
-    }
-
-    private boolean chosenIndexLargerThanTheSize(List<?> list, int chosenIndex) {
-        if (list == null) {
-            return true;
-        }
-        return chosenIndex > list.size();
     }
 }
 

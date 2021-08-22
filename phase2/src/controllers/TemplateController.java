@@ -6,6 +6,9 @@ import usecases.TemplateManager;
 
 import java.util.*;
 
+import static utility.AppConstant.EXIT_TEXT;
+import static utility.AppConstant.MENU_EXIT_OPTION;
+
 public class TemplateController {
     private final TemplateManager templateManager;
     private final Presenter presenter;
@@ -22,6 +25,7 @@ public class TemplateController {
         String templateName = getNewTemplateName();
         templateManager.createTemplate(templateName);
         addFields(templateName);
+        presenter.printText("Your new template was created.");
     }
 
     private String getNewTemplateName() {
@@ -79,5 +83,63 @@ public class TemplateController {
             presenter.printText("Your input was invalid. Please try again.");
             return typeMenu();
         }
+    }
+
+    // == Editing Templates ==
+    /**
+     * Prints a list of templates and returns the user's choice. If the choice is longer than the list of templates,
+     * it means the user chose to go back.
+     * @return returns the index of the chosen template + 1 (starts at 1 instead of 0)
+     */
+    public String chooseTemplate() {
+        List<String> templateList = templateManager.returnTemplateNames();
+        templateList.add(MENU_EXIT_OPTION);
+        presenter.printMenu("TemplateList", templateList);
+        int choice = getChoice(1, templateList.size());
+        return templateList.get(choice);
+    }
+
+    public void editTemplate() {
+        String templateName = chooseTemplate();
+        editTemplateName(templateName);
+    }
+
+    private void editTemplateName(String templateName) {
+        presenter.printText("Please enter a new name for the template.");
+        String newTemplateName = getChangedTemplateName(templateName);
+        templateManager.editTemplateName(templateName, newTemplateName);
+        presenter.printText("Template name edited successfully.");
+
+    }
+
+    private String getChangedTemplateName(String templateName) {
+        presenter.printText("Please enter a new name for the template.");
+        String newTemplateName = inputParser.readLine();
+
+        while (!templateManager.checkNameUniqueness(templateName) || templateName.equals(newTemplateName)){
+            if (!templateName.equals(newTemplateName))
+                presenter.printText("Please enter a different name.");
+            else if (templateManager.checkNameUniqueness(newTemplateName))
+                presenter.printText("This name is already taken by another template. Please try again.");
+            templateName = inputParser.readLine();
+        }
+        return templateName;
+    }
+
+    // TODO refactor
+    /**
+     * Forces user to enter an int in the range.
+     *
+     * @param lowBound lowest accepted input
+     * @param highBound highest accepted input
+     * @return the value entered
+     */
+    private int getChoice(int lowBound, int highBound) {
+        int choice = inputParser.readInt();
+        while (choice < lowBound || choice > highBound) {
+            presenter.printText("Invalid choice. Please enter a number between " + lowBound + " and " + highBound);
+            choice = inputParser.readInt();
+        }
+        return choice;
     }
 }
