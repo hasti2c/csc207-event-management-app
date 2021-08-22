@@ -84,9 +84,6 @@ public class SystemController {
     // TODO maybe move account menu stuff to UserController
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
-            case START_UP:
-                runMenu(START_UP);
-                break;
             case SIGN_UP:
                 signUp();
                 break;
@@ -225,6 +222,7 @@ public class SystemController {
         saveAll();
         userManager.logOut(currentUser);
         currentUser = null;
+        currentUserType = null;
         throw new ExitException();
     }
 
