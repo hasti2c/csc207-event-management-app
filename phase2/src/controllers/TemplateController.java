@@ -18,6 +18,9 @@ public class TemplateController {
         this.inputParser = InputParser.getInstance();
     }
 
+    /**
+     * Create custom template by prompting current user for event type, name of template, and custom fields.
+     */
     public void createNewTemplate() {
         presenter.printText("Enter the type of the event:");
         String templateName = inputParser.readLine();
@@ -54,6 +57,9 @@ public class TemplateController {
     }
 
     // return the response of new field
+    /**
+     * Helper function to prompt current user for custom field specifics: name, type. 
+     */
     public String addField(String newTemplateName) {
         presenter.printText("Enter the field name:");
         String fieldName = inputParser.readLine();
