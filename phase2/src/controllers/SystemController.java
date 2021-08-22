@@ -116,6 +116,9 @@ public class SystemController {
             case ACCOUNT_MENU:
                 runAccountMenu();
                 break;
+            case ADMIN_MENU:
+                runMenu(ADMIN_MENU);
+                break;
             case SAVE:
                 saveAll();
                 break;
