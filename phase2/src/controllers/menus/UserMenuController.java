@@ -34,6 +34,7 @@ public class UserMenuController extends EntityMenuController<User> {
         return "User List";
     }
 
+    // TODO do we show them themselves?
     @Override
     protected List<String> getEntityList(ViewType<User> viewType, String username) {
         assert viewType instanceof UserViewType;
