@@ -5,12 +5,24 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 
+/**
+ * Singleton class that implements utility methods to be used by EntityGateways.
+ */
 public class GatewayUtility {
+    private static GatewayUtility instance;
+
+    private GatewayUtility() {}
+
+    public static GatewayUtility getInstance() {
+        if (instance == null)
+            instance = new GatewayUtility();
+        return instance;
+    }
+
     /**
      * @return Simple GsonBuilder with custom serializer & deserializer for LocalDateTime & Class.
      */
-    static GsonBuilder getSimpleGsonBuilder() {
-        // TODO singleton instead of static maybe?
+    GsonBuilder getSimpleGsonBuilder() {
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());

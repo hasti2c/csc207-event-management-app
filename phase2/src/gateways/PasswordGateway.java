@@ -3,6 +3,9 @@ package gateways;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Gateway that writes temporary passwords to a txt file.
+ */
 public class PasswordGateway {
     private final String folderPath;
 

@@ -3,6 +3,10 @@ package gateways;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Gateway that saves & reads elements to & from files.
+ * @param <T> Element type.
+ */
 public interface IGateway <T> {
     /**
      * @return Returns the elements (read from json) in a list.

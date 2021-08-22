@@ -3,6 +3,9 @@ package gateways;
 import com.google.gson.GsonBuilder;
 import entities.User;
 
+/**
+ * Gateway that saves & reads Users to & from a json file.
+ */
 public class UserGateway extends EntityGateway<User> {
     /**
      * Constructs an UserGateway Element.
@@ -14,7 +17,7 @@ public class UserGateway extends EntityGateway<User> {
 
     @Override
     protected GsonBuilder getGsonBuilder() {
-        return GatewayUtility.getSimpleGsonBuilder();
+        return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
 
     @Override

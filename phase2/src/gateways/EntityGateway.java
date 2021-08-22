@@ -14,6 +14,10 @@ import java.util.Map;
 
 // TODO add different interfaces for entities based on these kind of usages (also view type)
 
+/**
+ * Gateway that saves & reads a specific entity type to & from a json file.
+ * @param <T> Entity type.
+ */
 public abstract class EntityGateway<T> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
@@ -56,9 +60,6 @@ public abstract class EntityGateway<T> implements IGateway<T> {
         writeElements();
     }
 
-    /**
-     * Reads all elements from file and saves in gateway.
-     */
     private void readElements() {
         try {
             FileReader fileReader = new FileReader(path);
@@ -74,9 +75,6 @@ public abstract class EntityGateway<T> implements IGateway<T> {
         }
     }
 
-    /**
-     * Writes all elements saved in gateway into file.
-     */
     private void writeElements() {
         try {
             T[] emptyArray = (T[]) Array.newInstance(dataType, 0);

@@ -5,6 +5,9 @@ import entities.Template;
 
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums, Class<?>
 
+/**
+ * Gateway that saves & reads Templates to & from a json file.
+ */
 public class TemplateGateway extends EntityGateway<Template> {
     /**
      * Constructs an TemplateGateway Element.
@@ -16,7 +19,7 @@ public class TemplateGateway extends EntityGateway<Template> {
 
     @Override
     protected GsonBuilder getGsonBuilder() {
-        return GatewayUtility.getSimpleGsonBuilder();
+        return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
 
     @Override

@@ -3,6 +3,9 @@ package gateways;
 import com.google.gson.GsonBuilder;
 import entities.Menu;
 
+/**
+ * Gateway that saves & reads Menus to & from a json file.
+ */
 public class MenuGateway extends EntityGateway<Menu> {
     /**
      * Constructs an MenuGateway Element.
@@ -14,7 +17,7 @@ public class MenuGateway extends EntityGateway<Menu> {
 
     @Override
     protected GsonBuilder getGsonBuilder() {
-        return GatewayUtility.getSimpleGsonBuilder();
+        return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
 
     @Override
