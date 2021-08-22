@@ -1,10 +1,13 @@
 package utility;
 
+import controllers.SystemController;
+import utility.executor.ExecutorBuilder;
+
 // TODO merge LOGIN and TRIAL_MENU
 public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
-    SIGN_UP("Sign Up"),
+    SIGN_UP("Sign Up", SystemController.executorBuilder.buildSignUpExecutor()),
     MAIN_MENU("Main Menu"),
     TRIAL_MENU("Trial Menu"),
     FORGOT_PASSWORD("Forgot Password"),
@@ -47,11 +50,17 @@ public enum Command {
     SEND_ANNOUNCEMENT("Send Announcement");
 
     private final String name;
-
+    private final CommandExecutor commandExecutor;
     Command(String name) {
-        this.name = name;
+        this(name, null);
     }
-
+    Command(String name, CommandExecutor executor) {
+        this.name = name;
+        this.commandExecutor = executor;
+    }
+    public void execute() {
+        commandExecutor.execute();
+    }
     public String getName() {
         return name;
     }

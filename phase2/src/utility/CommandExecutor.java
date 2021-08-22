@@ -1,5 +1,5 @@
 package utility;
 
-public interface CommandOperation {
+public interface CommandExecutor {
     void execute();
 }
