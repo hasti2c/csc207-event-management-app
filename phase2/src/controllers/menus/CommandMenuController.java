@@ -7,6 +7,9 @@ import utility.Command;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MenuController that handles tasks related to menus of only commands.
+ */
 public class CommandMenuController extends MenuController {
     /**
      * Constructs a CommandMenuController.

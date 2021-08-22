@@ -12,6 +12,10 @@ import utility.ViewType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MenuController that handles tasks related to menus that have to do with entity lists.
+ * @param <T> Entity type.
+ */
 public abstract class EntityMenuController <T> extends MenuController {
     protected final UserManager userManager;
     protected final EventManager eventManager;
@@ -48,7 +52,7 @@ public abstract class EntityMenuController <T> extends MenuController {
             viewTypeNames.add(viewType.getName());
         }
         viewTypeNames.add(AppConstant.MENU_EXIT_OPTION);
-        presenter.printMenu(getMenuTitle(), viewTypeNames);
+        presenter.printMenu(getListTitle(), viewTypeNames);
     }
 
     /**
@@ -58,7 +62,10 @@ public abstract class EntityMenuController <T> extends MenuController {
      */
     protected abstract List<ViewType<T>> getViewTypePermissions(UserType userType);
 
-    protected abstract String getMenuTitle();
+    /**
+     * @return Title to be shown above list of view types.
+     */
+    protected abstract String getListTitle();
 
     // == Getting Entity Choice ==
 
@@ -102,16 +109,16 @@ public abstract class EntityMenuController <T> extends MenuController {
     public Command getEntityMenuChoice(UserType userType, String username, Command command, String selectedEntity) {
         List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
         menuOptions.removeIf(c -> !verifyPermission(c, username, selectedEntity));
-        displayEntityMenu(menuOptions, command);
+        displayEntityMenu(menuOptions);
         return getMenuChoice(menuOptions);
     }
 
-    private void displayEntityMenu(List<Command> menuOptions, Command command) {
+    private void displayEntityMenu(List<Command> menuOptions) {
         List<String> menuNames = new ArrayList<>();
         for (Command menuOption : menuOptions) {
             menuNames.add(menuOption.getName());
         }
-        presenter.printMenu(command.getName(), menuNames);
+        presenter.printMenu(getMenuTitle(), menuNames);
     }
 
     /**
@@ -123,4 +130,9 @@ public abstract class EntityMenuController <T> extends MenuController {
      * @return True if and only if this command should be accessible by the user.
      */
     protected abstract boolean verifyPermission(Command command, String username, String selectedEntity);
+
+    /**
+     * @return Title to be shown above list of commands.
+     */
+    protected abstract String getMenuTitle();
 }

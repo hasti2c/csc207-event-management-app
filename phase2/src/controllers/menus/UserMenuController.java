@@ -10,6 +10,9 @@ import utility.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * EntityMenuController that handles tasks related to menus that have to do with User lists.
+ */
 public class UserMenuController extends EntityMenuController<User> {
     /**
      * Constructs a UserMenuController.
@@ -27,7 +30,7 @@ public class UserMenuController extends EntityMenuController<User> {
     }
 
     @Override
-    protected String getMenuTitle() {
+    protected String getListTitle() {
         return "User List";
     }
 
@@ -75,5 +78,10 @@ public class UserMenuController extends EntityMenuController<User> {
             default:
                 return true;
         }
+    }
+
+    @Override
+    protected String getMenuTitle() {
+        return "Viewing User";
     }
 }

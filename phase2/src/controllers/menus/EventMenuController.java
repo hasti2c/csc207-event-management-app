@@ -9,6 +9,9 @@ import usecases.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * EntityMenuController that handles tasks related to menus that have to do with Event lists.
+ */
 public class EventMenuController extends EntityMenuController<Event> {
     /**
      * Constructs an EventMenuController.
@@ -26,7 +29,7 @@ public class EventMenuController extends EntityMenuController<Event> {
     }
 
     @Override
-    protected String getMenuTitle() {
+    protected String getListTitle() {
         return "Event List";
     }
 
@@ -111,5 +114,10 @@ public class EventMenuController extends EntityMenuController<Event> {
             default:
                 return true;
         }
+    }
+
+    @Override
+    protected String getMenuTitle() {
+        return "Viewing Event";
     }
 }

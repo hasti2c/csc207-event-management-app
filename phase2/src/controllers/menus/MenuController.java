@@ -7,6 +7,9 @@ import usecases.MenuManager;
 
 import java.util.List;
 
+/**
+ * Controller that handles menu related tasks.
+ */
 public abstract class MenuController {
     protected MenuManager menuManager;
     protected Presenter presenter;
