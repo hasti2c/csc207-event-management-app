@@ -1,5 +1,8 @@
 package utility;
 
+/**
+ * Class that contains constant text values in program.
+ */
 public class AppConstant {
     public static final String TEXT_EXIT_OPTION = "(type 'back' for previous screen)";
     public static final String EXIT_TEXT = "back";
