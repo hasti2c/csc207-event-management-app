@@ -21,12 +21,23 @@ public class TemplateManager {
         this.gateway = gateway;
         templateList = gateway.getAllElements();
     }
-
+    
+    /**
+     * Edit template name
+     * @param templateName the name  of the template
+     * @param newName new name of the template
+     * @return true if edit successful
+     */
     public boolean editTemplateName(String templateName, String newName){
         this.retrieveTemplateByName(templateName).setTemplateName(newName);
         return true;
     }
 
+    /**
+     * Check if template name does not already exist
+     * @param newName new name of the template that is being checked
+     * @return true if no current template has name newName
+     */
     public boolean checkNameUniqueness(String newName){
         // Note: this will return false even if the new name is the same as the previous name.
         List<String> templateNames = new ArrayList<>();
@@ -36,6 +47,10 @@ public class TemplateManager {
         return !templateNames.contains(newName);
     }
 
+    /**
+     * Return a List of current template names
+     * @return List of current template names
+     */
     public List<String> returnTemplateNames() {
         List<String> templateNames = new ArrayList<>();
         for (Template template : templateList) {
@@ -44,6 +59,11 @@ public class TemplateManager {
         return templateNames;
     }
 
+    /**
+     * Get Template object given its name
+     * @param templateName the name  of the template
+     * @return corresponding Template object
+     */
     public Template retrieveTemplateByName(String templateName){
         List<Template> holderList = new ArrayList<>();
         for (Template template : templateList) {
@@ -54,24 +74,47 @@ public class TemplateManager {
         return holderList.remove(0);
     }
 
+    /**
+     * Getter method
+     * @return templateList
+     */
     public List<Template> getTemplateList() {
         return templateList;
     }
 
+    /**
+     * Getter method
+     * @return templateList
+     */
     public List<FieldSpecs> getFieldSpecs(String templateName){
         return this.retrieveTemplateByName(templateName).getFieldDescriptions();
     }
 
+    /**
+     * Save all templates
+     */
     public void saveAllTemplates() {
         gateway.saveAllElements(templateList);
     }
 
+    /**
+     * Create a Template
+     * @param templateName name of new Template
+     * @return Name of created Template
+     */
     public String createTemplate(String templateName){
         List<FieldSpecs> emptyFieldSpecs = new ArrayList<>();
         Template template = new Template(emptyFieldSpecs, templateName);
         return template.getTemplateName();
     }
 
+    /**
+     * Create FieldSpecs object
+     * @param inputFieldName name of the field
+     * @param inputDataType the type of the field
+     * @param inputIsRequired is it required
+     * @return FieldSpecs object
+     */
     public FieldSpecs createNewFieldSpecs(String inputFieldName, String inputDataType, String inputIsRequired) {
         Class<?> convertedDataType = null;
         boolean convertedIsRequired = false;
@@ -95,7 +138,11 @@ public class TemplateManager {
         return new FieldSpecs(inputFieldName, convertedDataType, convertedIsRequired);
     }
 
-
+    /**
+     * Add FieldSpecs object to a Template
+     * @param templateName name of the Template
+     * @param fieldSpecs the FieldSpecs object
+     */
     public void addFieldSpecs(String templateName, FieldSpecs fieldSpecs){
         for (Template template: templateList){
             if(template.getTemplateName().equals(templateName)){
@@ -104,6 +151,10 @@ public class TemplateManager {
         }
     }
 
+    /**
+     * Delete Template from templateList
+     * @param templateName name of Template
+     */
     public void deleteTemplate(String templateName){
         for (Template template: templateList){
             if(template.getTemplateName().equals(templateName)){
@@ -111,6 +162,12 @@ public class TemplateManager {
             }
         }
     }
+    
+    /**
+     * Remove FieldSpecs object from field descriptions of Template
+     * @param templateName name of Template
+     * @param fieldName name of field of FieldSpecs object
+     */
     public void deleteFieldSpecs(String templateName, String fieldName){
         for (Template template: templateList){
             if(template.getTemplateName().equals(templateName)){
