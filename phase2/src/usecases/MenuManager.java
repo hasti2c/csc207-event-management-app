@@ -20,7 +20,6 @@ public class MenuManager {
     public MenuManager(IGateway<Menu> menuGateway, IGateway<Permissions> permissionsGateway) {
         this.menuGateway = menuGateway;
         allMenus = menuGateway.getElementMap();
-        // TODO should we have menus for all the leaves and then just set the subCommands as null?
 
         this.userPermissionsGateway = permissionsGateway;
         allPermissions = permissionsGateway.getAllElements();

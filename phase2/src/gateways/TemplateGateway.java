@@ -3,10 +3,7 @@ package gateways;
 import com.google.gson.*;
 import entities.Template;
 
-// TODO* Generics
-
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums, Class<?>
-// TODO javadocs: specify input for getter as precondition
 
 public class TemplateGateway extends EntityGateway<Template> {
     /**

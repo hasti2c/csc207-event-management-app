@@ -27,7 +27,6 @@ public class MessageBoxManager {
         createMessageBox(ANNOUNCEMENT_INBOX);
     }
 
-    // TODO: Not used, can remove when finished.
     /**
      * Given String username, return List<Message> representing the messages in that user's MessageBox.
      * If such a user does not exist, or they do not have a MessageBox, then return an empty List.
@@ -111,7 +110,6 @@ public class MessageBoxManager {
         return null;
     }
 
-    // TODO: Remove when finished, this method was initially used but replaced by getMessageInfo
     /**
      * Return a list of strings of the Headlines of the desired User's MessageBox. If the user does not exist return
      * an empty list

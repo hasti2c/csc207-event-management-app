@@ -33,7 +33,7 @@ public class EventMenuController extends EntityMenuController<Event> {
     // TODO do names instead of ids
     @Override
     protected List<String> getEntityList(ViewType<Event> viewType, String username) {
-        assert viewType instanceof EventViewType; // TODO don't do this
+        assert viewType instanceof EventViewType;
         EventViewType eventViewType = (EventViewType) viewType;
 
         List<String> eventList;

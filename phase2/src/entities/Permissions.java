@@ -6,8 +6,6 @@ import utility.ViewType;
 
 import java.util.List;
 
-// TODO generalize view permissions
-// TODO rename to permissions?
 public class Permissions {
     private UserType userType;
     private List<Command> commandPermissions;

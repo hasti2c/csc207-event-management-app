@@ -34,7 +34,6 @@ public class EventGateway extends EntityGateway<Event> {
         return event.getEventId();
     }
 
-    // TODO do I need class javadocs?
     // source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
     /**
      * Serializes Event objects into json.

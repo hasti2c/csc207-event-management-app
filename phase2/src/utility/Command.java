@@ -1,6 +1,5 @@
 package utility;
 
-// TODO merge LOGIN and TRIAL_MENU
 public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),

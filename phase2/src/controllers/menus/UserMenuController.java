@@ -33,7 +33,7 @@ public class UserMenuController extends EntityMenuController<User> {
 
     @Override
     protected List<String> getEntityList(ViewType<User> viewType, String username) {
-        assert viewType instanceof UserViewType; // TODO don't do this
+        assert viewType instanceof UserViewType;
         UserViewType userViewType = (UserViewType) viewType;
 
         List<String> userList;

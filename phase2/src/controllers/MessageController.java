@@ -45,7 +45,6 @@ public class MessageController {
         }
     }
 
-    // TODO: If the friends list is not going to be implemented, we can remove this method.
     /**
      * Allows the user to send a message within the program
      * @param username The user who is sending the message

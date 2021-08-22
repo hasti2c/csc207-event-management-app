@@ -3,7 +3,6 @@ package gateways;
 import java.util.List;
 import java.util.Map;
 
-// TODO class javadocs?
 public interface IGateway <T> {
     /**
      * @return Returns the elements (read from json) in a list.

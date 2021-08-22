@@ -174,10 +174,9 @@ public class UserController {
         presenter.printText("You have removed " + selectedUser + " from your friend list.");
     }
 
-    // TODO ban login for suspended users
     private void suspendUser(String selectedUser) {
         presenter.printText("You are suspending " + selectedUser + ". Do you want to suspend this user permanently? (Y/N)");
-        if (getYesNo())
+        if (inputParser.readBoolean())
             suspendPermanently(selectedUser);
         else
             suspendTemporarily(selectedUser);
@@ -205,7 +204,6 @@ public class UserController {
             eventManager.setPrivacyType(eventID, "Private");
     }
 
-    // TODO do we want to allow temporary un-suspension?
     private void unsuspendUser(String selectedUser) {
         userManager.unsuspendUser(selectedUser);
         presenter.printText(selectedUser + " was unsuspended.");
@@ -267,7 +265,6 @@ public class UserController {
         } catch (ExitException ignored) {}
     }
 
-    // TODO: Not used, maybe remove
     /**
      * The controller method that allows the User at the keyboard to update their account to the Regular type
      * @param username The username of the User who is attempting to update their account type
@@ -494,15 +491,5 @@ public class UserController {
                 presenter.printText("You did not enter a valid option, try again");
             }
         }
-    }
-
-    // TODO move to presenter
-    private boolean getYesNo() {
-        String userInput = inputParser.readLine();
-        while (!userInput.equalsIgnoreCase("Y") && !userInput.equalsIgnoreCase("N")) {
-            presenter.printText("Type Y or N");
-            userInput = inputParser.readLine();
-        }
-        return userInput.equalsIgnoreCase("Y");
     }
 }

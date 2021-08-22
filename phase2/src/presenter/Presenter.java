@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-// TODO singleton pattern?
 public class Presenter {
     private static Presenter instance;
 

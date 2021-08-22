@@ -3,11 +3,13 @@ package presenter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 // Inspired by https://codeforces.com/blog/entry/6834?#comment-124539
 
-// TODO singleton pattern?
 public class InputParser {
     private static InputParser instance;
 
@@ -63,6 +65,25 @@ public class InputParser {
         } catch (NumberFormatException e) {
             presenter.printText("That was not an integer. Please try again.");
             return readInt();
+        }
+    }
+
+    /**
+     * Forces user to type either "Y"/"Yes"/"true" or "N"/"No"/"false"
+     *
+     * @return return true if user typed "Y"/"Yes"/"true" and false if "N"/"No"/"false"
+     */
+    public boolean readBoolean() {
+        String line = readLine();
+        List<String> trueStrings = Arrays.asList("y", "yes", "true");
+        List<String> falseStrings = Arrays.asList("n", "no", "false");
+        if (trueStrings.contains(line)) {
+            return true;
+        } else if (falseStrings.contains(line)) {
+            return false;
+        } else {
+            presenter.printText("Please right Y or N.");
+            return readBoolean();
         }
     }
 

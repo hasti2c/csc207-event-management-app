@@ -14,6 +14,7 @@ import controllers.menus.EventMenuController;
 
 import static utility.AppConstant.*;
 import static utility.Command.*;
+import static utility.UserType.*;
 
 import java.util.*;
 
@@ -44,16 +45,15 @@ public class EventController {
             try {
                 ViewType<Event> viewType = menuController.getViewTypeChoice(userType);
                 String eventID = menuController.getEntityChoice(viewType, username);
-                viewEvent(viewType, userType, username, eventID);
+                viewEvent(userType, username, eventID);
             } catch (ExitException e) {
                 return;
             }
         }
     }
 
-    private void viewEvent(ViewType<Event> viewType, UserType userType, String username, String eventID) throws ExitException {
-        // TODO change when to show meta data maybe?
-        if (viewType == EventViewType.OWNED)
+    private void viewEvent(UserType userType, String username, String eventID) throws ExitException {
+        if (userType == ADMIN || userManager.getCreatedEvents(username).contains(eventID))
             viewEventMetaDetails(eventID);
         viewEventDetails(eventID);
         while (true) {
@@ -168,7 +168,7 @@ public class EventController {
      */
     private void deleteEvent(String username, String eventID) {
         presenter.printText("Are you sure you wish to delete your event? This action cannot be undone. (Y/N)");
-        if (getYesNo()) {
+        if (inputParser.readBoolean()) {
             this.userManager.deleteEvent(username, eventID);
             this.eventManager.deleteEvent(eventID);
             presenter.printText("Event was deleted.");
@@ -224,7 +224,7 @@ public class EventController {
         String current = (suspended ? "" : "not") + "suspended";
         String action = (suspended ? "un" : "") + "suspend";
         presenter.printText("This event is currently " + current + ". Do you want to " + action + " it? (Y/N)");
-        if (getYesNo()) {
+        if (inputParser.readBoolean()) {
             eventManager.toggleEventSuspension(eventID);
             presenter.printText("The event was " + action + "ed.");
         }
@@ -267,21 +267,6 @@ public class EventController {
     }
 
     // TODO refactor from here
-    // TODO presenter?
-    /**
-     * Forces user to type either "Y" or "N"
-     *
-     * @return return true if user typed "Y" and false if "N"
-     */
-    private boolean getYesNo() {
-        String userInput = inputParser.readLine();
-        while (!userInput.equalsIgnoreCase("Y") && !userInput.equalsIgnoreCase("N")) {
-            presenter.printText("Type Y or N");
-            userInput = inputParser.readLine();
-        }
-        return userInput.equalsIgnoreCase("Y");
-    }
-
     // === Helpers ===
 
     /**
