@@ -117,10 +117,20 @@ public class UserManager {
         setSuspensionChangeDate(user, duration);
     }
 
+    /**
+     * Set suspended instance variable of User to false
+     * @param username
+     */
     public void unsuspendUser(String username) {
         unsuspendUser(username, null);
     }
 
+    /**
+     * Set suspend instance variable of User to false
+     * and set suspensionChangeDate to specified Duration
+     * @param username
+     * @param duration 
+     */
     public void unsuspendUser(String username, Duration duration) {
         User user = retrieveUser(username);
         user.setSuspended(false);
@@ -214,6 +224,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * Get User based on username and set its hasTempPass instance variable
+     * @param username
+     * @param state to set hasTempPass
+     */
     public void setTempPassState(String username, boolean state) {
         retrieveUser(username).setHasTempPass(state);
     }
@@ -463,26 +478,51 @@ public class UserManager {
         return true;
     }
 
+    /**
+     * Save all users
+     */
     public void saveAllUsers() {
         gateway.saveAllElements(userList);
     }
 
+    /**
+     * Get friends of a certain user
+     * @param username
+     * @return List of usernames of friends
+     */
     public List<String> getFriends(String username) {
         User user = retrieveUser(username);
         return new ArrayList<>(user.getFriends());
     }
 
+    /**
+     * Check if two users are friends
+     * friendship must be mutual
+     * @param first Username of first User
+     * @param second Username of second User
+     * @return true if they are friends, false otherwise
+     */
     public boolean areFriends(String first, String second) {
         User firstUser = retrieveUser(first);
         User secondUser = retrieveUser(second);
         return firstUser.getFriends().contains(second) && secondUser.getFriends().contains(first);
     }
 
+    /**
+     * Establish friendship between two Users
+     * @param first Username of first User
+     * @param second Username of second User
+     */
     public void addFriend(String first, String second) {
         addToFriendsList(first, second);
         addToFriendsList(second, first);
     }
-
+    
+    /**
+     * Demolish friendship between two Users
+     * @param first Username of first User
+     * @param second Username of second User
+     */
     public void removeFriend(String first, String second) {
         removeFromFriendsList(first, second);
         removeFromFriendsList(second, first);
@@ -500,6 +540,10 @@ public class UserManager {
         user.getFriends().remove(friend);
     }
 
+    /**
+     * Given username, check if User is suspended
+     * @return true if User is suspended, false otherwise
+     */
     public boolean isSuspended(String username) {
         User user = retrieveUser(username);
         return user.isSuspended();
