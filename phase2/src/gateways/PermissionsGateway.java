@@ -5,9 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import entities.Event;
 import entities.User;
 import entities.Permissions;
-import utility.EventViewType;
-import utility.UserViewType;
-import utility.ViewType;
+import utility.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -45,7 +43,7 @@ public class PermissionsGateway extends EntityGateway<Permissions> {
      * Implementation of JsonSerializer.
      * @param <T> The generic type of ViewType.
      */
-    private static class ViewTypeSerializer<T> implements JsonSerializer<ViewType<T>> {
+    private static class ViewTypeSerializer<T extends Viewable> implements JsonSerializer<ViewType<T>> {
         @Override
         public JsonElement serialize(ViewType<T> src, Type type, JsonSerializationContext context) {
             return new JsonPrimitive(src.toString());
@@ -57,7 +55,7 @@ public class PermissionsGateway extends EntityGateway<Permissions> {
      * Implementation of JsonDeserializer.
      * @param <T> The generic type of ViewType.
      */
-    private static class ViewTypeDeserializer<T> implements JsonDeserializer<ViewType<T>> {
+    private static class ViewTypeDeserializer<T extends Viewable> implements JsonDeserializer<ViewType<T>> {
         private final Class<? extends ViewType<T>> viewTypeClass;
 
         public ViewTypeDeserializer(Class<? extends ViewType<T>> viewTypeClass) {
