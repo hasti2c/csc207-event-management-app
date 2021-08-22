@@ -2,6 +2,9 @@ package utility;
 
 import entities.Event;
 
+/**
+ * Enum of ViewTypes for Events.
+ */
 public enum EventViewType implements ViewType<Event> {
     OWNED ("My Events"),
     ATTENDING ("Attending Events"),
@@ -13,10 +16,15 @@ public enum EventViewType implements ViewType<Event> {
 
     private final String name;
 
+    /**
+     * Creates an EventViewType.
+     * @param name Name of ViewType.
+     */
     EventViewType(String name) {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }

@@ -1,5 +1,8 @@
 package utility;
 
+/**
+ * Enum of Commands.
+ */
 public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
@@ -47,10 +50,17 @@ public enum Command {
 
     private final String name;
 
+    /**
+     * Create a Command.
+     * @param name Name of command.
+     */
     Command(String name) {
         this.name = name;
     }
 
+    /**
+     * @return Name of command.
+     */
     public String getName() {
         return name;
     }
