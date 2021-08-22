@@ -194,7 +194,7 @@ public class UserController {
                 messageBoxController.sendMessage(username, selectedUser);
                 break;
             case VIEW_CREATIONS:
-
+                // TODO
                 break;
             case GO_BACK:
                 throw new ExitException();

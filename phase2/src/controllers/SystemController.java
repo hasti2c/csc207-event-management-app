@@ -105,6 +105,9 @@ public class SystemController {
             case BROWSE_EVENTS:
                 eventController.viewEventTypesList(currentUserType, currentUser);
                 break;
+            case CREATE_TEMPLATE:
+                templateController.createNewTemplate();
+                break;
             case EDIT_TEMPLATE:
                 editTemplate();
                 break;
@@ -196,11 +199,7 @@ public class SystemController {
     }
 
     private void editTemplate() {
-        if (userManager.retrieveUserType(currentUser) == ADMIN){
-            editTemplateName(retrieveTemplateName());
-        } else {
-            presenter.printText("Sorry you do not have permission to edit the templates.");
-        }
+        editTemplateName(retrieveTemplateName());
     }
 
     private void runAccountMenu() throws ExitException {
