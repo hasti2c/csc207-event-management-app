@@ -76,7 +76,7 @@ public class InputParser {
     public boolean readBoolean() {
         String line = readLine();
         List<String> trueStrings = Arrays.asList("y", "yes", "true");
-        List<String> falseStrings = Arrays.asList("y", "no", "false");
+        List<String> falseStrings = Arrays.asList("n", "no", "false");
         if (trueStrings.contains(line.toLowerCase())) {
             return true;
         } else if (falseStrings.contains(line)) {
