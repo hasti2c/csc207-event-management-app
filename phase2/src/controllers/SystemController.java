@@ -8,6 +8,7 @@ import presenter.Presenter;
 import usecases.*;
 import utility.Command;
 import utility.UserType;
+import utility.executor.ExecutorBuilder;
 
 import static utility.AppConstant.*;
 import static utility.UserType.*;
@@ -26,6 +27,8 @@ public class SystemController {
     private final MessageController messageBoxController;
     private final Presenter presenter;
     private final InputParser inputParser;
+
+    public static ExecutorBuilder executorBuilder;
 
     private final UserManager userManager;
     private final EventManager eventManager;
@@ -60,6 +63,8 @@ public class SystemController {
         menuController = new CommandMenuController(menuManager);
         templateController = new TemplateController(templateManager);
         messageBoxController = new MessageController(userManager, messageBoxManager);
+
+        executorBuilder = new ExecutorBuilder();
     }
 
     /**
