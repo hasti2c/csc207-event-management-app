@@ -211,23 +211,16 @@ public class UserManager {
         }
     }
 
-    //TODO this does not work. usermanager should not be the one saving to file maybe put the block in gateway or create new gateway later.
     /**
      * Generates a random temp password for the user
      * @param username Username of user who requested temp password
      */
-    public void createTempPass(String username) {
+    public String createTempPass(String username) {
         User user = retrieveUser(username);
         String tempPass = generator.generate(10, 20);
         user.setPassword(tempPass);
         user.setHasTempPass(true);
-        try {
-            Path filepath = Paths.get("phase2/data/temppass/"+ username + ".txt");
-            Files.write(filepath, Collections.singleton(tempPass));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        return tempPass;
     }
 
     /**
