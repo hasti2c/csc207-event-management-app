@@ -33,6 +33,8 @@ public class UserController {
     private final MessageBoxManager messageBoxManager;
     private final EntityMenuController<User> menuController;
 
+    private final MessageController messageBoxController;
+
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
     public final Pattern validEmail =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -47,13 +49,14 @@ public class UserController {
      * @param eventManager The EventManager of which the UserController interacts with
      */
     public UserController(UserManager userManager, EventManager eventManager, MenuManager menuManager,
-                          MessageBoxManager messageBoxManager) {
+                          MessageBoxManager messageBoxManager, MessageController messageBoxController) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.presenter = Presenter.getInstance();
         this.inputParser = InputParser.getInstance();
         this.menuController = new UserMenuController(menuManager, userManager, eventManager);
         this.messageBoxManager = messageBoxManager;
+        this.messageBoxController = messageBoxController;
     }
 
     // == Creating User ==
@@ -181,6 +184,9 @@ public class UserController {
             case UNSUSPEND_USER:
                 unsuspendUser(selectedUser);
                 return;
+            case SEND_MESSAGE:
+                messageBoxController.sendMessage(username, selectedUser);
+                break;
             case GO_BACK:
                 throw new ExitException();
         }

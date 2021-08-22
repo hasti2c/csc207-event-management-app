@@ -85,9 +85,16 @@
         "sender": "ADMIN",
         "recipient": "AustinR",
         "sentDate": "2021-08-14T20:38:43.477"
+      },
+      {
+        "messageHeadLine": "Hello",
+        "messageBody": "test",
+        "sender": "AustinA",
+        "recipient": "AustinR",
+        "sentDate": "2021-08-22T14:12:27.529"
       }
     ],
     "owner": "AustinR",
-    "currentSize": 1
+    "currentSize": 2
   }
 ]

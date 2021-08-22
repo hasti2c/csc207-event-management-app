@@ -55,11 +55,12 @@ public class SystemController {
         presenter = Presenter.getInstance();
         inputParser = InputParser.getInstance();
 
+        messageBoxController = new MessageController(userManager, messageBoxManager);
         eventController = new EventController(userManager, eventManager, templateManager, menuManager);
-        userController = new UserController(userManager, eventManager, menuManager, messageBoxManager);
+        userController = new UserController(userManager, eventManager, menuManager, messageBoxManager, messageBoxController);
         menuController = new CommandMenuController(menuManager);
         templateController = new TemplateController(templateManager);
-        messageBoxController = new MessageController(userManager, messageBoxManager);
+
     }
 
     /**
