@@ -15,6 +15,7 @@ public class Event implements Savable, Viewable {
     // === Instance Variables ===
     // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
     private String eventId;
+    private String eventName;
     private EventPrivacyType privacyType;
     private LocalDateTime createdTime;
     private LocalDateTime editTime;
@@ -36,7 +37,7 @@ public class Event implements Savable, Viewable {
      * @param template the template used to create the event
      * @param eventOwner the creator of the event
      */
-    public Event(Template template, String eventOwner){
+    public Event(Template template, String eventName, String eventOwner){
         eventId = UUID.randomUUID().toString();
         // need user to explicitly change to public
         privacyType = PRIVATE;
@@ -44,6 +45,7 @@ public class Event implements Savable, Viewable {
         editTime = createdTime;
         this.eventDetails = new HashMap<>();
         this.fieldNameAndFieldSpecs = new HashMap<>();
+        this.eventName = eventName;
         this.eventOwner = eventOwner;
         this.eventType = template.getTemplateName();
     }
@@ -94,19 +96,10 @@ public class Event implements Savable, Viewable {
     }
 
     /**
-     * Returns the event's name. If the event has no name, it is called "Untitled".
+     * Returns the event's name.
      * @return String the name of the event
      */
-    public String returnEventName() {
-        Map<String, Object> eventDetailsMap = getEventDetails();
-        String eventName;
-        // TODO decide if we want to make event name a variable. Or somehow force template creation to always have "Event Name"
-        if (eventDetailsMap.get("Event Name") == null) {
-            eventName = "Untitled";
-        }
-        else {
-            eventName = (String) eventDetailsMap.get("Event Name");
-        }
+    public String getEventName() {
         return eventName;
     }
 

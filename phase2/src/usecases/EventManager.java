@@ -35,8 +35,8 @@ public class EventManager {
      * @return The Id of the event
      */
     // Initiates the creation of an event. Requires controller to then enter all the information for the event from the user.
-    public String createEvent(String templateName, String eventOwner) {
-        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventOwner);
+    public String createEvent(String templateName, String eventName, String eventOwner) {
+        Event newEvent = new Event(templateManager.retrieveTemplateByName(templateName), eventName, eventOwner);
         newEvent.addFieldsToEventDetails(templateManager.retrieveTemplateByName(templateName));
         newEvent.addFieldNameAndFieldSpecsInfo(templateManager.retrieveTemplateByName(templateName));
         eventList.add(newEvent);
@@ -218,16 +218,6 @@ public class EventManager {
     }
 
     /**
-     * Returns the name of the event from the event's ID.
-     * @param eventId The Id of the event
-     * @return eventName
-     */
-    public String retrieveEventNameById(String eventId) {
-        Event event = retrieveEventById(eventId);
-        return event.returnEventName();
-    }
-
-    /**
      * Returns a List of the IDs of all events from eventList, a list of events
      * @return Arraylist of all events from eventList, a list of events
      */
@@ -287,7 +277,7 @@ public class EventManager {
      * @param eventId The Id of the event
      * @return Map<String, String> of event in a map
      */
-    public Map<String, String> returnEventAsMap(String eventId) {
+    public Map<String, String> returnEventMetaData(String eventId) {
         Map<String, String> eventMap = new LinkedHashMap<>();
         Event event = retrieveEventById(eventId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
@@ -295,11 +285,20 @@ public class EventManager {
         String formattedEditTime = event.getEditTime().format(formatter);
         eventMap.put("Created Time", formattedCreatedTime);
         eventMap.put("Last Edited", formattedEditTime);
+        eventMap.put("Event Name", event.getEventName());
         eventMap.put("Event Id", event.getEventId());
         eventMap.put("Event Owner", event.getEventOwner());
         eventMap.put("Type of Event", event.getEventType());
         eventMap.put("Number of Attendees", Integer.toString(event.getNumAttendees()));
         eventMap.put("Suspended", event.isSuspended() ? "Yes" : "No");
+        return eventMap;
+    }
+
+    public Map<String, String> returnEventBasicData(String eventId) {
+        Map<String, String> eventMap = new LinkedHashMap<>();
+        Event event = retrieveEventById(eventId);
+        eventMap.put("Event Name", event.getEventName());
+        eventMap.put("Event Owner", event.getEventOwner());
         return eventMap;
     }
 
@@ -311,7 +310,8 @@ public class EventManager {
     public List <String> returnEventNamesListFromIdList(List <String> eventIdList) {
         List<String> eventNames = new ArrayList<>();
         for (String eventID : eventIdList) {
-            eventNames.add(retrieveEventNameById(eventID));
+            Event event = retrieveEventById(eventID);
+            eventNames.add(event.getEventName());
         }
         return eventNames;
     }
