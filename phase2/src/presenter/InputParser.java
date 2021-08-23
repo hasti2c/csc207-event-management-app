@@ -85,7 +85,6 @@ public class InputParser {
      * Gets & returns user's choice from menu items. (Doesn't display the menu.)
      * Exit option is assumed to be handled by the caller.
      * @param menuOptions The list of menuOptions that have been shown to the user.
-     * @param <S> Data type of menuOptions.
      * @return Menu option chosen by user.
      */
     public <S> S getMenuChoice(List<S> menuOptions) {
@@ -102,7 +101,6 @@ public class InputParser {
      * @param menuOptions The list of menuOptions that have been shown to the user.
      * @param checkExit True if exit is the last item & has to be manually checked here. False if exit is handled by the
      *                  caller.
-     * @param <S> Data type of menuOptions.
      * @return Menu option chosen by user.
      * @throws ExitException If user chooses exit option & checkExit is true (exit has to be manually checked here).
      */
@@ -116,10 +114,22 @@ public class InputParser {
             return getMenuChoice(menuOptions, checkExit);
         }
 
-        if (checkExit && option == MENU_EXIT_OPTION) {
+        if (checkExit && option.equals(MENU_EXIT_OPTION)) {
             throw new ExitException();
         }
         return option;
+    }
+
+    // TODO javadoc
+    public <S> int getMenuChoiceIndex(List<S> menuOptions) {
+        S choice = getMenuChoice(menuOptions);
+        return menuOptions.indexOf(choice);
+    }
+
+    // TODO javadoc
+    public <S> int getMenuChoiceIndex(List<S> menuOptions, boolean checkExit) throws ExitException {
+        S choice = getMenuChoice(menuOptions, checkExit);
+        return menuOptions.indexOf(choice);
     }
 
     private void populateCurrentToken() {

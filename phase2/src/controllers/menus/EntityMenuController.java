@@ -35,21 +35,23 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
      * Displays the appropriate ViewType options to user, gets user choice & returns it.
      * @param userType The userType of the current user.
      * @return ViewType chosen by user.
-     * @throws ExitException If user chooses exit option instead of a command.
+     * @throws ExitException If user chooses exit option instead of a view type.
      */
     public ViewType<T> getViewTypeChoice(UserType userType) throws ExitException {
         List<ViewType<T>> viewTypes = getViewTypePermissions(userType);
-        displayViewTypeMenu(viewTypes);
-        return inputParser.getMenuChoice(viewTypes, true);
+        List<String> viewTypeNames = getViewTypeNames(viewTypes);
+        presenter.printMenu(getListTitle(), viewTypeNames);
+        int choiceIndex = inputParser.getMenuChoiceIndex(viewTypeNames, true);
+        return viewTypes.get(choiceIndex);
     }
 
-    private void displayViewTypeMenu(List<ViewType<T>> viewTypes) {
+    private List<String> getViewTypeNames(List<ViewType<T>> viewTypes) {
         List<String> viewTypeNames = new ArrayList<>();
         for (ViewType<T> viewType: viewTypes) {
             viewTypeNames.add(viewType.getName());
         }
         viewTypeNames.add(AppConstant.MENU_EXIT_OPTION);
-        presenter.printMenu(getListTitle(), viewTypeNames);
+        return viewTypeNames;
     }
 
     /**
@@ -75,14 +77,9 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
      */
     public String getEntityChoice(ViewType<T> viewType, String username) throws ExitException {
         List<String> entities = getEntityList(viewType, username);
-        displayEntityList(entities, viewType);
+        entities.add(AppConstant.MENU_EXIT_OPTION);
+        presenter.printMenu(viewType.getName(), entities);
         return inputParser.getMenuChoice(entities, true);
-    }
-
-    private void displayEntityList(List<String> entities, ViewType<T> viewType) {
-        ArrayList<String> menuList = new ArrayList<>(entities);
-        menuList.add(AppConstant.MENU_EXIT_OPTION);
-        presenter.printMenu(viewType.getName(), menuList);
     }
 
     /**

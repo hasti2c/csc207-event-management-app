@@ -29,14 +29,17 @@ public class EventController {
     private final Presenter presenter;
     private final InputParser inputParser;
     private final EntityMenuController<Event> menuController;
+    private final TemplateController templateController;
 
-    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager, MenuManager menuManager) {
+    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager,
+                           MenuManager menuManager, TemplateController templateController) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.templateManager = templateManager;
         this.presenter = Presenter.getInstance();
         this.inputParser = InputParser.getInstance();
         this.menuController = new EventMenuController(menuManager, userManager, eventManager);
+        this.templateController = templateController;
     }
 
     // == Viewing ==
@@ -132,11 +135,13 @@ public class EventController {
     /**
      * Creates a new event based on chosen template and adds to User's owned events.
      *
-     * @param templateName name of the template
      * @param username username of the currently logged in user
      */
-    public void createNewEvent(String templateName, String username) {
-        if (templateName == null || templateName.isEmpty() || username == null || username.isEmpty()) {
+    public void createNewEvent(String username) {
+        String templateName;
+        try {
+            templateName = templateController.chooseTemplate();
+        } catch (ExitException e) {
             return;
         }
 

@@ -56,10 +56,10 @@ public class SystemController {
         inputParser = InputParser.getInstance();
 
         messageBoxController = new MessageController(userManager, messageBoxManager);
-        eventController = new EventController(userManager, eventManager, templateManager, menuManager);
+        templateController = new TemplateController(templateManager);
+        eventController = new EventController(userManager, eventManager, templateManager, menuManager, templateController);
         userController = new UserController(userManager, eventManager, menuManager, messageBoxManager, messageBoxController);
         menuController = new CommandMenuController(menuManager);
-        templateController = new TemplateController(templateManager);
 
     }
 
@@ -101,7 +101,7 @@ public class SystemController {
                 exit();
                 break;
             case CREATE_EVENT:
-                eventController.createNewEvent(templateController.chooseTemplate(), currentUser);
+                eventController.createNewEvent(currentUser);
                 break;
             case BROWSE_EVENTS:
                 eventController.viewEventTypesList(currentUserType, currentUser);
