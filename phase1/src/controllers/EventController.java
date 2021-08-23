@@ -179,7 +179,6 @@ public class EventController {
 
         userManager.createEvent(username, newEventID);
 
-        // TODO include required or not
         Map<String, Pair<Class<?>, Boolean>> fieldMap = this.eventManager.returnFieldNameAndFieldSpecs(newEventID);
         // A map to help display whether or not a field is required.
         Map<Boolean, String> requiredMap = new HashMap<>();
@@ -215,7 +214,6 @@ public class EventController {
         changePublishStatus(newEventID);
     }
 
-    // TODO need to implement edit for phase 2
     public void editEvent (String eventID, String username) {
         presenter.printText("You cannot edit your event at this time.");
     }

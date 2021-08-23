@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
-// TODO: Print time in MessageInfo and toString
-
 
 /**
  * A Message within the messaging system. Extends the Observable java class.

@@ -51,6 +51,10 @@ public class EventManager {
         eventList.removeIf(event -> event.getEventId().equals(eventId));
     }
 
+    /**
+     * Sets suspended instance variable of Event with matching eventId to be its logical NOT of what it was previously
+     * @param eventID The Id of the Event
+     */
     public void toggleEventSuspension(String eventID) {
         Event event = retrieveEventById(eventID);
         event.setSuspended(!event.isSuspended());
@@ -64,7 +68,7 @@ public class EventManager {
     public boolean attendEvent(String eventID) {
         Event currentEvent = retrieveEventById(eventID);
         if (currentEvent.returnMaxAttendees() == -1) {
-            return false;
+            return true;
         }
         else if (currentEvent.getNumAttendees() == currentEvent.returnMaxAttendees()) {
             return false;
@@ -99,10 +103,20 @@ public class EventManager {
     }
 
     // === Retrieving information ===
+    /**
+     * Gets username of Event owner
+     * @param eventID The Id of the Event
+     * @return username of the Event owner
+     */
     public String getOwner(String eventID) {
         return retrieveEventById(eventID).getEventOwner();
     }
 
+    /**
+     * Gets the privacy type of Event
+     * @param eventID The Id of the Event
+     * @return corresponding EventPrivacyType
+     */
     public EventPrivacyType getPrivacyType(String eventID) {
         return retrieveEventById(eventID).getPrivacyType();
     }
@@ -116,6 +130,10 @@ public class EventManager {
         return retrieveEventById(eventID).getPrivacyType().getName();
     }
 
+    /**
+     * Determines if Event with matching eventId is suspended
+     * @return boolean indicating if Event is suspended
+     */
     public boolean isSuspended(String eventID) {
         return retrieveEventById(eventID).isSuspended();
     }
@@ -128,12 +146,13 @@ public class EventManager {
      */
     public List<String> getValidPrivacyTypeNames(String eventID) {
         Event event = retrieveEventById(eventID);
+        String eventPrivacyName = event.getPrivacyType().getName();
         List<EventPrivacyType> privacyTypes = Arrays.asList(EventPrivacyType.values());
-        privacyTypes.remove(event.getPrivacyType());
 
         List<String> privacyTypeNames = new ArrayList<>();
         for (EventPrivacyType privacyType: privacyTypes)
             privacyTypeNames.add(privacyType.getName());
+        privacyTypeNames.remove(eventPrivacyName);
         return privacyTypeNames;
     }
 
@@ -143,20 +162,17 @@ public class EventManager {
      * @return Map The event details of map for the event with the given event id
      */
     public Map<String, String> returnEventDetails(String eventId) {
+        Event event = retrieveEventById(eventId);
         Map<String, String> eventDetailsMap = new HashMap<>();
-        for (Event event : eventList) {
-            if (event.getEventId().equals(eventId)) {
-                for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
-                    if (eventDetailsEntry.getValue() == null) {
-                        eventDetailsMap.put(eventDetailsEntry.getKey(), "N/A");
-                    } else if (eventDetailsEntry.getValue() instanceof LocalDateTime) {
-                        LocalDateTime time = (LocalDateTime) eventDetailsEntry.getValue();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
-                        eventDetailsMap.put(eventDetailsEntry.getKey(), formatter.format(time));
-                    } else {
-                        eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
-                    }
-                }
+        for (Map.Entry<String, Object> eventDetailsEntry : event.getEventDetails().entrySet()) {
+            if (eventDetailsEntry.getValue() == null) {
+                eventDetailsMap.put(eventDetailsEntry.getKey(), "N/A");
+            } else if (eventDetailsEntry.getValue() instanceof LocalDateTime) {
+                LocalDateTime time = (LocalDateTime) eventDetailsEntry.getValue();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
+                eventDetailsMap.put(eventDetailsEntry.getKey(), formatter.format(time));
+            } else {
+                eventDetailsMap.put(eventDetailsEntry.getKey(), eventDetailsEntry.getValue().toString());
             }
         }
         return eventDetailsMap;
@@ -193,13 +209,12 @@ public class EventManager {
      * @return The event that the event Id
      */
     public Event retrieveEventById(String eventId) {
-        List<Event> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
-                holderList.add(event);
+                return event;
             }
         }
-        return holderList.remove(0);
+        return null;
     }
 
     /**
@@ -284,6 +299,7 @@ public class EventManager {
         eventMap.put("Event Owner", event.getEventOwner());
         eventMap.put("Type of Event", event.getEventType());
         eventMap.put("Number of Attendees", Integer.toString(event.getNumAttendees()));
+        eventMap.put("Suspended", event.isSuspended() ? "Yes" : "No");
         return eventMap;
     }
 
@@ -368,6 +384,7 @@ public class EventManager {
         boolean isEmpty = fieldValue.isEmpty();
         Event event = retrieveEventById(eventId);
         if (isEmpty){
+            // If the field is empty but it's not allowed to be, returns false
             for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
                 if (fieldSpecEntry.getKey().equals(fieldName)) {
                     boolean test = fieldSpecEntry.getValue().getSecond().equals(true);

@@ -1,14 +1,13 @@
 package entities;
 
 import utility.Command;
+import utility.Savable;
 import utility.UserType;
 import utility.ViewType;
 
 import java.util.List;
 
-// TODO generalize view permissions
-// TODO rename to permissions?
-public class Permissions {
+public class Permissions implements Savable {
     private UserType userType;
     private List<Command> commandPermissions;
     private List<ViewType<Event>> eventViewPermissions;
@@ -36,5 +35,10 @@ public class Permissions {
 
     public List<ViewType<User>> getUserViewPermissions() {
         return userViewPermissions;
+    }
+
+    @Override
+    public String getID() {
+        return userType.toString();
     }
 }

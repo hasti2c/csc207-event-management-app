@@ -1,9 +1,11 @@
 package entities;
 
+import utility.Savable;
+
 import java.util.*;
 import java.util.function.Consumer;
 
-public class MessageBox implements Iterable<Message>{
+public class MessageBox implements Iterable<Message>, Savable {
     private ArrayList<Message> messages;
     private String owner;
     private Integer currentSize;
@@ -20,7 +22,6 @@ public class MessageBox implements Iterable<Message>{
         this.owner = owner;
     }
 
-    // TODO: Remove when finished, this method was initially used but replaced by getMessageInfo
     /**
      * Gets the message headline of every message within the MessageBox
      * @return List<String> The List of Message headlines within the MessageBox
@@ -61,7 +62,6 @@ public class MessageBox implements Iterable<Message>{
         this.owner = owner;
     }
 
-    // TODO: Not used, can remove when finished. (Only used in the Manager which is also not used)
     public List<Message> getMessages() {
         return messages;
     }
@@ -75,8 +75,6 @@ public class MessageBox implements Iterable<Message>{
         currentSize++;
     }
 
-    // TODO: Not used can remove when finished.
-    // don't know if this needs to be in this class
     public Message findMessage(Message message){
         for(Message m : messages){
             if(m == message){
@@ -158,5 +156,10 @@ public class MessageBox implements Iterable<Message>{
     @Override
     public Spliterator<Message> spliterator() {
         return Iterable.super.spliterator();
+    }
+
+    @Override
+    public String getID() {
+        return owner;
     }
 }

@@ -7,6 +7,11 @@ import utility.Command;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utility.Command.MAIN_MENU;
+
+/**
+ * MenuController that handles tasks related to menus of only commands.
+ */
 public class CommandMenuController extends MenuController {
     /**
      * Constructs a CommandMenuController.
@@ -25,7 +30,7 @@ public class CommandMenuController extends MenuController {
     public Command getUserMenuChoice(UserType userType, Command command) {
         List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
         displayMenu(menuOptions, command);
-        return getMenuChoice(menuOptions);
+        return inputParser.getMenuChoice(menuOptions);
     }
 
     private void displayMenu(List<Command> menuOptions, Command command) {
@@ -33,6 +38,9 @@ public class CommandMenuController extends MenuController {
         for (Command menuOption : menuOptions) {
             menuNames.add(menuOption.getName());
         }
-        presenter.printMenu(command.getName(), menuNames);
+        if (command == MAIN_MENU)
+            presenter.printMenu("Main Menu", menuNames);
+        else
+            presenter.printMenu(command.getName(), menuNames);
     }
 }

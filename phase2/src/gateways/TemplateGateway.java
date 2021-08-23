@@ -3,11 +3,11 @@ package gateways;
 import com.google.gson.*;
 import entities.Template;
 
-// TODO* Generics
-
 // Data Types Accepted: primitives + String, LocalDateTime, List<E>, enums, Class<?>
-// TODO javadocs: specify input for getter as precondition
 
+/**
+ * Gateway that saves & reads Templates to & from a json file.
+ */
 public class TemplateGateway extends EntityGateway<Template> {
     /**
      * Constructs an TemplateGateway Element.
@@ -19,11 +19,6 @@ public class TemplateGateway extends EntityGateway<Template> {
 
     @Override
     protected GsonBuilder getGsonBuilder() {
-        return GatewayUtility.getSimpleGsonBuilder();
-    }
-
-    @Override
-    protected String getElementId(Template template) {
-        return template.getTemplateId();
+        return GatewayUtility.getInstance().getSimpleGsonBuilder();
     }
 }

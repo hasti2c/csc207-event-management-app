@@ -10,6 +10,9 @@ import utility.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * EntityMenuController that handles tasks related to menus that have to do with User lists.
+ */
 public class UserMenuController extends EntityMenuController<User> {
     /**
      * Constructs a UserMenuController.
@@ -27,13 +30,13 @@ public class UserMenuController extends EntityMenuController<User> {
     }
 
     @Override
-    protected String getMenuTitle() {
+    protected String getListTitle() {
         return "User List";
     }
 
     @Override
     protected List<String> getEntityList(ViewType<User> viewType, String username) {
-        assert viewType instanceof UserViewType; // TODO don't do this
+        assert viewType instanceof UserViewType;
         UserViewType userViewType = (UserViewType) viewType;
 
         List<String> userList;
@@ -54,6 +57,7 @@ public class UserMenuController extends EntityMenuController<User> {
         }
 
         userList = new ArrayList<>(userList); // This is done so that original list isn't mutated.
+        userList.remove(username);
         if (suspensionCheck)
             userList.removeIf(userManager::isSuspended);
         return userList;
@@ -75,5 +79,10 @@ public class UserMenuController extends EntityMenuController<User> {
             default:
                 return true;
         }
+    }
+
+    @Override
+    protected String getMenuTitle() {
+        return "Viewing User";
     }
 }

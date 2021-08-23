@@ -11,11 +11,15 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 // TODO make more general
+
 /**
- * Constructs an EventGateway Element.
- * @param path Path of relevant json file.
+ * Gateway that saves & reads Events to & from a json file.
  */
 public class EventGateway extends EntityGateway<Event> {
+    /**
+        * Constructs an EventGateway Element.
+        * @param path Path of relevant json file.
+    */
     public EventGateway(String path) {
         super(Event.class, path);
     }
@@ -29,12 +33,6 @@ public class EventGateway extends EntityGateway<Event> {
         return gsonBuilder;
     }
 
-    @Override
-    protected String getElementId(Event event) {
-        return event.getEventId();
-    }
-
-    // TODO do I need class javadocs?
     // source https://futurestud.io/tutorials/gson-advanced-custom-serialization-part-1
     /**
      * Serializes Event objects into json.

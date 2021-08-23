@@ -14,7 +14,7 @@ import static utility.AppConstant.*;
 import static utility.UserType.*;
 import static utility.Command.*;
 
-import java.util.*;
+import java.io.File;
 
 /**
  * Controller in charge of delegating to user controller and event controller. Runs the full system.
@@ -39,15 +39,15 @@ public class SystemController {
     private String currentUser;
     private UserType currentUserType;
 
-    // TODO factory pattern for initializer maybe?
     // == initializing ==
     public SystemController() {
-        IGateway<User> userGateway = new UserGateway("phase2/data/users.json");
-        IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
-        IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
-        IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
-        IGateway<Permissions> userPermissionsGateway = new PermissionsGateway("phase2/data/permissions.json");
-        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway("phase2/data/messageboxes.json");
+        String dataPath = "phase2" + File.separator + "data" + File.separator;
+        IGateway<User> userGateway = new UserGateway(dataPath + "users.json");
+        IGateway<Event> eventGateway = new EventGateway(dataPath + "events.json");
+        IGateway<Template> templateGateway = new TemplateGateway(dataPath + "templates.json");
+        IGateway<Menu> menuGateway = new MenuGateway(dataPath + "menus.json");
+        IGateway<Permissions> userPermissionsGateway = new PermissionsGateway(dataPath + "permissions.json");
+        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway(dataPath + "messageboxes.json");
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
@@ -58,11 +58,11 @@ public class SystemController {
         presenter = Presenter.getInstance();
         inputParser = InputParser.getInstance();
 
-        eventController = new EventController(userManager, eventManager, templateManager, menuManager);
-        userController = new UserController(userManager, eventManager, menuManager, messageBoxManager);
-        menuController = new CommandMenuController(menuManager);
-        templateController = new TemplateController(templateManager);
         messageBoxController = new MessageController(userManager, messageBoxManager);
+        templateController = new TemplateController(templateManager);
+        eventController = new EventController(userManager, eventManager, templateManager, menuManager, templateController);
+        userController = new UserController(userManager, eventManager, menuManager, messageBoxManager, messageBoxController);
+        menuController = new CommandMenuController(menuManager);
 
         executorBuilder = new ExecutorBuilder();
     }
@@ -89,9 +89,6 @@ public class SystemController {
     // TODO maybe move account menu stuff to UserController
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
-            case START_UP:
-                runMenu(START_UP);
-                break;
             case SIGN_UP:
                 signUp();
                 runUserCommand(SAVE);
@@ -102,22 +99,44 @@ public class SystemController {
             case TRIAL_MENU:
                 runTrialMenu();
                 break;
+            case FORGOT_PASSWORD:
+                userController.forgotPassword();
+                break;
             case EXIT:
                 exit();
                 break;
             case CREATE_EVENT:
-                eventController.createNewEvent(retrieveTemplateName(), currentUser);
+                eventController.createNewEvent(currentUser);
                 break;
             case BROWSE_EVENTS:
                 eventController.browseEvents(currentUserType, currentUser);
                 break;
+            case CREATE_TEMPLATE:
+                templateController.createNewTemplate();
+                break;
+            case DELETE_TEMPLATE:
+                templateController.deleteTemplate();
+                break;
             case EDIT_TEMPLATE:
-                editTemplate();
+                runMenu(EDIT_TEMPLATE);
+                break;
+            case CHANGE_TEMPLATE_NAME:
+                templateController.editTemplateName();
+                break;
+            case ADD_TEMPLATE_FIELD:
+                templateController.addNewField();
+                break;
+            case DELETE_TEMPLATE_FIELD:
+                templateController.deleteField();
                 break;
             case BROWSE_USERS:
                 userController.browseUsers(currentUserType, currentUser);
+                break;
             case ACCOUNT_MENU:
                 runAccountMenu();
+                break;
+            case ADMIN_MENU:
+                runMenu(ADMIN_MENU);
                 break;
             case SAVE:
                 saveAll();
@@ -197,14 +216,6 @@ public class SystemController {
         throw new ExitException();
     }
 
-    private void editTemplate() {
-        if (userManager.retrieveUserType(currentUser) == ADMIN){
-            editTemplateName(retrieveTemplateName());
-        } else {
-            presenter.printText("Sorry you do not have permission to edit the templates.");
-        }
-    }
-
     private void runAccountMenu() throws ExitException {
         runMenu(ACCOUNT_MENU);
         if (currentUser == null)
@@ -224,6 +235,7 @@ public class SystemController {
         saveAll();
         userManager.logOut(currentUser);
         currentUser = null;
+        currentUserType = null;
         throw new ExitException();
     }
 
@@ -244,49 +256,8 @@ public class SystemController {
 
     private void createTrialUser(){
         currentUser = TRIAL_USERNAME;
+        currentUserType = TRIAL;
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, TRIAL);
-    }
-
-    // == templates == TODO refactor from here
-
-    // TODO change templateVersionNumber
-    private void editTemplateName(String templateName) {
-        presenter.printText("Please enter a new name for the template.");
-        String newName = inputParser.readLine();
-        if (newName.equals("back")) {
-            presenter.printText("You have been sent back.");
-        }
-
-        else if (templateManager.checkNameUniqueness(newName)){
-            templateManager.editTemplateName(templateName, newName);
-            presenter.printText("Template name edited successfully.");
-        }
-        else if (templateName.equals(newName)) {
-            presenter.printText("Please enter a different name.");
-        }
-        else {
-            presenter.printText("This name is already taken by another template.");
-        }
-    }
-
-    private String retrieveTemplateName() {
-        int templateChoice = eventController.chooseTemplate(currentUser);
-        List<String> templateNames = templateManager.returnTemplateNames();
-        return retrieveName(templateNames, templateChoice);
-    }
-
-    private String retrieveName(List<String> nameList, int chosenIndex) {
-        if(chosenIndexLargerThanTheSize(nameList, chosenIndex)) {
-            return null;
-        }
-        return nameList.get(chosenIndex - 1);
-    }
-
-    private boolean chosenIndexLargerThanTheSize(List<?> list, int chosenIndex) {
-        if (list == null) {
-            return true;
-        }
-        return chosenIndex > list.size();
     }
 }
 

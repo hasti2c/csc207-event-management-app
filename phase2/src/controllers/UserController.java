@@ -1,6 +1,7 @@
 package controllers;
 import controllers.menus.EntityMenuController;
 import controllers.menus.UserMenuController;
+import gateways.PasswordGateway;
 import usecases.MessageBoxManager;
 import utility.UserType;
 import presenter.InputParser;
@@ -32,6 +33,8 @@ public class UserController {
     private final MessageBoxManager messageBoxManager;
     private final EntityMenuController<User> menuController;
 
+    private final MessageController messageBoxController;
+
     // Got the email regex from: https://stackoverflow.com/questions/8204680/java-regex-email
     public final Pattern validEmail =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -46,13 +49,14 @@ public class UserController {
      * @param eventManager The EventManager of which the UserController interacts with
      */
     public UserController(UserManager userManager, EventManager eventManager, MenuManager menuManager,
-                          MessageBoxManager messageBoxManager) {
+                          MessageBoxManager messageBoxManager, MessageController messageBoxController) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.presenter = Presenter.getInstance();
         this.inputParser = InputParser.getInstance();
         this.menuController = new UserMenuController(menuManager, userManager, eventManager);
         this.messageBoxManager = messageBoxManager;
+        this.messageBoxController = messageBoxController;
     }
 
     // == Creating User ==
@@ -69,7 +73,7 @@ public class UserController {
             String password = readNewPassword();
             userManager.createUser(username, password, email, userType);
             messageBoxManager.createMessageBox(username);
-            presenter.printText("Account has been created Successfully. You may now login.");
+            presenter.printText("Account has been created Successfully. You may now log in.");
             return true;
         } catch (ExitException e) {
             presenter.printText(EXITING_TEXT);
@@ -81,17 +85,17 @@ public class UserController {
      * Log a User in within the program. If password used was temp password, prompt to change immediately.
      * @return String The User's username. If the username is null, the login was not successful.
      */
-    public String userLogin(){
+    public String userLogin() {
         try {
+            userManager.updateAllUserSuspension();
             String username = readExistingUsername();
+            if (userManager.isSuspended(username)) {
+                printSuspensionError(username);
+                return null;
+            }
             validatePassword(username);
             if (userManager.tempPassState(username)) {
                 changePassword(username);
-            }
-            userManager.updateAllUserSuspension();
-            if (userManager.isSuspended(username)) {
-                // TODO error message
-                return null;
             }
             return username;
         } catch (ExitException e) {
@@ -100,6 +104,9 @@ public class UserController {
         }
     }
 
+    /**
+     * Prompt for User's email. If email is valid (some User has that email), create temporary passowrd in text file.
+     */
     public void forgotPassword() throws ExitException {
         presenter.printText("Enter email: ");
         String email = inputParser.readLine();
@@ -117,14 +124,34 @@ public class UserController {
         presenter.printText("A temporary password has been created, please log in with the temporary password.");
     }
 
+    private void printSuspensionError(String username) {
+        presenter.printText("You can't login. Your account is suspended.");
+        if (userManager.retrieveUserType(username) == TEMPORARY)
+            presenter.printText("This might because of your temporary account being closed.");
+    }
+
     // == Viewing User List ==
 
+    /**
+     * Displays the appropriate ViewType options to user, prompts user for choice.
+     * Then displays Users to user, prompts user for choice.
+     * Finally, calls viewUser on selected User.
+     *
+     * @param userType The userType of the current user.
+     * @param username The username of the current user
+     */
     public void browseUsers(UserType userType, String username) {
         while (true) {
             try {
                 ViewType<User> viewType = menuController.getViewTypeChoice(userType);
-                String selectedUser = menuController.getEntityChoice(viewType, username);
-                viewUser(userType, username, selectedUser);
+                while (true) {
+                    try {
+                        String selectedUser = menuController.getEntityChoice(viewType, username);
+                        viewUser(userType, username, selectedUser);
+                    } catch (ExitException e) {
+                        break;
+                    }
+                }
             } catch (ExitException e) {
                 return;
             }
@@ -158,6 +185,15 @@ public class UserController {
             case UNSUSPEND_USER:
                 unsuspendUser(selectedUser);
                 return;
+            case SEND_MESSAGE:
+                messageBoxController.sendMessage(username, selectedUser);
+                break;
+            case VIEW_CREATIONS:
+                // TODO
+                break;
+            case MAKE_ADMIN:
+                changeToAdmin(selectedUser);
+                break;
             case GO_BACK:
                 throw new ExitException();
         }
@@ -174,10 +210,9 @@ public class UserController {
         presenter.printText("You have removed " + selectedUser + " from your friend list.");
     }
 
-    // TODO ban login for suspended users
     private void suspendUser(String selectedUser) {
         presenter.printText("You are suspending " + selectedUser + ". Do you want to suspend this user permanently? (Y/N)");
-        if (getYesNo())
+        if (inputParser.readBoolean())
             suspendPermanently(selectedUser);
         else
             suspendTemporarily(selectedUser);
@@ -205,13 +240,11 @@ public class UserController {
             eventManager.setPrivacyType(eventID, "Private");
     }
 
-    // TODO do we want to allow temporary un-suspension?
     private void unsuspendUser(String selectedUser) {
         userManager.unsuspendUser(selectedUser);
         presenter.printText(selectedUser + " was unsuspended.");
     }
 
-    // TODO implement back?
     private int getDayCount() {
         int dayCount = inputParser.readInt();
         while (dayCount <= 0) {
@@ -229,10 +262,11 @@ public class UserController {
      */
     public String changeUsername(String username){
         try {
-            String newUsername = getChangedUsername();
+            String newUsername = readNewUsername();
             userManager.updateUsername(username, newUsername);
             eventManager.updateUsername(username, newUsername);
             messageBoxManager.updateMailBoxUsername(username, newUsername);
+            presenter.printText("Your username has been updated.");
             return newUsername;
         } catch (ExitException e) {
             return null;
@@ -244,16 +278,15 @@ public class UserController {
      * @param username The username of the User who is attempting to update their password
      */
     public void changePassword(String username){
-        boolean tempPassState = userManager.tempPassState(username);
-        if (!tempPassState) {
+
             try {
-                String newPassword = getChangedPassword();
+                String newPassword = readNewPassword();
                 userManager.updatePassword(username, newPassword);
+                presenter.printText("Your password has been updated!");
             } catch (ExitException ignored) {
             }
-        } else {
-            userManager.createTempPass(username);
-        }
+            userManager.setTempPassState(username, false);
+
     }
 
     /**
@@ -262,12 +295,12 @@ public class UserController {
      */
     public void changeEmail(String username){
         try {
-            String newEmail = getChangedEmail();
+            String newEmail = readNewEmail();
             userManager.updateEmail(username, newEmail);
+            presenter.printText("Your email has been updated!");
         } catch (ExitException ignored) {}
     }
 
-    // TODO: Not used, maybe remove
     /**
      * The controller method that allows the User at the keyboard to update their account to the Regular type
      * @param username The username of the User who is attempting to update their account type
@@ -283,9 +316,9 @@ public class UserController {
      */
     public void changeToAdmin(String username){
         if (userManager.retrieveUserType(username) == ADMIN) {
-            presenter.printText("You are already an admin.");
+            presenter.printText(username + " is already an admin.");
         }
-        presenter.printText("Updating type to Admin");
+        presenter.printText("Updating " + username + " to Admin");
         userManager.changeUserTypeToAdmin(username);
     }
 
@@ -303,7 +336,6 @@ public class UserController {
         return true;
     }
 
-    // TODO put in manager?
     /**
      * Check if the inputted email is valid according to the validEmail regex. This regex was retrieved from
      * https://stackoverflow.com/questions/8204680/java-regex-email
@@ -325,7 +357,6 @@ public class UserController {
         return matcher.find();
     }
 
-    // TODO put in manager?
     /**
      * Check if the inputted username is valid according to the validUsername regex. This regex was retrieved from
      * @param username The email to validate
@@ -383,13 +414,26 @@ public class UserController {
         }
     }
 
+    /**
+     * Prompts user to enter a password and returns it if valid
+     * @return String of new password
+     * @throws ExitException If user decides to go back
+     */
     private String readNewPassword() throws ExitException {
-        presenter.printText("Enter a Password" + TEXT_EXIT_OPTION + ": ");
-        String password = inputParser.readLine();
-        if (password.equalsIgnoreCase(EXIT_TEXT)) {
-            throw new ExitException();
-        } else {
-            return password;
+        presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
+        String newPassword = inputParser.readLine();
+        while (true) {
+            if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
+                throw new ExitException();
+            } else if (!isValidPassword(newPassword)) {
+                presenter.printText("Must be at least 8 characters with an upper case, lower case, number");
+                presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
+                newPassword = inputParser.readLine();
+
+            }else {
+                presenter.printText("Your password has been updated!");
+                return newPassword;
+            }
         }
     }
 
@@ -426,83 +470,20 @@ public class UserController {
         }
     }
 
-    private String getChangedUsername() throws ExitException {
-        presenter.printText("Enter your NEW username " + TEXT_EXIT_OPTION + ": ");
-        while (true) {
-            String username = inputParser.readLine();
-            if (username.equalsIgnoreCase(EXIT_TEXT)) {
-                throw new ExitException();
-            } else if (userManager.usernameIsUnique(username) && isValidUsername(username)) {
-                presenter.printText("Your username has been updated!");
-                return username;
-            } else {
-                presenter.printText("That username is already taken or is not valid, please try again!");
-            }
-        }
-    }
-
-    /**
-     * Prompts user to enter a password and returns it if valid
-     * @return String of new password
-     * @throws ExitException If user decides to go back
-     */
-    private String getChangedPassword() throws ExitException {
-        presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
-        String newPassword = inputParser.readLine();
-        while (true) {
-            if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
-                throw new ExitException();
-            } else if (!isValidPassword(newPassword)) {
-                presenter.printText("Must be at least 8 characters with an upper case, lower case, number");
-                presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
-                newPassword = inputParser.readLine();
-
-            }else {
-                presenter.printText("Your password has been updated!");
-                return newPassword;
-            }
-        }
-    }
-
-    private String getChangedEmail() throws ExitException {
-        presenter.printText("Enter your NEW email " + TEXT_EXIT_OPTION + ": ");
-        while (true) {
-            String email = inputParser.readLine();
-            if (email.equalsIgnoreCase(EXIT_TEXT)) {
-                throw new ExitException();
-            } else if (userManager.emailIsUnique(email) && isValidEmail(email)) {
-                presenter.printText("Your email has been updated!");
-                return email;
-            } else {
-                presenter.printText("That email is already taken or is not valid, please try again!");
-            }
-        }
-    }
-
     private boolean verifyDeletion(String username) {
         if (userManager.retrieveUser(username).getUserType() == TRIAL)
             return true;
         presenter.printText("Are you sure you wish to delete your account?");
         presenter.printText("1) Yes 2) Go Back");
         while (true) {
-            String user_input = inputParser.readLine();
-            if (user_input.equals("1")) {
+            int user_input = inputParser.readInt();
+            if (user_input == 1) {
                 return true;
-            } else if (user_input.equals("2")) {
+            } else if (user_input == 2) {
                 return false;
             } else {
                 presenter.printText("You did not enter a valid option, try again");
             }
         }
-    }
-
-    // TODO move to presenter
-    private boolean getYesNo() {
-        String userInput = inputParser.readLine();
-        while (!userInput.equalsIgnoreCase("Y") && !userInput.equalsIgnoreCase("N")) {
-            presenter.printText("Type Y or N");
-            userInput = inputParser.readLine();
-        }
-        return userInput.equalsIgnoreCase("Y");
     }
 }

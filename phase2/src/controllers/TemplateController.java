@@ -4,8 +4,10 @@ import presenter.InputParser;
 import presenter.Presenter;
 import usecases.TemplateManager;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import static utility.AppConstant.EXIT_TEXT;
+import static utility.AppConstant.MENU_EXIT_OPTION;
 
 public class TemplateController {
     private final TemplateManager templateManager;
@@ -18,131 +20,155 @@ public class TemplateController {
         this.inputParser = InputParser.getInstance();
     }
 
+    /**
+     * Create custom template by prompting current user for event type, name of template, and custom fields.
+     */
+    // == Creating New Template ==
     public void createNewTemplate() {
-        presenter.printText("Enter the type of the event:");
+        String templateName = getNewTemplateName();
+        templateManager.createTemplate(templateName);
+        addFields(templateName);
+        presenter.printText("Your new template was created.");
+    }
+
+    private String getNewTemplateName() {
+        presenter.printText("Enter the name of the template:");
         String templateName = inputParser.readLine();
 
-        //this checks for duplicate template name
         while (!templateManager.checkNameUniqueness(templateName)){
             presenter.printText("This template name is already taken. Please try a different name:");
             templateName = inputParser.readLine();
         }
+        return templateName;
+    }
 
-        String newTemplateName = templateManager.createTemplate(templateName);
-
+    private void addFields(String templateName) {
         presenter.printText("Would you like to add a field? (Y/N)");
-        String response = inputParser.readLine();
-
-        if (response.equals("N")) {
+        boolean continueLoop = inputParser.readBoolean();
+        if (!continueLoop) {
             presenter.printText("This will be an empty template. Are you sure you don't want to add a field? (Y/N)");
-            String innerResponse = inputParser.readLine();
-            if (innerResponse.equalsIgnoreCase("Y")) {
+            if (inputParser.readBoolean()) {
                 presenter.printText("You have successfully created an empty template!");
-            }
-            else {
-                while (innerResponse.equalsIgnoreCase("N")) {
-                    innerResponse = addField(newTemplateName);
-                }
+                return;
+            } else {
+                continueLoop = true;
             }
         }
 
-        else {
-            while (response.equalsIgnoreCase("Y")) {
-                response = addField(newTemplateName);
-            }
+        while (continueLoop) {
+            addField(templateName);
+
+            presenter.printText("Would you like to add a field? (Y/N)");
+            continueLoop = inputParser.readBoolean();
         }
     }
 
-    // return the response of new field
-    public String addField(String newTemplateName) {
+    public void addNewField() {
+        presenter.printText("Which Template would you like to add the new field to?:");
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
+        addField(templateName);
+    }
+    public void deleteField() {
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
+
+        try {
+            String fieldName = fieldMenu(templateName);
+            templateManager.deleteFieldSpecs(templateName, fieldName);
+        }
+        catch (ExitException e) {
+            deleteField();
+        }
+    }
+
+    /**
+     * Helper function to prompt current user for custom field specifics: name, type.
+     */
+    private void addField(String templateName) {
         presenter.printText("Enter the field name:");
         String fieldName = inputParser.readLine();
 
         String dataType = typeMenu();
 
-        presenter.printText("Do you need this field?:");
-        String isRequired = inputParser.readLine();
+        presenter.printText("Should this field be required? (Y/N):");
+        boolean isRequired = inputParser.readBoolean();
 
-        templateManager.addFieldSpecs(newTemplateName, templateManager.createNewFieldSpecs(fieldName,
-                dataType, isRequired));
-
-        presenter.printText("Would you like to add a field? (Y/N)");
-        String response = inputParser.readLine();
-
-        while (!response.equalsIgnoreCase("Y") || !response.equalsIgnoreCase("N")) {
-            presenter.printText("Invalid input. Would you like to add a field? (Y/N)");
-            response = inputParser.readLine();
-        }
-        return response.toUpperCase();
+        templateManager.addNewFieldSpecs(templateName, fieldName, dataType, isRequired);
     }
 
-    public String typeMenu(){
-        Map<String, String> menuMap = new HashMap<>();
-        menuMap.put("1", "string");
-        menuMap.put("2", "boolean");
-        menuMap.put("3", "int");
-        menuMap.put("4", "localdatetime");
-
-        presenter.printEntity(menuMap);
-
-        presenter.printText("Enter the number that corresponds to the data type you want:");
-        String response = inputParser.readLine();
-        while (!menuMap.containsKey(response)){
-            presenter.printText("This is not valid. Please enter again:");
-            response = inputParser.readLine();
-        }
-        return menuMap.get(response);
+    private String typeMenu(){
+        List<String> options = Arrays.asList("string", "boolean", "int", "localdatetime");
+        presenter.printMenu("Data Types", options);
+        return inputParser.getMenuChoice(options);
     }
 
-//    public void createNewTemplate() {
-//        presenter.printText("Enter the type of the event:");
-//        String templateName = inputParser.readLine();
-//        String newTemplateName = templateManager.createTemplate(templateName);
-//
-////        1. user inputs fieldname, datatype, isRequired
-////        2. we use setters in FieldSpecs to set these to a new FieldSpecs
-////        3. Add these fieldSpecs with addFieldSpecs method
-//
-//
-//        presenter.printText("Would you like to add a field? (Y/N)");
-//        String response = inputParser.readLine();
-//
-//        if (response.equalsIgnoreCase("N")) {
-//            presenter.printText("This will be an empty template. Are you sure? (Y/N)");
-//            String innerResponse = inputParser.readLine();
-//
-//            if (!innerResponse.equalsIgnoreCase("N")) {
-//                while (!innerResponse.equalsIgnoreCase("N")) {
-//                    presenter.printText("Enter the field name:");
-//                    String fieldName = inputParser.readLine();
-//
-//                    presenter.printText("Enter the field data type:");
-//                    String dataType = inputParser.readLine();
-//
-//                    presenter.printText("Do you need this field?:");
-//                    String isRequired = inputParser.readLine();
-//
-//                    templateManager.addFieldSpecs(newTemplateName, templateManager.createNewFieldSpecs(fieldName, dataType, isRequired));
-//
-//                    presenter.printText("Would you like to add a field? (Y/N)");
-//                    innerResponse = inputParser.readLine();
-//                }
-//            }
-//        }
-//        while (!response.equalsIgnoreCase("N")) {
-//            presenter.printText("Enter the field name:");
-//            String fieldName = inputParser.readLine();
-//
-//            presenter.printText("Enter the field data type:");
-//            String dataType = inputParser.readLine();
-//
-//            presenter.printText("Do you need this field?:");
-//            String isRequired = inputParser.readLine();
-//
-//            templateManager.addFieldSpecs(newTemplateName, templateManager.createNewFieldSpecs(fieldName, dataType, isRequired));
-//
-//            presenter.printText("Would you like to add a field? (Y/N)");
-//            response = inputParser.readLine();
-//        }
-//    }
+    private String fieldMenu(String templateName) throws ExitException {
+        List<String> options = (templateManager.getFieldNames(templateName));
+        options.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Data Types", options);
+        return inputParser.getMenuChoice(options, true);
+
+    }
+    // == Editing Templates ==
+    /**
+     * Prints a list of templates and returns the user's choice. If the choice is longer than the list of templates,
+     * it means the user chose to go back.
+     * @return returns the index of the chosen template + 1 (starts at 1 instead of 0)
+     */
+    public String chooseTemplate() throws ExitException {
+        List<String> templateList = templateManager.returnTemplateNames();
+        templateList.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Choose a Template:", templateList);
+        return inputParser.getMenuChoice(templateList, true);
+    }
+
+    public void editTemplateName() {
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
+        String newTemplateName = getChangedTemplateName(templateName);
+        templateManager.editTemplateName(templateName, newTemplateName);
+        presenter.printText("Template name edited successfully.");
+    }
+
+    private String getChangedTemplateName(String templateName) {
+        presenter.printText("Please enter a new name for the template.");
+        String newTemplateName = inputParser.readLine();
+
+        while (!templateManager.checkNameUniqueness(newTemplateName)){
+            if (templateName.equals(newTemplateName))
+                presenter.printText("Please enter a different name.");
+            else if (!templateManager.checkNameUniqueness(newTemplateName))
+                presenter.printText("This name is already taken by another template. Please try again.");
+            newTemplateName = inputParser.readLine();
+        }
+        return newTemplateName;
+    }
+
+    public void deleteTemplate() throws ExitException {
+        presenter.printText("Which Template would you like to delete?:");
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
+        templateManager.deleteTemplate(templateName);
+        throw new ExitException();
+    }
+
+
+
 }

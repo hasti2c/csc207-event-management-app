@@ -2,6 +2,7 @@ package usecases;
 
 import gateways.IGateway;
 import entities.User;
+import gateways.PasswordGateway;
 import org.apache.commons.text.RandomStringGenerator;
 import utility.UserType;
 
@@ -27,6 +28,7 @@ public class UserManager {
     private List<String> emailList;
     private IGateway<User> gateway;
     private final RandomStringGenerator generator;
+    private final PasswordGateway passwordGateway;
 
     // === Methods ===
 
@@ -40,6 +42,7 @@ public class UserManager {
         userList = gateway.getAllElements();
         usernamesList = new ArrayList<>();
         emailList = new ArrayList<>();
+        this.passwordGateway = new PasswordGateway("phase2/data/temp_pass");
         for (User user :
                 userList) {
             usernamesList.add(user.getUsername());
@@ -114,10 +117,20 @@ public class UserManager {
         setSuspensionChangeDate(user, duration);
     }
 
+    /**
+     * Set suspended instance variable of User to false
+     * @param username
+     */
     public void unsuspendUser(String username) {
         unsuspendUser(username, null);
     }
 
+    /**
+     * Set suspend instance variable of User to false
+     * and set suspensionChangeDate to specified Duration
+     * @param username
+     * @param duration 
+     */
     public void unsuspendUser(String username, Duration duration) {
         User user = retrieveUser(username);
         user.setSuspended(false);
@@ -145,7 +158,7 @@ public class UserManager {
 
     private void updateUserSuspension(User user) {
         LocalDateTime endDate = user.getSuspensionChangeDate();
-        if (LocalDateTime.now().isAfter(endDate)) {
+        if (endDate != null && LocalDateTime.now().isAfter(endDate)) {
             boolean suspended = user.isSuspended();
             user.setSuspended(!suspended);
             setSuspensionChangeDate(user, null);
@@ -168,13 +181,7 @@ public class UserManager {
             return false;
         }
         // If the password and username match
-        if (userToLogin.getPassword().equals(password)){
-            userToLogin.setLoggedIn(true);
-            return true;
-        }
-        else {
-            return false;
-        }
+        return userToLogin.getPassword().equals(password);
     }
 
     /**
@@ -184,36 +191,30 @@ public class UserManager {
      */
     public boolean logOut(String username){
         User userToLogout = retrieveUser(username);
-        // If the user doesn't exist
-        if (userToLogout == null){
-            return false;
-        }
-        else {
-            userToLogout.setLoggedIn(false);
-            return true;
-        }
+        return userToLogout != null;
     }
 
     /**
      * Update a users password to the newPassword
      * @param username The username of the User whose password is to be updated
      * @param newPassword The users new password
-     * @return Whether the password was updated successfully
      */
-    public boolean updatePassword(String username, String newPassword){
+    public void updatePassword(String username, String newPassword){
         User user = retrieveUser(username);
-        if (user.isLoggedIn()){
-            user.setPassword(newPassword);
-            return true;
-        }
-        else {
-            return false;
-        }
+        user.setPassword(newPassword);
     }
 
-    //TODO this does not work. usermanager should not be the one saving to file maybe put the block in gateway or create new gateway later.
     /**
-     * Generates a random temp password for the user
+     * Get User based on username and set its hasTempPass instance variable
+     * @param username
+     * @param state to set hasTempPass
+     */
+    public void setTempPassState(String username, boolean state) {
+        retrieveUser(username).setHasTempPass(state);
+    }
+
+    /**
+     * Generates a random temp password for the user and saves it to the file.
      * @param username Username of user who requested temp password
      */
     public void createTempPass(String username) {
@@ -221,13 +222,7 @@ public class UserManager {
         String tempPass = generator.generate(10, 20);
         user.setPassword(tempPass);
         user.setHasTempPass(true);
-        try {
-            Path filepath = Paths.get("phase2/data/temppass/"+ username + ".txt");
-            Files.write(filepath, Collections.singleton(tempPass));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        passwordGateway.writeTempPass(username, tempPass);
     }
 
     /**
@@ -243,39 +238,33 @@ public class UserManager {
      * Update a users username to the newUsername
      * @param username The username of the User whose username is to be updated
      * @param newUsername The users new username
-     * @return Whether the username was updated successfully
      */
-    public boolean updateUsername(String username, String newUsername) {
+    public void updateUsername(String username, String newUsername) {
         User user = retrieveUser(username);
-        if (user.isLoggedIn()){
-            usernamesList.remove(user.getUsername()); // Remove old usernamesList
-            usernamesList.add(newUsername); // Add new usernamesList
-            user.setUsername(newUsername); // Set new username
-            // TODO update friends list
-            return true;
-        }
-        else {
-            return false;
-        }
+        usernamesList.remove(user.getUsername()); // Remove old usernamesList
+        usernamesList.add(newUsername); // Add new usernamesList
+        user.setUsername(newUsername); // Set new username
+        updateFriendUsername(username, newUsername);
+    }
+
+    private void updateFriendUsername(String username, String newUsername) {
+        for (User user : userList)
+            if (user.getFriends().contains(username)) {
+                user.getFriends().remove(username);
+                user.getFriends().add(newUsername);
+            }
     }
 
     /**
      * Updates a users email to the newEmail
      * @param username The username of the User whose email is to be updated
      * @param newEmail The users new email
-     * @return Whether the email was updated successfully
      */
-    public boolean updateEmail(String username, String newEmail){
+    public void updateEmail(String username, String newEmail){
         User user = retrieveUser(username);
-        if (user.isLoggedIn()){
-            emailList.remove(user.getUserEmail()); // remove old email from emailList
-            emailList.add(newEmail); // Add new email to emailList
-            user.setUserEmail(newEmail);
-            return true;
-        }
-        else {
-            return false;
-        }
+        emailList.remove(user.getUserEmail()); // remove old email from emailList
+        emailList.add(newEmail); // Add new email to emailList
+        user.setUserEmail(newEmail);
     }
 
     /**
@@ -462,26 +451,51 @@ public class UserManager {
         return true;
     }
 
+    /**
+     * Save all users
+     */
     public void saveAllUsers() {
         gateway.saveAllElements(userList);
     }
 
+    /**
+     * Get friends of a certain user
+     * @param username
+     * @return List of usernames of friends
+     */
     public List<String> getFriends(String username) {
         User user = retrieveUser(username);
         return new ArrayList<>(user.getFriends());
     }
 
+    /**
+     * Check if two users are friends
+     * friendship must be mutual
+     * @param first Username of first User
+     * @param second Username of second User
+     * @return true if they are friends, false otherwise
+     */
     public boolean areFriends(String first, String second) {
         User firstUser = retrieveUser(first);
         User secondUser = retrieveUser(second);
         return firstUser.getFriends().contains(second) && secondUser.getFriends().contains(first);
     }
 
+    /**
+     * Establish friendship between two Users
+     * @param first Username of first User
+     * @param second Username of second User
+     */
     public void addFriend(String first, String second) {
         addToFriendsList(first, second);
         addToFriendsList(second, first);
     }
-
+    
+    /**
+     * Demolish friendship between two Users
+     * @param first Username of first User
+     * @param second Username of second User
+     */
     public void removeFriend(String first, String second) {
         removeFromFriendsList(first, second);
         removeFromFriendsList(second, first);
@@ -499,6 +513,10 @@ public class UserManager {
         user.getFriends().remove(friend);
     }
 
+    /**
+     * Given username, check if User is suspended
+     * @return true if User is suspended, false otherwise
+     */
     public boolean isSuspended(String username) {
         User user = retrieveUser(username);
         return user.isSuspended();

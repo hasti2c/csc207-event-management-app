@@ -231,7 +231,6 @@ public class SystemController {
         return inputParser.readInt();
     }
 
-    // TODO change templateVersionNumber
     private void editTemplateName(String templateName) {
         presenter.printText("Please enter a new name for the template.");
         String newName = inputParser.readLine();

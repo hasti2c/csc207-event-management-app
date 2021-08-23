@@ -1,6 +1,8 @@
 package entities;
 
+import utility.Savable;
 import utility.UserType;
+import utility.Viewable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,15 +11,12 @@ import java.util.List;
 /**
  * A user within the program
  */
-public class User {
-    ///
-
+public class User implements Savable, Viewable {
     // === Instance Variables ===
     private String username;
     private String password;
     private String userEmail;
     private boolean hasTempPass;
-    private transient boolean loggedIn;
     // Events the user has created. I'm pretty sure it's fine to be private
     private List<String> ownedEvents;
     // List of events that the user will attend. The event can be their own or another user's and must be public.
@@ -47,8 +46,8 @@ public class User {
         this.userEmail = userEmail;
         this.ownedEvents = new ArrayList<>();
         this.attendingEvents = new ArrayList<>();
-        this.loggedIn = false;
         this.hasTempPass = false;
+        this.friends = new ArrayList<>();
     }
     public User() {
     }
@@ -88,13 +87,6 @@ public class User {
      */
     public String getUserEmail() {
         return this.userEmail;
-    }
-    /**
-     * Get the user's logged in status
-     * @return boolean The user's logged in status
-     */
-    public boolean isLoggedIn() {
-        return this.loggedIn;
     }
     /**
      * Get the user's created events
@@ -171,14 +163,6 @@ public class User {
     }
 
     /**
-     * Set a new logged in status for the user
-     * @param loggedIn The new logged in status
-     */
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
-
-    /**
      * Set a new list of created events
      * @param createdEvents The new list of created events
      */
@@ -214,4 +198,8 @@ public class User {
         this.hasTempPass = tempPassState;
     }
 
+    @Override
+    public String getID() {
+        return username;
+    }
 }

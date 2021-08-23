@@ -9,6 +9,9 @@ import usecases.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * EntityMenuController that handles tasks related to menus that have to do with Event lists.
+ */
 public class EventMenuController extends EntityMenuController<Event> {
     /**
      * Constructs an EventMenuController.
@@ -26,14 +29,14 @@ public class EventMenuController extends EntityMenuController<Event> {
     }
 
     @Override
-    protected String getMenuTitle() {
+    protected String getListTitle() {
         return "Event List";
     }
 
     // TODO do names instead of ids
     @Override
     protected List<String> getEntityList(ViewType<Event> viewType, String username) {
-        assert viewType instanceof EventViewType; // TODO don't do this
+        assert viewType instanceof EventViewType;
         EventViewType eventViewType = (EventViewType) viewType;
 
         List<String> eventList;
@@ -41,6 +44,7 @@ public class EventMenuController extends EntityMenuController<Event> {
         switch (eventViewType) {
             case OWNED:
                 eventList = userManager.getCreatedEvents(username);
+                suspensionCheck = false; // We want owner to see their suspended events.
                 break;
             case ATTENDING:
                 eventList = userManager.getAttendingEvents(username);
@@ -93,17 +97,17 @@ public class EventMenuController extends EntityMenuController<Event> {
     @Override
     protected boolean verifyPermission(Command command, String username, String eventID) {
         boolean attending = userManager.getAttendingEvents(username).contains(eventID);
-        boolean owned = userManager.getAttendingEvents(username).contains(eventID);
+        boolean owned = userManager.getCreatedEvents(username).contains(eventID);
         boolean suspended = eventManager.isSuspended(eventID);
         switch (command) {
             case ATTEND_EVENT:
-                return !attending;
+                return !attending && !suspended;
             case UNATTEND_EVENT:
-                return attending;
+                return attending && !suspended;
             case CHANGE_EVENT_PRIVACY:
             case EDIT_EVENT:
             case DELETE_EVENT:
-                return owned;
+                return owned && !suspended;
             case SUSPEND_EVENT:
                 return !suspended;
             case UNSUSPEND_EVENT:
@@ -111,5 +115,10 @@ public class EventMenuController extends EntityMenuController<Event> {
             default:
                 return true;
         }
+    }
+
+    @Override
+    protected String getMenuTitle() {
+        return "Viewing Event";
     }
 }

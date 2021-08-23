@@ -1,10 +1,15 @@
 package gateways;
 
+import utility.Savable;
+
 import java.util.List;
 import java.util.Map;
 
-// TODO class javadocs?
-public interface IGateway <T> {
+/**
+ * Gateway that saves & reads elements to & from files.
+ * @param <T> Element type.
+ */
+public interface IGateway <T extends Savable> {
     /**
      * @return Returns the elements (read from json) in a list.
      */

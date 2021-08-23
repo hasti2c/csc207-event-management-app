@@ -11,7 +11,7 @@
   },
   {
     "superCommand": "START_UP",
-    "command": "MAIN_MENU",
+    "command": "TRIAL_MENU",
     "subCommands": [
       "CREATE_EVENT",
       "BROWSE_EVENTS",
@@ -54,6 +54,21 @@
     ]
   },
   {
+    "superCommand": "START_UP",
+    "command": "MAIN_MENU",
+    "subCommands": [
+      "CREATE_EVENT",
+      "BROWSE_EVENTS",
+      "BROWSE_USERS",
+      "ACCOUNT_MENU",
+      "ADMIN_MENU",
+      "MESSAGING_MENU",
+      "SAVE",
+      "LOG_OUT",
+      "EXIT_TRIAL"
+    ]
+  },
+  {
     "superCommand": "MAIN_MENU",
     "command": "MESSAGING_MENU",
     "subCommands": [
@@ -70,7 +85,18 @@
       "VIEW_ADMIN_INBOX",
       "SEND_ANNOUNCEMENT",
       "CREATE_TEMPLATE",
+      "DELETE_TEMPLATE",
       "EDIT_TEMPLATE",
+      "GO_BACK"
+    ]
+  },
+  {
+    "superCommand": "ADMIN_MENU",
+    "command": "EDIT_TEMPLATE",
+    "subCommands": [
+      "ADD_TEMPLATE_FIELD",
+      "DELETE_TEMPLATE_FIELD",
+      "CHANGE_TEMPLATE_NAME",
       "GO_BACK"
     ]
   },

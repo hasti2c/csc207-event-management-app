@@ -4,12 +4,14 @@ import controllers.ExitException;
 import controllers.SystemController;
 import utility.executor.ExecutorBuilder;
 
-// TODO merge LOGIN and TRIAL_MENU
+/**
+ * Enum of Commands.
+ */
 public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
     SIGN_UP("Sign Up", SystemController.executorBuilder.buildSignUpExecutor()),
-    MAIN_MENU("Main Menu"),
+    MAIN_MENU("Log In"),
     TRIAL_MENU("Trial Menu"),
     FORGOT_PASSWORD("Forgot Password"),
     EXIT("Exit"),
@@ -48,10 +50,19 @@ public enum Command {
     EDIT_TEMPLATE("Edit Template"),
     VIEW_ADMIN_INBOX("View Admin Inbox"),
     SEND_MESSAGE("Send Message"),
-    SEND_ANNOUNCEMENT("Send Announcement");
+    SEND_ANNOUNCEMENT("Send Announcement"),
+    ADD_TEMPLATE_FIELD("Add a New Field"),
+    DELETE_TEMPLATE_FIELD("Delete a Field"),
+    DELETE_TEMPLATE("Delete Template"),
+    CHANGE_TEMPLATE_NAME("Change Template Name");
 
     private final String name;
     private final CommandExecutor commandExecutor;
+
+    /**
+     * Create a Command.
+     * @param name Name of command.
+     */
     Command(String name) {
         this(name, null);
     }
@@ -59,6 +70,10 @@ public enum Command {
         this.name = name;
         this.commandExecutor = executor;
     }
+
+    /**
+     * @return Name of command.
+     */
     public void execute() throws ExitException {
         commandExecutor.execute();
     }

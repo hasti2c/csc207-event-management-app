@@ -2,6 +2,7 @@ package gateways;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import utility.Savable;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,10 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO javadocs
-// TODO add different interfaces for entities based on these kind of usages (also view type)
-
-public abstract class EntityGateway<T> implements IGateway<T> {
+/**
+ * Gateway that saves & reads a specific entity type to & from a json file.
+ * @param <T> Entity type.
+ */
+public abstract class EntityGateway<T extends Savable> implements IGateway<T> {
     private final Class<T> dataType;
     private final String path;
     private final Gson gson;
@@ -47,7 +49,7 @@ public abstract class EntityGateway<T> implements IGateway<T> {
     public void saveAllElements(List<T> elements) {
         this.elements = new HashMap<>();
         for (T element: elements)
-            this.elements.put(getElementId(element), element);
+            this.elements.put(element.getID(), element);
         writeElements();
     }
 
@@ -57,9 +59,6 @@ public abstract class EntityGateway<T> implements IGateway<T> {
         writeElements();
     }
 
-    /**
-     * Reads all elements from file and saves in gateway.
-     */
     private void readElements() {
         try {
             FileReader fileReader = new FileReader(path);
@@ -69,15 +68,12 @@ public abstract class EntityGateway<T> implements IGateway<T> {
 
             this.elements = new HashMap<>();
             for (T element: elements)
-                this.elements.put(getElementId(element), element);
+                this.elements.put(element.getID(), element);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Writes all elements saved in gateway into file.
-     */
     private void writeElements() {
         try {
             T[] emptyArray = (T[]) Array.newInstance(dataType, 0);
@@ -96,10 +92,4 @@ public abstract class EntityGateway<T> implements IGateway<T> {
      * @return GsonBuilder object that serializes & deserializes elements into & from json.
      */
     protected abstract GsonBuilder getGsonBuilder();
-
-    /**
-     * @param element An element.
-     * @return The id of element (based on type T).
-     */
-    protected abstract String getElementId(T element);
 }

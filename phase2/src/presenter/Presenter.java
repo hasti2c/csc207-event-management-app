@@ -1,10 +1,11 @@
 package presenter;
 
+import controllers.ExitException;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-// TODO singleton pattern?
 public class Presenter {
     private static Presenter instance;
 
@@ -32,6 +33,13 @@ public class Presenter {
             printText((i + 1) + ". " + options.get(i));
         }
         printText("Please enter one of the menu options:");
+    }
+
+    /**
+     * Shows user invalid input error.
+     */
+    protected void invalidInput() {
+        printText("You did not enter a valid option, try again");
     }
 
     /**

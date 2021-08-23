@@ -7,7 +7,8 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "ADMIN",
-    "suspended": false
+    "suspended": false,
+    "friends": []
   },
   {
     "username": "haze",
@@ -17,7 +18,19 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "REGULAR",
-    "suspended": false
+    "suspended": false,
+    "friends": []
+  },
+  {
+    "username": "idii88",
+    "password": "Hello@123",
+    "userEmail": "idii@gmail.com",
+    "hasTempPass": false,
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "ADMIN",
+    "suspended": false,
+    "friends": []
   },
   {
     "username": "hasti2c",
@@ -30,7 +43,9 @@
     "attendingEvents": [
       "d9d9427d-9e66-4a53-8eee-a4f2219b54b9"
     ],
-    "suspended": false
+    "userType": "ADMIN",
+    "suspended": false,
+    "friends": []
   },
   {
     "username": "AustinA2",
@@ -40,7 +55,8 @@
     "ownedEvents": [],
     "attendingEvents": [],
     "userType": "ADMIN",
-    "suspended": false
+    "suspended": false,
+    "friends": []
   },
   {
     "username": "AustinR",
@@ -49,7 +65,8 @@
     "hasTempPass": false,
     "ownedEvents": [],
     "attendingEvents": [],
-    "userType": "REGULAR",
-    "suspended": false
+    "userType": "ADMIN",
+    "suspended": false,
+    "friends": []
   }
 ]

@@ -7,6 +7,9 @@ import usecases.MenuManager;
 
 import java.util.List;
 
+/**
+ * Controller that handles menu related tasks.
+ */
 public abstract class MenuController {
     protected MenuManager menuManager;
     protected Presenter presenter;
@@ -20,50 +23,5 @@ public abstract class MenuController {
         this.menuManager = menuManager;
         this.presenter = Presenter.getInstance();
         this.inputParser = InputParser.getInstance();
-    }
-
-    /**
-     * Shows user invalid input error.
-     */
-    protected void invalidInput() {
-        presenter.printText("You did not enter a valid option, try again");
-    }
-
-    /**
-     * Gets & returns user's choice from menu items. (Doesn't display the menu.)
-     * Exit option is assumed to be handled by the caller.
-     * @param menuOptions The list of menuOptions that have been shown to the user.
-     * @param <S> Data type of menuOptions.
-     * @return Menu option chosen by user.
-     */
-    public <S> S getMenuChoice(List<S> menuOptions) {
-        try {
-            return getMenuChoice(menuOptions, false);
-        } catch (ExitException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Gets & returns user's choice from menu items. (Doesn't display the menu.)
-     * @param menuOptions The list of menuOptions that have been shown to the user.
-     * @param checkExit True if exit is the last item & has to be manually checked here. False if exit is handled by the
-     *                  caller.
-     * @param <S> Data type of menuOptions.
-     * @return Menu option chosen by user.
-     * @throws ExitException If user chooses exit option & checkExit is true (exit has to be manually checked here).
-     */
-    public <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
-        int user_input = inputParser.readInt();
-        if (checkExit && user_input == menuOptions.size()) {
-            throw new ExitException();
-        }
-        try {
-            return menuOptions.get(user_input - 1);
-        } catch (IndexOutOfBoundsException e) {
-            invalidInput();
-            return getMenuChoice(menuOptions, checkExit);
-        }
     }
 }

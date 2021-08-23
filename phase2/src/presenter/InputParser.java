@@ -1,13 +1,19 @@
 package presenter;
 
+import controllers.ExitException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
+
+import static utility.AppConstant.*;
 
 // Inspired by https://codeforces.com/blog/entry/6834?#comment-124539
 
-// TODO singleton pattern?
 public class InputParser {
     private static InputParser instance;
 
@@ -47,16 +53,6 @@ public class InputParser {
      * @return int that user inputted.
      */
     public int readInt() {
-//        populateCurrentToken();
-//        try {
-//            return Integer.parseInt(currentToken.nextToken());
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return defaultIntegerValue;
-
-        // Quick fix to clogging program if user does not actually input an int.
         String line = readLine();
         try {
             return Integer.parseInt(line);
@@ -64,6 +60,76 @@ public class InputParser {
             presenter.printText("That was not an integer. Please try again.");
             return readInt();
         }
+    }
+
+    /**
+     * Forces user to type either "Y"/"Yes"/"true" or "N"/"No"/"false"
+     *
+     * @return return true if user typed "Y"/"Yes"/"true" and false if "N"/"No"/"false"
+     */
+    public boolean readBoolean() {
+        String line = readLine();
+        List<String> trueStrings = Arrays.asList("y", "yes", "true");
+        List<String> falseStrings = Arrays.asList("n", "no", "false");
+        if (trueStrings.contains(line.toLowerCase())) {
+            return true;
+        } else if (falseStrings.contains(line.toLowerCase())) {
+            return false;
+        } else {
+            presenter.printText("Please type Y or N.");
+            return readBoolean();
+        }
+    }
+
+    /**
+     * Gets & returns user's choice from menu items. (Doesn't display the menu.)
+     * Exit option is assumed to be handled by the caller.
+     * @param menuOptions The list of menuOptions that have been shown to the user.
+     * @return Menu option chosen by user.
+     */
+    public <S> S getMenuChoice(List<S> menuOptions) {
+        try {
+            return getMenuChoice(menuOptions, false);
+        } catch (ExitException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Gets & returns user's choice from menu items. (Doesn't display the menu.)
+     * @param menuOptions The list of menuOptions that have been shown to the user.
+     * @param checkExit True if exit is the last item & has to be manually checked here. False if exit is handled by the
+     *                  caller.
+     * @return Menu option chosen by user.
+     * @throws ExitException If user chooses exit option & checkExit is true (exit has to be manually checked here).
+     */
+    public <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
+        int user_input = readInt();
+        S option;
+        try {
+            option = menuOptions.get(user_input - 1);
+        } catch (IndexOutOfBoundsException e) {
+            Presenter.getInstance().invalidInput();
+            return getMenuChoice(menuOptions, checkExit);
+        }
+
+        if (checkExit && option.equals(MENU_EXIT_OPTION)) {
+            throw new ExitException();
+        }
+        return option;
+    }
+
+    // TODO javadoc
+    public <S> int getMenuChoiceIndex(List<S> menuOptions) {
+        S choice = getMenuChoice(menuOptions);
+        return menuOptions.indexOf(choice);
+    }
+
+    // TODO javadoc
+    public <S> int getMenuChoiceIndex(List<S> menuOptions, boolean checkExit) throws ExitException {
+        S choice = getMenuChoice(menuOptions, checkExit);
+        return menuOptions.indexOf(choice);
     }
 
     private void populateCurrentToken() {
