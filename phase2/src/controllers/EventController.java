@@ -101,6 +101,9 @@ public class EventController {
             case UNSUSPEND_EVENT:
                 changeSuspensionStatus(eventId);
                 return;
+            case VIEW_CREATOR:
+                // TODO
+                return;
             case GO_BACK:
                 throw new ExitException();
         }
@@ -172,10 +175,10 @@ public class EventController {
             String userInput = inputParser.readLine();
             if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
-            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && required) {
-                return eventManager.convertToCorrectDataType(eventId, fieldName, userInput);
-            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && !required) {
+            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && !required && userInput.isEmpty()) {
                 return null;
+            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput)) {
+                return eventManager.convertToCorrectDataType(eventId, fieldName, userInput);
             } else {
                 presenter.printText("Please try again. Enter " + fieldName + " (" + dataType + "):");
             }
@@ -188,12 +191,13 @@ public class EventController {
      * @param username username of the currently logged in user
      * @param eventID  unique identifier for event
      */
-    private void deleteEvent(String username, String eventID) {
+    private void deleteEvent(String username, String eventID) throws ExitException {
         presenter.printText("Are you sure you wish to delete your event? This action cannot be undone. (Y/N)");
         if (inputParser.readBoolean()) {
             this.userManager.deleteEvent(username, eventID);
             this.eventManager.deleteEvent(eventID);
             presenter.printText("Event was deleted.");
+            throw new ExitException();
         }
     }
 
@@ -245,7 +249,7 @@ public class EventController {
 
     private void changeSuspensionStatus(String eventID) {
         boolean suspended = eventManager.isSuspended(eventID);
-        String current = (suspended ? "" : "not") + "suspended";
+        String current = (suspended ? "" : "not ") + "suspended";
         String action = (suspended ? "un" : "") + "suspend";
         presenter.printText("This event is currently " + current + ". Do you want to " + action + " it? (Y/N)");
         if (inputParser.readBoolean()) {
