@@ -191,6 +191,9 @@ public class UserController {
             case VIEW_CREATIONS:
                 // TODO
                 break;
+            case MAKE_ADMIN:
+                userManager.changeUserTypeToAdmin(selectedUser);
+                break;
             case GO_BACK:
                 throw new ExitException();
         }
