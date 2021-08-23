@@ -155,13 +155,14 @@ public class TemplateManager {
      * @param templateName name of Template
      */
     public void deleteTemplate(String templateName){
-        for (Template template: templateList){
-            if(template.getTemplateName().equals(templateName)){
-                templateList.remove(retrieveTemplateByName(templateName));
-            }
-        }
+//        for (Template template: templateList){
+//            if(template.getTemplateName().equals(templateName)){
+//                templateList.remove(retrieveTemplateByName(templateName));
+//            }
+//        }
+        templateList.removeIf(template -> template.getTemplateName().equals(templateName));
     }
-    
+
     /**
      * Remove FieldSpecs object from field descriptions of Template
      * @param templateName name of Template

@@ -75,7 +75,7 @@ public class TemplateController {
         presenter.printText("Enter the field name:");
         String fieldName = inputParser.readLine();
 
-        templateManager.deleteFieldSpecs(templateName, fieldName);
+        templateManager.deleteFieldSpecs(templateName,fieldName);
     }
 
     /**
