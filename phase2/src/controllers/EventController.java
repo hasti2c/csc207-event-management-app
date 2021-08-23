@@ -172,10 +172,10 @@ public class EventController {
             String userInput = inputParser.readLine();
             if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
-            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && required) {
-                return eventManager.convertToCorrectDataType(eventId, fieldName, userInput);
-            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && !required) {
+            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && !required && userInput.isEmpty()) {
                 return null;
+            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput)) {
+                return eventManager.convertToCorrectDataType(eventId, fieldName, userInput);
             } else {
                 presenter.printText("Please try again. Enter " + fieldName + " (" + dataType + "):");
             }

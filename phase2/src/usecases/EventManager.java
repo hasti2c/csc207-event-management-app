@@ -385,6 +385,7 @@ public class EventManager {
         boolean isEmpty = fieldValue.isEmpty();
         Event event = retrieveEventById(eventId);
         if (isEmpty){
+            // If the field is empty but it's not allowed to be, returns false
             for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
                 if (fieldSpecEntry.getKey().equals(fieldName)) {
                     boolean test = fieldSpecEntry.getValue().getSecond().equals(true);
