@@ -105,7 +105,6 @@ public class TemplateController {
     }
 
     private void editTemplateName(String templateName) {
-        presenter.printText("Please enter a new name for the template.");
         String newTemplateName = getChangedTemplateName(templateName);
         templateManager.editTemplateName(templateName, newTemplateName);
         presenter.printText("Template name edited successfully.");
