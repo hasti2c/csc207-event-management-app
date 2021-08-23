@@ -51,35 +51,35 @@ public class EventController {
      * @param userType The userType of the current user.
      * @param username The username of the current user
      */
-    public void viewEventTypesList(UserType userType, String username) {
+    public void browseEvents(UserType userType, String username) {
         while (true) {
             try {
                 ViewType<Event> viewType = menuController.getViewTypeChoice(userType);
-                browseEvent(viewType, userType, username);
+                while (true) {
+                    try {
+                        String eventID = menuController.getEntityChoice(viewType, username);
+                        viewEvent(userType, username, eventID);
+                    } catch (ExitException e) {
+                        break;
+                    }
+                }
             } catch (ExitException e) {
                 return;
             }
         }
     }
 
-    private void browseEvent(ViewType<Event> viewType, UserType userType, String username){
-        while (true) {
-            try {
-                String selectedUser = menuController.getEntityChoice(viewType, username);
-                viewEvent(userType, username, selectedUser);
-            } catch (ExitException e) {
-                return;
-            }
-        }
-    }
-
-    private void viewEvent(UserType userType, String username, String eventID) throws ExitException {
+    private void viewEvent(UserType userType, String username, String eventID) {
         if (userType == ADMIN || userManager.getCreatedEvents(username).contains(eventID))
             viewEventMetaDetails(eventID);
         viewEventDetails(eventID);
         while (true) {
             Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_EVENTS, eventID);
-            runUserCommand(userInput, username, eventID);
+            try {
+                runUserCommand(userInput, username, eventID);
+            } catch (ExitException e) {
+                return;
+            }
         }
     }
 
