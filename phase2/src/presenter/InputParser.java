@@ -1,5 +1,7 @@
 package presenter;
 
+import controllers.ExitException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,16 +51,6 @@ public class InputParser {
      * @return int that user inputted.
      */
     public int readInt() {
-//        populateCurrentToken();
-//        try {
-//            return Integer.parseInt(currentToken.nextToken());
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return defaultIntegerValue;
-
-        // Quick fix to clogging program if user does not actually input an int.
         String line = readLine();
         try {
             return Integer.parseInt(line);
@@ -84,6 +76,44 @@ public class InputParser {
         } else {
             presenter.printText("Please type Y or N.");
             return readBoolean();
+        }
+    }
+
+    /**
+     * Gets & returns user's choice from menu items. (Doesn't display the menu.)
+     * Exit option is assumed to be handled by the caller.
+     * @param menuOptions The list of menuOptions that have been shown to the user.
+     * @param <S> Data type of menuOptions.
+     * @return Menu option chosen by user.
+     */
+    public <S> S getMenuChoice(List<S> menuOptions) {
+        try {
+            return getMenuChoice(menuOptions, false);
+        } catch (ExitException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Gets & returns user's choice from menu items. (Doesn't display the menu.)
+     * @param menuOptions The list of menuOptions that have been shown to the user.
+     * @param checkExit True if exit is the last item & has to be manually checked here. False if exit is handled by the
+     *                  caller.
+     * @param <S> Data type of menuOptions.
+     * @return Menu option chosen by user.
+     * @throws ExitException If user chooses exit option & checkExit is true (exit has to be manually checked here).
+     */
+    public <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
+        int user_input = readInt();
+        if (checkExit && (user_input - 1) == menuOptions.size()) {
+            throw new ExitException();
+        }
+        try {
+            return menuOptions.get(user_input - 1);
+        } catch (IndexOutOfBoundsException e) {
+            Presenter.getInstance().invalidInput();
+            return getMenuChoice(menuOptions, checkExit);
         }
     }
 

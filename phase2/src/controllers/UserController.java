@@ -515,10 +515,10 @@ public class UserController {
         presenter.printText("Are you sure you wish to delete your account?");
         presenter.printText("1) Yes 2) Go Back");
         while (true) {
-            String user_input = inputParser.readLine();
-            if (user_input.equals("1")) {
+            int user_input = inputParser.readInt();
+            if (user_input == 1) {
                 return true;
-            } else if (user_input.equals("2")) {
+            } else if (user_input == 2) {
                 return false;
             } else {
                 presenter.printText("You did not enter a valid option, try again");

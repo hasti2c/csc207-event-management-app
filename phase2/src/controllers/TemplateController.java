@@ -81,14 +81,7 @@ public class TemplateController {
     private String typeMenu(){
         List<String> options = Arrays.asList("string", "boolean", "int", "localdatetime");
         presenter.printMenu("Data Types", options);
-        int choice = inputParser.readInt();
-
-        try {
-            return options.get(choice - 1);
-        } catch (IndexOutOfBoundsException e) {
-            presenter.printText("Your input was invalid. Please try again.");
-            return typeMenu();
-        }
+        return inputParser.getMenuChoice(options);
     }
 
     // == Editing Templates ==
@@ -97,19 +90,14 @@ public class TemplateController {
      * it means the user chose to go back.
      * @return returns the index of the chosen template + 1 (starts at 1 instead of 0)
      */
-    public String chooseTemplate() throws ExitException{
+    public String chooseTemplate() throws ExitException {
         List<String> templateList = templateManager.returnTemplateNames();
         templateList.add(MENU_EXIT_OPTION);
         presenter.printMenu("TemplateList", templateList);
-        int choice = getChoice(1, templateList.size());
-        if (choice == templateList.size()){
-            // TODO this goes all the way back :(
-            throw new ExitException();
-        }
-        return templateList.get(choice - 1);
+        return inputParser.getMenuChoice(templateList, true);
     }
 
-    public void editTemplate() throws ExitException{
+    public void editTemplate() throws ExitException {
         String templateName = chooseTemplate();
         editTemplateName(templateName);
     }
@@ -133,22 +121,5 @@ public class TemplateController {
             templateName = inputParser.readLine();
         }
         return templateName;
-    }
-
-    // TODO refactor
-    /**
-     * Forces user to enter an int in the range.
-     *
-     * @param lowBound lowest accepted input
-     * @param highBound highest accepted input
-     * @return the value entered
-     */
-    private int getChoice(int lowBound, int highBound) {
-        int choice = inputParser.readInt();
-        while (choice < lowBound || choice > highBound) {
-            presenter.printText("Invalid choice. Please enter a number between " + lowBound + " and " + highBound);
-            choice = inputParser.readInt();
-        }
-        return choice;
     }
 }
