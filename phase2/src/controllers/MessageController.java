@@ -5,6 +5,7 @@ import presenter.Presenter;
 import usecases.MessageBoxManager;
 import usecases.UserManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -82,19 +83,27 @@ public class MessageController {
     public void viewInbox(String username){
         List<String> headlines = messageBoxManager.getMessageInfo(username);
         List<Map<String, String>> detailMaps = messageBoxManager.getDetailMaps(username);
-        if (headlines.size() == 0) presenter.printText("Your inbox is empty");
-        else{
-            for (int i = 0; i < headlines.size(); i++) {
-                presenter.printText((i + 1) + ". " + headlines.get(i));
-            }
-            try{
-                presenter.printText("Select a message to view " + TEXT_EXIT_OPTION + ": ");
-                int option = chooseIntegerOption(headlines.size()) - 1;
-                presenter.printEntity(detailMaps.get(option));
+        if (headlines.size() == 0) {
+            presenter.printText("Your inbox is empty.");
+            return;
+        }
+
+        while (true) {
+            try {
+                int index = getMessageChoiceIndex(headlines);
+                presenter.printEntity(detailMaps.get(index));
             } catch (ExitException e) {
                 return;
             }
         }
+    }
+
+    private int getMessageChoiceIndex(List<String> headlines) throws ExitException {
+        List<String> menuOptions = new ArrayList<>(headlines);
+        menuOptions.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Inbox", menuOptions);
+        String option = inputParser.getMenuChoice(menuOptions, true);
+        return headlines.indexOf(option);
     }
 
     // ========== Private helpers ===============
@@ -161,24 +170,6 @@ public class MessageController {
                 return body;
             } else {
                 presenter.printText("Your headline is empty. Enter another headline:");
-            }
-        }
-    }
-
-    /**
-     * Attempts to read an integer option in the range 1 - max inclusive
-     * @return int The integer the user enters
-     * @throws ExitException If the user types back
-     */
-    private int chooseIntegerOption(int max) throws ExitException {
-        while (true){
-            String option = inputParser.readLine();
-            if (option.equalsIgnoreCase(EXIT_TEXT)) {
-                throw new ExitException();
-            } else if (Integer.parseInt(option) <= max && !(Integer.parseInt(option) < 1)){ // Body is not all spaces
-                return Integer.parseInt(option);
-            } else {
-                presenter.printText("The number you entered is not valid. Enter another option: ");
             }
         }
     }

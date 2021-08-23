@@ -94,8 +94,8 @@
     "superCommand": "ADMIN_MENU",
     "command": "EDIT_TEMPLATE",
     "subCommands": [
-      "ADD_NEW_FIELD",
-      "DELETE_FIELD",
+      "ADD_TEMPLATE_FIELD",
+      "DELETE_TEMPLATE_FIELD",
       "CHANGE_TEMPLATE_NAME",
       "GO_BACK"
     ]

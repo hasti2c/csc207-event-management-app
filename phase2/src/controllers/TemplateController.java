@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.tools.javah.Util;
 import presenter.InputParser;
 import presenter.Presenter;
 import usecases.TemplateManager;
@@ -159,7 +160,12 @@ public class TemplateController {
 
     public void deleteTemplate() throws ExitException {
         presenter.printText("Which Template would you like to delete?:");
-        String templateName = chooseTemplate();
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
         templateManager.deleteTemplate(templateName);
         throw new ExitException();
     }

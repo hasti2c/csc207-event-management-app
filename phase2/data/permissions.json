@@ -136,8 +136,8 @@
       "VIEW_MESSAGES",
       "VIEW_ANNOUNCEMENTS",
       "MESSAGE_ADMINS",
-      "ADD_NEW_FIELD",
-      "DELETE_FIELD",
+      "ADD_TEMPLATE_FIELD",
+      "DELETE_TEMPLATE_FIELD",
       "CHANGE_TEMPLATE_NAME"
     ],
     "eventViewPermissions": [

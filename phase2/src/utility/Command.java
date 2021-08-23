@@ -47,8 +47,8 @@ public enum Command {
     VIEW_ADMIN_INBOX("View Admin Inbox"),
     SEND_MESSAGE("Send Message"),
     SEND_ANNOUNCEMENT("Send Announcement"),
-    ADD_NEW_FIELD("Add a New Field"),
-    DELETE_FIELD("Delete a Field"),
+    ADD_TEMPLATE_FIELD("Add a New Field"),
+    DELETE_TEMPLATE_FIELD("Delete a Field"),
     DELETE_TEMPLATE("Delete Template"),
     CHANGE_TEMPLATE_NAME("Change Template Name");
 

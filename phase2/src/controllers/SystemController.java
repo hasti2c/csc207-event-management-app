@@ -118,10 +118,10 @@ public class SystemController {
             case CHANGE_TEMPLATE_NAME:
                 templateController.editTemplateName();
                 break;
-            case ADD_NEW_FIELD:
+            case ADD_TEMPLATE_FIELD:
                 templateController.addNewField();
                 break;
-            case DELETE_FIELD:
+            case DELETE_TEMPLATE_FIELD:
                 templateController.deleteField();
                 break;
             case BROWSE_USERS:
