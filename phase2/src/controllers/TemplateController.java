@@ -142,10 +142,11 @@ public class TemplateController {
         return templateName;
     }
 
-    public void deleteTemplate() throws ExitException{
+    public void deleteTemplate() throws ExitException {
         presenter.printText("Which Template would you like to delete?:");
         String templateName = chooseTemplate();
         templateManager.deleteTemplate(templateName);
+        throw new ExitException();
     }
 
 
