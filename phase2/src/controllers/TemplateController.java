@@ -66,7 +66,7 @@ public class TemplateController {
 
         String dataType = typeMenu();
 
-        presenter.printText("Should this field be required?:");
+        presenter.printText("Should this field be required? (Y/N):");
         String isRequired = inputParser.readLine();
 
         templateManager.addNewFieldSpecs(templateName, fieldName, dataType, isRequired);

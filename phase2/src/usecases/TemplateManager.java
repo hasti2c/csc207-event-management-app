@@ -93,7 +93,7 @@ public class TemplateManager {
             convertedDataType = LocalDateTime.class;
         }
 
-        if (isRequired.equalsIgnoreCase("yes")){
+        if (isRequired.equalsIgnoreCase("y")){
             convertedIsRequired = true;
         }
 
