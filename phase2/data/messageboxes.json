@@ -53,6 +53,11 @@
     "currentSize": 1
   },
   {
+    "messages": [],
+    "owner": "jsjchris",
+    "currentSize": 0
+  },
+  {
     "messages": [
       {
         "messageHeadLine": "Admin Message Test!",
@@ -67,10 +72,22 @@
         "sender": "AustinA",
         "recipient": "ADMIN",
         "sentDate": "2021-08-18T09:34:50.857"
+      },
+      {
+        "messageHeadLine": "MAKE ME ADMIN",
+        "messageBody": "MAKE ME ADMIN AUSTIN",
+        "sender": "jsjchris",
+        "recipient": "ADMIN",
+        "sentDate": "2021-08-22T22:33:33.866"
       }
     ],
     "owner": "ADMIN",
-    "currentSize": 2
+    "currentSize": 3
+  },
+  {
+    "messages": [],
+    "owner": "jsjchris2",
+    "currentSize": 0
   },
   {
     "messages": [],

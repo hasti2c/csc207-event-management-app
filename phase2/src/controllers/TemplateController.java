@@ -63,6 +63,11 @@ public class TemplateController {
         }
     }
 
+    public void addNewField() throws ExitException{
+        presenter.printText("Which Template would you like to add the new field to?:");
+        String templateName = chooseTemplate();
+        addField(templateName);
+    }
     /**
      * Helper function to prompt current user for custom field specifics: name, type.
      */
@@ -122,4 +127,12 @@ public class TemplateController {
         }
         return templateName;
     }
+
+    public void deleteTemplate() throws ExitException{
+        presenter.printText("Which Template would you like to delete?:");
+        String templateName = chooseTemplate();
+        templateManager.deleteTemplate(templateName);
+    }
+
+
 }

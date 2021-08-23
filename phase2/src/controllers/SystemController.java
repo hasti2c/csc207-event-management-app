@@ -110,8 +110,17 @@ public class SystemController {
             case CREATE_TEMPLATE:
                 templateController.createNewTemplate();
                 break;
+            case DELETE_TEMPLATE:
+                templateController.deleteTemplate();
+                break;
             case EDIT_TEMPLATE:
+                runMenu(EDIT_TEMPLATE);
+                break;
+            case CHANGE_NAME:
                 templateController.editTemplate();
+                break;
+            case ADD_NEW_FIELD:
+                templateController.addNewField();
                 break;
             case BROWSE_USERS:
                 userController.viewUserTypesList(currentUserType, currentUser);
