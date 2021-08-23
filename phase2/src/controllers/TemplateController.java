@@ -72,8 +72,7 @@ public class TemplateController {
         presenter.printText("Which Template would you like to delete field from?:");
         String templateName = chooseTemplate();
 
-        presenter.printText("Enter the field name:");
-        String fieldName = inputParser.readLine();
+        String fieldName = fieldMenu(templateName);
 
         templateManager.deleteFieldSpecs(templateName,fieldName);
     }
@@ -99,6 +98,11 @@ public class TemplateController {
         return inputParser.getMenuChoice(options);
     }
 
+    private String fieldMenu(String templateName){
+        List<String> options = (templateManager.getFieldNames(templateName));
+        presenter.printMenu("Data Types", options);
+        return inputParser.getMenuChoice(options);
+    }
     // == Editing Templates ==
     /**
      * Prints a list of templates and returns the user's choice. If the choice is longer than the list of templates,
