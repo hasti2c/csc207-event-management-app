@@ -192,7 +192,7 @@ public class UserController {
                 // TODO
                 break;
             case MAKE_ADMIN:
-                userManager.changeUserTypeToAdmin(selectedUser);
+                changeToAdmin(selectedUser);
                 break;
             case GO_BACK:
                 throw new ExitException();
@@ -316,9 +316,9 @@ public class UserController {
      */
     public void changeToAdmin(String username){
         if (userManager.retrieveUserType(username) == ADMIN) {
-            presenter.printText("You are already an admin.");
+            presenter.printText(username + " is already an admin.");
         }
-        presenter.printText("Updating type to Admin");
+        presenter.printText("Updating " + username + " to Admin");
         userManager.changeUserTypeToAdmin(username);
     }
 

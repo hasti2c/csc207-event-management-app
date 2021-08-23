@@ -65,7 +65,7 @@
     "hasTempPass": false,
     "ownedEvents": [],
     "attendingEvents": [],
-    "userType": "REGULAR",
+    "userType": "ADMIN",
     "suspended": false,
     "friends": []
   }
