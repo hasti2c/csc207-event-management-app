@@ -85,7 +85,18 @@
       "VIEW_ADMIN_INBOX",
       "SEND_ANNOUNCEMENT",
       "CREATE_TEMPLATE",
+      "DELETE_TEMPLATE",
       "EDIT_TEMPLATE",
+      "GO_BACK"
+    ]
+  },
+  {
+    "superCommand": "ADMIN_MENU",
+    "command": "EDIT_TEMPLATE",
+    "subCommands": [
+      "ADD_NEW_FIELD",
+      "DELETE_FIELD",
+      "CHANGE_NAME",
       "GO_BACK"
     ]
   },

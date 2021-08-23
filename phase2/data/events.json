@@ -3,7 +3,7 @@
     "eventId": "d9d9427d-9e66-4a53-8eee-a4f2219b54b9",
     "eventOwner": "hasti2c",
     "eventType": "Concert",
-    "numAttendees": 1,
+    "numAttendees": 2,
     "suspended": false,
     "privacyType": "PUBLIC",
     "createdTime": "2021-07-26T11:10:59.566",
@@ -38,6 +38,194 @@
         "java.time.LocalDateTime",
         true,
         "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 3,\n    \"day\": 24\n  },\n  \"time\": {\n    \"hour\": 1,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ]
+    }
+  },
+  {
+    "eventId": "ff63aa78-66b3-439f-ab95-d565327e2ff6",
+    "eventOwner": "jsjchris",
+    "eventType": "Birthday Party",
+    "numAttendees": 0,
+    "suspended": false,
+    "privacyType": "PUBLIC",
+    "createdTime": "2021-08-22T22:29:44.239",
+    "editTime": "2021-08-22T22:29:44.239",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "null"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2021,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 13,\n    \"minute\": 58,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"Gatorade\""
+      ],
+      "Food Options": [
+        "java.lang.String",
+        true,
+        "\"asdas\""
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "null"
+      ],
+      "Place": [
+        "java.lang.String",
+        true,
+        "\"toronto\""
+      ]
+    }
+  },
+  {
+    "eventId": "e255932a-87d8-4e8e-976c-b96c4b6b95cd",
+    "eventOwner": "AustinA",
+    "eventType": "Wedding",
+    "numAttendees": 0,
+    "suspended": false,
+    "privacyType": "PUBLIC",
+    "createdTime": "2021-08-22T23:22:45.111",
+    "editTime": "2021-08-22T23:22:45.111",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "null"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2017,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 12,\n    \"minute\": 22,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"qweq\""
+      ],
+      "Wedding Couple": [
+        "java.lang.String",
+        true,
+        "\"qweqw\""
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "null"
+      ],
+      "Location": [
+        "java.lang.String",
+        true,
+        "\"twe\""
+      ]
+    }
+  },
+  {
+    "eventId": "3ce70a4b-e1d0-4250-ab0b-e239428012f6",
+    "eventOwner": "jsjchris",
+    "eventType": "Wedding",
+    "numAttendees": 0,
+    "suspended": false,
+    "privacyType": "PUBLIC",
+    "createdTime": "2021-08-22T23:09:28.964",
+    "editTime": "2021-08-22T23:09:28.964",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "null"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2021,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 12,\n    \"minute\": 35,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"ewrwe\""
+      ],
+      "Wedding Couple": [
+        "java.lang.String",
+        true,
+        "\"werw\""
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "null"
+      ],
+      "Location": [
+        "java.lang.String",
+        true,
+        "\"toronto\""
+      ]
+    }
+  },
+  {
+    "eventId": "eaacdf29-3c27-4820-97ca-a0674db1f7c6",
+    "eventOwner": "jsjchris",
+    "eventType": "Birthday Party",
+    "numAttendees": 0,
+    "suspended": false,
+    "privacyType": "FRIENDS_ONLY",
+    "createdTime": "2021-08-22T22:35:06.116",
+    "editTime": "2021-08-22T22:35:06.116",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "null"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2021,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 13,\n    \"minute\": 45,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Event Name": [
+        "java.lang.String",
+        true,
+        "\"IFAZ IS WEIRD\""
+      ],
+      "Food Options": [
+        "java.lang.String",
+        true,
+        "\"OSU\""
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "null"
+      ],
+      "Place": [
+        "java.lang.String",
+        true,
+        "\"toronto\""
       ]
     }
   }

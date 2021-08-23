@@ -68,7 +68,7 @@ public class EventManager {
     public boolean attendEvent(String eventID) {
         Event currentEvent = retrieveEventById(eventID);
         if (currentEvent.returnMaxAttendees() == -1) {
-            return false;
+            return true;
         }
         else if (currentEvent.getNumAttendees() == currentEvent.returnMaxAttendees()) {
             return false;
