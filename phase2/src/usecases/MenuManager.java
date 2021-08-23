@@ -24,6 +24,12 @@ public class MenuManager {
         allPermissions = permissionsGateway.getAllElements();
     }
 
+    /**
+     * Based on user type and command, return List<Command> appropriate to the 
+     * userType of current user
+     * 
+     * @return List of Commands
+     */
     public List<Command> getPermittedSubMenu(UserType userType, Command command) {
         List<Command> permittedSubMenu = new ArrayList<>();
         List<Command> allSubCommands = allMenus.get(command.getName()).getSubCommands();
@@ -41,6 +47,9 @@ public class MenuManager {
         return permittedSubMenu;
     }
 
+    /**
+     * Save all menu info
+     */
     public void saveAllMenuInfo() {
         menuGateway.saveAllElements(allMenus);
         userPermissionsGateway.saveAllElements(allPermissions);
@@ -49,9 +58,9 @@ public class MenuManager {
     // Helpers
 
     /**
-     *
+     * Get matching Permissions object based on matching UserType
      * @param userType
-     * @return
+     * @return Permissions object
      */
     public Permissions getPermissions(UserType userType) {
         for(Permissions perms: allPermissions) {

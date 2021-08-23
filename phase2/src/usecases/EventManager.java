@@ -51,6 +51,10 @@ public class EventManager {
         eventList.removeIf(event -> event.getEventId().equals(eventId));
     }
 
+    /**
+     * Sets suspended instance variable of Event with matching eventId to be its logical NOT of what it was previously
+     * @param eventID The Id of the Event
+     */
     public void toggleEventSuspension(String eventID) {
         Event event = retrieveEventById(eventID);
         event.setSuspended(!event.isSuspended());
@@ -99,10 +103,20 @@ public class EventManager {
     }
 
     // === Retrieving information ===
+    /**
+     * Gets username of Event owner
+     * @param eventID The Id of the Event
+     * @return username of the Event owner
+     */
     public String getOwner(String eventID) {
         return retrieveEventById(eventID).getEventOwner();
     }
 
+    /**
+     * Gets the privacy type of Event
+     * @param eventID The Id of the Event
+     * @return corresponding EventPrivacyType
+     */
     public EventPrivacyType getPrivacyType(String eventID) {
         return retrieveEventById(eventID).getPrivacyType();
     }
@@ -116,6 +130,10 @@ public class EventManager {
         return retrieveEventById(eventID).getPrivacyType().getName();
     }
 
+    /**
+     * Determines if Event with matching eventId is suspended
+     * @return boolean indicating if Event is suspended
+     */
     public boolean isSuspended(String eventID) {
         return retrieveEventById(eventID).isSuspended();
     }

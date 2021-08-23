@@ -40,6 +40,14 @@ public class EventController {
     }
 
     // == Viewing ==
+    /**
+     * Displays the appropriate ViewType options to user, prompts user for choice.
+     * Then displays Events to user, prompts user for choice.
+     * Finally, calls browseEvent on selected Event.
+     *
+     * @param userType The userType of the current user.
+     * @param username The username of the current user
+     */
     public void viewEventTypesList(UserType userType, String username) {
         while (true) {
             try {
@@ -191,6 +199,14 @@ public class EventController {
 
     // == Editing ===
     // TODO refactor
+    
+    /**
+     * Prompts current user of which field of Event with matching eventId to edit.
+     * Then prompts current user to edit said field.
+     * 
+     * @param username The username of the current user
+     * @param eventID Id of Event being edited
+     */
     public void editEvent (String username, String eventID) {
         Map<String, Pair<Class<?>, Boolean>> eventMap = eventManager.returnFieldNameAndFieldSpecs(eventID);
         List<String> fieldNames = new ArrayList<>(eventMap.keySet());
