@@ -73,7 +73,7 @@ public class UserController {
             String password = readNewPassword();
             userManager.createUser(username, password, email, userType);
             messageBoxManager.createMessageBox(username);
-            presenter.printText("Account has been created Successfully. You may now login.");
+            presenter.printText("Account has been created Successfully. You may now log in.");
             return true;
         } catch (ExitException e) {
             presenter.printText(EXITING_TEXT);
