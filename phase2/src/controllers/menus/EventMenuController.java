@@ -97,7 +97,7 @@ public class EventMenuController extends EntityMenuController<Event> {
     @Override
     protected boolean verifyPermission(Command command, String username, String eventID) {
         boolean attending = userManager.getAttendingEvents(username).contains(eventID);
-        boolean owned = userManager.getAttendingEvents(username).contains(eventID);
+        boolean owned = userManager.getCreatedEvents(username).contains(eventID);
         boolean suspended = eventManager.isSuspended(eventID);
         switch (command) {
             case ATTEND_EVENT:
