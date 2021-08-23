@@ -51,16 +51,6 @@ public class InputParser {
      * @return int that user inputted.
      */
     public int readInt() {
-//        populateCurrentToken();
-//        try {
-//            return Integer.parseInt(currentToken.nextToken());
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return defaultIntegerValue;
-
-        // Quick fix to clogging program if user does not actually input an int.
         String line = readLine();
         try {
             return Integer.parseInt(line);
