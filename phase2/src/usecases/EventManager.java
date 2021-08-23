@@ -209,13 +209,12 @@ public class EventManager {
      * @return The event that the event Id
      */
     public Event retrieveEventById(String eventId) {
-        List<Event> holderList = new ArrayList<>();
         for (Event event : eventList) {
             if (event.getEventId().equals(eventId)) {
-                holderList.add(event);
+                return event;
             }
         }
-        return holderList.remove(0);
+        return null;
     }
 
     /**
