@@ -87,15 +87,15 @@ public class UserController {
      */
     public String userLogin() {
         try {
-            String username = readExistingUsername();
-            validatePassword(username);
-            if (userManager.tempPassState(username)) {
-                changePassword(username);
-            }
             userManager.updateAllUserSuspension();
+            String username = readExistingUsername();
             if (userManager.isSuspended(username)) {
                 printSuspensionError(username);
                 return null;
+            }
+            validatePassword(username);
+            if (userManager.tempPassState(username)) {
+                changePassword(username);
             }
             return username;
         } catch (ExitException e) {
