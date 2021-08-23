@@ -128,12 +128,13 @@ public class EventManager {
      */
     public List<String> getValidPrivacyTypeNames(String eventID) {
         Event event = retrieveEventById(eventID);
+        String eventPrivacyName = event.getPrivacyType().getName();
         List<EventPrivacyType> privacyTypes = Arrays.asList(EventPrivacyType.values());
-        privacyTypes.remove(event.getPrivacyType());
 
         List<String> privacyTypeNames = new ArrayList<>();
         for (EventPrivacyType privacyType: privacyTypes)
             privacyTypeNames.add(privacyType.getName());
+        privacyTypeNames.remove(eventPrivacyName);
         return privacyTypeNames;
     }
 

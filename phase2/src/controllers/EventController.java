@@ -40,7 +40,6 @@ public class EventController {
     }
 
     // == Viewing ==
-    // TODO make go back not go all the way back
     public void viewEventTypesList(UserType userType, String username) {
         while (true) {
             try {
@@ -51,7 +50,6 @@ public class EventController {
             }
         }
     }
-
 
     private void browseEvent(ViewType<Event> viewType, UserType userType, String username){
         while (true) {
@@ -111,7 +109,7 @@ public class EventController {
     }
 
     /**
-     * Prints the "meta data" of a single event.
+     * Prints the "metadata" of a single event.
      *
      * @param eventID ID of the event
      */
@@ -138,9 +136,11 @@ public class EventController {
         presenter.printText("Your event has been successfully created.");
         if (userManager.retrieveUserType(username) == UserType.TRIAL) {
             presenter.printText("Since you are a trial user, your event will not be saved once you leave the system. " +
-                    "You may choose to make your event public to view it while you are currently using the program.");
+                    "You can view the event you've just created by looking at \" owned events \".");
         }
-        changeEventPrivacy(newEventID);
+        else {
+            changeEventPrivacy(newEventID);
+        }
     }
 
     private void populateFieldValues(String eventId, String username) {
@@ -164,8 +164,10 @@ public class EventController {
             String userInput = inputParser.readLine();
             if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
-            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput)) {
+            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && required) {
                 return eventManager.convertToCorrectDataType(eventId, fieldName, userInput);
+            } else if (eventManager.checkDataValidation(eventId, fieldName, userInput) && !required) {
+                return null;
             } else {
                 presenter.printText("Please try again. Enter " + fieldName + " (" + dataType + "):");
             }

@@ -11,6 +11,7 @@
       "GO_BACK"
     ],
     "eventViewPermissions": [
+      "OWNED",
       "PUBLIC"
     ],
     "userViewPermissions": [
