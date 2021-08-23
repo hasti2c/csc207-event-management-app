@@ -140,23 +140,18 @@ public class UserController {
      * @param userType The userType of the current user.
      * @param username The username of the current user
      */
-    public void viewUserTypesList(UserType userType, String username) {
+    public void browseUsers(UserType userType, String username) {
         while (true) {
             try {
                 ViewType<User> viewType = menuController.getViewTypeChoice(userType);
-                browseUser(viewType, userType, username);
-            } catch (ExitException e) {
-                return;
-            }
-        }
-    }
-
-
-    private void browseUser (ViewType<User> viewType, UserType userType, String username){
-        while (true) {
-            try {
-                String selectedUser = menuController.getEntityChoice(viewType, username);
-                viewUser(userType, username, selectedUser);
+                while (true) {
+                    try {
+                        String selectedUser = menuController.getEntityChoice(viewType, username);
+                        viewUser(userType, username, selectedUser);
+                    } catch (ExitException e) {
+                        break;
+                    }
+                }
             } catch (ExitException e) {
                 return;
             }

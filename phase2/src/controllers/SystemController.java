@@ -104,7 +104,7 @@ public class SystemController {
                 eventController.createNewEvent(currentUser);
                 break;
             case BROWSE_EVENTS:
-                eventController.viewEventTypesList(currentUserType, currentUser);
+                eventController.browseEvents(currentUserType, currentUser);
                 break;
             case CREATE_TEMPLATE:
                 templateController.createNewTemplate();
@@ -125,7 +125,7 @@ public class SystemController {
                 templateController.deleteField();
                 break;
             case BROWSE_USERS:
-                userController.viewUserTypesList(currentUserType, currentUser);
+                userController.browseUsers(currentUserType, currentUser);
                 break;
             case ACCOUNT_MENU:
                 runAccountMenu();
