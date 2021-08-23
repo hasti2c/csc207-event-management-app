@@ -3,6 +3,7 @@
     "command": "START_UP",
     "subCommands": [
       "SIGN_UP",
+      "LOG_IN",
       "MAIN_MENU",
       "TRIAL_MENU",
       "FORGOT_PASSWORD",

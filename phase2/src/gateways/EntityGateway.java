@@ -69,7 +69,7 @@ public abstract class EntityGateway<T extends Savable> implements IGateway<T> {
             this.elements = new HashMap<>();
             for (T element: elements)
                 this.elements.put(element.getID(), element);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -28,7 +28,11 @@ public class SystemController {
     private final Presenter presenter;
     private final InputParser inputParser;
 
-    public static ExecutorBuilder executorBuilder;
+    public final ExecutorBuilder executorBuilder;
+
+    public ExecutorBuilder getExecutorBuilder() {
+        return executorBuilder;
+    }
 
     private final UserManager userManager;
     private final EventManager eventManager;
@@ -38,6 +42,8 @@ public class SystemController {
 
     private String currentUser;
     private UserType currentUserType;
+
+    private static SystemController singleton;
 
     // == initializing ==
     public SystemController() {
@@ -65,7 +71,10 @@ public class SystemController {
         menuController = new CommandMenuController(menuManager);
 
         executorBuilder = new ExecutorBuilder();
+        // TODO set all of the variables for executor builder
+        executorBuilder.setUserController(userController);
     }
+
 
     /**
      * Run the program, this runs the "StartUp Menu"
@@ -79,6 +88,13 @@ public class SystemController {
         while (true) {
             Command userInput = menuController.getUserMenuChoice(currentUserType, currentCommand);
             try {
+                userInput.execute();
+                if (userInput == LOG_IN) {
+                    runMenu(MAIN_MENU);
+                }
+                else if (userInput == SIGN_UP) {
+                    SAVE.execute();
+                }
                 runUserCommand(userInput);
             } catch (ExitException e) {
                 return;
@@ -89,10 +105,10 @@ public class SystemController {
     // TODO maybe move account menu stuff to UserController
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
-            case SIGN_UP:
-                signUp();
-                runUserCommand(SAVE);
-                break;
+//            case SIGN_UP:
+//                signUp();
+//                runUserCommand(SAVE);
+//                break;
             case MAIN_MENU:
                 login();
                 break;

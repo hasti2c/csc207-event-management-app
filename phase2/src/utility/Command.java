@@ -10,8 +10,9 @@ import utility.executor.ExecutorBuilder;
 public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
-    SIGN_UP("Sign Up", SystemController.executorBuilder.buildSignUpExecutor()),
-    MAIN_MENU("Log In"),
+    SIGN_UP("Sign Up"),
+    MAIN_MENU("Main Menu"),
+    LOG_IN("Log In"),
     TRIAL_MENU("Trial Menu"),
     FORGOT_PASSWORD("Forgot Password"),
     EXIT("Exit"),
@@ -57,20 +58,15 @@ public enum Command {
     CHANGE_TEMPLATE_NAME("Change Template Name");
 
     private final String name;
-    private final CommandExecutor commandExecutor;
+    private CommandExecutor commandExecutor;
 
     /**
      * Create a Command.
      * @param name Name of command.
      */
     Command(String name) {
-        this(name, null);
-    }
-    Command(String name, CommandExecutor executor) {
         this.name = name;
-        this.commandExecutor = executor;
     }
-
     /**
      * @return Name of command.
      */
@@ -79,5 +75,12 @@ public enum Command {
     }
     public String getName() {
         return name;
+    }
+
+    public static void initializeAllExecutor(ExecutorBuilder builder) {
+        SIGN_UP.commandExecutor = builder.buildSignUpExecutor();
+        LOG_IN.commandExecutor = builder.buildLoginExecutor();
+        SAVE.commandExecutor = builder.buildSaveExecutor();
+        FORGOT_PASSWORD.commandExecutor = builder.buildPasswordExecutor();
     }
 }
