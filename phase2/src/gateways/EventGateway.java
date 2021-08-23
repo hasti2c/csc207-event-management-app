@@ -50,6 +50,7 @@ public class EventGateway extends EntityGateway<Event> {
 
         private void addPrimitives(Event event, JsonObject json) {
             json.addProperty("eventId", event.getEventId());
+            json.addProperty("eventName", event.getEventName());
             json.addProperty("eventOwner", event.getEventOwner());
             json.addProperty("eventType", event.getEventType());
             json.addProperty("numAttendees", event.getNumAttendees());
@@ -104,6 +105,7 @@ public class EventGateway extends EntityGateway<Event> {
 
         private void getPrimitives(JsonObject json, Event event) {
             setField(event, "eventId", json.get("eventId").getAsString());
+            setField(event, "eventName", json.get("eventName").getAsString());
             setField(event, "eventOwner", json.get("eventOwner").getAsString());
             setField(event, "eventType", json.get("eventType").getAsString());
             setField(event, "numAttendees", json.get("numAttendees").getAsInt());

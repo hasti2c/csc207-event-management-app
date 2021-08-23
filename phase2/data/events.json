@@ -1,6 +1,7 @@
 [
   {
     "eventId": "d9d9427d-9e66-4a53-8eee-a4f2219b54b9",
+    "eventName": "some name",
     "eventOwner": "hasti2c",
     "eventType": "Concert",
     "numAttendees": 2,
@@ -29,11 +30,6 @@
         true,
         "\"somewhere\""
       ],
-      "Event Name": [
-        "java.lang.String",
-        true,
-        "\"some name\""
-      ],
       "Time": [
         "java.time.LocalDateTime",
         true,
@@ -43,6 +39,7 @@
   },
   {
     "eventId": "ff63aa78-66b3-439f-ab95-d565327e2ff6",
+    "eventName": "Gatorade",
     "eventOwner": "jsjchris",
     "eventType": "Birthday Party",
     "numAttendees": 0,
@@ -60,11 +57,6 @@
         "java.time.LocalDateTime",
         true,
         "{\n  \"date\": {\n    \"year\": 2021,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 13,\n    \"minute\": 58,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
-      ],
-      "Event Name": [
-        "java.lang.String",
-        true,
-        "\"Gatorade\""
       ],
       "Food Options": [
         "java.lang.String",
@@ -90,6 +82,7 @@
   },
   {
     "eventId": "e255932a-87d8-4e8e-976c-b96c4b6b95cd",
+    "eventName": "qweq",
     "eventOwner": "AustinA",
     "eventType": "Wedding",
     "numAttendees": 0,
@@ -107,11 +100,6 @@
         "java.time.LocalDateTime",
         true,
         "{\n  \"date\": {\n    \"year\": 2017,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 12,\n    \"minute\": 22,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
-      ],
-      "Event Name": [
-        "java.lang.String",
-        true,
-        "\"qweq\""
       ],
       "Wedding Couple": [
         "java.lang.String",
@@ -137,6 +125,7 @@
   },
   {
     "eventId": "3ce70a4b-e1d0-4250-ab0b-e239428012f6",
+    "eventName": "ewrwe",
     "eventOwner": "jsjchris",
     "eventType": "Wedding",
     "numAttendees": 0,
@@ -154,11 +143,6 @@
         "java.time.LocalDateTime",
         true,
         "{\n  \"date\": {\n    \"year\": 2021,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 12,\n    \"minute\": 35,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
-      ],
-      "Event Name": [
-        "java.lang.String",
-        true,
-        "\"ewrwe\""
       ],
       "Wedding Couple": [
         "java.lang.String",
@@ -183,7 +167,51 @@
     }
   },
   {
+    "eventId": "5f5db203-9fdf-4caa-9f31-6acf5b799147",
+    "eventName": "event",
+    "eventOwner": "haze",
+    "eventType": "Concert",
+    "numAttendees": 0,
+    "suspended": false,
+    "privacyType": "PUBLIC",
+    "createdTime": "2021-08-23T18:27:13.063",
+    "editTime": "2021-08-23T18:27:13.063",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        true,
+        "1"
+      ],
+      "Concert Genre": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 2,\n    \"day\": 2\n  },\n  \"time\": {\n    \"hour\": 2,\n    \"minute\": 2,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Performer(s)": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Venue": [
+        "java.lang.String",
+        true,
+        "\"venue\""
+      ],
+      "Serving Alcohol": [
+        "java.lang.Boolean",
+        true,
+        "false"
+      ]
+    }
+  },
+  {
     "eventId": "eaacdf29-3c27-4820-97ca-a0674db1f7c6",
+    "eventName": "IFAZ IS WEIRD",
     "eventOwner": "jsjchris",
     "eventType": "Birthday Party",
     "numAttendees": 0,
@@ -201,11 +229,6 @@
         "java.time.LocalDateTime",
         true,
         "{\n  \"date\": {\n    \"year\": 2021,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 13,\n    \"minute\": 45,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
-      ],
-      "Event Name": [
-        "java.lang.String",
-        true,
-        "\"IFAZ IS WEIRD\""
       ],
       "Food Options": [
         "java.lang.String",
