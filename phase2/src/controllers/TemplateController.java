@@ -63,23 +63,31 @@ public class TemplateController {
         }
     }
 
-    public void addNewField() throws ExitException{
+    public void addNewField() {
         presenter.printText("Which Template would you like to add the new field to?:");
-        String templateName = chooseTemplate();
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
         addField(templateName);
     }
-    public void deleteField() throws ExitException{
-        presenter.printText("Which Template would you like to delete field from?:");
-        String templateName = chooseTemplate();
+    public void deleteField() {
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
 
-        try{
+        try {
             String fieldName = fieldMenu(templateName);
             templateManager.deleteFieldSpecs(templateName, fieldName);
         }
         catch (ExitException e) {
-            presenter.printText("Invalid input. Please try again:");
+            deleteField();
         }
-
     }
 
     /**
@@ -119,38 +127,34 @@ public class TemplateController {
     public String chooseTemplate() throws ExitException {
         List<String> templateList = templateManager.returnTemplateNames();
         templateList.add(MENU_EXIT_OPTION);
-        presenter.printMenu("TemplateList", templateList);
+        presenter.printMenu("Choose a Template:", templateList);
         return inputParser.getMenuChoice(templateList, true);
     }
 
-    public void editTemplate() {
+    public void editTemplateName() {
+        String templateName;
         try {
-            String templateName = chooseTemplate();
-            editTemplateName(templateName);
+            templateName = chooseTemplate();
         } catch (ExitException e) {
             return;
         }
-    }
-
-    private void editTemplateName(String templateName) {
         String newTemplateName = getChangedTemplateName(templateName);
         templateManager.editTemplateName(templateName, newTemplateName);
         presenter.printText("Template name edited successfully.");
-
     }
 
     private String getChangedTemplateName(String templateName) {
         presenter.printText("Please enter a new name for the template.");
         String newTemplateName = inputParser.readLine();
 
-        while (!templateManager.checkNameUniqueness(templateName) || templateName.equals(newTemplateName)){
-            if (!templateName.equals(newTemplateName))
+        while (!templateManager.checkNameUniqueness(newTemplateName)){
+            if (templateName.equals(newTemplateName))
                 presenter.printText("Please enter a different name.");
-            else if (templateManager.checkNameUniqueness(newTemplateName))
+            else if (!templateManager.checkNameUniqueness(newTemplateName))
                 presenter.printText("This name is already taken by another template. Please try again.");
-            templateName = inputParser.readLine();
+            newTemplateName = inputParser.readLine();
         }
-        return templateName;
+        return newTemplateName;
     }
 
     public void deleteTemplate() throws ExitException {

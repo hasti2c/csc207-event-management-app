@@ -50,7 +50,7 @@ public enum Command {
     ADD_NEW_FIELD("Add a New Field"),
     DELETE_FIELD("Delete a Field"),
     DELETE_TEMPLATE("Delete Template"),
-    CHANGE_NAME("Change Template Name");
+    CHANGE_TEMPLATE_NAME("Change Template Name");
 
     private final String name;
 

@@ -138,7 +138,7 @@
       "MESSAGE_ADMINS",
       "ADD_NEW_FIELD",
       "DELETE_FIELD",
-      "CHANGE_NAME"
+      "CHANGE_TEMPLATE_NAME"
     ],
     "eventViewPermissions": [
       "OWNED",

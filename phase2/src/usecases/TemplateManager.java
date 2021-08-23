@@ -69,13 +69,12 @@ public class TemplateManager {
      * @return corresponding Template object
      */
     public Template retrieveTemplateByName(String templateName) {
-        List<Template> holderList = new ArrayList<>();
         for (Template template : templateList) {
             if (template.getTemplateName().equals(templateName)) {
-                holderList.add(template);
+                return template;
             }
         }
-        return holderList.remove(0);
+        return null;
     }
 
     /**

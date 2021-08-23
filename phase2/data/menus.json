@@ -96,7 +96,7 @@
     "subCommands": [
       "ADD_NEW_FIELD",
       "DELETE_FIELD",
-      "CHANGE_NAME",
+      "CHANGE_TEMPLATE_NAME",
       "GO_BACK"
     ]
   },

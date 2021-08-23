@@ -14,7 +14,6 @@ import static utility.UserType.*;
 import static utility.Command.*;
 
 import java.io.File;
-import java.util.*;
 
 /**
  * Controller in charge of delegating to user controller and event controller. Runs the full system.
@@ -116,8 +115,8 @@ public class SystemController {
             case EDIT_TEMPLATE:
                 runMenu(EDIT_TEMPLATE);
                 break;
-            case CHANGE_NAME:
-                templateController.editTemplate();
+            case CHANGE_TEMPLATE_NAME:
+                templateController.editTemplateName();
                 break;
             case ADD_NEW_FIELD:
                 templateController.addNewField();

@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import static utility.AppConstant.*;
+
 // Inspired by https://codeforces.com/blog/entry/6834?#comment-124539
 
 public class InputParser {
@@ -106,15 +108,18 @@ public class InputParser {
      */
     public <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
         int user_input = readInt();
-        if (checkExit && (user_input - 1) == menuOptions.size()) {
-            throw new ExitException();
-        }
+        S option;
         try {
-            return menuOptions.get(user_input - 1);
+            option = menuOptions.get(user_input - 1);
         } catch (IndexOutOfBoundsException e) {
             Presenter.getInstance().invalidInput();
             return getMenuChoice(menuOptions, checkExit);
         }
+
+        if (checkExit && option == MENU_EXIT_OPTION) {
+            throw new ExitException();
+        }
+        return option;
     }
 
     private void populateCurrentToken() {
