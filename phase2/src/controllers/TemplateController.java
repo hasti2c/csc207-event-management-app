@@ -72,9 +72,14 @@ public class TemplateController {
         presenter.printText("Which Template would you like to delete field from?:");
         String templateName = chooseTemplate();
 
-        String fieldName = fieldMenu(templateName);
+        try{
+            String fieldName = fieldMenu(templateName);
+            templateManager.deleteFieldSpecs(templateName, fieldName);
+        }
+        catch (ExitException e) {
+            presenter.printText("Invalid input. Please try again:");
+        }
 
-        templateManager.deleteFieldSpecs(templateName,fieldName);
     }
 
     /**
@@ -98,17 +103,12 @@ public class TemplateController {
         return inputParser.getMenuChoice(options);
     }
 
-    private String fieldMenu(String templateName){
+    private String fieldMenu(String templateName) throws ExitException {
         List<String> options = (templateManager.getFieldNames(templateName));
         options.add(MENU_EXIT_OPTION);
         presenter.printMenu("Data Types", options);
-        try{
-            return inputParser.getMenuChoice(options, true);
-        }
-        catch (ExitException e) {
-            presenter.printText("Invalid input. Please try again:");
-        }
-        return inputParser.getMenuChoice(options);
+        return inputParser.getMenuChoice(options, true);
+
     }
     // == Editing Templates ==
     /**
