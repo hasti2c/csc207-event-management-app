@@ -68,6 +68,16 @@ public class TemplateController {
         String templateName = chooseTemplate();
         addField(templateName);
     }
+    public void deleteField() throws ExitException{
+        presenter.printText("Which Template would you like to delete field from?:");
+        String templateName = chooseTemplate();
+
+        presenter.printText("Enter the field name:");
+        String fieldName = inputParser.readLine();
+
+        templateManager.deleteFieldSpecs(templateName, fieldName);
+    }
+
     /**
      * Helper function to prompt current user for custom field specifics: name, type.
      */
@@ -133,6 +143,7 @@ public class TemplateController {
         String templateName = chooseTemplate();
         templateManager.deleteTemplate(templateName);
     }
+
 
 
 }

@@ -91,7 +91,7 @@
     ]
   },
   {
-    "superCommand": "ADMIN MENU",
+    "superCommand": "ADMIN_MENU",
     "command": "EDIT_TEMPLATE",
     "subCommands": [
       "ADD_NEW_FIELD",

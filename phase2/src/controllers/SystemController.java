@@ -122,6 +122,9 @@ public class SystemController {
             case ADD_NEW_FIELD:
                 templateController.addNewField();
                 break;
+            case DELETE_FIELD:
+                templateController.deleteField();
+                break;
             case BROWSE_USERS:
                 userController.viewUserTypesList(currentUserType, currentUser);
                 break;
