@@ -116,9 +116,13 @@ public class TemplateController {
         return inputParser.getMenuChoice(templateList, true);
     }
 
-    public void editTemplate() throws ExitException {
-        String templateName = chooseTemplate();
-        editTemplateName(templateName);
+    public void editTemplate() {
+        try {
+            String templateName = chooseTemplate();
+            editTemplateName(templateName);
+        } catch (ExitException e) {
+            return;
+        }
     }
 
     private void editTemplateName(String templateName) {
