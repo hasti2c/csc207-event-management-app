@@ -22,6 +22,20 @@
     "friends": []
   },
   {
+    "username": "jsjchris",
+    "password": "CSC207h1!",
+    "userEmail": "jsjchris@gmail.com",
+    "hasTempPass": false,
+    "ownedEvents": [
+      "ff63aa78-66b3-439f-ab95-d565327e2ff6",
+      "eaacdf29-3c27-4820-97ca-a0674db1f7c6"
+    ],
+    "attendingEvents": [],
+    "userType": "REGULAR",
+    "suspended": false,
+    "friends": []
+  },
+  {
     "username": "hasti2c",
     "password": "yay",
     "userEmail": "test@email.com",
@@ -33,6 +47,17 @@
       "d9d9427d-9e66-4a53-8eee-a4f2219b54b9"
     ],
     "userType": "ADMIN",
+    "suspended": false,
+    "friends": []
+  },
+  {
+    "username": "jsjchris2",
+    "password": "Csc207H1!",
+    "userEmail": "christophersj.jung@mail.utoronto.ca",
+    "hasTempPass": false,
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "REGULAR",
     "suspended": false,
     "friends": []
   },

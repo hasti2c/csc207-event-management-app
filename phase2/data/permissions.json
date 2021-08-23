@@ -131,10 +131,14 @@
       "VIEW_ADMIN_INBOX",
       "SEND_ANNOUNCEMENT",
       "CREATE_TEMPLATE",
+      "DELETE_TEMPLATE",
       "EDIT_TEMPLATE",
       "VIEW_MESSAGES",
       "VIEW_ANNOUNCEMENTS",
-      "MESSAGE_ADMINS"
+      "MESSAGE_ADMINS",
+      "ADD_NEW_FIELD",
+      "DELETE_FIELD",
+      "CHANGE_NAME"
     ],
     "eventViewPermissions": [
       "OWNED",
