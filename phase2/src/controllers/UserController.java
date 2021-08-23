@@ -70,7 +70,7 @@ public class UserController {
             String email = readNewEmail();
             UserType userType = readUserType();
             String username = readNewUsername();
-            String password = getChangedPassword();
+            String password = readNewPassword();
             userManager.createUser(username, password, email, userType);
             messageBoxManager.createMessageBox(username);
             presenter.printText("Account has been created Successfully. You may now login.");
@@ -259,10 +259,11 @@ public class UserController {
      */
     public String changeUsername(String username){
         try {
-            String newUsername = getChangedUsername();
+            String newUsername = readNewUsername();
             userManager.updateUsername(username, newUsername);
             eventManager.updateUsername(username, newUsername);
             messageBoxManager.updateMailBoxUsername(username, newUsername);
+            presenter.printText("Your username has been updated.");
             return newUsername;
         } catch (ExitException e) {
             return null;
@@ -276,8 +277,9 @@ public class UserController {
     public void changePassword(String username){
 
             try {
-                String newPassword = getChangedPassword();
+                String newPassword = readNewPassword();
                 userManager.updatePassword(username, newPassword);
+                presenter.printText("Your password has been updated!");
             } catch (ExitException ignored) {
             }
             userManager.setTempPassState(username, false);
@@ -290,8 +292,9 @@ public class UserController {
      */
     public void changeEmail(String username){
         try {
-            String newEmail = getChangedEmail();
+            String newEmail = readNewEmail();
             userManager.updateEmail(username, newEmail);
+            presenter.printText("Your email has been updated!");
         } catch (ExitException ignored) {}
     }
 
@@ -408,13 +411,26 @@ public class UserController {
         }
     }
 
+    /**
+     * Prompts user to enter a password and returns it if valid
+     * @return String of new password
+     * @throws ExitException If user decides to go back
+     */
     private String readNewPassword() throws ExitException {
-        presenter.printText("Enter a Password" + TEXT_EXIT_OPTION + ": ");
-        String password = inputParser.readLine();
-        if (password.equalsIgnoreCase(EXIT_TEXT)) {
-            throw new ExitException();
-        } else {
-            return password;
+        presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
+        String newPassword = inputParser.readLine();
+        while (true) {
+            if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
+                throw new ExitException();
+            } else if (!isValidPassword(newPassword)) {
+                presenter.printText("Must be at least 8 characters with an upper case, lower case, number");
+                presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
+                newPassword = inputParser.readLine();
+
+            }else {
+                presenter.printText("Your password has been updated!");
+                return newPassword;
+            }
         }
     }
 
@@ -447,59 +463,6 @@ public class UserController {
             }
             else {
                 presenter.printText("That password is incorrect");
-            }
-        }
-    }
-
-    private String getChangedUsername() throws ExitException {
-        presenter.printText("Enter your NEW username " + TEXT_EXIT_OPTION + ": ");
-        while (true) {
-            String username = inputParser.readLine();
-            if (username.equalsIgnoreCase(EXIT_TEXT)) {
-                throw new ExitException();
-            } else if (userManager.usernameIsUnique(username) && isValidUsername(username)) {
-                presenter.printText("Your username has been updated!");
-                return username;
-            } else {
-                presenter.printText("That username is already taken or is not valid, please try again!");
-            }
-        }
-    }
-
-    /**
-     * Prompts user to enter a password and returns it if valid
-     * @return String of new password
-     * @throws ExitException If user decides to go back
-     */
-    private String getChangedPassword() throws ExitException {
-        presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
-        String newPassword = inputParser.readLine();
-        while (true) {
-            if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
-                throw new ExitException();
-            } else if (!isValidPassword(newPassword)) {
-                presenter.printText("Must be at least 8 characters with an upper case, lower case, number");
-                presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
-                newPassword = inputParser.readLine();
-
-            }else {
-                presenter.printText("Your password has been updated!");
-                return newPassword;
-            }
-        }
-    }
-
-    private String getChangedEmail() throws ExitException {
-        presenter.printText("Enter your NEW email " + TEXT_EXIT_OPTION + ": ");
-        while (true) {
-            String email = inputParser.readLine();
-            if (email.equalsIgnoreCase(EXIT_TEXT)) {
-                throw new ExitException();
-            } else if (userManager.emailIsUnique(email) && isValidEmail(email)) {
-                presenter.printText("Your email has been updated!");
-                return email;
-            } else {
-                presenter.printText("That email is already taken or is not valid, please try again!");
             }
         }
     }
