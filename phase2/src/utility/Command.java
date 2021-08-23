@@ -7,7 +7,7 @@ public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
     SIGN_UP("Sign Up"),
-    MAIN_MENU("Main Menu"),
+    MAIN_MENU("Log In"),
     TRIAL_MENU("Trial Menu"),
     FORGOT_PASSWORD("Forgot Password"),
     EXIT("Exit"),
@@ -46,7 +46,11 @@ public enum Command {
     EDIT_TEMPLATE("Edit Template"),
     VIEW_ADMIN_INBOX("View Admin Inbox"),
     SEND_MESSAGE("Send Message"),
-    SEND_ANNOUNCEMENT("Send Announcement");
+    SEND_ANNOUNCEMENT("Send Announcement"),
+    ADD_TEMPLATE_FIELD("Add a New Field"),
+    DELETE_TEMPLATE_FIELD("Delete a Field"),
+    DELETE_TEMPLATE("Delete Template"),
+    CHANGE_TEMPLATE_NAME("Change Template Name");
 
     private final String name;
 

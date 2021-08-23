@@ -63,6 +63,33 @@ public class TemplateController {
         }
     }
 
+    public void addNewField() {
+        presenter.printText("Which Template would you like to add the new field to?:");
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
+        addField(templateName);
+    }
+    public void deleteField() {
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
+
+        try {
+            String fieldName = fieldMenu(templateName);
+            templateManager.deleteFieldSpecs(templateName, fieldName);
+        }
+        catch (ExitException e) {
+            deleteField();
+        }
+    }
+
     /**
      * Helper function to prompt current user for custom field specifics: name, type.
      */
@@ -84,6 +111,13 @@ public class TemplateController {
         return inputParser.getMenuChoice(options);
     }
 
+    private String fieldMenu(String templateName) throws ExitException {
+        List<String> options = (templateManager.getFieldNames(templateName));
+        options.add(MENU_EXIT_OPTION);
+        presenter.printMenu("Data Types", options);
+        return inputParser.getMenuChoice(options, true);
+
+    }
     // == Editing Templates ==
     /**
      * Prints a list of templates and returns the user's choice. If the choice is longer than the list of templates,
@@ -93,33 +127,48 @@ public class TemplateController {
     public String chooseTemplate() throws ExitException {
         List<String> templateList = templateManager.returnTemplateNames();
         templateList.add(MENU_EXIT_OPTION);
-        presenter.printMenu("TemplateList", templateList);
+        presenter.printMenu("Choose a Template:", templateList);
         return inputParser.getMenuChoice(templateList, true);
     }
 
-    public void editTemplate() throws ExitException {
-        String templateName = chooseTemplate();
-        editTemplateName(templateName);
-    }
-
-    private void editTemplateName(String templateName) {
+    public void editTemplateName() {
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
         String newTemplateName = getChangedTemplateName(templateName);
         templateManager.editTemplateName(templateName, newTemplateName);
         presenter.printText("Template name edited successfully.");
-
     }
 
     private String getChangedTemplateName(String templateName) {
         presenter.printText("Please enter a new name for the template.");
         String newTemplateName = inputParser.readLine();
 
-        while (!templateManager.checkNameUniqueness(templateName) || templateName.equals(newTemplateName)){
-            if (!templateName.equals(newTemplateName))
+        while (!templateManager.checkNameUniqueness(newTemplateName)){
+            if (templateName.equals(newTemplateName))
                 presenter.printText("Please enter a different name.");
-            else if (templateManager.checkNameUniqueness(newTemplateName))
+            else if (!templateManager.checkNameUniqueness(newTemplateName))
                 presenter.printText("This name is already taken by another template. Please try again.");
-            templateName = inputParser.readLine();
+            newTemplateName = inputParser.readLine();
         }
-        return templateName;
+        return newTemplateName;
     }
+
+    public void deleteTemplate() throws ExitException {
+        presenter.printText("Which Template would you like to delete?:");
+        String templateName;
+        try {
+            templateName = chooseTemplate();
+        } catch (ExitException e) {
+            return;
+        }
+        templateManager.deleteTemplate(templateName);
+        throw new ExitException();
+    }
+
+
+
 }

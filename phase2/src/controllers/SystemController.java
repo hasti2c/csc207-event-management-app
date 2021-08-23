@@ -14,7 +14,6 @@ import static utility.UserType.*;
 import static utility.Command.*;
 
 import java.io.File;
-import java.util.*;
 
 /**
  * Controller in charge of delegating to user controller and event controller. Runs the full system.
@@ -57,10 +56,10 @@ public class SystemController {
         inputParser = InputParser.getInstance();
 
         messageBoxController = new MessageController(userManager, messageBoxManager);
-        eventController = new EventController(userManager, eventManager, templateManager, menuManager);
+        templateController = new TemplateController(templateManager);
+        eventController = new EventController(userManager, eventManager, templateManager, menuManager, templateController);
         userController = new UserController(userManager, eventManager, menuManager, messageBoxManager, messageBoxController);
         menuController = new CommandMenuController(menuManager);
-        templateController = new TemplateController(templateManager);
 
     }
 
@@ -102,19 +101,31 @@ public class SystemController {
                 exit();
                 break;
             case CREATE_EVENT:
-                eventController.createNewEvent(templateController.chooseTemplate(), currentUser);
+                eventController.createNewEvent(currentUser);
                 break;
             case BROWSE_EVENTS:
-                eventController.viewEventTypesList(currentUserType, currentUser);
+                eventController.browseEvents(currentUserType, currentUser);
                 break;
             case CREATE_TEMPLATE:
                 templateController.createNewTemplate();
                 break;
+            case DELETE_TEMPLATE:
+                templateController.deleteTemplate();
+                break;
             case EDIT_TEMPLATE:
-                templateController.editTemplate();
+                runMenu(EDIT_TEMPLATE);
+                break;
+            case CHANGE_TEMPLATE_NAME:
+                templateController.editTemplateName();
+                break;
+            case ADD_TEMPLATE_FIELD:
+                templateController.addNewField();
+                break;
+            case DELETE_TEMPLATE_FIELD:
+                templateController.deleteField();
                 break;
             case BROWSE_USERS:
-                userController.viewUserTypesList(currentUserType, currentUser);
+                userController.browseUsers(currentUserType, currentUser);
                 break;
             case ACCOUNT_MENU:
                 runAccountMenu();

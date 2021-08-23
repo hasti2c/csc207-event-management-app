@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import static utility.AppConstant.*;
+
 // Inspired by https://codeforces.com/blog/entry/6834?#comment-124539
 
 public class InputParser {
@@ -71,7 +73,7 @@ public class InputParser {
         List<String> falseStrings = Arrays.asList("n", "no", "false");
         if (trueStrings.contains(line.toLowerCase())) {
             return true;
-        } else if (falseStrings.contains(line)) {
+        } else if (falseStrings.contains(line.toLowerCase())) {
             return false;
         } else {
             presenter.printText("Please type Y or N.");
@@ -83,7 +85,6 @@ public class InputParser {
      * Gets & returns user's choice from menu items. (Doesn't display the menu.)
      * Exit option is assumed to be handled by the caller.
      * @param menuOptions The list of menuOptions that have been shown to the user.
-     * @param <S> Data type of menuOptions.
      * @return Menu option chosen by user.
      */
     public <S> S getMenuChoice(List<S> menuOptions) {
@@ -100,21 +101,35 @@ public class InputParser {
      * @param menuOptions The list of menuOptions that have been shown to the user.
      * @param checkExit True if exit is the last item & has to be manually checked here. False if exit is handled by the
      *                  caller.
-     * @param <S> Data type of menuOptions.
      * @return Menu option chosen by user.
      * @throws ExitException If user chooses exit option & checkExit is true (exit has to be manually checked here).
      */
     public <S> S getMenuChoice(List<S> menuOptions, boolean checkExit) throws ExitException {
         int user_input = readInt();
-        if (checkExit && (user_input - 1) == menuOptions.size()) {
-            throw new ExitException();
-        }
+        S option;
         try {
-            return menuOptions.get(user_input - 1);
+            option = menuOptions.get(user_input - 1);
         } catch (IndexOutOfBoundsException e) {
             Presenter.getInstance().invalidInput();
             return getMenuChoice(menuOptions, checkExit);
         }
+
+        if (checkExit && option.equals(MENU_EXIT_OPTION)) {
+            throw new ExitException();
+        }
+        return option;
+    }
+
+    // TODO javadoc
+    public <S> int getMenuChoiceIndex(List<S> menuOptions) {
+        S choice = getMenuChoice(menuOptions);
+        return menuOptions.indexOf(choice);
+    }
+
+    // TODO javadoc
+    public <S> int getMenuChoiceIndex(List<S> menuOptions, boolean checkExit) throws ExitException {
+        S choice = getMenuChoice(menuOptions, checkExit);
+        return menuOptions.indexOf(choice);
     }
 
     private void populateCurrentToken() {

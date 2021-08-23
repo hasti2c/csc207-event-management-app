@@ -2,19 +2,9 @@
   {
     "fieldDescriptions": [
       {
-        "fieldName": "Event Name",
-        "dataType": "java.lang.String",
-        "required": true
-      },
-      {
         "fieldName": "Max Attendees",
         "dataType": "java.lang.Integer",
         "required": false
-      },
-      {
-        "fieldName": "Location",
-        "dataType": "java.lang.String",
-        "required": true
       },
       {
         "fieldName": "Time (yyyy-MM-dd HH:mm)",
@@ -35,6 +25,11 @@
         "fieldName": "Dress Code",
         "dataType": "java.lang.String",
         "required": false
+      },
+      {
+        "fieldName": "event name",
+        "dataType": "java.lang.String",
+        "required": true
       }
     ],
     "templateName": "Wedding",
@@ -80,46 +75,5 @@
     ],
     "templateName": "Concert",
     "templateId": "id100"
-  },
-  {
-    "fieldDescriptions": [
-      {
-        "fieldName": "Event Name",
-        "dataType": "java.lang.String",
-        "required": true
-      },
-      {
-        "fieldName": "Time (yyyy-MM-dd HH:mm)",
-        "dataType": "java.time.LocalDateTime",
-        "required": true
-      },
-      {
-        "fieldName": "Max Attendees",
-        "dataType": "java.lang.Integer",
-        "required": false
-      },
-      {
-        "fieldName": "Place",
-        "dataType": "java.lang.String",
-        "required": true
-      },
-      {
-        "fieldName": "Is Gift Required",
-        "dataType": "java.lang.Boolean",
-        "required": false
-      },
-      {
-        "fieldName": "Food Options",
-        "dataType": "java.lang.String",
-        "required": true
-      },
-      {
-        "fieldName": "Dress Code",
-        "dataType": "java.lang.String",
-        "required": false
-      }
-    ],
-    "templateName": "Birthday Party",
-    "templateId": "id300"
   }
 ]
