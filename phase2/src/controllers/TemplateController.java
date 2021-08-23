@@ -100,7 +100,14 @@ public class TemplateController {
 
     private String fieldMenu(String templateName){
         List<String> options = (templateManager.getFieldNames(templateName));
+        options.add(MENU_EXIT_OPTION);
         presenter.printMenu("Data Types", options);
+        try{
+            return inputParser.getMenuChoice(options, true);
+        }
+        catch (ExitException e) {
+            presenter.printText("Invalid input. Please try again:");
+        }
         return inputParser.getMenuChoice(options);
     }
     // == Editing Templates ==
