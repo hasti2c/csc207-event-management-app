@@ -107,7 +107,7 @@ public class TemplateManager {
         templateList.add(template);
     }
 
-    public void addNewFieldSpecs(String templateName, String fieldName, String dataType, String isRequired) {
+    public void addNewFieldSpecs(String templateName, String fieldName, String dataType, boolean isRequired) {
         FieldSpecs fieldSpecs = createNewFieldSpecs(fieldName, dataType, isRequired);
         addFieldSpecs(templateName, fieldSpecs);
     }
@@ -119,9 +119,8 @@ public class TemplateManager {
      * @param isRequired is it required
      * @return FieldSpecs object
      */
-    private FieldSpecs createNewFieldSpecs(String fieldName, String dataType, String isRequired) {
+    private FieldSpecs createNewFieldSpecs(String fieldName, String dataType, boolean isRequired) {
         Class<?> convertedDataType = null;
-        boolean convertedIsRequired = false;
         if (dataType.equalsIgnoreCase("string")){
             convertedDataType = String.class;
         }
@@ -135,11 +134,7 @@ public class TemplateManager {
             convertedDataType = LocalDateTime.class;
         }
 
-        if (isRequired.equalsIgnoreCase("y")){
-            convertedIsRequired = true;
-        }
-
-        return new FieldSpecs(fieldName, convertedDataType, convertedIsRequired);
+        return new FieldSpecs(fieldName, convertedDataType, isRequired);
     }
 
     /**
