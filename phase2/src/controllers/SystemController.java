@@ -73,6 +73,12 @@ public class SystemController {
         executorBuilder = new ExecutorBuilder();
         // TODO set all of the variables for executor builder
         executorBuilder.setUserController(userController);
+
+        executorBuilder.setUserManager(userManager);
+        executorBuilder.setEventManager(eventManager);
+        executorBuilder.setMenuManager(menuManager);
+        executorBuilder.setTemplateManager(templateManager);
+        executorBuilder.setMessageBoxManager(messageBoxManager);
     }
 
 
@@ -89,7 +95,7 @@ public class SystemController {
             Command userInput = menuController.getUserMenuChoice(currentUserType, currentCommand);
             try {
                 userInput.execute();
-                if (userInput == LOG_IN) {
+                if (userInput == MAIN_MENU) {
                     runMenu(MAIN_MENU);
                 }
                 else if (userInput == SIGN_UP) {
@@ -109,9 +115,9 @@ public class SystemController {
 //                signUp();
 //                runUserCommand(SAVE);
 //                break;
-            case MAIN_MENU:
-                login();
-                break;
+//            case MAIN_MENU:
+//                login();
+//                break;
             case TRIAL_MENU:
                 runTrialMenu();
                 break;
@@ -154,9 +160,9 @@ public class SystemController {
             case ADMIN_MENU:
                 runMenu(ADMIN_MENU);
                 break;
-            case SAVE:
-                saveAll();
-                break;
+//            case SAVE:
+//                saveAll();
+//                break;
             case LOG_OUT:
                 logOut();
                 break;

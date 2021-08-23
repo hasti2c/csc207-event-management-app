@@ -92,6 +92,7 @@ public class ExecutorBuilder {
 
     public LoginExecutor buildLoginExecutor() {
         LoginExecutor executor = new LoginExecutor();
+        executor.setUserController(userController);
         executor.setUserManager(userManager);
         return executor;
     }

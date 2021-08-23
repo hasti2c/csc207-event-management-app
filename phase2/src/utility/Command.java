@@ -11,8 +11,7 @@ public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
     SIGN_UP("Sign Up"),
-    MAIN_MENU("Main Menu"),
-    LOG_IN("Log In"),
+    MAIN_MENU("Log In"),
     TRIAL_MENU("Trial Menu"),
     FORGOT_PASSWORD("Forgot Password"),
     EXIT("Exit"),
@@ -79,7 +78,7 @@ public enum Command {
 
     public static void initializeAllExecutor(ExecutorBuilder builder) {
         SIGN_UP.commandExecutor = builder.buildSignUpExecutor();
-        LOG_IN.commandExecutor = builder.buildLoginExecutor();
+        MAIN_MENU.commandExecutor = builder.buildLoginExecutor();
         SAVE.commandExecutor = builder.buildSaveExecutor();
         FORGOT_PASSWORD.commandExecutor = builder.buildPasswordExecutor();
     }

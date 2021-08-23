@@ -22,7 +22,7 @@ public class SaveExecutor implements CommandExecutor {
         templateManager.saveAllTemplates();
         menuManager.saveAllMenuInfo();
         messageBoxManager.saveAllMessageBoxes();
-        presenter.printText("Everything has been successfully saved.");
+        Presenter.getInstance().printText("Everything has been successfully saved.");
     }
 
     public void setUserManager(UserManager userManager) {
