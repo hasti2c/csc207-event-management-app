@@ -73,7 +73,7 @@ public class InputParser {
         List<String> falseStrings = Arrays.asList("n", "no", "false");
         if (trueStrings.contains(line.toLowerCase())) {
             return true;
-        } else if (falseStrings.contains(line)) {
+        } else if (falseStrings.contains(line.toLowerCase())) {
             return false;
         } else {
             presenter.printText("Please type Y or N.");

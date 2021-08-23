@@ -179,6 +179,7 @@ public class EventController {
     private Object readFieldValue(String eventId, String fieldName, String dataType, boolean required) throws ExitException {
         presenter.printText("Enter " + fieldName + " (" + (required? "Required" : "Not Required") + "):");
         while (true) {
+            // TODO use read int & read boolean
             String userInput = inputParser.readLine();
             if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
