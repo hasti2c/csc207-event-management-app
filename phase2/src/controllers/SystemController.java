@@ -13,6 +13,7 @@ import static utility.AppConstant.*;
 import static utility.UserType.*;
 import static utility.Command.*;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -38,12 +39,13 @@ public class SystemController {
 
     // == initializing ==
     public SystemController() {
-        IGateway<User> userGateway = new UserGateway("phase2/data/users.json");
-        IGateway<Event> eventGateway = new EventGateway("phase2/data/events.json");
-        IGateway<Template> templateGateway = new TemplateGateway("phase2/data/templates.json");
-        IGateway<Menu> menuGateway = new MenuGateway("phase2/data/menus.json");
-        IGateway<Permissions> userPermissionsGateway = new PermissionsGateway("phase2/data/permissions.json");
-        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway("phase2/data/messageboxes.json");
+        String dataPath = "phase2" + File.separator + "data" + File.separator;
+        IGateway<User> userGateway = new UserGateway(dataPath + "users.json");
+        IGateway<Event> eventGateway = new EventGateway(dataPath + "events.json");
+        IGateway<Template> templateGateway = new TemplateGateway(dataPath + "templates.json");
+        IGateway<Menu> menuGateway = new MenuGateway(dataPath + "menus.json");
+        IGateway<Permissions> userPermissionsGateway = new PermissionsGateway(dataPath + "permissions.json");
+        IGateway<MessageBox> messageBoxGateway = new MessageBoxGateway(dataPath + "messageboxes.json");
 
         userManager = new UserManager(userGateway);
         templateManager = new TemplateManager(templateGateway);
