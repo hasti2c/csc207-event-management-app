@@ -69,6 +69,7 @@ public class TemplateManager {
     public void createTemplate(String templateName){
         List<FieldSpecs> emptyFieldSpecs = new ArrayList<>();
         Template template = new Template(emptyFieldSpecs, templateName);
+        templateList.add(template);
     }
 
     public void addNewFieldSpecs(String templateName, String fieldName, String dataType, String isRequired) {
@@ -92,7 +93,7 @@ public class TemplateManager {
             convertedDataType = LocalDateTime.class;
         }
 
-        if (isRequired.equalsIgnoreCase("yes")){
+        if (isRequired.equalsIgnoreCase("y")){
             convertedIsRequired = true;
         }
 
