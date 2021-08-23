@@ -97,15 +97,19 @@ public class TemplateController {
      * it means the user chose to go back.
      * @return returns the index of the chosen template + 1 (starts at 1 instead of 0)
      */
-    public String chooseTemplate() {
+    public String chooseTemplate() throws ExitException{
         List<String> templateList = templateManager.returnTemplateNames();
         templateList.add(MENU_EXIT_OPTION);
         presenter.printMenu("TemplateList", templateList);
         int choice = getChoice(1, templateList.size());
-        return templateList.get(choice);
+        if (choice == templateList.size()){
+            // TODO this goes all the way back :(
+            throw new ExitException();
+        }
+        return templateList.get(choice - 1);
     }
 
-    public void editTemplate() {
+    public void editTemplate() throws ExitException{
         String templateName = chooseTemplate();
         editTemplateName(templateName);
     }
