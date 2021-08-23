@@ -22,6 +22,17 @@
     "friends": []
   },
   {
+    "username": "idii88",
+    "password": "Hello@123",
+    "userEmail": "123456@gmail.com",
+    "hasTempPass": false,
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "ADMIN",
+    "suspended": false,
+    "friends": []
+  },
+  {
     "username": "hasti2c",
     "password": "yay",
     "userEmail": "test@email.com",
