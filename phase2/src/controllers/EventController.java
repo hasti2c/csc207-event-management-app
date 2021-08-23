@@ -162,7 +162,9 @@ public class EventController {
                         entry.getValue().getSecond());
                 eventManager.enterFieldValue(eventId, entry.getKey(), value);
             } catch (ExitException e) {
-                deleteEvent(username, eventId);
+                try {
+                    deleteEvent(username, eventId);
+                } catch (ExitException ignored) {}
                 presenter.printText(EXITING_TEXT);
                 return;
             }
