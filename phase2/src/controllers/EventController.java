@@ -213,22 +213,16 @@ public class EventController {
         fieldNames.add(MENU_EXIT_OPTION);
 
         while (true) {
-            this.presenter.printMenu("Choose field to edit.", fieldNames);
-            int userInput = getChoice(1, fieldNames.size());
-            if (fieldNames.get(userInput).equals(MENU_EXIT_OPTION)) {
-                return;
-            }
+            presenter.printMenu("Choose field to edit.", fieldNames);
             try {
-                Object value = readFieldValue(
-                        eventID,
-                        fieldNames.get(userInput - 1),
-                        eventMap.get(fieldNames.get(userInput - 1)).getFirst().getSimpleName(),
-                        eventMap.get(fieldNames.get(userInput - 1)).getSecond());
-                eventManager.enterFieldValue(eventID, fieldNames.get(userInput), value);
+                String userInput = inputParser.getMenuChoice(fieldNames, true);
+                Object value = readFieldValue(eventID, userInput, eventMap.get(userInput).getFirst().getSimpleName(),
+                        eventMap.get(userInput).getSecond());
+                eventManager.enterFieldValue(eventID, userInput, value);
             } catch (ExitException e) {
                 presenter.printText(EXITING_TEXT);
+                return;
             }
-
         }
     }
 
@@ -241,7 +235,7 @@ public class EventController {
         menuOptions.add(MENU_EXIT_OPTION);
         presenter.printMenu("Event Privacy Types", menuOptions);
         try {
-            String newPrivacyName = menuController.getMenuChoice(menuOptions, true);
+            String newPrivacyName = inputParser.getMenuChoice(menuOptions, true);
             eventManager.setPrivacyType(eventID, newPrivacyName);
             presenter.printText("The privacy type was changed to " + newPrivacyName);
         } catch (ExitException e) {
@@ -294,24 +288,5 @@ public class EventController {
             presenter.printText("You could not leave this event.");
         }
         return result;
-    }
-
-    // TODO refactor from here
-    // === Helpers ===
-
-    /**
-     * Forces user to enter an int in the range.
-     *
-     * @param lowBound lowest accepted input
-     * @param highBound highest accepted input
-     * @return the value entered
-     */
-    private int getChoice(int lowBound, int highBound) {
-        int choice = inputParser.readInt();
-        while (choice < lowBound || choice > highBound) {
-            presenter.printText("Invalid choice. Please enter a number between " + lowBound + " and " + highBound);
-            choice = inputParser.readInt();
-        }
-        return choice;
     }
 }

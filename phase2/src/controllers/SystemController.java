@@ -241,26 +241,5 @@ public class SystemController {
         currentUserType = TRIAL;
         userManager.createUser(TRIAL_USERNAME, TRIAL_PASSWORD, TRIAL_EMAIL, TRIAL);
     }
-
-    // == templates == TODO refactor from here
-
-    private void editTemplateName(String templateName) {
-        presenter.printText("Please enter a new name for the template.");
-        String newName = inputParser.readLine();
-        if (newName.equals("back")) {
-            presenter.printText("You have been sent back.");
-        }
-
-        else if (templateManager.checkNameUniqueness(newName)){
-            templateManager.editTemplateName(templateName, newName);
-            presenter.printText("Template name edited successfully.");
-        }
-        else if (templateName.equals(newName)) {
-            presenter.printText("Please enter a different name.");
-        }
-        else {
-            presenter.printText("This name is already taken by another template.");
-        }
-    }
 }
 

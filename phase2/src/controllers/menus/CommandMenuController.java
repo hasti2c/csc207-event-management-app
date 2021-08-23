@@ -28,7 +28,7 @@ public class CommandMenuController extends MenuController {
     public Command getUserMenuChoice(UserType userType, Command command) {
         List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
         displayMenu(menuOptions, command);
-        return getMenuChoice(menuOptions);
+        return inputParser.getMenuChoice(menuOptions);
     }
 
     private void displayMenu(List<Command> menuOptions, Command command) {

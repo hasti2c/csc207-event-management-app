@@ -40,7 +40,7 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
     public ViewType<T> getViewTypeChoice(UserType userType) throws ExitException {
         List<ViewType<T>> viewTypes = getViewTypePermissions(userType);
         displayViewTypeMenu(viewTypes);
-        return getMenuChoice(viewTypes, true);
+        return inputParser.getMenuChoice(viewTypes, true);
     }
 
     private void displayViewTypeMenu(List<ViewType<T>> viewTypes) {
@@ -76,7 +76,7 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
     public String getEntityChoice(ViewType<T> viewType, String username) throws ExitException {
         List<String> entities = getEntityList(viewType, username);
         displayEntityList(entities, viewType);
-        return getMenuChoice(entities, true);
+        return inputParser.getMenuChoice(entities, true);
     }
 
     private void displayEntityList(List<String> entities, ViewType<T> viewType) {
@@ -107,7 +107,7 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
         List<Command> menuOptions = menuManager.getPermittedSubMenu(userType, command);
         menuOptions.removeIf(c -> !verifyPermission(c, username, selectedEntity));
         displayEntityMenu(menuOptions);
-        return getMenuChoice(menuOptions);
+        return inputParser.getMenuChoice(menuOptions);
     }
 
     private void displayEntityMenu(List<Command> menuOptions) {
