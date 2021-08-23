@@ -70,7 +70,7 @@ public class UserController {
             String email = readNewEmail();
             UserType userType = readUserType();
             String username = readNewUsername();
-            String password = readNewPassword();
+            String password = getChangedPassword();
             userManager.createUser(username, password, email, userType);
             messageBoxManager.createMessageBox(username);
             presenter.printText("Account has been created Successfully. You may now login.");
@@ -477,14 +477,14 @@ public class UserController {
      * @throws ExitException If user decides to go back
      */
     private String getChangedPassword() throws ExitException {
-        presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
+        presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
         String newPassword = inputParser.readLine();
         while (true) {
             if (newPassword.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
             } else if (!isValidPassword(newPassword)) {
                 presenter.printText("Must be at least 8 characters with an upper case, lower case, number");
-                presenter.printText("Enter your NEW password " + TEXT_EXIT_OPTION + ": ");
+                presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");
                 newPassword = inputParser.readLine();
 
             }else {
