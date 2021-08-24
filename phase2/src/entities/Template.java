@@ -44,36 +44,26 @@ public class Template implements Savable {
         return fieldDescriptions;
     }
 
-    /**
-     * gets the ID of the template
-     * @return String template ID
-     */
-    public String getTemplateId() {
-        return templateId;
-    }
-
     // Setters
 
+    /**
+     * Sets templateName to new name.
+     * @param templateName New templateName.
+     */
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
     }
 
+    /**
+     * Adds a fieldSpecs to this template.
+     * @param fieldSpecs The fieldspecs to be added.
+     */
     public void addFieldSpecs(FieldSpecs fieldSpecs){
         this.fieldDescriptions.add(fieldSpecs);
-    }
-
-    public void deleteFieldSpecs(String fieldName){
-        for (FieldSpecs fieldSpecs: this.fieldDescriptions){
-            if (fieldSpecs.getFieldName().equals(fieldName)){
-                this.getFieldDescriptions().remove(fieldSpecs);
-            }
-        }
     }
 
     @Override
     public String getID() {
         return templateId;
     }
-
-    // No setter for the list of field specs
 }
