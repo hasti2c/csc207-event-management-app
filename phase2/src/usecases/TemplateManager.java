@@ -177,7 +177,7 @@ public class TemplateManager {
     }
 
     /**
-     * Delete Template from templateList
+     * Deletes template from templateList
      *
      * @param templateName name of Template
      */
