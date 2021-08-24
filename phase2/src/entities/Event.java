@@ -213,6 +213,10 @@ public class Event implements Savable, Viewable {
         this.privacyType = privacyType;
     }
 
+    /**
+     * Sets suspended status of this event.
+     * @param suspended The new suspended value.
+     */
     public void setSuspended(boolean suspended) {
         this.suspended = suspended;
     }
