@@ -96,6 +96,7 @@ public class SystemController {
                 break;
             case FORGOT_PASSWORD:
                 userController.forgotPassword();
+                exit();
                 break;
             case EXIT:
                 exit();
