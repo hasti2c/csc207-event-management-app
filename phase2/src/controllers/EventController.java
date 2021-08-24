@@ -273,9 +273,8 @@ public class EventController {
      * Adds selected event to the User's list of events they are attending.
      * @param username username of the currently logged in user
      * @param eventID  unique identifier for event
-     * @return true if the user has successfully registered for the event
      */
-    private boolean attendEvent(String username, String eventID) {
+    private void attendEvent(String username, String eventID) {
         boolean result = eventManager.attendEvent(eventID);
         if (result) {
             userManager.attendEvent(username, eventID);
@@ -283,7 +282,6 @@ public class EventController {
         } else {
             presenter.printText("Sorry this event is full.");
         }
-        return result;
     }
 
     /**
@@ -291,9 +289,8 @@ public class EventController {
      *
      * @param username username of the currently logged in user
      * @param eventID unique identifier for event
-     * @return true if the user has successfully unregistered for the event
      */
-    private boolean unattendEvent(String username, String eventID) {
+    private void unattendEvent(String username, String eventID) {
         boolean result = userManager.unAttendEvent(username, eventID);
         if (result) {
             eventManager.unAttendEvent(eventID);
@@ -301,6 +298,5 @@ public class EventController {
         } else {
             presenter.printText("You could not leave this event.");
         }
-        return result;
     }
 }
