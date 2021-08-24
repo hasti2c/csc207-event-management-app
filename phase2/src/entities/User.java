@@ -175,22 +175,6 @@ public class User implements Savable, Viewable {
     }
 
     /**
-     * Set a new list of created events
-     * @param createdEvents The new list of created events
-     */
-    public void setCreatedEvents(List<String> createdEvents) {
-        this.ownedEvents = createdEvents;
-    }
-
-    /**
-     * Set a new list of attended events
-     * @param attendingEvents The new list of attending events
-     */
-    public void setAttendingEvents(List<String> attendingEvents) {
-        this.attendingEvents = attendingEvents;
-    }
-
-    /**
      * Set the User's Suspended field
      * @param suspended Boolean if the User is suspended
      */
