@@ -64,6 +64,11 @@ public class UserMenuController extends EntityMenuController<User> {
     }
 
     @Override
+    protected List<String> getPrintableList(List<String> options) {
+        return options;
+    }
+
+    @Override
     protected boolean verifyPermission(Command command, String username, String selectedUser) {
         boolean friend = userManager.getFriends(username).contains(selectedUser);
         boolean suspended = userManager.isSuspended(username);

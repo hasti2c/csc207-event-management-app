@@ -94,7 +94,7 @@ public class EventController {
                 changeEventPrivacy(eventId);
                 return;
             case EDIT_EVENT:
-                editEvent(username, eventId);
+                editEvent(eventId);
                 return;
             case DELETE_EVENT:
                 deleteEvent(username, eventId);
@@ -184,7 +184,6 @@ public class EventController {
     private Object readFieldValue(String eventId, String fieldName, String dataType, boolean required) throws ExitException {
         presenter.printText("Enter " + fieldName + " (" + (required? "Required" : "Not Required") + "):");
         while (true) {
-            // TODO use read int & read boolean
             String userInput = inputParser.readLine();
             if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
@@ -215,16 +214,14 @@ public class EventController {
     }
 
     // == Editing ===
-    // TODO refactor
     
     /**
      * Prompts current user of which field of Event with matching eventId to edit.
      * Then prompts current user to edit said field.
-     * 
-     * @param username The username of the current user
+     *
      * @param eventID Id of Event being edited
      */
-    public void editEvent (String username, String eventID) {
+    public void editEvent (String eventID) {
         Map<String, Pair<Class<?>, Boolean>> eventMap = eventManager.returnFieldNameAndFieldSpecs(eventID);
         List<String> fieldNames = new ArrayList<>(eventMap.keySet());
         fieldNames.add(MENU_EXIT_OPTION);
@@ -276,9 +273,8 @@ public class EventController {
      * Adds selected event to the User's list of events they are attending.
      * @param username username of the currently logged in user
      * @param eventID  unique identifier for event
-     * @return true if the user has successfully registered for the event
      */
-    private boolean attendEvent(String username, String eventID) {
+    private void attendEvent(String username, String eventID) {
         boolean result = eventManager.attendEvent(eventID);
         if (result) {
             userManager.attendEvent(username, eventID);
@@ -286,7 +282,6 @@ public class EventController {
         } else {
             presenter.printText("Sorry this event is full.");
         }
-        return result;
     }
 
     /**
@@ -294,9 +289,8 @@ public class EventController {
      *
      * @param username username of the currently logged in user
      * @param eventID unique identifier for event
-     * @return true if the user has successfully unregistered for the event
      */
-    private boolean unattendEvent(String username, String eventID) {
+    private void unattendEvent(String username, String eventID) {
         boolean result = userManager.unAttendEvent(username, eventID);
         if (result) {
             eventManager.unAttendEvent(eventID);
@@ -304,6 +298,5 @@ public class EventController {
         } else {
             presenter.printText("You could not leave this event.");
         }
-        return result;
     }
 }

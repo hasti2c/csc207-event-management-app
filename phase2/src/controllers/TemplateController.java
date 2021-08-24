@@ -6,7 +6,6 @@ import usecases.TemplateManager;
 
 import java.util.*;
 
-import static utility.AppConstant.EXIT_TEXT;
 import static utility.AppConstant.MENU_EXIT_OPTION;
 
 public class TemplateController {
@@ -14,6 +13,10 @@ public class TemplateController {
     private final Presenter presenter;
     private final InputParser inputParser;
 
+    /**
+     * Create a TemplateController object
+     * @param templateManager The TemplateManager object that this TemplateController controls
+     */
     public TemplateController(TemplateManager templateManager) {
         this.templateManager = templateManager;
         this.presenter = Presenter.getInstance();
@@ -21,7 +24,7 @@ public class TemplateController {
     }
 
     /**
-     * Create custom template by prompting current user for event type, name of template, and custom fields.
+     * Creates custom template by prompting current user for event type, name of template, and custom fields
      */
     // == Creating New Template ==
     public void createNewTemplate() {
@@ -62,7 +65,9 @@ public class TemplateController {
             continueLoop = inputParser.readBoolean();
         }
     }
-
+    /**
+     * Adds a new field to the template by calling addFields
+     */
     public void addNewField() {
         presenter.printText("Which Template would you like to add the new field to?:");
         String templateName;
@@ -73,6 +78,9 @@ public class TemplateController {
         }
         addField(templateName);
     }
+    /**
+     * Deletes fields in a template by calling templateManager.deleteFieldSpecs
+     */
     public void deleteField() {
         String templateName;
         try {
@@ -130,7 +138,9 @@ public class TemplateController {
         presenter.printMenu("Choose a Template:", templateList);
         return inputParser.getMenuChoice(templateList, true);
     }
-
+    /**
+     * Edits the Template name
+     */
     public void editTemplateName() {
         String templateName;
         try {
@@ -156,7 +166,10 @@ public class TemplateController {
         }
         return newTemplateName;
     }
-
+    /**
+     * Deletes Template from templateList
+     * @throws ExitException ExitException
+     */
     public void deleteTemplate() throws ExitException {
         presenter.printText("Which Template would you like to delete?:");
         String templateName;

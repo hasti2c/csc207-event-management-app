@@ -10,12 +10,22 @@ public class FieldSpecs {
     private boolean required;
     // === Representation Invariants ===
     // === Methods ===
+
+    /**
+     * Creates a FieldSpecs object
+     * @param fieldName the name of the field
+     * @param dataType the data type of the field
+     * @param required is it required
+     */
     public FieldSpecs(String fieldName, Class<?> dataType, boolean required) {
         this.fieldName = fieldName;
         this.dataType = dataType;
         this.required = required;
     }
 
+    /**
+     * Empty constructor of FieldSpecs
+     */
     public FieldSpecs() {
 
     }
@@ -46,16 +56,26 @@ public class FieldSpecs {
         return required;
     }
 
-
-    // Setters (not needed for phase 1)
+    /**
+     * Sets the field name
+     * @param fieldName the new field name
+     */
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
 
+    /**
+     * Sets the field data type
+     * @param dataType the new data type
+     */
     public void setDataType(Class<?> dataType) {
         this.dataType = dataType;
     }
 
+    /**
+     * Sets if the field is required
+     * @param required is it required
+     */
     public void setRequired(boolean required) {
         this.required = required;
     }

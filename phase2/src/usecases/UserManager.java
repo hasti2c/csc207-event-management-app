@@ -1,5 +1,6 @@
 package usecases;
 
+import entities.Event;
 import gateways.IGateway;
 import entities.User;
 import gateways.PasswordGateway;
@@ -12,9 +13,8 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import static utility.UserType.*;
 
@@ -65,19 +65,9 @@ public class UserManager {
             emailList.add(userEmail);
             // If the user is temporary, we only give access for 30 days
             if (type == TEMPORARY){
-                createTemporaryUserHelper(newUser, 30);
+                newUser.setSuspensionChangeDate(LocalDateTime.now().plusDays(30));
             }
     }
-
-    /**
-     * Helper to create a new temporary user that will get suspended after a set number of days.
-     * @param temporaryUser the temporary User
-     * @param days the number of days the user gets to use the system for
-     */
-    private void createTemporaryUserHelper(User temporaryUser, int days){
-        temporaryUser.setSuspensionChangeDate(LocalDateTime.now().plusDays(days));
-    }
-
 
     /**
      * Deletes a user from the program
@@ -529,5 +519,17 @@ public class UserManager {
             LocalDateTime endDate = LocalDateTime.now().plus(duration);
             user.setSuspensionChangeDate(endDate);
         }
+    }
+
+    /**
+     * Returns the map version of user with the given username
+     * @param username The username of the user
+     * @return Map<String, String> of user in a map
+     */
+    public Map<String, String> returnUserData(String username) {
+        Map<String, String> userMap = new LinkedHashMap<>();
+        User user = retrieveUser(username);
+        userMap.put("Username", user.getUsername());
+        return userMap;
     }
 }

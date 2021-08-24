@@ -19,6 +19,11 @@ public class EventManager {
     private final IGateway<Event> gateway;
     private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
 
+    /**
+     * Initializes an EventManager object
+     * @param gateway A gateway object of type IGateway<User> used to load data
+     * @param templateManager TemplateManager object that is being fed into this EventManager object
+     */
     public EventManager(IGateway<Event> gateway, TemplateManager templateManager) {
         this.gateway = gateway;
         eventList = gateway.getAllElements();
@@ -83,13 +88,11 @@ public class EventManager {
     /**
      * Removes an attendee from the event
      * @param eventID the ID of the event that is being unattended
-     * @return if the attendee has been removed successfully
      */
-    public boolean unAttendEvent (String eventID) {
+    public void unAttendEvent (String eventID) {
         Event currentEvent = retrieveEventById(eventID);
         int numAttendees = currentEvent.getNumAttendees();
         currentEvent.setNumAttendees(numAttendees - 1);
-        return true;
     }
 
     /**
@@ -278,7 +281,7 @@ public class EventManager {
      * @return Map<String, String> of event in a map
      */
     public Map<String, String> returnEventMetaData(String eventId) {
-        Map<String, String> eventMap = new LinkedHashMap<>();
+        Map<String, String> eventMap = new HashMap<>();
         Event event = retrieveEventById(eventId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
         String formattedCreatedTime = event.getCreatedTime().format(formatter);
@@ -294,6 +297,11 @@ public class EventManager {
         return eventMap;
     }
 
+    /**
+     * Returns a map of name and owner of the event with the given event Id
+     * @param eventId The Id of the event
+     * @return Map<String, String> of event in a basic map
+     */
     public Map<String, String> returnEventBasicData(String eventId) {
         Map<String, String> eventMap = new LinkedHashMap<>();
         Event event = retrieveEventById(eventId);
@@ -356,9 +364,11 @@ public class EventManager {
                     returnFieldValue = Integer.parseInt(fieldValue);
                 }
                 else if (dataType.equals(Boolean.class)){
-                    if (fieldValue.equalsIgnoreCase("true") || fieldValue.equalsIgnoreCase("yes"))
+                    if (fieldValue.equalsIgnoreCase("true") || fieldValue.equalsIgnoreCase("yes") ||
+                    fieldValue.equalsIgnoreCase("y"))
                         returnFieldValue = true;
-                    else if (fieldValue.equalsIgnoreCase("false") || fieldValue.equalsIgnoreCase("no"))
+                    else if (fieldValue.equalsIgnoreCase("false") || fieldValue.equalsIgnoreCase("no") ||
+                    fieldValue.equalsIgnoreCase("n"))
                         returnFieldValue = false;
                     else
                         throw new IllegalArgumentException();
@@ -385,14 +395,16 @@ public class EventManager {
         Event event = retrieveEventById(eventId);
         if (isEmpty){
             // If the field is empty but it's not allowed to be, returns false
-            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry :
+                    event.getFieldNameAndFieldSpecsMap().entrySet()) {
                 if (fieldSpecEntry.getKey().equals(fieldName)) {
                     boolean test = fieldSpecEntry.getValue().getSecond().equals(true);
                     return !test;
                 }
             }
         } else {
-            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry :
+                    event.getFieldNameAndFieldSpecsMap().entrySet()) {
                 if (fieldSpecEntry.getKey().equals(fieldName)) {
                     try {
                         convertToCorrectDataType(eventId, fieldName, fieldValue);

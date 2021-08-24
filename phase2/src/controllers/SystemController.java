@@ -85,7 +85,6 @@ public class SystemController {
         executorBuilder.setMessageBoxManager(messageBoxManager);
     }
 
-
     /**
      * Run the program, this runs the "StartUp Menu"
      */
@@ -116,7 +115,6 @@ public class SystemController {
         }
     }
 
-    // TODO maybe move account menu stuff to UserController
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
 //            case SIGN_UP:
@@ -132,6 +130,10 @@ public class SystemController {
 //            case FORGOT_PASSWORD:
 //                userController.forgotPassword();
 //                break;
+            case FORGOT_PASSWORD:
+                userController.forgotPassword();
+                exit();
+                break;
             case EXIT:
                 exit();
                 break;
