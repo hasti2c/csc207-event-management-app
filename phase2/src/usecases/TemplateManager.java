@@ -85,15 +85,6 @@ public class TemplateManager {
      *
      * @return templateList
      */
-    public List<Template> getTemplateList() {
-        return templateList;
-    }
-
-    /**
-     * Getter method
-     *
-     * @return templateList
-     */
     public List<FieldSpecs> getFieldSpecs(String templateName) {
         return this.retrieveTemplateByName(templateName).getFieldDescriptions();
     }
