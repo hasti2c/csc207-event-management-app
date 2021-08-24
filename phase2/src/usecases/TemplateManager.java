@@ -17,6 +17,11 @@ public class TemplateManager {
     private IGateway<Template> gateway;
 
     // === Methods ===
+
+    /**
+     * Initializes a TemplateManager object
+     * @param gateway A gateway object of type IGateway<User> used to load data
+     */
     public TemplateManager(IGateway<Template> gateway) {
         this.gateway = gateway;
         templateList = gateway.getAllElements();

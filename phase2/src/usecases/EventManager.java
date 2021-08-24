@@ -19,6 +19,11 @@ public class EventManager {
     private final IGateway<Event> gateway;
     private static final String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
 
+    /**
+     * Initializes an EventManager object
+     * @param gateway A gateway object of type IGateway<User> used to load data
+     * @param templateManager TemplateManager object that is being fed into this EventManager object
+     */
     public EventManager(IGateway<Event> gateway, TemplateManager templateManager) {
         this.gateway = gateway;
         eventList = gateway.getAllElements();
@@ -294,6 +299,11 @@ public class EventManager {
         return eventMap;
     }
 
+    /**
+     * Returns a map of name and owner of the event with the given event Id
+     * @param eventId The Id of the event
+     * @return Map<String, String> of event in a basic map
+     */
     public Map<String, String> returnEventBasicData(String eventId) {
         Map<String, String> eventMap = new LinkedHashMap<>();
         Event event = retrieveEventById(eventId);
@@ -385,14 +395,16 @@ public class EventManager {
         Event event = retrieveEventById(eventId);
         if (isEmpty){
             // If the field is empty but it's not allowed to be, returns false
-            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry :
+                    event.getFieldNameAndFieldSpecsMap().entrySet()) {
                 if (fieldSpecEntry.getKey().equals(fieldName)) {
                     boolean test = fieldSpecEntry.getValue().getSecond().equals(true);
                     return !test;
                 }
             }
         } else {
-            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry : event.getFieldNameAndFieldSpecsMap().entrySet()) {
+            for (Map.Entry<String, Pair<Class<?>, Boolean>> fieldSpecEntry :
+                    event.getFieldNameAndFieldSpecsMap().entrySet()) {
                 if (fieldSpecEntry.getKey().equals(fieldName)) {
                     try {
                         convertToCorrectDataType(eventId, fieldName, fieldValue);

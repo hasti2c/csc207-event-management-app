@@ -6,7 +6,6 @@ import usecases.TemplateManager;
 
 import java.util.*;
 
-import static utility.AppConstant.EXIT_TEXT;
 import static utility.AppConstant.MENU_EXIT_OPTION;
 
 public class TemplateController {
@@ -14,6 +13,10 @@ public class TemplateController {
     private final Presenter presenter;
     private final InputParser inputParser;
 
+    /**
+     * Create a TemplateController object
+     * @param templateManager The TemplateManager object that this TemplateController controls
+     */
     public TemplateController(TemplateManager templateManager) {
         this.templateManager = templateManager;
         this.presenter = Presenter.getInstance();
@@ -21,7 +24,7 @@ public class TemplateController {
     }
 
     /**
-     * Create custom template by prompting current user for event type, name of template, and custom fields.
+     * Creates custom template by prompting current user for event type, name of template, and custom fields
      */
     // == Creating New Template ==
     public void createNewTemplate() {
@@ -165,8 +168,7 @@ public class TemplateController {
     }
     /**
      * Deletes Template from templateList
-     *
-     * @throws ExitException
+     * @throws ExitException ExitException
      */
     public void deleteTemplate() throws ExitException {
         presenter.printText("Which Template would you like to delete?:");
