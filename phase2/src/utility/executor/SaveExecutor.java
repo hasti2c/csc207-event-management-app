@@ -5,6 +5,7 @@ import entities.Menu;
 import presenter.Presenter;
 import usecases.*;
 import utility.CommandExecutor;
+import utility.UserType;
 
 import java.util.function.Predicate;
 
@@ -16,7 +17,7 @@ public class SaveExecutor implements CommandExecutor {
     private MessageBoxManager messageBoxManager;
     private Presenter presenter;
     @Override
-    public void execute() throws ExitException {
+    public void execute(String username, UserType userType) throws ExitException {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();

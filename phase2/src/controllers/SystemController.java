@@ -94,12 +94,12 @@ public class SystemController {
         while (true) {
             Command userInput = menuController.getUserMenuChoice(currentUserType, currentCommand);
             try {
-                userInput.execute();
+                userInput.execute(currentUser, currentUserType);
                 if (userInput == MAIN_MENU) {
                     runMenu(MAIN_MENU);
                 }
                 else if (userInput == SIGN_UP) {
-                    SAVE.execute();
+                    SAVE.execute(currentUser, currentUserType);
                 }
                 runUserCommand(userInput);
             } catch (ExitException e) {
@@ -121,9 +121,9 @@ public class SystemController {
             case TRIAL_MENU:
                 runTrialMenu();
                 break;
-            case FORGOT_PASSWORD:
-                userController.forgotPassword();
-                break;
+//            case FORGOT_PASSWORD:
+//                userController.forgotPassword();
+//                break;
             case EXIT:
                 exit();
                 break;

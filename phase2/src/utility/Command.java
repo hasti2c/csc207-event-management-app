@@ -4,6 +4,8 @@ import controllers.ExitException;
 import controllers.SystemController;
 import utility.executor.ExecutorBuilder;
 
+import java.util.Date;
+
 /**
  * Enum of Commands.
  */
@@ -69,8 +71,8 @@ public enum Command {
     /**
      * @return Name of command.
      */
-    public void execute() throws ExitException {
-        commandExecutor.execute();
+    public void execute(String currentUser, UserType currentUserType) throws ExitException {
+        commandExecutor.execute(currentUser, currentUserType);
     }
     public String getName() {
         return name;
