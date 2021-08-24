@@ -18,11 +18,18 @@ public class Template implements Savable {
     // it's easier to concatenate with the file name (not implemented for phase 1)
 
     // === Methods ===
+
+    /**
+     * Create a Template
+     * @param fieldDescriptions The list of FieldSpecs objects that belong to this template
+     * @param templateName The name of this template
+     */
     public Template(List<FieldSpecs> fieldDescriptions, String templateName) {
         this.fieldDescriptions = fieldDescriptions;
         this.templateName = templateName;
         this.templateId = UUID.randomUUID().toString();
     }
+    // Empty Constructor
     public Template() {
     }
 
@@ -47,16 +54,16 @@ public class Template implements Savable {
     // Setters
 
     /**
-     * Sets templateName to new name.
-     * @param templateName New templateName.
+     * Sets the name of the Template
+     * @param templateName The new name for template
      */
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
     }
 
     /**
-     * Adds a fieldSpecs to this template.
-     * @param fieldSpecs The fieldspecs to be added.
+     * Adds the FieldSpecs object to the list of FieldSpecs in Template
+     * @param fieldSpecs The FieldSpecs object being added into the the list of FieldSpecs in template
      */
     public void addFieldSpecs(FieldSpecs fieldSpecs){
         this.fieldDescriptions.add(fieldSpecs);
