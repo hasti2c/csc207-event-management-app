@@ -65,5 +65,82 @@
     ],
     "templateName": "Concert",
     "templateId": "id100"
+  },
+  {
+    "fieldDescriptions": [
+      {
+        "fieldName": "Name of Assignment",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Course Name",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Max Attendees",
+        "dataType": "java.lang.Integer",
+        "required": false
+      },
+      {
+        "fieldName": "Attendance",
+        "dataType": "java.lang.Boolean",
+        "required": true
+      },
+      {
+        "fieldName": "Name of the Professor",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Name of the TA",
+        "dataType": "java.lang.String",
+        "required": true
+      },
+      {
+        "fieldName": "Release Date",
+        "dataType": "java.time.LocalDateTime",
+        "required": true
+      },
+      {
+        "fieldName": "Due Date",
+        "dataType": "java.time.LocalDateTime",
+        "required": true
+      },
+      {
+        "fieldName": "Grade",
+        "dataType": "java.lang.Integer",
+        "required": false
+      }
+    ],
+    "templateName": "Assignment",
+    "templateId": "781d1ff0-ce5d-4b14-b9d3-fa22055b6b89"
+  },
+  {
+    "fieldDescriptions": [
+      {
+        "fieldName": "Max Attendees",
+        "dataType": "java.lang.Integer",
+        "required": true
+      },
+      {
+        "fieldName": "Date of Event",
+        "dataType": "java.time.LocalDateTime",
+        "required": true
+      },
+      {
+        "fieldName": "Gift Required",
+        "dataType": "java.lang.Boolean",
+        "required": false
+      },
+      {
+        "fieldName": "Whose Birthday",
+        "dataType": "java.lang.String",
+        "required": true
+      }
+    ],
+    "templateName": "Birthday Party",
+    "templateId": "df6a39ed-aa74-46e5-9648-c60c9f2f8826"
   }
 ]
