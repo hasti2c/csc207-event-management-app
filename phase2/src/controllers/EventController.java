@@ -30,6 +30,14 @@ public class EventController {
     private final EntityMenuController<Event> menuController;
     private final TemplateController templateController;
 
+    /**
+     * Creates a new EventController.
+     * @param userManager A user manager.
+     * @param eventManager An event manager.
+     * @param templateManager A template manager.
+     * @param menuManager A event menu manager.
+     * @param templateController A template controller.
+     */
     public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager,
                            MenuManager menuManager, TemplateController templateController) {
         this.userManager = userManager;
