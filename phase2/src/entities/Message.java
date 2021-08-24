@@ -19,6 +19,9 @@ public class Message{
     private final transient String FORMATTED_DATE= "yyyy-MM-dd HH:mm";
     private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
 
+    /**
+     * Empty constructor for the gateway
+     */
     public Message() {}
 
     /**
