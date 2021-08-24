@@ -17,6 +17,13 @@ public class TextTable {
     private int paddingHeight = 0;
 
     // WIDTH, HEIGHT OF cells MUST BE AT LEAST 1
+
+    /**
+     * Store List<List<String>> representing cells of table.
+     * Calculate width and height of table.
+     * Finally, calculate column with largest item sizes.
+     * @param cells Cells of table in List of List of String.
+     */
     public TextTable(List<List<String>> cells) {
         this.cells = cells;
         width = calculateWidth();
@@ -24,6 +31,10 @@ public class TextTable {
         populateColumnLargestItemSizes();
     }
 
+    /**
+     * Calculate width of table
+     * @return width of table
+     */
     private int calculateWidth() {
         int max = 0;
         for (List<String> row : cells) {
@@ -38,6 +49,10 @@ public class TextTable {
         return max;
     }
 
+    /**
+     * Calculate height of table
+     * @return height of table
+     */
     private int calculateHeight() {
         int max = 0;
         int width = cells.get(0).size();
