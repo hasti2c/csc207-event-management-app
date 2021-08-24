@@ -246,7 +246,7 @@ public class EventController {
         presenter.printText("The current privacy type is " + currentPrivacy + ". Choose one of the following options:");
 
         ArrayList<String> menuOptions = new ArrayList<>(validPrivacyTypes);
-        menuOptions.add(MENU_EXIT_OPTION);
+        menuOptions.add("Continue with " + currentPrivacy);
         presenter.printMenu("Event Privacy Types", menuOptions);
         try {
             String newPrivacyName = inputParser.getMenuChoice(menuOptions, true);
