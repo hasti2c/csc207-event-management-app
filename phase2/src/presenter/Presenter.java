@@ -11,12 +11,19 @@ public class Presenter {
 
     private Presenter() {}
 
+    /**
+     * @return An instance of Presenter (there is only one singular instance).
+     */
     public static Presenter getInstance() {
         if (instance == null)
             instance = new Presenter();
         return instance;
     }
 
+    /**
+     * Prints text to console.
+     * @param text Text to be printed.
+     */
     public void printText(String text) {
         System.out.println(text);
     }
