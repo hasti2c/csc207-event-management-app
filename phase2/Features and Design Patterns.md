@@ -3,7 +3,9 @@
 ## List of features added:
 
 - Ability for users to message other users and admins. They can also view their inbox.
-- Ability for admins to send an announcement.Adding / Removing Friends.
+- Ability for admins to send an announcement.
+- Admins have a shared inbox where they can see all messages sent to admin
+- Adding / Removing Friends.
 - Ability for admin to make a user an admin.
 - Ability to create new Templates within the system.
 - Ability to edit existing Templates within the system.
@@ -15,10 +17,11 @@
 - Ability to get a new password “emailed” to you.
 - Password strength testing.
 - Added more event privacy types: Friends only, Public, and Private.
-- Added event suspension
-    - Only admin users can suspend and unsuspend events
 - Ability to change between them.
-- Admins can suspend (unpublish) events.
+- Admins can suspend events.
+  - A suspended event cannot be seen by other users except for the owner. 
+  - Only admins can unsuspend a suspended event.
+- 
 - Ask for a temporary password if the user forgets their password.
 - The user is able to “Go back” at basically any point in the program (using an exit exception rather than simply exiting a loop).
 - Admins can grant regular users admin privileges.
