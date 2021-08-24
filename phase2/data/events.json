@@ -81,6 +81,49 @@
     }
   },
   {
+    "eventId": "06bb26a6-dd8d-4fb8-bdd2-7e61c9683f12",
+    "eventName": "hi i am an event",
+    "eventOwner": "AustinA",
+    "eventType": "Concert",
+    "numAttendees": 0,
+    "suspended": false,
+    "privacyType": "FRIENDS_ONLY",
+    "createdTime": "2021-08-23T22:06:06.921",
+    "editTime": "2021-08-23T22:06:06.921",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        true,
+        "30"
+      ],
+      "Concert Genre": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 2022,\n    \"month\": 1,\n    \"day\": 1\n  },\n  \"time\": {\n    \"hour\": 0,\n    \"minute\": 0,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Performer(s)": [
+        "java.lang.String",
+        false,
+        "null"
+      ],
+      "Venue": [
+        "java.lang.String",
+        true,
+        "\"idk probably some place\""
+      ],
+      "Serving Alcohol": [
+        "java.lang.Boolean",
+        true,
+        "false"
+      ]
+    }
+  },
+  {
     "eventId": "e255932a-87d8-4e8e-976c-b96c4b6b95cd",
     "eventName": "qweq",
     "eventOwner": "AustinA",

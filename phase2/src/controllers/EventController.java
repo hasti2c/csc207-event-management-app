@@ -103,9 +103,6 @@ public class EventController {
             case UNSUSPEND_EVENT:
                 changeSuspensionStatus(eventId);
                 return;
-            case VIEW_CREATOR:
-                // TODO
-                return;
             case GO_BACK:
                 throw new ExitException();
         }

@@ -5,6 +5,7 @@
     "userEmail": "a@ab.com",
     "hasTempPass": false,
     "ownedEvents": [
+      "06bb26a6-dd8d-4fb8-bdd2-7e61c9683f12",
       "fae10db2-75c7-4d31-99ea-2ecde804ccc8"
     ],
     "attendingEvents": [],
@@ -37,13 +38,13 @@
     "friends": []
   },
   {
-    "username": "angela",
-    "password": "Hellooooo0",
-    "userEmail": "angela@gmail.com",
+    "username": "Freeman",
+    "password": "Freeman1",
+    "userEmail": "freeman@gmail.com",
     "hasTempPass": false,
     "ownedEvents": [],
     "attendingEvents": [],
-    "userType": "REGULAR",
+    "userType": "ADMIN",
     "suspended": false,
     "friends": []
   },
