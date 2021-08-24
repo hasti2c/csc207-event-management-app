@@ -32,11 +32,9 @@ public class TemplateManager {
      *
      * @param templateName the name  of the template
      * @param newName new name of the template
-     * @return true if edit successful
      */
-    public boolean editTemplateName(String templateName, String newName) {
+    public void editTemplateName(String templateName, String newName) {
         this.retrieveTemplateByName(templateName).setTemplateName(newName);
-        return true;
     }
 
     /**
