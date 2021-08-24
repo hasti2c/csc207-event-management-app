@@ -8,10 +8,7 @@
       "06bb26a6-dd8d-4fb8-bdd2-7e61c9683f12",
       "fae10db2-75c7-4d31-99ea-2ecde804ccc8"
     ],
-    "attendingEvents": [
-      "ff63aa78-66b3-439f-ab95-d565327e2ff6",
-      "e255932a-87d8-4e8e-976c-b96c4b6b95cd"
-    ],
+    "attendingEvents": [],
     "userType": "ADMIN",
     "suspended": false,
     "friends": []
@@ -21,9 +18,7 @@
     "password": "ugh",
     "userEmail": "hasti@toossi.info",
     "hasTempPass": false,
-    "ownedEvents": [
-      "5f5db203-9fdf-4caa-9f31-6acf5b799147"
-    ],
+    "ownedEvents": [],
     "attendingEvents": [],
     "userType": "REGULAR",
     "suspended": false,
