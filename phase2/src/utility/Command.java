@@ -7,7 +7,7 @@ public enum Command {
     START_UP("Start Up Menu"),
     ADMIN_MENU("Admin Menu"),
     SIGN_UP("Sign Up"),
-    MAIN_MENU("Main Menu"),
+    MAIN_MENU("Log In"),
     TRIAL_MENU("Trial Menu"),
     FORGOT_PASSWORD("Forgot Password"),
     EXIT("Exit"),

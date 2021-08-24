@@ -80,7 +80,7 @@ public class MessageController {
      * Allows a user to view their inbox
      * @param username The user who is viewing their inbox
      */
-    public void viewInbox(String username){
+    public void viewInbox(String username) {
         List<String> headlines = messageBoxManager.getMessageInfo(username);
         List<Map<String, String>> detailMaps = messageBoxManager.getDetailMaps(username);
         if (headlines.size() == 0) {
@@ -90,20 +90,15 @@ public class MessageController {
 
         while (true) {
             try {
-                int index = getMessageChoiceIndex(headlines);
+                List<String> menuOptions = new ArrayList<>(headlines);
+                menuOptions.add(MENU_EXIT_OPTION);
+                presenter.printMenu("Inbox", menuOptions);
+                int index = inputParser.getMenuChoiceIndex(menuOptions, true);
                 presenter.printEntity(detailMaps.get(index));
             } catch (ExitException e) {
                 return;
             }
         }
-    }
-
-    private int getMessageChoiceIndex(List<String> headlines) throws ExitException {
-        List<String> menuOptions = new ArrayList<>(headlines);
-        menuOptions.add(MENU_EXIT_OPTION);
-        presenter.printMenu("Inbox", menuOptions);
-        String option = inputParser.getMenuChoice(menuOptions, true);
-        return headlines.indexOf(option);
     }
 
     // ========== Private helpers ===============

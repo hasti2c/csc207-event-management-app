@@ -33,7 +33,6 @@ public class EventMenuController extends EntityMenuController<Event> {
         return "Event List";
     }
 
-    // TODO do names instead of ids
     @Override
     protected List<String> getEntityList(ViewType<Event> viewType, String username) {
         assert viewType instanceof EventViewType;
@@ -77,7 +76,7 @@ public class EventMenuController extends EntityMenuController<Event> {
             eventList.removeIf(eventID -> !isAccessible(eventID, username));
         if (suspensionCheck)
             eventList.removeIf(eventManager::isSuspended);
-        return eventList;
+        return eventManager.returnEventNamesListFromIdList(eventList);
     }
 
     private boolean isAccessible(String eventId, String username) {

@@ -25,11 +25,6 @@
         "fieldName": "Dress Code",
         "dataType": "java.lang.String",
         "required": false
-      },
-      {
-        "fieldName": "event name",
-        "dataType": "java.lang.String",
-        "required": true
       }
     ],
     "templateName": "Wedding",
@@ -50,11 +45,6 @@
       {
         "fieldName": "Time (yyyy-MM-dd HH:mm)",
         "dataType": "java.time.LocalDateTime",
-        "required": true
-      },
-      {
-        "fieldName": "Event Name",
-        "dataType": "java.lang.String",
         "required": true
       },
       {

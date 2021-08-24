@@ -56,10 +56,10 @@ public class SystemController {
         inputParser = InputParser.getInstance();
 
         messageBoxController = new MessageController(userManager, messageBoxManager);
-        eventController = new EventController(userManager, eventManager, templateManager, menuManager);
+        templateController = new TemplateController(templateManager);
+        eventController = new EventController(userManager, eventManager, templateManager, menuManager, templateController);
         userController = new UserController(userManager, eventManager, menuManager, messageBoxManager, messageBoxController);
         menuController = new CommandMenuController(menuManager);
-        templateController = new TemplateController(templateManager);
 
     }
 
@@ -101,10 +101,10 @@ public class SystemController {
                 exit();
                 break;
             case CREATE_EVENT:
-                eventController.createNewEvent(templateController.chooseTemplate(), currentUser);
+                eventController.createNewEvent(currentUser);
                 break;
             case BROWSE_EVENTS:
-                eventController.viewEventTypesList(currentUserType, currentUser);
+                eventController.browseEvents(currentUserType, currentUser);
                 break;
             case CREATE_TEMPLATE:
                 templateController.createNewTemplate();
@@ -125,7 +125,7 @@ public class SystemController {
                 templateController.deleteField();
                 break;
             case BROWSE_USERS:
-                userController.viewUserTypesList(currentUserType, currentUser);
+                userController.browseUsers(currentUserType, currentUser);
                 break;
             case ACCOUNT_MENU:
                 runAccountMenu();

@@ -11,21 +11,6 @@
   },
   {
     "superCommand": "START_UP",
-    "command": "MAIN_MENU",
-    "subCommands": [
-      "CREATE_EVENT",
-      "BROWSE_EVENTS",
-      "BROWSE_USERS",
-      "ACCOUNT_MENU",
-      "ADMIN_MENU",
-      "MESSAGING_MENU",
-      "SAVE",
-      "LOG_OUT",
-      "EXIT_TRIAL"
-    ]
-  },
-  {
-    "superCommand": "START_UP",
     "command": "TRIAL_MENU",
     "subCommands": [
       "CREATE_EVENT",
@@ -66,6 +51,21 @@
       "VIEW_CREATIONS",
       "MAKE_ADMIN",
       "GO_BACK"
+    ]
+  },
+  {
+    "superCommand": "START_UP",
+    "command": "MAIN_MENU",
+    "subCommands": [
+      "CREATE_EVENT",
+      "BROWSE_EVENTS",
+      "BROWSE_USERS",
+      "ACCOUNT_MENU",
+      "ADMIN_MENU",
+      "MESSAGING_MENU",
+      "SAVE",
+      "LOG_OUT",
+      "EXIT_TRIAL"
     ]
   },
   {

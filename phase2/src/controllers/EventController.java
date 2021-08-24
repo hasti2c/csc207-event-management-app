@@ -2,7 +2,6 @@ package controllers;
 
 import controllers.menus.EntityMenuController;
 import entities.Event;
-import entities.User;
 import utility.UserType;
 import presenter.InputParser;
 import presenter.Presenter;
@@ -29,14 +28,17 @@ public class EventController {
     private final Presenter presenter;
     private final InputParser inputParser;
     private final EntityMenuController<Event> menuController;
+    private final TemplateController templateController;
 
-    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager, MenuManager menuManager) {
+    public EventController(UserManager userManager, EventManager eventManager, TemplateManager templateManager,
+                           MenuManager menuManager, TemplateController templateController) {
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.templateManager = templateManager;
         this.presenter = Presenter.getInstance();
         this.inputParser = InputParser.getInstance();
         this.menuController = new EventMenuController(menuManager, userManager, eventManager);
+        this.templateController = templateController;
     }
 
     // == Viewing ==
@@ -48,35 +50,35 @@ public class EventController {
      * @param userType The userType of the current user.
      * @param username The username of the current user
      */
-    public void viewEventTypesList(UserType userType, String username) {
+    public void browseEvents(UserType userType, String username) {
         while (true) {
             try {
                 ViewType<Event> viewType = menuController.getViewTypeChoice(userType);
-                browseEvent(viewType, userType, username);
+                while (true) {
+                    try {
+                        String eventID = menuController.getEntityChoice(viewType, username);
+                        viewEvent(userType, username, eventID);
+                    } catch (ExitException e) {
+                        break;
+                    }
+                }
             } catch (ExitException e) {
                 return;
             }
         }
     }
 
-    private void browseEvent(ViewType<Event> viewType, UserType userType, String username){
-        while (true) {
-            try {
-                String selectedUser = menuController.getEntityChoice(viewType, username);
-                viewEvent(userType, username, selectedUser);
-            } catch (ExitException e) {
-                return;
-            }
-        }
-    }
-
-    private void viewEvent(UserType userType, String username, String eventID) throws ExitException {
-        if (userType == ADMIN || userManager.getCreatedEvents(username).contains(eventID))
-            viewEventMetaDetails(eventID);
+    private void viewEvent(UserType userType, String username, String eventID) {
+        boolean fullData = (userType == ADMIN) || userManager.getCreatedEvents(username).contains(eventID);
+        viewEventMetaDetails(eventID, fullData);
         viewEventDetails(eventID);
         while (true) {
             Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_EVENTS, eventID);
-            runUserCommand(userInput, username, eventID);
+            try {
+                runUserCommand(userInput, username, eventID);
+            } catch (ExitException e) {
+                return;
+            }
         }
     }
 
@@ -123,24 +125,32 @@ public class EventController {
      * Prints the "metadata" of a single event.
      *
      * @param eventID ID of the event
+     * @param full Whether or not we want all details vs. basic.
      */
-    private void viewEventMetaDetails(String eventID) {
-        this.presenter.printEntity(eventManager.returnEventAsMap(eventID));
+    private void viewEventMetaDetails(String eventID, boolean full) {
+        if (full)
+            presenter.printEntity(eventManager.returnEventMetaData(eventID));
+        else
+            presenter.printEntity(eventManager.returnEventBasicData(eventID));
     }
 
     // == Creating & Deleting ==
     /**
      * Creates a new event based on chosen template and adds to User's owned events.
      *
-     * @param templateName name of the template
      * @param username username of the currently logged in user
      */
-    public void createNewEvent(String templateName, String username) {
-        if (templateName == null || templateName.isEmpty() || username == null || username.isEmpty()) {
+    public void createNewEvent(String username) {
+        String templateName;
+        try {
+            templateName = templateController.chooseTemplate();
+        } catch (ExitException e) {
             return;
         }
+        presenter.printText("Enter the name of your event:");
+        String eventName = inputParser.readLine();
 
-        String newEventID = eventManager.createEvent(templateName, username);
+        String newEventID = eventManager.createEvent(templateName, eventName, username);
         userManager.createEvent(username, newEventID);
         populateFieldValues(newEventID, username);
 
@@ -174,6 +184,7 @@ public class EventController {
     private Object readFieldValue(String eventId, String fieldName, String dataType, boolean required) throws ExitException {
         presenter.printText("Enter " + fieldName + " (" + (required? "Required" : "Not Required") + "):");
         while (true) {
+            // TODO use read int & read boolean
             String userInput = inputParser.readLine();
             if (userInput.equalsIgnoreCase(EXIT_TEXT)) {
                 throw new ExitException();
