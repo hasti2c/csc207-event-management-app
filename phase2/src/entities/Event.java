@@ -13,7 +13,7 @@ import static utility.EventPrivacyType.*;
 public class Event implements Savable, Viewable {
     // === Class Variables ===
     // === Instance Variables ===
-    // https://stackoverflow.com/questions/24876188/how-big-is-the-chance-to-get-a-java-uuid-randomuuid-collision
+
     private String eventId;
     private String eventName;
     private EventPrivacyType privacyType;

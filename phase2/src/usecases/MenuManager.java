@@ -16,6 +16,11 @@ public class MenuManager {
     private final IGateway<Menu> menuGateway;
     private final IGateway<Permissions> userPermissionsGateway;
 
+    /**
+     * Creates a new MenuManager.
+     * @param menuGateway Gateway for reading and saving menus.
+     * @param permissionsGateway Gateway for reading and saving permissions.
+     */
     public MenuManager(IGateway<Menu> menuGateway, IGateway<Permissions> permissionsGateway) {
         this.menuGateway = menuGateway;
         allMenus = menuGateway.getElementMap();
