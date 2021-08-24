@@ -28,6 +28,9 @@ public class InputParser {
         bufferedReader = new BufferedReader(inputStreamReader);
     }
 
+    /**
+     * @return An instance of InputParser (there is only one singular instance).
+     */
     public static InputParser getInstance() {
         if (instance == null)
             instance = new InputParser();

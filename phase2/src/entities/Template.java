@@ -51,14 +51,6 @@ public class Template implements Savable {
         return fieldDescriptions;
     }
 
-    /**
-     * gets the ID of the template
-     * @return String template ID
-     */
-    public String getTemplateId() {
-        return templateId;
-    }
-
     // Setters
 
     /**
@@ -81,5 +73,4 @@ public class Template implements Savable {
     public String getID() {
         return templateId;
     }
-
 }
