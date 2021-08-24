@@ -14,7 +14,9 @@ import utility.Command;
 import utility.ViewType;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -159,8 +161,7 @@ public class UserController {
     }
 
     private void viewUser(UserType userType, String username, String selectedUser) {
-        // TODO figure out what viewUserDetails is supposed to be
-//        viewUserDetails(selectedUser);
+        viewUserDetails(selectedUser);
         while (true) {
             Command userInput = menuController.getEntityMenuChoice(userType, username, BROWSE_USERS, selectedUser);
             try {
@@ -169,6 +170,12 @@ public class UserController {
                 return;
             }
         }
+    }
+
+    private void viewUserDetails(String username) {
+        Map<String, String> details = new HashMap<>();
+        details.put("Username", username);
+        this.presenter.printEntity(details);
     }
 
     private void runUserCommand(Command command, String username, String selectedUser) throws ExitException {
@@ -452,7 +459,6 @@ public class UserController {
         }
     }
 
-    // TODO maybe remove the login from validation?
     private void validatePassword(String username) throws ExitException {
         while (true) {
             presenter.printText("Enter your password " + TEXT_EXIT_OPTION + ": ");

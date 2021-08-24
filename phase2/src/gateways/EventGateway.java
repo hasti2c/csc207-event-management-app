@@ -10,8 +10,6 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
 
-// TODO make more general
-
 /**
  * Gateway that saves & reads Events to & from a json file.
  */
