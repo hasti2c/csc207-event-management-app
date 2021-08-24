@@ -71,8 +71,12 @@ public enum Command {
     /**
      * @return Name of command.
      */
-    public void execute(String currentUser, UserType currentUserType) throws ExitException {
-        commandExecutor.execute(currentUser, currentUserType);
+    public String execute(String currentUser, UserType currentUserType) throws ExitException {
+        return commandExecutor.execute(currentUser, currentUserType);
+    }
+
+    public boolean hasExecutor() {
+        return (commandExecutor != null);
     }
     public String getName() {
         return name;
@@ -83,5 +87,11 @@ public enum Command {
         MAIN_MENU.commandExecutor = builder.buildLoginExecutor();
         SAVE.commandExecutor = builder.buildSaveExecutor();
         FORGOT_PASSWORD.commandExecutor = builder.buildPasswordExecutor();
+        CREATE_EVENT.commandExecutor = builder.buildCreateEventExecutor();
+        BROWSE_EVENTS.commandExecutor = builder.buildBrowseEventsExecutor();
+        CREATE_TEMPLATE.commandExecutor = builder.buildCreateTemplateExecutor();
+        DELETE_TEMPLATE.commandExecutor = builder.buildDeleteTemplateExecutor();
+        CHANGE_TEMPLATE_NAME.commandExecutor = builder.buildChangeTemplateNameExecutor();
+
     }
 }

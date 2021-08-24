@@ -47,10 +47,10 @@ public class EventController {
      * Then displays Events to user, prompts user for choice.
      * Finally, calls browseEvent on selected Event.
      *
-     * @param userType The userType of the current user.
      * @param username The username of the current user
+     * @param userType The userType of the current user.
      */
-    public void browseEvents(UserType userType, String username) {
+    public void browseEvents(String username, UserType userType) {
         while (true) {
             try {
                 ViewType<Event> viewType = menuController.getViewTypeChoice(userType);

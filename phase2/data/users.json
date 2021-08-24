@@ -35,6 +35,17 @@
     "friends": []
   },
   {
+    "username": "angela",
+    "password": "Hellooooo0",
+    "userEmail": "angela@gmail.com",
+    "hasTempPass": false,
+    "ownedEvents": [],
+    "attendingEvents": [],
+    "userType": "REGULAR",
+    "suspended": false,
+    "friends": []
+  },
+  {
     "username": "hasti2c",
     "password": "yay",
     "userEmail": "test@email.com",

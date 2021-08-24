@@ -14,8 +14,9 @@ public class SignUpExecutor implements CommandExecutor {
     }
 
     @Override
-    public void execute(String username, UserType userType) {
+    public String execute(String username, UserType userType) {
         userController.userSignUp();
+        return username;
     }
 
     public void setUserController(UserController userController) {

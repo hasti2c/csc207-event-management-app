@@ -3,5 +3,12 @@ package utility;
 import controllers.ExitException;
 
 public interface CommandExecutor {
-    void execute(String username, UserType userType) throws ExitException;
+    /**
+     *
+     * @param username current user's username
+     * @param userType current user's user type
+     * @return currentUsername
+     * @throws ExitException
+     */
+    String execute(String username, UserType userType) throws ExitException;
 }

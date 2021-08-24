@@ -108,4 +108,34 @@ public class ExecutorBuilder {
         return executor;
 
     }
+
+    public CreateEventExecutor buildCreateEventExecutor() {
+        CreateEventExecutor executor = new CreateEventExecutor();
+        executor.setEventController(eventController);
+        return executor;
+    }
+
+    public BrowseEventsExecutor buildBrowseEventsExecutor() {
+        BrowseEventsExecutor executor = new BrowseEventsExecutor();
+        executor.setEventController(eventController);
+        return executor;
+    }
+
+    public CreateTemplateExecutor buildCreateTemplateExecutor() {
+        CreateTemplateExecutor executor = new CreateTemplateExecutor();
+        executor.setTemplateController(templateController);
+        return executor;
+    }
+
+    public DeleteTemplateExecutor buildDeleteTemplateExecutor() {
+        DeleteTemplateExecutor executor = new DeleteTemplateExecutor();
+        executor.setTemplateController(templateController);
+        return executor;
+    }
+
+    public ChangeTemplateNameExecutor buildChangeTemplateNameExecutor() {
+        ChangeTemplateNameExecutor executor = new ChangeTemplateNameExecutor();
+        executor.setTemplateController(templateController);
+        return executor;
+    }
 }

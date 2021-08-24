@@ -15,14 +15,13 @@ public class LoginExecutor implements CommandExecutor {
     private UserManager userManager;
 
     @Override
-    public void execute(String username, UserType userType) throws ExitException {
+    public String execute(String username, UserType userType) throws ExitException {
         String attemptedLoginUsername = userController.userLogin();
-        if (attemptedLoginUsername != null){
+        if (attemptedLoginUsername != null) {
             this.currentUser = attemptedLoginUsername;
             this.currentUserType = userManager.retrieveUserType(attemptedLoginUsername);
         }
-        username = currentUser;
-        userType = currentUserType;
+        return currentUser;
         // TODO run main menu
     }
 

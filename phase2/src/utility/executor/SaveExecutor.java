@@ -17,13 +17,14 @@ public class SaveExecutor implements CommandExecutor {
     private MessageBoxManager messageBoxManager;
     private Presenter presenter;
     @Override
-    public void execute(String username, UserType userType) throws ExitException {
+    public String execute(String username, UserType userType) throws ExitException {
         userManager.saveAllUsers();
         eventManager.saveAllEvents();
         templateManager.saveAllTemplates();
         menuManager.saveAllMenuInfo();
         messageBoxManager.saveAllMessageBoxes();
         Presenter.getInstance().printText("Everything has been successfully saved.");
+        return username;
     }
 
     public void setUserManager(UserManager userManager) {

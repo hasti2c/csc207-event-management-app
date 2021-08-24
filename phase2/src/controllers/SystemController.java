@@ -73,6 +73,10 @@ public class SystemController {
         executorBuilder = new ExecutorBuilder();
         // TODO set all of the variables for executor builder
         executorBuilder.setUserController(userController);
+        executorBuilder.setEventController(eventController);
+        executorBuilder.setMenuController(menuController);
+        executorBuilder.setMessageBoxController(messageBoxController);
+        executorBuilder.setTemplateController(templateController);
 
         executorBuilder.setUserManager(userManager);
         executorBuilder.setEventManager(eventManager);
@@ -94,15 +98,19 @@ public class SystemController {
         while (true) {
             Command userInput = menuController.getUserMenuChoice(currentUserType, currentCommand);
             try {
-                userInput.execute(currentUser, currentUserType);
-                if (userInput == MAIN_MENU) {
-                    runMenu(MAIN_MENU);
+                if (userInput.hasExecutor()) {
+                    this.currentUser = userInput.execute(currentUser, currentUserType);
+                    if (userInput == MAIN_MENU) {
+                        this.currentUserType = userManager.retrieveUserType(this.currentUser);
+                        runMenu(MAIN_MENU);
+                    } else if (userInput == SIGN_UP) {
+                        SAVE.execute(currentUser, currentUserType);
+                    }
+                } else {
+                    runUserCommand(userInput);
                 }
-                else if (userInput == SIGN_UP) {
-                    SAVE.execute(currentUser, currentUserType);
-                }
-                runUserCommand(userInput);
-            } catch (ExitException e) {
+            }
+            catch (ExitException e) {
                 return;
             }
         }
@@ -127,24 +135,24 @@ public class SystemController {
             case EXIT:
                 exit();
                 break;
-            case CREATE_EVENT:
-                eventController.createNewEvent(currentUser);
-                break;
-            case BROWSE_EVENTS:
-                eventController.browseEvents(currentUserType, currentUser);
-                break;
-            case CREATE_TEMPLATE:
-                templateController.createNewTemplate();
-                break;
-            case DELETE_TEMPLATE:
-                templateController.deleteTemplate();
-                break;
+//            case CREATE_EVENT:
+//                eventController.createNewEvent(currentUser);
+//                break;
+//            case BROWSE_EVENTS:
+//                eventController.browseEvents(currentUser, currentUserType);
+//                break;
+//            case CREATE_TEMPLATE:
+//                templateController.createNewTemplate();
+//                break;
+//            case DELETE_TEMPLATE:
+//                templateController.deleteTemplate();
+//                break;
             case EDIT_TEMPLATE:
                 runMenu(EDIT_TEMPLATE);
                 break;
-            case CHANGE_TEMPLATE_NAME:
-                templateController.editTemplateName();
-                break;
+//            case CHANGE_TEMPLATE_NAME:
+//                templateController.editTemplateName();
+//                break;
             case ADD_TEMPLATE_FIELD:
                 templateController.addNewField();
                 break;

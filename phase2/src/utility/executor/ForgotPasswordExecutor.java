@@ -9,8 +9,9 @@ public class ForgotPasswordExecutor implements CommandExecutor {
     private UserController userController;
 
     @Override
-    public void execute(String username, UserType userType) throws ExitException {
+    public String execute(String username, UserType userType) throws ExitException {
         userController.forgotPassword();
+        return username;
     }
 
     public void setUserController(UserController userController) {
