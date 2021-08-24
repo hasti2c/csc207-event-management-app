@@ -253,49 +253,6 @@
     }
   },
   {
-    "eventId": "eaacdf29-3c27-4820-97ca-a0674db1f7c6",
-    "eventName": "IFAZ IS WEIRD",
-    "eventOwner": "jsjchris",
-    "eventType": "Birthday Party",
-    "numAttendees": 0,
-    "suspended": false,
-    "privacyType": "FRIENDS_ONLY",
-    "createdTime": "2021-08-22T22:35:06.116",
-    "editTime": "2021-08-22T22:35:06.116",
-    "fields": {
-      "Max Attendees": [
-        "java.lang.Integer",
-        false,
-        "null"
-      ],
-      "Time (yyyy-MM-dd HH:mm)": [
-        "java.time.LocalDateTime",
-        true,
-        "{\n  \"date\": {\n    \"year\": 2021,\n    \"month\": 7,\n    \"day\": 21\n  },\n  \"time\": {\n    \"hour\": 13,\n    \"minute\": 45,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
-      ],
-      "Food Options": [
-        "java.lang.String",
-        true,
-        "\"OSU\""
-      ],
-      "Dress Code": [
-        "java.lang.String",
-        false,
-        "null"
-      ],
-      "Is Gift Required": [
-        "java.lang.Boolean",
-        false,
-        "null"
-      ],
-      "Place": [
-        "java.lang.String",
-        true,
-        "\"toronto\""
-      ]
-    }
-  },
-  {
     "eventId": "fae10db2-75c7-4d31-99ea-2ecde804ccc8",
     "eventName": "New Wedding",
     "eventOwner": "AustinA",
