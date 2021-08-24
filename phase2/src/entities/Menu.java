@@ -10,37 +10,35 @@ public class Menu implements Savable {
     private Command command;
     private List<Command> subCommands;
 
-    public Menu(Command superCommand, Command command) {
+    /**
+     * Creates a new Menu.
+     * @param superCommand Super command of this menu.
+     * @param command Root command of this menu.
+     * @param subCommands List of subcommands of this menu.
+     */
+    public Menu(Command superCommand, Command command, List<Command> subCommands) {
         this.superCommand = superCommand;
         this.command = command;
+        this.subCommands = subCommands;
     }
 
-    public Menu(){
+    /**
+     * Creates a new Menu.
+     */
+    public Menu(){}
 
-    }
-
-    public Command getSuperCommand() {
-        return superCommand;
-    }
-
-    public void setSuperCommand(Command superCommand) {
-        this.superCommand = superCommand;
-    }
-
+    /**
+     * @return Root command of this menu.
+     */
     public Command getCommand() {
         return command;
     }
 
-    public void setCommand(Command command) {
-        this.command = command;
-    }
-
+    /**
+     * @return Subcommands of this menu.
+     */
     public List<Command> getSubCommands() {
         return subCommands;
-    }
-
-    public void setSubCommands(List<Command> subCommands) {
-        this.subCommands = subCommands;
     }
 
     @Override

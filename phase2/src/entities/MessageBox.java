@@ -10,6 +10,9 @@ public class MessageBox implements Iterable<Message>, Savable {
     private String owner;
     private Integer currentSize;
 
+    /**
+     * Empty constructor for the gateway
+     */
     public MessageBox() {}
 
     /**
@@ -58,30 +61,36 @@ public class MessageBox implements Iterable<Message>, Savable {
         return detailMapList;
     }
 
+    /**
+     * Set the owner of this MessageBox
+     * @param owner The Owner of the MessageBox
+     */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
+    /**
+     * Get the messages within this MessageBox
+     * @return List<Message> A list of messages
+     */
     public List<Message> getMessages() {
         return messages;
     }
 
+    /**
+     * Get the owner of the MessageBox
+     * @return String The owner of the MessageBox
+     */
     public String getOwner() {
         return owner;
     }
 
+    /*
+    Receive a message to this
+     */
     public void receiveMessage(Message message) {
         messages.add(message);
         currentSize++;
-    }
-
-    public Message findMessage(Message message){
-        for(Message m : messages){
-            if(m == message){
-                return m;
-            }
-        }
-        return null;
     }
 
     /**
