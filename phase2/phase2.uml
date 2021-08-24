@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/hasti/IdeaProjects/csc207h1/group_0014/phase2</OriginalElement>
+  <nodes>
+    <node x="1235.0" y="402.0">presenter.InputParser</node>
+    <node x="511.0" y="327.0">controllers.MessageController</node>
+    <node x="657.75" y="90.0">entities.Permissions</node>
+    <node x="0.0" y="402.0">gateways.GatewayUtility</node>
+    <node x="1569.4928571428572" y="172.0">utility.EventViewType</node>
+    <node x="824.75" y="90.0">entities.MessageBox</node>
+    <node x="1371.75" y="90.0">entities.User</node>
+    <node x="629.0" y="402.0">controllers.ExitException</node>
+    <node x="809.25" y="0.0">utility.Savable</node>
+    <node x="1988.4928571428572" y="172.0">controllers.menus.EventMenuController</node>
+    <node x="170.0" y="477.0">entities.Message</node>
+    <node x="1480.75" y="90.0">utility.ViewType</node>
+    <node x="1853.75" y="90.0">controllers.menus.EntityMenuController</node>
+    <node x="1783.0" y="402.0">utility.Pair</node>
+    <node x="1423.0" y="402.0">entities.FieldSpecs</node>
+    <node x="1572.375" y="0.0">utility.Viewable</node>
+    <node x="1606.0" y="402.0">utility.Command</node>
+    <node x="756.0" y="327.0">gateways.PasswordGateway</node>
+    <node x="1959.0" y="402.0">presenter.Presenter</node>
+    <node x="211.0" y="402.0">usecases.MenuManager</node>
+    <node x="0.0" y="252.0">gateways.EventGateway</node>
+    <node x="1233.0" y="327.0">utility.EventPrivacyType</node>
+    <node x="606.0" y="252.0">gateways.TemplateGateway</node>
+    <node x="1255.75" y="90.0">entities.Event</node>
+    <node x="1758.4928571428572" y="172.0">controllers.menus.UserMenuController</node>
+    <node x="0.0" y="477.0">utility.UserType</node>
+    <node x="1111.75" y="90.0">entities.Template</node>
+    <node x="817.0" y="252.0">gateways.PermissionsGateway</node>
+    <node x="2122.75" y="90.0">controllers.menus.CommandMenuController</node>
+    <node x="1919.0" y="327.0">controllers.UserController</node>
+    <node x="480.75" y="90.0">gateways.IGateway</node>
+    <node x="1387.4928571428572" y="172.0">utility.UserViewType</node>
+    <node x="833.0" y="402.0">usecases.UserManager</node>
+    <node x="996.0" y="327.0">usecases.TemplateManager</node>
+    <node x="1052.0" y="252.0">gateways.UserGateway</node>
+    <node x="2132.0" y="402.0">presenter.TextTable</node>
+    <node x="505.0" y="172.0">gateways.EntityGateway</node>
+    <node x="423.0" y="252.0">gateways.MenuGateway</node>
+    <node x="995.75" y="90.0">entities.Menu</node>
+    <node x="1700.0" y="327.0">controllers.EventController</node>
+    <node x="184.0" y="252.0">gateways.MessageBoxGateway</node>
+    <node x="2058.375" y="0.0">controllers.menus.MenuController</node>
+    <node x="1035.0" y="402.0">utility.AppConstant</node>
+    <node x="0.0" y="327.0">usecases.MessageBoxManager</node>
+    <node x="420.0" y="402.0">usecases.EventManager</node>
+    <node x="1467.0" y="327.0">controllers.SystemController</node>
+    <node x="2131.0" y="327.0">PhaseTwoMain</node>
+    <node x="265.0" y="327.0">controllers.TemplateController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="utility.ViewType" target="utility.Viewable" relationship="DEPENDENCY">
+      <point x="0.0" y="-15.0" />
+      <point x="1559.25" y="70.0" />
+      <point x="1749.625" y="70.0" />
+      <point x="1749.625" y="60.0" />
+      <point x="1664.625" y="60.0" />
+      <point x="30.75" y="15.0" />
+    </edge>
+    <edge source="gateways.EntityGateway" target="utility.Savable" relationship="DEPENDENCY">
+      <point x="49.0" y="-15.0" />
+      <point x="652.0" y="146.0" />
+      <point x="647.25" y="146.0" />
+      <point x="647.25" y="70.0" />
+      <point x="603.0" y="70.0" />
+      <point x="603.0" y="60.0" />
+      <point x="837.75" y="60.0" />
+      <point x="-28.5" y="15.0" />
+    </edge>
+    <edge source="entities.Menu" target="utility.Savable" relationship="REALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1043.75" y="70.0" />
+      <point x="1108.75" y="70.0" />
+      <point x="1108.75" y="60.0" />
+      <point x="894.75" y="60.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+    <edge source="utility.EventViewType" target="utility.ViewType" relationship="REALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1653.9928571428572" y="146.0" />
+      <point x="1559.25" y="146.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gateways.EventGateway" target="gateways.EntityGateway" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="82.0" y="227.0" />
+      <point x="603.0" y="227.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="entities.MessageBox" target="utility.Savable" relationship="REALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="900.25" y="70.0" />
+      <point x="1108.75" y="70.0" />
+      <point x="1108.75" y="60.0" />
+      <point x="894.75" y="60.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+    <edge source="gateways.IGateway" target="utility.Savable" relationship="DEPENDENCY">
+      <point x="0.0" y="-15.0" />
+      <point x="558.75" y="70.0" />
+      <point x="603.0" y="70.0" />
+      <point x="603.0" y="60.0" />
+      <point x="837.75" y="60.0" />
+      <point x="-28.5" y="15.0" />
+    </edge>
+    <edge source="controllers.menus.EntityMenuController" target="utility.Viewable" relationship="DEPENDENCY">
+      <point x="-62.25" y="-15.0" />
+      <point x="1916.0" y="70.0" />
+      <point x="1749.625" y="70.0" />
+      <point x="1749.625" y="60.0" />
+      <point x="1664.625" y="60.0" />
+      <point x="30.75" y="15.0" />
+    </edge>
+    <edge source="gateways.MenuGateway" target="gateways.EntityGateway" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="504.5" y="227.0" />
+      <point x="603.0" y="227.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gateways.PermissionsGateway" target="gateways.EntityGateway" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="924.5" y="227.0" />
+      <point x="603.0" y="227.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="utility.UserViewType" target="utility.ViewType" relationship="REALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1468.4928571428572" y="146.0" />
+      <point x="1559.25" y="146.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controllers.menus.EntityMenuController" target="controllers.menus.MenuController" relationship="GENERALIZATION">
+      <point x="62.25" y="-15.0" />
+      <point x="2040.5" y="70.0" />
+      <point x="2144.875" y="70.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="entities.User" target="utility.Viewable" relationship="REALIZATION">
+      <point x="22.25" y="-15.0" />
+      <point x="1438.5" y="60.0" />
+      <point x="1383.125" y="60.0" />
+      <point x="1383.125" y="50.0" />
+      <point x="1603.125" y="50.0" />
+      <point x="-30.75" y="15.0" />
+    </edge>
+    <edge source="gateways.MessageBoxGateway" target="gateways.EntityGateway" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="293.5" y="227.0" />
+      <point x="603.0" y="227.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="entities.Permissions" target="utility.Savable" relationship="REALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="731.25" y="70.0" />
+      <point x="1108.75" y="70.0" />
+      <point x="1108.75" y="60.0" />
+      <point x="894.75" y="60.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+    <edge source="entities.Event" target="utility.Viewable" relationship="REALIZATION">
+      <point x="24.0" y="-15.0" />
+      <point x="1327.75" y="60.0" />
+      <point x="1383.125" y="60.0" />
+      <point x="1383.125" y="50.0" />
+      <point x="1603.125" y="50.0" />
+      <point x="-30.75" y="15.0" />
+    </edge>
+    <edge source="gateways.TemplateGateway" target="gateways.EntityGateway" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="701.5" y="227.0" />
+      <point x="603.0" y="227.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controllers.menus.CommandMenuController" target="controllers.menus.MenuController" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="2249.25" y="70.0" />
+      <point x="2144.875" y="70.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="gateways.UserGateway" target="gateways.EntityGateway" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1130.5" y="227.0" />
+      <point x="603.0" y="227.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="entities.User" target="utility.Savable" relationship="REALIZATION">
+      <point x="-22.25" y="-15.0" />
+      <point x="1394.0" y="70.0" />
+      <point x="1108.75" y="70.0" />
+      <point x="1108.75" y="60.0" />
+      <point x="894.75" y="60.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+    <edge source="gateways.EntityGateway" target="gateways.IGateway" relationship="REALIZATION">
+      <point x="-49.0" y="-15.0" />
+      <point x="554.0" y="146.0" />
+      <point x="558.75" y="146.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controllers.menus.UserMenuController" target="controllers.menus.EntityMenuController" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1863.4928571428572" y="146.0" />
+      <point x="1978.25" y="146.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controllers.menus.EventMenuController" target="controllers.menus.EntityMenuController" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="2096.9928571428572" y="146.0" />
+      <point x="1978.25" y="146.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="entities.Template" target="utility.Savable" relationship="REALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1173.75" y="70.0" />
+      <point x="1108.75" y="70.0" />
+      <point x="1108.75" y="60.0" />
+      <point x="894.75" y="60.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+    <edge source="entities.Event" target="utility.Savable" relationship="REALIZATION">
+      <point x="-24.0" y="-15.0" />
+      <point x="1279.75" y="70.0" />
+      <point x="1108.75" y="70.0" />
+      <point x="1108.75" y="60.0" />
+      <point x="894.75" y="60.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.3964941569282137" showDependencies="false" x="1188.0" y="253.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
