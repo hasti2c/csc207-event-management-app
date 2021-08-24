@@ -251,5 +251,43 @@
         "\"toronto\""
       ]
     }
+  },
+  {
+    "eventId": "fae10db2-75c7-4d31-99ea-2ecde804ccc8",
+    "eventName": "New Wedding",
+    "eventOwner": "AustinA",
+    "eventType": "Wedding",
+    "numAttendees": 0,
+    "suspended": false,
+    "privacyType": "PUBLIC",
+    "createdTime": "2021-08-23T21:25:30.393",
+    "editTime": "2021-08-23T21:25:30.393",
+    "fields": {
+      "Max Attendees": [
+        "java.lang.Integer",
+        false,
+        "200"
+      ],
+      "Time (yyyy-MM-dd HH:mm)": [
+        "java.time.LocalDateTime",
+        true,
+        "{\n  \"date\": {\n    \"year\": 1111,\n    \"month\": 11,\n    \"day\": 11\n  },\n  \"time\": {\n    \"hour\": 11,\n    \"minute\": 11,\n    \"second\": 0,\n    \"nano\": 0\n  }\n}"
+      ],
+      "Wedding Couple": [
+        "java.lang.String",
+        true,
+        "\"Sam, Same\""
+      ],
+      "Dress Code": [
+        "java.lang.String",
+        false,
+        "\"B\\u0026W\""
+      ],
+      "Is Gift Required": [
+        "java.lang.Boolean",
+        false,
+        "false"
+      ]
+    }
   }
 ]
