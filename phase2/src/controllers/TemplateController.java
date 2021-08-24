@@ -62,7 +62,9 @@ public class TemplateController {
             continueLoop = inputParser.readBoolean();
         }
     }
-
+    /**
+     * Adds a new field to the template by calling addFields
+     */
     public void addNewField() {
         presenter.printText("Which Template would you like to add the new field to?:");
         String templateName;
@@ -73,6 +75,9 @@ public class TemplateController {
         }
         addField(templateName);
     }
+    /**
+     * Deletes fields in a template by calling templateManager.deleteFieldSpecs
+     */
     public void deleteField() {
         String templateName;
         try {
@@ -130,7 +135,9 @@ public class TemplateController {
         presenter.printMenu("Choose a Template:", templateList);
         return inputParser.getMenuChoice(templateList, true);
     }
-
+    /**
+     * Edits the Template name
+     */
     public void editTemplateName() {
         String templateName;
         try {
@@ -156,7 +163,11 @@ public class TemplateController {
         }
         return newTemplateName;
     }
-
+    /**
+     * Deletes Template from templateList
+     *
+     * @throws ExitException
+     */
     public void deleteTemplate() throws ExitException {
         presenter.printText("Which Template would you like to delete?:");
         String templateName;
