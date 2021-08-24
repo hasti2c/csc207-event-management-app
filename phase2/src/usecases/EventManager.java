@@ -281,7 +281,7 @@ public class EventManager {
      * @return Map<String, String> of event in a map
      */
     public Map<String, String> returnEventMetaData(String eventId) {
-        Map<String, String> eventMap = new LinkedHashMap<>();
+        Map<String, String> eventMap = new HashMap<>();
         Event event = retrieveEventById(eventId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATTED_DATE);
         String formattedCreatedTime = event.getCreatedTime().format(formatter);

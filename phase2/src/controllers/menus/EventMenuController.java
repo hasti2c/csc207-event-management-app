@@ -9,6 +9,8 @@ import usecases.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utility.AppConstant.MENU_EXIT_OPTION;
+
 /**
  * EntityMenuController that handles tasks related to menus that have to do with Event lists.
  */
@@ -76,7 +78,12 @@ public class EventMenuController extends EntityMenuController<Event> {
             eventList.removeIf(eventID -> !isAccessible(eventID, username));
         if (suspensionCheck)
             eventList.removeIf(eventManager::isSuspended);
-        return eventManager.returnEventNamesListFromIdList(eventList);
+        return eventList;
+    }
+
+    @Override
+    protected List<String> getPrintableList(List<String> options) {
+        return eventManager.returnEventNamesListFromIdList(options);
     }
 
     private boolean isAccessible(String eventId, String username) {

@@ -9,6 +9,8 @@ import usecases.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utility.AppConstant.MENU_EXIT_OPTION;
+
 /**
  * MenuController that handles tasks related to menus that have to do with entity lists.
  * @param <T> Entity type.
@@ -50,7 +52,7 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
         for (ViewType<T> viewType: viewTypes) {
             viewTypeNames.add(viewType.getName());
         }
-        viewTypeNames.add(AppConstant.MENU_EXIT_OPTION);
+        viewTypeNames.add(MENU_EXIT_OPTION);
         return viewTypeNames;
     }
 
@@ -77,8 +79,10 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
      */
     public String getEntityChoice(ViewType<T> viewType, String username) throws ExitException {
         List<String> entities = getEntityList(viewType, username);
-        entities.add(AppConstant.MENU_EXIT_OPTION);
-        presenter.printMenu(viewType.getName(), entities);
+        List<String> printables = getPrintableList(entities);
+        entities.add(MENU_EXIT_OPTION);
+        printables.add(MENU_EXIT_OPTION);
+        presenter.printMenu(viewType.getName(), printables);
         return inputParser.getMenuChoice(entities, true);
     }
 
@@ -89,6 +93,13 @@ public abstract class EntityMenuController <T extends Viewable> extends MenuCont
      *         user information.
      */
     protected abstract List<String> getEntityList(ViewType<T> viewType, String username);
+
+    /**
+     * Returns printable names of options (readable by user), corresponding to the ids.
+     * @param options Menu options.
+     * @return Printable names of options.
+     */
+    protected abstract List<String> getPrintableList(List<String> options);
 
     // == Getting Entity Command Choice ==
 

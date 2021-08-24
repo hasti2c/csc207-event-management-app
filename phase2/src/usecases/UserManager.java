@@ -65,19 +65,9 @@ public class UserManager {
             emailList.add(userEmail);
             // If the user is temporary, we only give access for 30 days
             if (type == TEMPORARY){
-                createTemporaryUserHelper(newUser, 30);
+                newUser.setSuspensionChangeDate(LocalDateTime.now().plusDays(30));
             }
     }
-
-    /**
-     * Helper to create a new temporary user that will get suspended after a set number of days.
-     * @param temporaryUser the temporary User
-     * @param days the number of days the user gets to use the system for
-     */
-    private void createTemporaryUserHelper(User temporaryUser, int days){
-        temporaryUser.setSuspensionChangeDate(LocalDateTime.now().plusDays(days));
-    }
-
 
     /**
      * Deletes a user from the program
