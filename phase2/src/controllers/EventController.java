@@ -149,7 +149,12 @@ public class EventController {
 
         String newEventID = eventManager.createEvent(templateName, eventName, username);
         userManager.createEvent(username, newEventID);
-        populateFieldValues(newEventID, username);
+        try {
+            populateFieldValues(newEventID, username);
+        } catch (ExitException e) {
+            presenter.printText(MENU_EXIT_OPTION);
+            return;
+        }
 
         presenter.printText("Your event has been successfully created.");
         if (userManager.retrieveUserType(username) == UserType.TRIAL) {
@@ -161,20 +166,15 @@ public class EventController {
         }
     }
 
-    private void populateFieldValues(String eventId, String username) {
+    private void populateFieldValues(String eventId, String username) throws ExitException {
         Map<String, Pair<Class<?>, Boolean>> fieldMap = eventManager.returnFieldNameAndFieldSpecs(eventId);
         for (Map.Entry<String, Pair<Class<?>, Boolean>> entry : fieldMap.entrySet()) {
             try {
                 Object value = readFieldValue(eventId, entry.getKey(), entry.getValue().getFirst().getSimpleName(),
                         entry.getValue().getSecond());
                 eventManager.enterFieldValue(eventId, entry.getKey(), value);
-            } catch (ExitException e1) {
-                try {
-                    deleteEvent(username, eventId);
-                } catch (ExitException e2) {
-                    presenter.printText(EXITING_TEXT);
-                    return;
-                }
+            } catch (ExitException e) {
+                deleteEvent(username, eventId);
             }
         }
     }
