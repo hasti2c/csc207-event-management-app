@@ -82,7 +82,6 @@ public class SystemController {
         }
     }
 
-    // TODO maybe move account menu stuff to UserController
     private void runUserCommand(Command command) throws ExitException {
         switch (command) {
             case SIGN_UP:

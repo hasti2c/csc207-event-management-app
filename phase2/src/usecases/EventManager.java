@@ -366,9 +366,11 @@ public class EventManager {
                     returnFieldValue = Integer.parseInt(fieldValue);
                 }
                 else if (dataType.equals(Boolean.class)){
-                    if (fieldValue.equalsIgnoreCase("true") || fieldValue.equalsIgnoreCase("yes"))
+                    if (fieldValue.equalsIgnoreCase("true") || fieldValue.equalsIgnoreCase("yes") ||
+                    fieldValue.equalsIgnoreCase("y"))
                         returnFieldValue = true;
-                    else if (fieldValue.equalsIgnoreCase("false") || fieldValue.equalsIgnoreCase("no"))
+                    else if (fieldValue.equalsIgnoreCase("false") || fieldValue.equalsIgnoreCase("no") ||
+                    fieldValue.equalsIgnoreCase("n"))
                         returnFieldValue = false;
                     else
                         throw new IllegalArgumentException();
