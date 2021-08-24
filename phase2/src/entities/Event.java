@@ -206,13 +206,17 @@ public class Event implements Savable, Viewable {
     }
 
     /**
-     * Sets the privacy type of this event.
-     * @param privacyType The new privacy type.
+     * Sets the privacy type of this event
+     * @param privacyType The new privacy type
      */
     public void setPrivacyType(EventPrivacyType privacyType) {
         this.privacyType = privacyType;
     }
 
+    /**
+     * Sets the suspended status of this event
+     * @param suspended The suspended status
+     */
     public void setSuspended(boolean suspended) {
         this.suspended = suspended;
     }
