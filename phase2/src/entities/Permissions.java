@@ -13,6 +13,10 @@ public class Permissions implements Savable {
     private List<ViewType<Event>> eventViewPermissions;
     private List<ViewType<User>> userViewPermissions;
 
+    /**
+     * Creates a new Permissions instance.
+     * @param userType The userType to whom this permission belongs.
+     */
     public Permissions(UserType userType) {
         this.userType = userType;
     }

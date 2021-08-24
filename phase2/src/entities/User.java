@@ -49,6 +49,7 @@ public class User implements Savable, Viewable {
         this.hasTempPass = false;
         this.friends = new ArrayList<>();
     }
+
     public User() {
     }
     // === Getters ===

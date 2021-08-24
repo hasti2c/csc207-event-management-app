@@ -64,7 +64,7 @@ public class MenuManager {
 
     /**
      * Get matching Permissions object based on matching UserType
-     * @param userType
+     * @param userType UserType whose permissions we want.
      * @return Permissions object
      */
     public Permissions getPermissions(UserType userType) {
