@@ -88,13 +88,11 @@ public class EventManager {
     /**
      * Removes an attendee from the event
      * @param eventID the ID of the event that is being unattended
-     * @return if the attendee has been removed successfully
      */
-    public boolean unAttendEvent (String eventID) {
+    public void unAttendEvent (String eventID) {
         Event currentEvent = retrieveEventById(eventID);
         int numAttendees = currentEvent.getNumAttendees();
         currentEvent.setNumAttendees(numAttendees - 1);
-        return true;
     }
 
     /**
