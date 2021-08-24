@@ -65,7 +65,7 @@ public class UserMenuController extends EntityMenuController<User> {
 
     @Override
     protected List<String> getPrintableList(List<String> options) {
-        return options;
+        return new ArrayList<>(options);
     }
 
     @Override
