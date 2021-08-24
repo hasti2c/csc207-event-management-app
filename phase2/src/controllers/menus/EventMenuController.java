@@ -91,7 +91,7 @@ public class EventMenuController extends EntityMenuController<Event> {
         String owner = eventManager.getOwner(eventId);
         switch (privacyType) {
             case FRIENDS_ONLY:
-                return userManager.areFriends(username, owner);
+                return username.equals(owner) || userManager.areFriends(username, owner);
             case PRIVATE:
                 return username.equals(owner);
             case PUBLIC:

@@ -5,6 +5,7 @@
     "userEmail": "a@ab.com",
     "hasTempPass": false,
     "ownedEvents": [
+      "06bb26a6-dd8d-4fb8-bdd2-7e61c9683f12",
       "fae10db2-75c7-4d31-99ea-2ecde804ccc8"
     ],
     "attendingEvents": [],
