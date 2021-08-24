@@ -4,7 +4,9 @@
     "password": "a",
     "userEmail": "a@ab.com",
     "hasTempPass": false,
-    "ownedEvents": [],
+    "ownedEvents": [
+      "06bb26a6-dd8d-4fb8-bdd2-7e61c9683f12"
+    ],
     "attendingEvents": [],
     "userType": "ADMIN",
     "suspended": false,
