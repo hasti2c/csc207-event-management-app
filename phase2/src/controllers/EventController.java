@@ -168,12 +168,13 @@ public class EventController {
                 Object value = readFieldValue(eventId, entry.getKey(), entry.getValue().getFirst().getSimpleName(),
                         entry.getValue().getSecond());
                 eventManager.enterFieldValue(eventId, entry.getKey(), value);
-            } catch (ExitException e) {
+            } catch (ExitException e1) {
                 try {
                     deleteEvent(username, eventId);
-                } catch (ExitException ignored) {}
-                presenter.printText(EXITING_TEXT);
-                return;
+                } catch (ExitException e2) {
+                    presenter.printText(EXITING_TEXT);
+                    return;
+                }
             }
         }
     }
