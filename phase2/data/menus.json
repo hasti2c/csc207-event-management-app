@@ -32,7 +32,6 @@
       "UNATTEND_EVENT",
       "SUSPEND_EVENT",
       "UNSUSPEND_EVENT",
-      "VIEW_CREATOR",
       "EDIT_EVENT",
       "CHANGE_EVENT_PRIVACY",
       "DELETE_EVENT",
@@ -48,7 +47,6 @@
       "UNFRIEND_USER",
       "SUSPEND_USER",
       "UNSUSPEND_USER",
-      "VIEW_CREATIONS",
       "MAKE_ADMIN",
       "GO_BACK"
     ]

@@ -195,9 +195,6 @@ public class UserController {
             case SEND_MESSAGE:
                 messageBoxController.sendMessage(username, selectedUser);
                 break;
-            case VIEW_CREATIONS:
-                // TODO
-                break;
             case MAKE_ADMIN:
                 changeToAdmin(selectedUser);
                 break;
