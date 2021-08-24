@@ -18,9 +18,7 @@
     "password": "ugh",
     "userEmail": "hasti@toossi.info",
     "hasTempPass": false,
-    "ownedEvents": [
-      "5f5db203-9fdf-4caa-9f31-6acf5b799147"
-    ],
+    "ownedEvents": [],
     "attendingEvents": [],
     "userType": "REGULAR",
     "suspended": false,
